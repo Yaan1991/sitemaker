@@ -1,0 +1,232 @@
+Роль: Ты — senior фронтенд‑разработчик. Собери продакшн‑готовый сайт‑визитку для Яна Кузьмичёва (композитор, саунд‑дизайнер, звукорежиссёр). Сайт тёмный, минималистичный, быстрый, с хорошим SEO.
+
+Технологии
+	•	Vite + React + TypeScript
+	•	Tailwind CSS (без UI‑тем), Framer Motion (легкие эффекты)
+	•	React Router (SPA), code‑splitting
+	•	react-helmet-async для SEO
+	•	JSON‑LD схемы: Person, CreativeWork (для проектов)
+	•	Простая контакт‑форма через Formspree (или EmailJS)
+
+Файлы и ассеты (положи строго по путям)
+
+/public/images
+  hero.webp
+  hero_mobile.webp
+  bg_dark.webp
+  idiot.webp
+  mayakovsky.webp
+  petrovy.webp
+  homohomini.webp
+  ma_film.webp
+  life_in_art.webp
+  pogruzhenie.webp
+  son_o_hlebe.webp
+  about.jpg
+  studio_01.jpg
+  studio_02.jpg
+
+/public/icons
+  icon_email.png
+  icon_phone.png
+  icon_telegram.png
+  icon_bandlink.png
+
+Структура проекта и файлы
+
+Создай проект со следующей структурой и содержимым:
+
+/
+  index.html            // базовая мета, preconnect к шрифтам
+  package.json
+  tailwind.config.ts
+  postcss.config.js
+  tsconfig.json
+  vite.config.ts
+
+/src
+  main.tsx
+  App.tsx
+  routes/
+    Home.tsx
+    About.tsx
+    Projects.tsx
+    ProjectPage.tsx      // динамика: /projects/:slug
+    Works.tsx
+    Contact.tsx
+  components/
+    Header.tsx
+    Footer.tsx
+    Hero.tsx
+    AutoSlider.tsx
+    Card.tsx
+    Seo.tsx              // обертка для helmet + JSON-LD
+  data/
+    projects.ts          // метаданные карточек (см. ниже)
+    menu.ts
+  styles/
+    index.css
+
+Визуальный стиль
+	•	Фон: bg_dark.webp на <body> (через utility классы Tailwind)
+	•	Белый текст, неоновые акценты (используй одну вспомогательную переменную цвета, например --neon: #7df9ff)
+	•	Шрифт: Inter или Roboto (через Google Fonts)
+	•	Легкие анимации Framer Motion (fade/slide на входе секций, без излишеств)
+Навигация (Header)
+	•	Логотип‑текст: «Ян Кузьмичёв» (субтайтл: «Композитор • Саунд‑дизайнер • Звукорежиссёр»)
+	•	Меню: «Обо мне», «Проекты», «Список работ», «Контакты»
+
+Маршруты и требования к страницам
+
+1) Главная /
+
+Hero:
+	•	Desktop фон: /public/images/hero.webp; Mobile: /public/images/hero_mobile.webp
+	•	Слоган: «Музыка и звук, которые формируют пространство»
+	•	Кнопка «Слушать» → https://band.link/zDZyK (target _blank)
+	•	Под героем — «триптих» (3 карточки) с превью разделов: Театр, Кино, Аудиоспектакли (ведут на /projects с соответствующим табом)
+	•	Легкий шум‑оверлей (при желании через bg-[url('/images/bg_dark.webp')] + прозрачность)
+
+SEO/JSON‑LD:
+	•	Title: «Ян Кузьмичёв — композитор, саунд‑дизайнер, звукорежиссёр»
+	•	Description: «14+ лет опыта, 100+ проектов в театре, кино и аудио. Музыка и звук для пространства.»
+	•	JSON‑LD Person: имя, профессии, контакты, ссылка на Bandlink.
+
+2) Обо мне /about
+	•	Фото: /images/about.jpg
+	•	Текст (короткий блок на 2–3 абзаца): «14+ лет опыта, 100+ спектаклей и проектов. Театр, кино, аудиоспектакли, бренды. Работаю на стыке музыки, саунд‑дизайна и инженерии: от идеи до финального мастера. Технологии + искусство (QLab, OSC/MIDI, пространственный звук, ИИ‑инструменты).»
+	•	Под основным блоком — 2 мини‑фото из студии: studio_01.jpg, studio_02.jpg (в ряд на desktop)
+	•	Кнопка «Слушать» (Bandlink)
+
+3) Проекты /projects
+	•	Вверху — табы: «Театр», «Кино», «Аудиоспектакли»
+	•	Под каждым табом — автослайдер (смена 5–7 сек, пауза при hover/фокусе), карточки 16:9
+	•	Состав слайдеров:
+	•	Театр: idiot.webp, mayakovsky.webp, petrovy.webp
+	•	Кино: homohomini.webp, ma_film.webp, life_in_art.webp
+	•	Аудиоспектакли: pogruzhenie.webp, son_o_hlebe.webp
+	•	Клик по карточке → /projects/:slug (см. ProjectPage)
+
+Данные карточек положи в /src/data/projects.ts такого вида:
+export type Project = {
+  slug: string;
+  title: string;
+  year?: number;
+  type: 'theatre' | 'film' | 'audio';
+  cover: string;  // путь к картинке из /public/images
+  short: string;  // краткое описание (1–2 строки)
+  press?: { label: string; url: string }[];
+};
+
+export const projects: Project[] = [
+  // Театр
+  {
+    slug: 'idiot-saratov',
+    title: 'Идиот — Саратовский театр драмы',
+    year: 2024,
+    type: 'theatre',
+    cover: '/images/idiot.webp',
+    short: 'Нуар/дарк-джаз + полевые записи. Многослойная партитура.',
+    press: [
+      { label: 'Саратовский театр драмы — афиша', url: 'https://www.saratovdrama.com/repertoire/idiot/' }
+    ]
+  },
+  {
+    slug: 'mayakovsky-estrada',
+    title: 'Маяковский. Я сам — Московский театр Эстрады',
+    year: 2024,
+    type: 'theatre',
+    cover: '/images/mayakovsky.webp',
+    short: '6 композиций, трёхуровневая звуковая концепция.',
+    press: [
+      { label: 'MSK1 — обзор', url: 'https://msk1.ru/text/culture/2025/02/08/75082631/' }
+    ]
+  },
+  {
+    slug: 'petrovy-v-grippe',
+    title: 'Петровы в гриппе — Саратовский театр драмы',
+    year: 2025,
+    type: 'theatre',
+    cover: '/images/petrovy.webp',
+    short: 'Кроссовер/нео-джаз + сюрреалистические эффекты.',
+    press: [
+      { label: 'Афиша', url: 'https://www.saratovdrama.com/repertoire/petrovy-v-grippe-i-vokrug-nego/' }
+    ]
+  },
+
+  // Кино
+  { slug: 'homo-homini', title: 'Homo Homini — к/м', year: 2025, type: 'film', cover: '/images/homohomini.webp', short: '13 композиций + полный пост.', press: [{ label: 'Kino.Mail.ru', url: 'https://kino.mail.ru/cinema/movies/950068_homo_homini_chelovek_cheloveku/' }] },
+  { slug: 'ma-film', title: 'Ма — к/м', year: 2023, type: 'film', cover: '/images/ma_film.webp', short: 'Сведение, шумы, амбиенты.', press: [] },
+  { slug: 'life-in-art', title: 'Жизнь в искусстве — к/м', year: 2019, type: 'film', cover: '/images/life_in_art.webp', short: 'Полная переозвучка шумов и амбиентов.', press: [] },
+
+  // Аудиоспектакли
+  { slug: 'son-o-hlebe', title: 'Сон о Хлебе — Зотов Центр', year: 2024, type: 'audio', cover: '/images/son_o_hlebe.webp', short: 'Оригинальная музыка, пространственный звук.', press: [] },
+  { slug: 'pogruzhenie-promenad', title: 'Погружение. Променад — аудиоспектакль в Telegram', year: 2021, type: 'audio', cover: '/images/pogruzhenie.webp', short: 'Музыка, маршруты, пространственный звук.', press: [] },
+];
+
+3.1) Страница проекта /projects/:slug (ProjectPage)
+	•	Вверху: обложка, заголовок, год, тип
+	•	Блок «Описание» (краткое, 3–6 буллетов) — возьми из projects.ts (можно расширить статическим текстом)
+	•	Блок «Пресса/ссылки» (если есть)
+	•	JSON‑LD CreativeWork для карточки
+
+4) Список всех работ /works
+	•	Заголовок: «Полный список работ»
+	•	Хронологическая лента (год → список): театр, кино, аудио, бренды
+	•	Источник: создай works.ts с массивом { year: number, items: { title: string, role?: string, place?: string }[] }.
+	•	Если возможно — извлеки пункты из приложенных документов cv+.docx и Osnovnye Raboty.docx. Если парсинг затруднён, создай несколько примеров и оставь // TODO: дополнить с понятным комментарием.
+
+5) Контакты /contact
+	•	Иконки из /public/icons: email, телефон, telegram, bandlink
+	•	Email: kuzmichevyan@gmail.com
+	•	Телефон: +7 (919) 764-37-45
+	•	Telegram: @iankzmcv
+	•	Bandlink: https://band.link/zDZyK
+	•	Форма (Formspree/EmailJS): поля name, email, message, уведомление об успехе/ошибке.
+
+Компоненты — требования
+
+AutoSlider.tsx
+	•	Пропсы: items: Project[]
+	•	Автопрокрутка каждые 5–7 сек (рандом в этом диапазоне или фикс 6s), пауза на hover/focus
+	•	Доступность: стрелки навигации с aria-label, пагинация‑точки с aria-current
+
+Seo.tsx
+	•	Инкапсулирует <Helmet> + внедрение JSON‑LD через <script type="application/ld+json">
+	•	На главной — Person (имя, профессии, контактные ссылки), на карточках — CreativeWork
+
+Доступность и перфоманс
+	•	Lighthouse ≥ 90 по Performance/Accessibility/SEO
+	•	Все картинки — loading="lazy", width/height заданы, alt осмысленные
+	•	Мобильная навигация (burger) + sticky header, smooth‑scroll для якорей
+
+Tailwind
+	•	БАЗОВЫЙ темный фон: bg-[url('/images/bg_dark.webp')] bg-cover bg-fixed
+	•	Глобальные классы в /src/styles/index.css (подключи Tailwind layers)
+
+Содержание (минимум, без парсинга DOCX)
+	•	Заполни projects.ts по образцу выше.
+	•	На /about вставь 2–3 абзаца обобщенного текста (14+ лет, 100+ проектов, театр/кино/аудио, технологии + искусство).
+	•	На /works — добавь 6–10 примеров из разных лет и // TODO для расширения.
+
+Команды и проверка
+	•	Установить зависимости, сконфигурировать Tailwind, запустить Dev и Build.
+	•	Вывести в ответ инструкции, как заменить Formspree ID и где править projects.ts и works.ts.
+	•	Приложить краткий README с разделами: «Стек», «Старт», «Правка контента», «Деплой».
+
+Готовность к деплою
+	•	Результат должен билдиться vite build и корректно рендериться как статический сайт.
+	•	Используй относительные пути к ассетам из /public.
+
+⸻
+
+Ключевые улучшения:
+	•	Полная структура проекта + готовые файлы данных projects.ts/works.ts
+	•	Четкие SEO‑модули с JSON‑LD и единым компонентом Seo
+	•	Доступный автослайдер с паузой и навигацией
+	•	Чек‑лист перфоманса и доступности
+	•	Инструкции по Formspree/EmailJS и точкам расширения контента
+
+Применённые техники: роль, жёсткие спецификации вывода, декомпозиция на модули и данные, SEO‑каркас, UI‑паттерны (автослайдер, лента работ), минимализм Tailwind.
+
+Совет: после генерации сразу открой src/data/projects.ts и src/routes/Works.tsx, дополни ссылки на прессу и расширь список работ — это даст максимум ценности в первом релизе.
