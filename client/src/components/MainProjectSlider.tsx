@@ -122,7 +122,7 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
         {/* Header */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-4 md:mb-6">
           <span className="text-2xl sm:text-3xl md:text-4xl">{category.icon}</span>
-          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bebas font-bold text-white">{category.title}</h3>
+          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-russo font-bold text-white">{category.title}</h3>
         </div>
 
         {/* Content */}
@@ -137,7 +137,7 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
               className="space-y-2 sm:space-y-3 md:space-y-4"
             >
               <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-baseline gap-2 sm:gap-3 md:gap-4">
-                <h4 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bebas font-bold text-white leading-tight">
+                <h4 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-russo font-bold text-white leading-tight">
                   {currentProject.title}
                 </h4>
                 <span className="text-primary font-medium text-sm sm:text-base md:text-lg lg:text-xl">

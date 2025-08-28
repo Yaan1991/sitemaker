@@ -69,7 +69,7 @@ export default {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
-        bebas: ['Bebas Neue', 'sans-serif'],
+        russo: ['Russo One', 'sans-serif'],
         oswald: ['Oswald', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
       },

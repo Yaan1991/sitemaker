@@ -19,7 +19,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-center"
             >
-              <h2 className="text-4xl font-bebas font-bold text-white mb-8">
+              <h2 className="text-4xl font-russo font-bold text-white mb-8">
                 Композитор • Саунд‑дизайнер • Звукорежиссёр
               </h2>
               <p className="text-xl text-gray-300 leading-relaxed mb-8">Я соединяю музыку, звук и технологии, чтобы создавать проекты, которые работают безупречно — от идеи до воплощения и автоматизации.</p>

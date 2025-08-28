@@ -61,7 +61,7 @@ export default function Projects() {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <h1 className="text-4xl md:text-5xl font-bebas font-bold text-white mb-4">
+            <h1 className="text-4xl md:text-5xl font-russo font-bold text-white mb-4">
               Все проекты
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -141,7 +141,7 @@ export default function Projects() {
                 transition={{ duration: 0.6, delay: yearIndex * 0.1 }}
                 className="space-y-6"
               >
-                <h2 className="text-3xl font-bebas font-bold text-white border-b border-primary pb-2">
+                <h2 className="text-3xl font-russo font-bold text-white border-b border-primary pb-2">
                   {year}
                 </h2>
                 
