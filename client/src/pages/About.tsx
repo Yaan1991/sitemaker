@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import SEOHead from "@/components/SEOHead";
+import about from "@assets/about.jpg";
 const aboutImage = "/images/about.jpg";
 const studio01Image = "/images/studio_01.jpg";
 const studio02Image = "/images/studio_02.jpg";
@@ -12,7 +13,6 @@ export default function About() {
         description="14+ лет опыта в создании звуковых решений для театра, кино и аудиоспектаклей. Композитор, саунд-дизайнер, звукорежиссёр."
         url="https://yankuzmichev.ru/about"
       />
-      
       <section className="py-20 px-6 min-h-screen">
         <div className="container mx-auto max-w-6xl">
           <motion.div
@@ -61,7 +61,7 @@ export default function About() {
               className="space-y-6"
             >
               <img
-                src={aboutImage}
+                src={about}
                 alt="Ян Кузьмичёв в студии за звуковым пультом"
                 className="w-full rounded-xl shadow-2xl"
               />
