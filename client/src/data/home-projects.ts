@@ -1,0 +1,84 @@
+export interface HomeProject {
+  slug: string;
+  title: string;
+  subtitle: string;
+  thumb: string;
+  url: string;
+  press?: string;
+  alt: string;
+}
+
+export const homeProjects: HomeProject[] = [
+  {
+    slug: "idiot",
+    title: "Идиот — Саратовский театр драмы, 2024",
+    subtitle: "Оригинальная музыка в стиле нуар-/дарк-джаза, интеграция поп-хитов 90-х и полевые записи.",
+    thumb: "/images/idiot.webp",
+    url: "/projects/idiot",
+    press: "https://www.coolconnections.ru/ru/blog/posts/Idiot-Do-samogo-konca-sveta",
+    alt: "Спектакль «Идиот» — Саратовский театр драмы"
+  },
+  {
+    slug: "mayakovsky-ya-sam",
+    title: "Маяковский. Я сам — Московский театр Эстрады, 2024",
+    subtitle: "6 оригинальных композиций + работа с материалом режиссёра. Звук делит спектакль на состояния и усиливает поэзию.",
+    thumb: "/images/mayakovsky.webp",
+    url: "/projects/mayakovsky-ya-sam",
+    press: "https://www.forbes.ru/forbeslife/520505-novoe-oblako-v-stanah-kak-zvezda-slova-pacana-nikita-kologrivyj-igraet-maakovskogo",
+    alt: "Спектакль «Маяковский. Я сам» — Московский театр Эстрады"
+  },
+  {
+    slug: "petrovy-v-grippe",
+    title: "Петровы в гриппе и вокруг него — Саратовский театр драмы, 2025",
+    subtitle: "Оригинальная музыка в духе кроссовер-/нео-джаза и сюрреалистические саунд-эффекты. Звуковой «комикс».",
+    thumb: "/images/petrovy.webp",
+    url: "/projects/petrovy-v-grippe",
+    press: "https://www.coolconnections.ru/ru/blog/posts/Po-vse-storony-Petrovyh-v-grippe",
+    alt: "Спектакль «Петровы в гриппе и вокруг него»"
+  },
+  {
+    slug: "homo-homini",
+    title: "Homo Homini — короткометражный фильм, 2025",
+    subtitle: "13 композиций и полный цикл пост-продакшна. Весь звуковой мир создан одним человеком.",
+    thumb: "/images/homohomini.webp",
+    url: "/projects/homo-homini",
+    press: "https://kino.mail.ru/cinema/movies/950068_homo_homini_chelovek_cheloveku/",
+    alt: "Короткометражный фильм «Homo Homini»"
+  },
+  {
+    slug: "ma",
+    title: "Ма — короткометражный фильм, 2023",
+    subtitle: "Полный пост-продакшн: сведение, шумы, амбиенты. Фильм почти без диалогов — звук как самостоятельный слой.",
+    thumb: "/images/ma_film.webp",
+    url: "/projects/ma",
+    press: "https://theblueprint.ru/culture/bluescreen/bluescreen-ma",
+    alt: "Короткометражный фильм «Ма»"
+  },
+  {
+    slug: "zhizn-v-iskusstve",
+    title: "Жизнь в искусстве — короткометражный фильм, 2019",
+    subtitle: "Полная переозвучка шумов и амбиентов с нуля. Выстроенные второй и третий планы.",
+    thumb: "/images/life_in_art.webp",
+    url: "/projects/zhizn-v-iskusstve",
+    press: "https://teatrtogo.ru/2019/10/23/stepan-azarjan-ijulansambl-snjal-korotkometrazhnyj-film-zhizn-v-iskusstve/",
+    alt: "Короткометражный фильм «Жизнь в искусстве»"
+  },
+  {
+    slug: "son-o-hlebe",
+    title: "Сон о Хлебе — Зотов Центр, 2024",
+    subtitle: "Оригинальная музыка и пространственный звук в наушниках. Иммерсивный опыт.",
+    thumb: "/images/son_o_hlebe.webp",
+    url: "/projects/son-o-hlebe",
+    press: "https://www.rbc.ru/life/news/664dea7b9a7947ddedf84a39",
+    alt: "Аудиоспектакль «Сон о Хлебе» — Зотов Центр"
+  },
+  {
+    slug: "pogruzhenie-promenad",
+    title: "Погружение. Променад — аудиоспектакль, 2021",
+    subtitle: "Музыка, маршруты и пространственный звук. Город оживает в наушниках.",
+    thumb: "/images/pogruzhenie.webp",
+    url: "/projects/pogruzhenie-promenad",
+    press: "https://news.rambler.ru/moscow_city/47024657-v-nizhnem-novgorode-startovali-audiospektakli-progulki-pogruzhenie-promenad/",
+    alt: "Аудиоспектакль «Погружение. Променад»"
+  }
+];
