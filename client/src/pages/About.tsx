@@ -66,12 +66,7 @@ export default function About() {
                 className="w-full rounded-xl shadow-2xl"
               />
 
-              <div className="grid grid-cols-2 gap-4">
-                <img
-                  src={studio01Image}
-                  alt="Звуковая консоль крупным планом"
-                  className="w-full h-32 object-cover rounded-lg"
-                />
+              <div className="grid grid-cols-1 gap-4">
                 <img
                   src={studio02Image}
                   alt="Кабели и задняя панель звукового пульта"
