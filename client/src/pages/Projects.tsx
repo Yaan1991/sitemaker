@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { allProjects } from "@/data/allProjects";
 import SEOHead from "@/components/SEOHead";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Newspaper } from "lucide-react";
 import backgroundImage from "@assets/backgroundworks_1756395075457.webp";
 
 const categories = {
@@ -221,6 +221,21 @@ export default function Projects() {
                             <p className="text-sm text-gray-500">
                               <span className="font-medium">Тип:</span> {project.type}
                             </p>
+                            {project.press && (
+                              <p className="text-sm">
+                                <a
+                                  href={project.press}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-green-400 hover:text-green-300 transition-colors duration-200 flex items-center gap-1 group w-fit"
+                                  data-testid={`press-link-${project.id}`}
+                                >
+                                  <Newspaper className="w-4 h-4" />
+                                  <span className="font-medium">Пресса о проекте</span>
+                                  <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+                                </a>
+                              </p>
+                            )}
                           </div>
                         </div>
                         
