@@ -109,10 +109,10 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
             src={currentProject.image}
             alt={currentProject.title}
             className="w-full h-full object-cover"
-            initial={{ opacity: 0, scale: 1.1 }}
+            initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
           />
         </AnimatePresence>
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
@@ -130,10 +130,10 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
               className="space-y-4"
             >
               <div className="flex flex-wrap items-baseline gap-4">
@@ -182,14 +182,31 @@ export default function MainProjectSlider() {
   const [currentIndices, setCurrentIndices] = useState([0, 0, 0]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndices(prev => prev.map((currentIndex, categoryIndex) => {
-        const maxIndex = projectCategories[categoryIndex].projects.length - 1;
-        return currentIndex >= maxIndex ? 0 : currentIndex + 1;
-      }));
-    }, 2000); // 2 seconds
+    // Create separate intervals for each category with different delays
+    const intervals: NodeJS.Timeout[] = [];
+    
+    projectCategories.forEach((_, categoryIndex) => {
+      const startDelay = categoryIndex * 1000; // 0ms, 1000ms, 2000ms delays
+      
+      const timeout = setTimeout(() => {
+        const interval = setInterval(() => {
+          setCurrentIndices(prev => {
+            const newIndices = [...prev];
+            const maxIndex = projectCategories[categoryIndex].projects.length - 1;
+            newIndices[categoryIndex] = newIndices[categoryIndex] >= maxIndex ? 0 : newIndices[categoryIndex] + 1;
+            return newIndices;
+          });
+        }, 5000); // 5 seconds
+        
+        intervals.push(interval);
+      }, startDelay);
+      
+      intervals.push(timeout);
+    });
 
-    return () => clearInterval(interval);
+    return () => {
+      intervals.forEach(interval => clearInterval(interval));
+    };
   }, []);
 
   return (
