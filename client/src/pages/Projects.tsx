@@ -77,7 +77,7 @@ export default function Projects() {
               Все проекты
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Полная хронология работ с 2013 года — {allProjects.length} проектов в театре, кино и аудиоискусстве
+              Полная хронология работ с 2013 года — проекты в театре, кино и аудиоискусстве
             </p>
           </motion.div>
 
