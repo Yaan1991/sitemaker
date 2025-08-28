@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Hero from "@/components/Hero";
 import SEOHead from "@/components/SEOHead";
+import MainProjectSlider from "@/components/MainProjectSlider";
 
 export default function Home() {
   return (
@@ -26,6 +27,9 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
+        
+        {/* Main Projects Section */}
+        <MainProjectSlider />
       </div>
     </>
   );
