@@ -10,20 +10,20 @@
   --card-foreground: hsl(0, 0%, 100%);
   --popover: hsl(0, 0%, 7%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --primary: hsl(185, 100%, 74%);
+  --primary: hsl(45, 95%, 60%);
   --primary-foreground: hsl(0, 0%, 0%);
   --secondary: hsl(0, 0%, 15%);
   --secondary-foreground: hsl(0, 0%, 100%);
   --muted: hsl(0, 0%, 20%);
   --muted-foreground: hsl(0, 0%, 60%);
-  --accent: hsl(0, 0%, 15%);
-  --accent-foreground: hsl(185, 100%, 74%);
+  --accent: hsl(12, 85%, 45%);
+  --accent-foreground: hsl(45, 95%, 60%);
   --destructive: hsl(0, 62%, 56%);
   --destructive-foreground: hsl(0, 0%, 100%);
   --border: hsl(0, 0%, 25%);
   --input: hsl(0, 0%, 15%);
-  --ring: hsl(185, 100%, 74%);
-  --neon: hsl(185, 100%, 74%);
+  --ring: hsl(45, 95%, 60%);
+  --neon: hsl(45, 95%, 60%);
   --dark-bg: hsl(0, 0%, 7%);
   --dark-card: hsl(0, 0%, 10%);
   --radius: 0.5rem;
@@ -38,19 +38,19 @@
   --card-foreground: hsl(0, 0%, 100%);
   --popover: hsl(0, 0%, 7%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --primary: hsl(185, 100%, 74%);
+  --primary: hsl(45, 95%, 60%);
   --primary-foreground: hsl(0, 0%, 0%);
   --secondary: hsl(0, 0%, 15%);
   --secondary-foreground: hsl(0, 0%, 100%);
   --muted: hsl(0, 0%, 20%);
   --muted-foreground: hsl(0, 0%, 60%);
-  --accent: hsl(0, 0%, 15%);
-  --accent-foreground: hsl(185, 100%, 74%);
+  --accent: hsl(12, 85%, 45%);
+  --accent-foreground: hsl(45, 95%, 60%);
   --destructive: hsl(0, 62%, 56%);
   --destructive-foreground: hsl(0, 0%, 100%);
   --border: hsl(0, 0%, 25%);
   --input: hsl(0, 0%, 15%);
-  --ring: hsl(185, 100%, 74%);
+  --ring: hsl(45, 95%, 60%);
 }
 
 @layer base {
@@ -96,11 +96,11 @@
   }
 
   .neon-glow {
-    box-shadow: 0 0 5px hsl(185, 100%, 74%);
+    box-shadow: 0 0 5px hsl(45, 95%, 60%);
   }
 
   .neon-glow-hover:hover {
-    box-shadow: 0 0 20px hsl(185, 100%, 74%), 0 0 30px hsl(185, 100%, 74%);
+    box-shadow: 0 0 20px hsl(45, 95%, 60%), 0 0 30px hsl(45, 95%, 60%);
   }
 
   .animate-fade-in {
@@ -127,8 +127,8 @@
 }
 
 @keyframes pulseNeon {
-  0%, 100% { box-shadow: 0 0 5px hsl(185, 100%, 74%); }
-  50% { box-shadow: 0 0 20px hsl(185, 100%, 74%), 0 0 30px hsl(185, 100%, 74%); }
+  0%, 100% { box-shadow: 0 0 5px hsl(45, 95%, 60%); }
+  50% { box-shadow: 0 0 20px hsl(45, 95%, 60%), 0 0 30px hsl(45, 95%, 60%); }
 }
 
 .slider-container {
@@ -146,7 +146,7 @@
 
 .project-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(125, 249, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(255, 215, 77, 0.25);
 }
 
 /* Projects Section Styles */
@@ -195,7 +195,7 @@
 
 .category-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(125, 249, 255, 0.15);
+  box-shadow: 0 20px 40px rgba(255, 215, 77, 0.15);
 }
 
 /* Category Swiper Custom Styles */
@@ -216,8 +216,8 @@
 }
 
 .category-card .swiper-pagination-bullet-active {
-  background: hsl(185, 100%, 74%);
-  box-shadow: 0 0 6px hsl(185, 100%, 74%);
+  background: hsl(45, 95%, 60%);
+  box-shadow: 0 0 6px hsl(45, 95%, 60%);
 }
 
 .category-card .swiper-button-next,
@@ -236,7 +236,7 @@
 .category-card .swiper-button-next:hover,
 .category-card .swiper-button-prev:hover {
   background: rgba(0, 0, 0, 0.9);
-  color: hsl(185, 100%, 74%);
+  color: hsl(45, 95%, 60%);
 }
 
 .category-card .swiper-button-next::after,
@@ -252,7 +252,7 @@
 
 .project-slide:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(125, 249, 255, 0.2);
+  box-shadow: 0 10px 25px rgba(255, 215, 77, 0.2);
 }
 
 /* Line clamp utility */

@@ -90,8 +90,8 @@ export default {
           to: { opacity: "1", transform: "translateY(0)" },
         },
         pulseNeon: {
-          "0%, 100%": { boxShadow: "0 0 5px #7df9ff" },
-          "50%": { boxShadow: "0 0 20px #7df9ff, 0 0 30px #7df9ff" },
+          "0%, 100%": { boxShadow: "0 0 5px #f4d73d" },
+          "50%": { boxShadow: "0 0 20px #f4d73d, 0 0 30px #f4d73d" },
         },
         "accordion-down": {
           from: {
