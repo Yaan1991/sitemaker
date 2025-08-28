@@ -9,7 +9,9 @@ const categories = {
   all: "Все",
   theatre: "Театр", 
   film: "Кино",
-  audio: "Аудиоспектакли"
+  audio: "Аудиоспектакли",
+  immersive: "Иммерсивные проекты",
+  exhibition: "Выставки"
 } as const;
 
 export default function Projects() {
@@ -174,18 +176,29 @@ export default function Projects() {
                                 {project.title}
                               </h3>
                             )}
-                            <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/20 text-primary rounded-full whitespace-nowrap">
+                            <span className={`inline-block px-3 py-1 text-sm font-medium rounded-full whitespace-nowrap ${
+                              project.category === 'theatre' ? 'bg-primary/20 text-primary' :
+                              project.category === 'film' ? 'bg-red-500/20 text-red-400' :
+                              project.category === 'audio' ? 'bg-green-500/20 text-green-400' :
+                              project.category === 'immersive' ? 'bg-purple-500/20 text-purple-400' :
+                              'bg-blue-500/20 text-blue-400'
+                            }`}>
                               {categories[project.category]}
                             </span>
                           </div>
                           
                           <div className="text-gray-300 space-y-1">
                             <p className="font-medium">{project.theater}</p>
-                            <p className="text-sm text-gray-400">
-                              <span className="font-medium">Режиссёр:</span> {project.director}
-                            </p>
+                            {project.director && (
+                              <p className="text-sm text-gray-400">
+                                <span className="font-medium">Режиссёр:</span> {project.director}
+                              </p>
+                            )}
                             <p className="text-sm text-gray-400">
                               <span className="font-medium">Роль:</span> {project.role}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              <span className="font-medium">Тип:</span> {project.type}
                             </p>
                           </div>
                         </div>
