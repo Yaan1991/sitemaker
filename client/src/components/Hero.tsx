@@ -32,7 +32,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-muted-foreground mb-8 font-light"
-        >14+ лет опыта • 100+ проектов • Театр • Кино • Аудиопроекты</motion.p>
+        >14+ лет опыта • 100+ проектов • Театр • Кино • Аудиобрендинг</motion.p>
         
         <motion.a
           initial={{ opacity: 0, y: 30 }}
