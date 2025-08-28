@@ -108,7 +108,7 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
             key={currentIndex}
             src={currentProject.image}
             alt={currentProject.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
