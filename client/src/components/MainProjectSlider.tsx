@@ -98,7 +98,7 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
   
   return (
     <motion.div 
-      className="glass-effect rounded-xl overflow-hidden h-[500px] relative group"
+      className="glass-effect rounded-xl overflow-hidden h-[400px] relative group w-full max-w-6xl mx-auto"
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
     >
@@ -115,18 +115,18 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
             transition={{ duration: 0.5 }}
           />
         </AnimatePresence>
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
       </div>
 
-      <div className="relative z-10 h-full flex flex-col justify-between p-8">
+      <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-12 max-w-2xl">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-3xl">{category.icon}</span>
-          <h3 className="text-xl font-bold text-white">{category.title}</h3>
+        <div className="flex items-center gap-4 mb-6">
+          <span className="text-4xl">{category.icon}</span>
+          <h3 className="text-2xl md:text-3xl font-bold text-white">{category.title}</h3>
         </div>
 
         {/* Content */}
-        <div className="space-y-4">
+        <div className="space-y-6 flex-grow">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -134,24 +134,24 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
-              className="space-y-3"
+              className="space-y-4"
             >
-              <div className="flex items-baseline gap-3">
-                <h4 className="text-2xl font-bold text-white line-clamp-2">
+              <div className="flex flex-wrap items-baseline gap-4">
+                <h4 className="text-3xl md:text-4xl font-bold text-white">
                   {currentProject.title}
                 </h4>
-                <span className="text-primary font-medium text-lg">
+                <span className="text-primary font-medium text-xl">
                   {currentProject.year}
                 </span>
               </div>
               
-              <p className="text-gray-300 text-base leading-relaxed line-clamp-3">
+              <p className="text-gray-300 text-lg md:text-xl leading-relaxed max-w-xl">
                 {currentProject.description}
               </p>
               
               <Link
                 href={`/project/${currentProject.id}`}
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 font-medium group-hover:translate-x-1 transition-transform"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 font-semibold text-lg group-hover:translate-x-1 transition-transform"
                 data-testid={`link-project-${currentProject.id}`}
               >
                 Подробнее →
@@ -161,11 +161,11 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
         </div>
 
         {/* Slider indicators */}
-        <div className="flex gap-2 mt-6">
+        <div className="flex gap-3 mt-8">
           {category.projects.map((_, index) => (
             <div
               key={index}
-              className={`h-1 flex-1 rounded-full transition-all duration-300 ${
+              className={`h-1.5 w-12 rounded-full transition-all duration-300 ${
                 index === currentIndex 
                   ? 'bg-primary' 
                   : 'bg-gray-600'
@@ -209,7 +209,7 @@ export default function MainProjectSlider() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+        <div className="space-y-8">
           {projectCategories.map((category, categoryIndex) => (
             <motion.div
               key={category.title}
