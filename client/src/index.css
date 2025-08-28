@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Oswald:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -28,7 +28,7 @@
   --dark-card: hsl(0, 0%, 10%);
   --radius: 0.5rem;
   --font-sans: 'Oswald', sans-serif;
-  --font-serif: 'Cinzel', serif;
+  --font-serif: 'Bebas Neue', sans-serif;
 }
 
 .dark {

@@ -69,7 +69,7 @@ export default {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
-        cinzel: ['Cinzel', 'serif'],
+        bebas: ['Bebas Neue', 'sans-serif'],
         oswald: ['Oswald', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
       },
