@@ -1,64 +1,35 @@
 import { motion } from "framer-motion";
 import Hero from "@/components/Hero";
-import CategoryPreview from "@/components/CategoryPreview";
-import CategorySlider from "@/components/CategorySlider";
 import SEOHead from "@/components/SEOHead";
-import { projectCategories as originalCategories } from "@/data/projects";
-import { projectCategories } from "@/data/home-projects";
-import { Link } from "wouter";
 
 export default function Home() {
-  const originalCategoryEntries = Object.entries(originalCategories);
-
   return (
     <>
       <SEOHead />
       <div className="min-h-screen">
         <Hero />
         
-        {/* Projects Section with Category Sliders */}
-        <section id="projects" className="projects-section">
-          <div className="container mx-auto px-6">
-            <h2 className="section-title text-4xl font-bold text-center text-white mb-12">Проекты</h2>
-
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mb-12">
-              {Object.entries(projectCategories).map(([categoryKey, categoryData]) => (
-                <CategorySlider
-                  key={categoryKey}
-                  category={categoryKey}
-                  title={categoryData.title}
-                  description={categoryData.description}
-                  projects={categoryData.projects}
-                />
-              ))}
-            </div>
-
-            <div className="projects-cta text-center">
-              <Link href="/works" className="btn btn-outline inline-block px-8 py-3 border-2 border-white text-white rounded-lg hover:bg-white hover:text-black transition-all duration-300 text-lg font-medium">
-                Смотреть все проекты
-              </Link>
-            </div>
-          </div>
-        </section>
-        
-        {/* Category Preview Cards */}
+        {/* Simple About Section */}
         <section className="py-20 px-6">
-          <div className="container mx-auto">
+          <div className="container mx-auto max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="grid md:grid-cols-3 gap-8"
+              className="text-center"
             >
-              {originalCategoryEntries.map(([category, data]) => (
-                <CategoryPreview
-                  key={category}
-                  title={data.title}
-                  description={data.description}
-                  image={data.image}
-                  category={category}
-                />
-              ))}
+              <h2 className="text-4xl font-bold text-white mb-8">
+                Композитор • Саунд‑дизайнер • Звукорежиссёр
+              </h2>
+              <p className="text-xl text-gray-300 leading-relaxed mb-8">
+                14+ лет опыта в создании музыки и звукового дизайна для театра, кино и аудиопроектов. 
+                Более 100 проектов в сотрудничестве с ведущими театрами и кинокомпаниями России.
+              </p>
+              <p className="text-lg text-gray-400 leading-relaxed">
+                Специализируюсь на создании многослойных партитур, которые не просто сопровождают 
+                действие, но становятся неотъемлемой частью художественного высказывания. 
+                Работаю с широким спектром жанров — от нуар-джаза до экспериментальных эмбиентов.
+              </p>
             </motion.div>
           </div>
         </section>

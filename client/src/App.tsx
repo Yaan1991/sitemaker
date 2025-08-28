@@ -8,7 +8,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
-import ProjectDetail from "./pages/ProjectDetail";
+import ProjectPage from "./pages/ProjectPage";
 import Works from "./pages/Works";
 import Contact from "./pages/Contact";
 import NotFound from "@/pages/not-found";
@@ -21,7 +21,7 @@ function Router() {
         <Route path="/about" component={About} />
         <Route path="/projects" component={Projects} />
         <Route path="/projects/:category" component={Projects} />
-        <Route path="/project/:id" component={ProjectDetail} />
+        <Route path="/project/:id" component={ProjectPage} />
         <Route path="/works" component={Works} />
         <Route path="/contact" component={Contact} />
         <Route component={NotFound} />

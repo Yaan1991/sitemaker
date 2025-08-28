@@ -2,16 +2,28 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { projects } from "@/data/projects";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [location] = useLocation();
 
-  const navigation = [
+  const mainNavigation = [
     { name: "Обо мне", href: "/about" },
-    { name: "Проекты", href: "/projects" },
-    { name: "Список работ", href: "/works" },
     { name: "Контакты", href: "/contact" },
+  ];
+
+  const projectsByCategory = {
+    theatre: projects.filter(p => p.category === 'theatre'),
+    film: projects.filter(p => p.category === 'film'),
+    audio: projects.filter(p => p.category === 'audio'),
+  };
+
+  const socialLinks = [
+    { name: "Bandlink", href: "https://band.link/zDZyK", icon: "/icons/icon_bandlink.png" },
+    { name: "Telegram", href: "https://t.me/iankzmcv", icon: "/icons/icon_telegram.png" },
+    { name: "Email", href: "mailto:kuzmichevyan@gmail.com", icon: "/icons/icon_email.png" },
+    { name: "Телефон", href: "tel:+79197643745", icon: "/icons/icon_phone.png" },
   ];
 
   const isActive = (href: string) => {
@@ -36,7 +48,7 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
-            {navigation.map((item) => (
+            {mainNavigation.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -50,6 +62,13 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-muted-foreground hover:text-primary transition-colors duration-300"
+              data-testid="button-projects-menu"
+            >
+              Проекты
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -66,31 +85,125 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Projects Menu Overlay */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 pb-4 border-t border-border"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-40 bg-black bg-opacity-95 backdrop-blur-sm"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
-              <div className="flex flex-col space-y-4 pt-4">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`transition-colors duration-300 ${
-                      isActive(item.href)
-                        ? "text-primary"
-                        : "text-muted-foreground hover:text-primary"
-                    }`}
+              <div className="container mx-auto px-6 py-8 h-full overflow-y-auto">
+                <div className="flex justify-between items-center mb-8">
+                  <h2 className="text-3xl font-bold text-white">Проекты</h2>
+                  <button
                     onClick={() => setIsMobileMenuOpen(false)}
-                    data-testid={`link-mobile-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="text-white hover:text-primary transition-colors"
                   >
-                    {item.name}
-                  </Link>
-                ))}
+                    <X className="w-8 h-8" />
+                  </button>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-8 mb-12">
+                  {/* Theatre Projects */}
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 border-b border-primary pb-2">
+                      Театр
+                    </h3>
+                    <div className="space-y-3">
+                      {projectsByCategory.theatre.map((project) => (
+                        <Link
+                          key={project.id}
+                          href={`/project/${project.id}`}
+                          className="block text-gray-300 hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wide"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {project.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Film Projects */}
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 border-b border-primary pb-2">
+                      Кино
+                    </h3>
+                    <div className="space-y-3">
+                      {projectsByCategory.film.map((project) => (
+                        <Link
+                          key={project.id}
+                          href={`/project/${project.id}`}
+                          className="block text-gray-300 hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wide"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {project.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Audio Projects */}
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 border-b border-primary pb-2">
+                      Аудиоспектакли
+                    </h3>
+                    <div className="space-y-3">
+                      {projectsByCategory.audio.map((project) => (
+                        <Link
+                          key={project.id}
+                          href={`/project/${project.id}`}
+                          className="block text-gray-300 hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wide"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {project.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Main Navigation */}
+                <div className="mb-8">
+                  <h3 className="text-xl font-semibold text-white mb-6 border-b border-primary pb-2">
+                    Навигация
+                  </h3>
+                  <div className="space-y-3">
+                    {mainNavigation.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="block text-gray-300 hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wide"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Social Links */}
+                <div>
+                  <h3 className="text-xl font-semibold text-white mb-6 border-b border-primary pb-2">
+                    Контакты
+                  </h3>
+                  <div className="flex flex-wrap gap-4">
+                    {socialLinks.map((link) => (
+                      <a
+                        key={link.name}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-gray-300 hover:text-primary transition-colors duration-200"
+                      >
+                        <img src={link.icon} alt={link.name} className="w-6 h-6" />
+                        <span className="text-sm">{link.name}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
               </div>
             </motion.div>
           )}
