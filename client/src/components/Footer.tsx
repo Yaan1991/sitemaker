@@ -1,4 +1,5 @@
 import { Mail, Phone } from "lucide-react";
+import telegram from "@assets/telegram.png";
 const telegramIcon = "/icons/icon_telegram.png";
 const emailIcon = "/icons/icon_email.png";
 const phoneIcon = "/icons/icon_phone.png";
@@ -28,7 +29,7 @@ export default function Footer() {
             className="text-muted-foreground hover:text-primary transition-colors duration-300"
             data-testid="link-footer-telegram"
           >
-            <img src={telegramIcon} alt="Telegram" className="w-6 h-6 invert" />
+            <img src={telegram} alt="Telegram" className="w-6 h-6 invert" />
           </a>
           <a
             href="https://band.link/zDZyK"
