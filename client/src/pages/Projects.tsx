@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { allProjects } from "@/data/allProjects";
 import SEOHead from "@/components/SEOHead";
 import { ExternalLink } from "lucide-react";
+import backgroundImage from "@assets/backgroundworks_1756395075457.webp";
 
 const categories = {
   all: "Все",
@@ -41,8 +42,18 @@ export default function Projects() {
         description="Полный список театральных работ, кинопроектов и аудиоспектаклей Яна Кузьмичёва с 2012 года. Композитор, саунд-дизайнер, звукорежиссёр."
       />
       
-      <div className="pt-24 pb-16 px-6">
-        <div className="container mx-auto max-w-6xl">
+      <div 
+        className="pt-24 pb-16 px-6 relative"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/70 pointer-events-none" />
+        <div className="container mx-auto max-w-6xl relative z-10">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
