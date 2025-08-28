@@ -18,7 +18,6 @@ export default function Hero() {
         </picture>
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
       </div>
-
       {/* Hero Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.h1
@@ -26,9 +25,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-4xl md:text-6xl font-bold mb-6"
-        >
-          Музыка и звук, которые формируют пространство
-        </motion.h1>
+        >Когда музыка и технологии работают вместе</motion.h1>
         
         <motion.p
           initial={{ opacity: 0, y: 30 }}
@@ -52,7 +49,6 @@ export default function Hero() {
           Слушать
         </motion.a>
       </div>
-
       {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
