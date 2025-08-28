@@ -72,6 +72,18 @@ export default function Header() {
                   className="absolute right-0 top-full mt-2 w-48 glass-effect rounded-lg border border-border shadow-lg overflow-hidden"
                 >
                   <div className="py-2">
+                    <Link
+                      href="/main-works"
+                      className={`block px-4 py-3 transition-colors duration-200 ${
+                        isActive('/main-works')
+                          ? "text-primary bg-primary/10"
+                          : "text-gray-300 hover:text-primary hover:bg-white/5"
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                      data-testid="link-main-works"
+                    >
+                      Основные работы
+                    </Link>
                     {mainNavigation.map((item) => (
                       <Link
                         key={item.href}
@@ -87,18 +99,6 @@ export default function Header() {
                         {item.name}
                       </Link>
                     ))}
-                    <Link
-                      href="/main-works"
-                      className={`block px-4 py-3 transition-colors duration-200 ${
-                        isActive('/main-works')
-                          ? "text-primary bg-primary/10"
-                          : "text-gray-300 hover:text-primary hover:bg-white/5"
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                      data-testid="link-main-works"
-                    >
-                      Основные работы
-                    </Link>
                     <Link
                       href="/projects"
                       className={`block px-4 py-3 transition-colors duration-200 ${
@@ -217,6 +217,13 @@ export default function Header() {
                     Навигация
                   </h3>
                   <div className="space-y-3">
+                    <Link
+                      href="/main-works"
+                      className="block text-gray-300 hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wide"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Основные работы
+                    </Link>
                     {mainNavigation.map((item) => (
                       <Link
                         key={item.href}
@@ -227,13 +234,6 @@ export default function Header() {
                         {item.name}
                       </Link>
                     ))}
-                    <Link
-                      href="/main-works"
-                      className="block text-gray-300 hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wide"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Основные работы
-                    </Link>
                   </div>
                 </div>
 
