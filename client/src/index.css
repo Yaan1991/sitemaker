@@ -168,49 +168,72 @@
   object-fit: cover;
 }
 
-/* Swiper Custom Styles */
-.projects-swiper {
-  overflow: visible;
-  padding-bottom: 50px;
-}
-
-.projects-swiper .swiper-pagination {
-  bottom: 0;
-}
-
-.projects-swiper .swiper-pagination-bullet {
-  background: rgba(255, 255, 255, 0.5);
-  opacity: 1;
-  width: 12px;
-  height: 12px;
-}
-
-.projects-swiper .swiper-pagination-bullet-active {
-  background: hsl(185, 100%, 74%);
-  box-shadow: 0 0 8px hsl(185, 100%, 74%);
-}
-
-.projects-swiper .swiper-button-next,
-.projects-swiper .swiper-button-prev {
-  color: white;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  margin-top: -22px;
+/* Category Card Styles */
+.category-card {
+  min-height: 400px;
   transition: all 0.3s ease;
 }
 
-.projects-swiper .swiper-button-next:hover,
-.projects-swiper .swiper-button-prev:hover {
-  background: rgba(0, 0, 0, 0.8);
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(125, 249, 255, 0.15);
+}
+
+/* Category Swiper Custom Styles */
+.category-card .swiper {
+  overflow: visible;
+  padding-bottom: 40px;
+}
+
+.category-card .swiper-pagination {
+  bottom: 0;
+}
+
+.category-card .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.4);
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+}
+
+.category-card .swiper-pagination-bullet-active {
+  background: hsl(185, 100%, 74%);
+  box-shadow: 0 0 6px hsl(185, 100%, 74%);
+}
+
+.category-card .swiper-button-next,
+.category-card .swiper-button-prev {
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  margin-top: -16px;
+  transition: all 0.3s ease;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.category-card .swiper-button-next:hover,
+.category-card .swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.9);
   color: hsl(185, 100%, 74%);
 }
 
-.projects-swiper .swiper-button-next::after,
-.projects-swiper .swiper-button-prev::after {
-  font-size: 16px;
+.category-card .swiper-button-next::after,
+.category-card .swiper-button-prev::after {
+  font-size: 12px;
   font-weight: bold;
+}
+
+.project-slide {
+  height: 240px;
+  transition: all 0.3s ease;
+}
+
+.project-slide:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(125, 249, 255, 0.2);
 }
 
 /* Line clamp utility */

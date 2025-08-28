@@ -8,7 +8,13 @@ export interface HomeProject {
   alt: string;
 }
 
-export const homeProjects: HomeProject[] = [
+export interface ProjectCategory {
+  title: string;
+  description: string;
+  projects: HomeProject[];
+}
+
+const theatreProjects: HomeProject[] = [
   {
     slug: "idiot",
     title: "Идиот — Саратовский театр драмы, 2024",
@@ -35,7 +41,10 @@ export const homeProjects: HomeProject[] = [
     url: "/projects/petrovy-v-grippe",
     press: "https://www.coolconnections.ru/ru/blog/posts/Po-vse-storony-Petrovyh-v-grippe",
     alt: "Спектакль «Петровы в гриппе и вокруг него»"
-  },
+  }
+];
+
+const filmProjects: HomeProject[] = [
   {
     slug: "homo-homini",
     title: "Homo Homini — короткометражный фильм, 2025",
@@ -62,7 +71,10 @@ export const homeProjects: HomeProject[] = [
     url: "/projects/zhizn-v-iskusstve",
     press: "https://teatrtogo.ru/2019/10/23/stepan-azarjan-ijulansambl-snjal-korotkometrazhnyj-film-zhizn-v-iskusstve/",
     alt: "Короткометражный фильм «Жизнь в искусстве»"
-  },
+  }
+];
+
+const audioProjects: HomeProject[] = [
   {
     slug: "son-o-hlebe",
     title: "Сон о Хлебе — Зотов Центр, 2024",
@@ -82,3 +94,21 @@ export const homeProjects: HomeProject[] = [
     alt: "Аудиоспектакль «Погружение. Променад»"
   }
 ];
+
+export const projectCategories: { [key: string]: ProjectCategory } = {
+  theatre: {
+    title: "Театр",
+    description: "Музыка и саунд-дизайн для театральных постановок",
+    projects: theatreProjects
+  },
+  film: {
+    title: "Кино",
+    description: "Полный цикл пост-продакшна для кинопроектов",
+    projects: filmProjects
+  },
+  audio: {
+    title: "Аудиоспектакли",
+    description: "Иммерсивные аудиопроекты и пространственный звук",
+    projects: audioProjects
+  }
+};
