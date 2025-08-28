@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
+import backgroundImage from "@assets/mainworksbg_1756420572164.webp";
 
 // Основные работы с главной страницы
 const mainWorks = [
@@ -82,8 +83,18 @@ export default function MainWorks() {
         description="Избранные проекты Яна Кузьмичёва из разных направлений: театр, кино и аудиоспектакли."
       />
       
-      <section className="py-20 px-6 min-h-screen">
-        <div className="container mx-auto max-w-4xl">
+      <section 
+        className="py-20 px-6 min-h-screen relative"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/70 pointer-events-none" />
+        <div className="container mx-auto max-w-4xl relative z-10">
           {/* Back Button */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
