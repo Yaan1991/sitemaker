@@ -31,7 +31,10 @@ export default function Projects() {
   const earlyYears = years.filter(year => parseInt(year) <= 2019);
   const lateYears = years.filter(year => parseInt(year) >= 2020);
   
-  const displayedYears = showEarlyYears ? earlyYears.slice(0, 6) : lateYears.slice(0, 6);
+  // Для ранних годов показываем все или максимум 8, для поздних - первые 6
+  const displayedYears = showEarlyYears 
+    ? earlyYears.slice(0, Math.min(8, earlyYears.length)) 
+    : lateYears.slice(0, 6);
 
   const groupedProjects = filteredProjects.reduce((acc, project) => {
     const year = project.year;
