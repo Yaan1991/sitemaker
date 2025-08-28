@@ -249,9 +249,9 @@ export default function MainProjectSlider() {
           className="text-center mt-12"
         >
           <Link
-            href="/works"
+            href="/projects"
             className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all duration-300 neon-glow-hover"
-            data-testid="link-all-works"
+            data-testid="link-all-projects"
           >
             Все работы
           </Link>
