@@ -6,6 +6,7 @@ import { projects } from "@/data/projects";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [location] = useLocation();
 
   const mainNavigation = [
@@ -46,33 +47,62 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
-            {mainNavigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`transition-colors duration-300 ${
-                  isActive(item.href)
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-primary"
-                }`}
-                data-testid={`link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-              >
-                {item.name}
-              </Link>
-            ))}
-            <Link
-              href="/projects"
-              className={`transition-colors duration-300 ${
-                isActive('/projects')
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-primary"
-              }`}
-              data-testid="link-projects"
+          {/* Desktop Menu Button */}
+          <div className="hidden md:block relative">
+            <button
+              className="text-white hover:text-primary focus:outline-none transition-colors duration-300"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              data-testid="button-desktop-menu"
             >
-              Все проекты
-            </Link>
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+
+            {/* Desktop Menu Dropdown */}
+            <AnimatePresence>
+              {isMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute right-0 top-full mt-2 w-48 glass-effect rounded-lg border border-border shadow-lg overflow-hidden"
+                >
+                  <div className="py-2">
+                    {mainNavigation.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`block px-4 py-3 transition-colors duration-200 ${
+                          isActive(item.href)
+                            ? "text-primary bg-primary/10"
+                            : "text-gray-300 hover:text-primary hover:bg-white/5"
+                        }`}
+                        onClick={() => setIsMenuOpen(false)}
+                        data-testid={`link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                    <Link
+                      href="/projects"
+                      className={`block px-4 py-3 transition-colors duration-200 ${
+                        isActive('/projects')
+                          ? "text-primary bg-primary/10"
+                          : "text-gray-300 hover:text-primary hover:bg-white/5"
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                      data-testid="link-projects"
+                    >
+                      Все проекты
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Mobile Menu Button */}
