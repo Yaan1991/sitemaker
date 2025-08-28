@@ -131,90 +131,56 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Projects Menu Overlay */}
+        {/* Mobile Menu Dropdown */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 bg-black bg-opacity-95 backdrop-blur-sm"
-              onClick={() => setIsMobileMenuOpen(false)}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="absolute right-0 top-full mt-2 w-48 glass-effect rounded-lg border border-border shadow-lg overflow-hidden md:hidden"
             >
-              <div className="container mx-auto px-6 py-8 h-full flex flex-col justify-center">
-                <div className="flex justify-between items-center mb-12">
-                  <h2 className="text-3xl font-russo font-bold text-white">Меню</h2>
-                  <button
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-white hover:text-primary transition-colors"
-                  >
-                    <X className="w-8 h-8" />
-                  </button>
-                </div>
-
-                {/* Simple Navigation Menu */}
-                <div className="space-y-6 text-center">
+              <div className="py-2">
+                <Link
+                  href="/main-works"
+                  className={`block px-4 py-3 transition-colors duration-200 ${
+                    isActive('/main-works')
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-300 hover:text-primary hover:bg-white/5"
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  data-testid="mobile-link-main-works"
+                >
+                  Основные работы
+                </Link>
+                {mainNavigation.map((item) => (
                   <Link
-                    href="/main-works"
-                    className={`block text-2xl font-medium transition-colors duration-200 ${
-                      isActive('/main-works')
-                        ? "text-primary"
-                        : "text-gray-300 hover:text-primary"
+                    key={item.href}
+                    href={item.href}
+                    className={`block px-4 py-3 transition-colors duration-200 ${
+                      isActive(item.href)
+                        ? "text-primary bg-primary/10"
+                        : "text-gray-300 hover:text-primary hover:bg-white/5"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    data-testid="mobile-link-main-works"
+                    data-testid={`mobile-link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                   >
-                    Основные работы
+                    {item.name}
                   </Link>
-                  {mainNavigation.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`block text-2xl font-medium transition-colors duration-200 ${
-                        isActive(item.href)
-                          ? "text-primary"
-                          : "text-gray-300 hover:text-primary"
-                      }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      data-testid={`mobile-link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                  <Link
-                    href="/projects"
-                    className={`block text-2xl font-medium transition-colors duration-200 ${
-                      isActive('/projects')
-                        ? "text-primary"
-                        : "text-gray-300 hover:text-primary"
-                    }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    data-testid="mobile-link-projects"
-                  >
-                    Все проекты
-                  </Link>
-                </div>
-
-                {/* Social Links */}
-                <div className="mt-16 text-center">
-                  <h3 className="text-xl font-medium text-white mb-6">
-                    Контакты
-                  </h3>
-                  <div className="flex justify-center flex-wrap gap-6">
-                    {socialLinks.map((link) => (
-                      <a
-                        key={link.name}
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex flex-col items-center gap-2 text-gray-300 hover:text-primary transition-colors duration-200"
-                      >
-                        <img src={link.icon} alt={link.name} className="w-8 h-8" />
-                        <span className="text-sm">{link.name}</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
+                ))}
+                <Link
+                  href="/projects"
+                  className={`block px-4 py-3 transition-colors duration-200 ${
+                    isActive('/projects')
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-300 hover:text-primary hover:bg-white/5"
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  data-testid="mobile-link-projects"
+                >
+                  Все проекты
+                </Link>
               </div>
             </motion.div>
           )}
