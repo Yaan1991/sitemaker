@@ -17,6 +17,7 @@ const categories = {
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<keyof typeof categories>("all");
   const [selectedYear, setSelectedYear] = useState<string>("all");
+  const [showEarlyYears, setShowEarlyYears] = useState(false);
 
   const filteredProjects = allProjects.filter(project => {
     const categoryMatch = selectedCategory === "all" || project.category === selectedCategory;
@@ -25,6 +26,12 @@ export default function Projects() {
   });
 
   const years = Array.from(new Set(allProjects.map(p => p.year))).sort((a, b) => parseInt(b) - parseInt(a));
+  
+  // Разделяем года на ранние и поздние
+  const earlyYears = years.filter(year => parseInt(year) <= 2019);
+  const lateYears = years.filter(year => parseInt(year) >= 2020);
+  
+  const displayedYears = showEarlyYears ? earlyYears.slice(0, 6) : lateYears.slice(0, 6);
 
   const groupedProjects = filteredProjects.reduce((acc, project) => {
     const year = project.year;
@@ -67,7 +74,7 @@ export default function Projects() {
               Все проекты
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Полная хронология работ с 2012 года — {allProjects.length} проектов в театре, кино и аудиоискусстве
+              Полная хронология работ с 2013 года — {allProjects.length} проектов в театре, кино и аудиоискусстве
             </p>
           </motion.div>
 
@@ -111,7 +118,7 @@ export default function Projects() {
               >
                 Все
               </button>
-              {years.slice(0, 6).map((year) => (
+              {displayedYears.map((year) => (
                 <button
                   key={year}
                   onClick={() => setSelectedYear(year)}
@@ -125,6 +132,17 @@ export default function Projects() {
                   {year}
                 </button>
               ))}
+              
+              {/* Кнопка переключения периодов */}
+              {(earlyYears.length > 0 && lateYears.length > 0) && (
+                <button
+                  onClick={() => setShowEarlyYears(!showEarlyYears)}
+                  className="px-4 py-2 rounded-full transition-colors duration-200 font-medium glass-effect text-gray-300 hover:text-white hover:bg-white/10"
+                  data-testid="button-toggle-years"
+                >
+                  {showEarlyYears ? "Позже" : "Раньше"}
+                </button>
+              )}
             </div>
           </motion.div>
 
