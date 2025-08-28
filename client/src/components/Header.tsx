@@ -62,13 +62,17 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-muted-foreground hover:text-primary transition-colors duration-300"
-              data-testid="button-projects-menu"
+            <Link
+              href="/projects"
+              className={`transition-colors duration-300 ${
+                isActive('/projects')
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-primary"
+              }`}
+              data-testid="link-projects"
             >
-              Проекты
-            </button>
+              Все проекты
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -97,7 +101,7 @@ export default function Header() {
             >
               <div className="container mx-auto px-6 py-8 h-full overflow-y-auto">
                 <div className="flex justify-between items-center mb-8">
-                  <h2 className="text-3xl font-bold text-white">Проекты</h2>
+                  <h2 className="text-3xl font-bold text-white">Все проекты</h2>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="text-white hover:text-primary transition-colors"
