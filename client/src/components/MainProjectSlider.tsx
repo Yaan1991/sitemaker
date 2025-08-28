@@ -98,7 +98,7 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
   
   return (
     <motion.div 
-      className="glass-effect rounded-xl overflow-hidden h-[400px] relative group w-full max-w-6xl mx-auto"
+      className="glass-effect rounded-xl overflow-hidden h-[280px] sm:h-[320px] md:h-[400px] relative group w-full max-w-6xl mx-auto"
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
     >
@@ -115,18 +115,18 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
             transition={{ duration: 0.8, ease: "easeInOut" }}
           />
         </AnimatePresence>
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/20 sm:bg-gradient-to-r sm:from-black sm:via-black/70 sm:to-transparent" />
       </div>
 
-      <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-12 max-w-2xl">
+      <div className="relative z-10 h-full flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-12 max-w-2xl">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <span className="text-4xl">{category.icon}</span>
-          <h3 className="text-2xl md:text-3xl font-bold text-white">{category.title}</h3>
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-4 md:mb-6">
+          <span className="text-2xl sm:text-3xl md:text-4xl">{category.icon}</span>
+          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">{category.title}</h3>
         </div>
 
         {/* Content */}
-        <div className="space-y-6 flex-grow">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6 flex-grow">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -134,24 +134,24 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="space-y-4"
+              className="space-y-2 sm:space-y-3 md:space-y-4"
             >
-              <div className="flex flex-wrap items-baseline gap-4">
-                <h4 className="text-3xl md:text-4xl font-bold text-white">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-baseline gap-2 sm:gap-3 md:gap-4">
+                <h4 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight">
                   {currentProject.title}
                 </h4>
-                <span className="text-primary font-medium text-xl">
+                <span className="text-primary font-medium text-sm sm:text-base md:text-lg lg:text-xl">
                   {currentProject.year}
                 </span>
               </div>
               
-              <p className="text-gray-300 text-lg md:text-xl leading-relaxed max-w-xl">
+              <p className="text-gray-300 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-xl">
                 {currentProject.description}
               </p>
               
               <Link
                 href={`/project/${currentProject.id}`}
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 font-semibold text-lg group-hover:translate-x-1 transition-transform"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 font-semibold text-sm sm:text-base md:text-lg group-hover:translate-x-1 transition-transform"
                 data-testid={`link-project-${currentProject.id}`}
               >
                 Подробнее →
@@ -161,11 +161,11 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
         </div>
 
         {/* Slider indicators */}
-        <div className="flex gap-3 mt-8">
+        <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-6 md:mt-8">
           {category.projects.map((_, index) => (
             <div
               key={index}
-              className={`h-1.5 w-12 rounded-full transition-all duration-300 ${
+              className={`h-1 sm:h-1.5 w-8 sm:w-10 md:w-12 rounded-full transition-all duration-300 ${
                 index === currentIndex 
                   ? 'bg-primary' 
                   : 'bg-gray-600'
