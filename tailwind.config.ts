@@ -69,7 +69,8 @@ export default {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
-        lubrifont: ['WDXL Lubrifont TC', 'sans-serif'],
+        cinzel: ['Cinzel', 'serif'],
+        oswald: ['Oswald', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
       },
       animation: {
