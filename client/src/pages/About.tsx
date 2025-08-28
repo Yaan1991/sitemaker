@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { Link } from "wouter";
+import { ArrowLeft } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
 import about from "@assets/about.jpg";
 const aboutImage = "/images/about.jpg";
@@ -56,16 +58,22 @@ export default function About() {
                   которая помогает зрителю или слушателю не только услышать историю, но и прожить её.
                 </p>
               </div>
-              <div className="mt-8">
-                <a
-                  href="https://band.link/zDZyK"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-white transition-all duration-300"
-                  data-testid="button-listen-works"
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/main-works"
+                  className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-white transition-all duration-300 text-center"
+                  data-testid="button-main-works"
                 >
-                  Слушать работы
-                </a>
+                  Основные работы
+                </Link>
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold glass-effect text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"
+                  data-testid="button-back-home"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Вернуться на главную
+                </Link>
               </div>
             </div>
 
