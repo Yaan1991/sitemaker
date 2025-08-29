@@ -190,6 +190,48 @@ export default function ProjectPage() {
                       </p>
                     </div>
                   </div>
+
+                  {/* Photo Gallery */}
+                  <div className="mt-8">
+                    <h4 className="text-xl font-semibold text-primary mb-4">Фотографии из спектакля</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="aspect-video overflow-hidden rounded-lg">
+                        <img 
+                          src="/images/idiot1_1756479054514.webp" 
+                          alt="Сцена из спектакля Идиот" 
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="aspect-video overflow-hidden rounded-lg">
+                        <img 
+                          src="/images/idiot2_1756479054514.webp" 
+                          alt="Многослойное пространство спектакля" 
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="aspect-video overflow-hidden rounded-lg">
+                        <img 
+                          src="/images/idiot3_1756479054514.webp" 
+                          alt="Атмосферная сцена в кровати" 
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="aspect-video overflow-hidden rounded-lg">
+                        <img 
+                          src="/images/idiot4_1756479054514.webp" 
+                          alt="Световое решение спектакля" 
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="aspect-video overflow-hidden rounded-lg lg:col-span-2">
+                        <img 
+                          src="/images/idiot5_1756479169274.webp" 
+                          alt="Общий план сцены с экраном" 
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 
