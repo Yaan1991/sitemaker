@@ -6,14 +6,35 @@ import { ExternalLink, ArrowLeft, Volume2, VolumeX } from "lucide-react";
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { BackgroundAudio } from "@/components/BackgroundAudio";
-import { useState } from "react";
+import { AudioChoiceModal } from "@/components/AudioChoiceModal";
+import { useState, useEffect } from "react";
 
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
   const [audioEnabled, setAudioEnabled] = useState(false);
+  const [showAudioChoice, setShowAudioChoice] = useState(false);
   
   const project = projects.find(p => p.id === projectId);
+
+  // Показываем модальное окно выбора звука для проекта "Идиот" при первом заходе
+  useEffect(() => {
+    if (project?.id === "idiot-saratov-drama") {
+      const hasSeenAudioChoice = sessionStorage.getItem(`audio-choice-${project.id}`);
+      if (!hasSeenAudioChoice) {
+        setShowAudioChoice(true);
+      }
+    }
+  }, [project?.id]);
+
+  const handleAudioChoice = (withAudio: boolean) => {
+    setAudioEnabled(withAudio);
+    setShowAudioChoice(false);
+    // Запоминаем выбор для текущей сессии
+    if (project?.id) {
+      sessionStorage.setItem(`audio-choice-${project.id}`, 'true');
+    }
+  };
 
   if (!project) {
     return (
@@ -42,6 +63,12 @@ export default function ProjectPage() {
       <SEOHead 
         title={`${project.title} — ${project.year} | Ян Кузьмичёв`}
         description={project.fullDescription}
+      />
+      
+      {/* Modal выбора звука */}
+      <AudioChoiceModal 
+        isOpen={showAudioChoice}
+        onChoice={handleAudioChoice}
       />
       <div className="min-h-screen pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-6">
