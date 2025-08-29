@@ -10,9 +10,9 @@ const mainWorks = [
   {
     id: "idiot-saratov-drama",
     title: "Идиот",
-    year: "2024",
+    year: "2023",
     category: "Театр",
-    description: "Нуар/дарк-джаз + полевые записи. Многослойная партитура.",
+    description: "Уникальное сочетание театра и кино: нуар-джаз + полевые записи + ИИ-технологии.",
   },
   {
     id: "mayakovsky-moscow-estrada", 

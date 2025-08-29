@@ -546,11 +546,11 @@ export const allProjects: AllProject[] = [
   },
   {
     id: "idiot",
-    year: "2024",
+    year: "2023",
     title: "Идиот",
     theater: "Саратовский театр драмы им. Слонова",
     director: "Иван Комаров",
-    role: "Композитор, Саунд-дизайнер, ИИ-креативный-продюсер",
+    role: "Композитор, Саунд-дизайнер, Звукорежиссёр",
     link: "https://www.saratovdrama.com/repertoire/idiot/",
     category: "theatre",
     type: "Спектакль"
