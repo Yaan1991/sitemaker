@@ -51,6 +51,16 @@ export const projects: Project[] = [
         url: "https://www.saratovdrama.com/repertoire/idiot/",
         external: true,
       },
+      {
+        label: "Cool Connections — обзор",
+        url: "https://www.coolconnections.ru/ru/blog/posts/Idiot-Do-samogo-konca-sveta?ysclid=mewxumf8ff413247497",
+        external: true,
+      },
+      {
+        label: "Комсомольская правда — рецензия",
+        url: "https://www.saratov.kp.ru/daily/27601.5/4952575/?ysclid=mewxvh7x9w791506972",
+        external: true,
+      },
     ],
     details: {
       director: "Иван Комаров",
