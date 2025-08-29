@@ -32,8 +32,7 @@ export function AudioChoiceModal({ isOpen, onChoice }: AudioChoiceModalProps) {
         </h3>
         
         <p className="text-gray-300 mb-6 leading-relaxed">
-          Хотите погрузиться в атмосферу спектакля «Идиот» под оригинальную музыку? 
-          Тема Настасьи Филипповны будет тихо играть фоном во время чтения.
+          Хотите погрузиться в атмосферу спектакля «Идиот» под оригинальную музыку?
         </p>
         
         <div className="flex gap-4">
