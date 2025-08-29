@@ -4,9 +4,10 @@ interface BackgroundAudioProps {
   isEnabled: boolean;
   trackUrl: string;
   volume?: number;
+  shouldPause?: boolean;
 }
 
-export function BackgroundAudio({ isEnabled, trackUrl, volume = 0.3 }: BackgroundAudioProps) {
+export function BackgroundAudio({ isEnabled, trackUrl, volume = 0.3, shouldPause = false }: BackgroundAudioProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -29,15 +30,17 @@ export function BackgroundAudio({ isEnabled, trackUrl, volume = 0.3 }: Backgroun
     const audio = audioRef.current;
     if (!audio || !isLoaded) return;
 
-    if (isEnabled) {
+    if (isEnabled && !shouldPause) {
       audio.volume = volume;
       audio.loop = true;
       audio.play().catch(console.error);
     } else {
       audio.pause();
-      audio.currentTime = 0;
+      if (!isEnabled) {
+        audio.currentTime = 0;
+      }
     }
-  }, [isEnabled, isLoaded, volume]);
+  }, [isEnabled, isLoaded, volume, shouldPause]);
 
   // Convert Yandex.Disk share links to server proxy
   const getProxyUrl = (shareUrl: string) => {

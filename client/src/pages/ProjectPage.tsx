@@ -14,6 +14,7 @@ export default function ProjectPage() {
   const projectId = params?.id;
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [showAudioChoice, setShowAudioChoice] = useState(false);
+  const [isMainPlayerPlaying, setIsMainPlayerPlaying] = useState(false);
   
   const project = projects.find(p => p.id === projectId);
 
@@ -124,6 +125,7 @@ export default function ProjectPage() {
               isEnabled={audioEnabled}
               trackUrl="https://disk.yandex.ru/d/_N303DN6vIaHbQ"
               volume={0.25}
+              shouldPause={isMainPlayerPlaying}
             />
           )}
 
@@ -294,6 +296,7 @@ export default function ProjectPage() {
                               url: 'https://disk.yandex.ru/d/TZkTlLawtVCNtA'
                             }
                           ]}
+                          onPlayStateChange={setIsMainPlayerPlaying}
                         />
                       </div>
                       <p>

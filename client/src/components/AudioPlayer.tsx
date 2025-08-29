@@ -10,9 +10,10 @@ interface Track {
 interface AudioPlayerProps {
   tracks: Track[];
   className?: string;
+  onPlayStateChange?: (isPlaying: boolean) => void;
 }
 
-export function AudioPlayer({ tracks, className = '' }: AudioPlayerProps) {
+export function AudioPlayer({ tracks, className = '', onPlayStateChange }: AudioPlayerProps) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -58,7 +59,10 @@ export function AudioPlayer({ tracks, className = '' }: AudioPlayerProps) {
     } else {
       audio.pause();
     }
-  }, [isPlaying, currentTrackIndex]);
+    
+    // Уведомляем родительский компонент об изменении состояния
+    onPlayStateChange?.(isPlaying);
+  }, [isPlaying, currentTrackIndex, onPlayStateChange]);
 
   useEffect(() => {
     const audio = audioRef.current;
