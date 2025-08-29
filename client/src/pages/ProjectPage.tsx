@@ -150,7 +150,6 @@ export default function ProjectPage() {
                           alt="Многослойное пространство спектакля" 
                           className="w-full rounded-lg shadow-lg"
                         />
-                        <p className="text-sm text-gray-400 mt-2 italic">Многослойное пространство сцены: три комнаты, заборы, подвижная конструкция</p>
                       </div>
 
                       <p>
@@ -166,7 +165,6 @@ export default function ProjectPage() {
                           alt="Общий план сцены с экраном" 
                           className="w-full rounded-lg shadow-lg"
                         />
-                        <p className="text-sm text-gray-400 mt-2 italic">Эффект «живого кино»: зритель видит параллельно спектакль и экранную версию</p>
                       </div>
                       <p>
                         От меня ждали не просто звука, а киношного звука — чтобы зритель поверил 
@@ -181,7 +179,6 @@ export default function ProjectPage() {
                             alt="Сцена из спектакля Идиот" 
                             className="w-full rounded-lg shadow-lg"
                           />
-                          <p className="text-sm text-gray-400 mt-2 italic">Реалистичные сцены в духе 90-х</p>
                         </div>
                         <div>
                           <img 
@@ -189,7 +186,6 @@ export default function ProjectPage() {
                             alt="Атмосферная сцена в кровати" 
                             className="w-full rounded-lg shadow-lg"
                           />
-                          <p className="text-sm text-gray-400 mt-2 italic">Атмосферные кадры с тщательной работой со звуком</p>
                         </div>
                       </div>
 
@@ -215,7 +211,6 @@ export default function ProjectPage() {
                           alt="Световое решение спектакля" 
                           className="w-full rounded-lg shadow-lg"
                         />
-                        <p className="text-sm text-gray-400 mt-2 italic">Световая драматургия и атмосферные эффекты</p>
                       </div>
 
                       <p className="bg-primary/10 border border-primary/30 p-4 rounded-lg">
