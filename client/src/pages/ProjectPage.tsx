@@ -4,12 +4,6 @@ import { projects } from "@/data/projects";
 import SEOHead from "@/components/SEOHead";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
@@ -128,231 +122,75 @@ export default function ProjectPage() {
                 </div>
               )}
 
-              {/* Expandable Case Study for Idiot */}
+              {/* Case Study for Idiot */}
               {project.id === "idiot-saratov-drama" && (
                 <div className="mt-8">
                   <h3 className="text-2xl font-russo font-bold text-white mb-6">Детальный кейс</h3>
                   
-                  <Accordion type="single" collapsible className="space-y-4">
-                    <AccordionItem value="team" className="glass-effect rounded-lg px-6">
-                      <AccordionTrigger className="text-white hover:text-primary font-medium">
-                        Творческая команда
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-300 space-y-3">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <span className="text-primary font-medium">Режиссёр:</span>
-                            <span className="ml-2">Иван Комаров</span>
-                          </div>
-                          <div>
-                            <span className="text-primary font-medium">Художник:</span>
-                            <span className="ml-2">Ольга Кузнецова</span>
-                          </div>
-                          <div>
-                            <span className="text-primary font-medium">Художник по свету:</span>
-                            <span className="ml-2">Максим Бирюков</span>
-                          </div>
-                          <div>
-                            <span className="text-primary font-medium">Композитор, саунд-дизайнер:</span>
-                            <span className="ml-2">Ян Кузьмичёв</span>
-                          </div>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
+                  <div className="glass-effect rounded-xl p-6 space-y-6">
+                    <div>
+                      <h4 className="text-xl font-semibold text-primary mb-4">Творческая команда</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
+                        <div><span className="text-primary font-medium">Режиссёр:</span> Иван Комаров</div>
+                        <div><span className="text-primary font-medium">Художник:</span> Ольга Кузнецова</div>
+                        <div><span className="text-primary font-medium">Художник по свету:</span> Максим Бирюков</div>
+                        <div><span className="text-primary font-medium">Композитор, саунд-дизайнер:</span> Ян Кузьмичёв</div>
+                      </div>
+                    </div>
 
-                    <AccordionItem value="concept" className="glass-effect rounded-lg px-6">
-                      <AccordionTrigger className="text-white hover:text-primary font-medium">
-                        Концепция и контекст
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-300 space-y-4">
-                        <p>
-                          Постановка по роману Достоевского, радикально переосмысленная Иваном Комаровым. 
-                          Всё действие перенесено в 1999 год — и не абстрактно, а конкретно в Саратов, 
-                          со всеми его реалиями.
-                        </p>
-                        <p>
-                          На сцене — живая и подвижная конструкция: три комнаты, заборы, многослойное 
-                          пространство. Особенность спектакля — сочетание театра и «живого кино»: два 
-                          оператора снимают происходящее, а зритель видит параллельно спектакль и его 
-                          экранную версию в духе 90-х.
-                        </p>
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem value="creative-task" className="glass-effect rounded-lg px-6">
-                      <AccordionTrigger className="text-white hover:text-primary font-medium">
-                        Творческая задача
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-300 space-y-4">
-                        <p>
-                          От меня ждали не просто звука, а киношного звука — чтобы зритель поверил 
-                          в происходящее на экране, как в хорошем сериале 90-х. Я вдохновлялся эстетикой 
-                          Twin Peaks, Секретных материалов и культовыми тв-проектами 90-х.
-                        </p>
-                        <p>Задача включала сразу несколько уровней:</p>
-                        <ul className="list-disc list-inside space-y-2 ml-4">
-                          <li>создание оригинальной музыки, поддерживающей драматургию</li>
-                          <li>полный цикл работы за звуковой консолью</li>
-                          <li>наполнение спектакля аутентичными шумами и атмосферой</li>
-                          <li>программирование всего звукового пласта в QLab и синхронизация с видео</li>
-                        </ul>
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem value="process" className="glass-effect rounded-lg px-6">
-                      <AccordionTrigger className="text-white hover:text-primary font-medium">
-                        Процесс работы
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-300 space-y-4">
-                        <p>
-                          Работа началась с первых репетиций: режиссёр присылал мне видео и черновые 
-                          сценарии. Первой композицией стала тема Настасьи Филипповны в жанре нуар-джаза — 
-                          именно от неё развернулась вся музыкальная драматургия.
-                        </p>
-                        <p>
-                          Затем я приехал в Саратов на две недели и в сжатые сроки создал основную партитуру. 
-                          Параллельно я записывал звуки города: старые красные трамваи, шаги, двери, шум толпы. 
-                          Эти полевые записи стали основой звукового мира спектакля.
-                        </p>
-                        <p>
-                          Важно было добиться реализма: если зритель видит на экране трамвай, он должен его 
-                          узнать. Поэтому я записывал всё сам — от скрипа дверей до объявлений остановок 
-                          и сигнала трамвая.
-                        </p>
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem value="technology" className="glass-effect rounded-lg px-6">
-                      <AccordionTrigger className="text-white hover:text-primary font-medium">
-                        Технологии и решения
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-300 space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <h4 className="font-medium text-primary mb-2">Программное обеспечение</h4>
-                            <ul className="space-y-1 text-sm">
-                              <li>• DAW: Logic Pro</li>
-                              <li>• Система управления: QLab 4 + консоль M32</li>
-                              <li>• OSC-команды для автоматизации</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-primary mb-2">Звуковые библиотеки</h4>
-                            <ul className="space-y-1 text-sm">
-                              <li>• Синтезаторы: Omnisphere</li>
-                              <li>• Оркестровые: Spitfire Labs, Kontakt</li>
-                              <li>• Сэмплы: Splice, Soundly</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-primary mb-2">ИИ-инструменты</h4>
-                            <ul className="space-y-1 text-sm">
-                              <li>• Udio (генерация музыкальных идей)</li>
-                              <li>• Голосовые нейросети для немецкой речи</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-primary mb-2">Полевые записи</h4>
-                            <ul className="space-y-1 text-sm">
-                              <li>• Красные трамваи Саратова</li>
-                              <li>• Городские шумы и атмосфера</li>
-                              <li>• Двери, шаги, объявления</li>
-                            </ul>
-                          </div>
-                        </div>
-                        <p className="mt-4 bg-gray-800/50 p-4 rounded-lg">
-                          <strong className="text-primary">Ключевая находка:</strong> использование нейросетей для 
-                          клонирования голоса актёра Александра Островного. Его герой, князь Мышкин, по сюжету 
-                          говорит на немецком. Актёр языка не знал, и я придумал решение: записал голос, 
-                          обработал через ИИ, и в спектакле прозвучал чистый немецкий язык голосом актёра.
-                        </p>
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem value="music" className="glass-effect rounded-lg px-6">
-                      <AccordionTrigger className="text-white hover:text-primary font-medium">
-                        Музыкальная партитура
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-300 space-y-4">
-                        <p>
-                          Музыкальный пласт включал 10 оригинальных композиций в жанрах нуар-джаз и пост-рок, 
-                          вдохновлённых композиторами золотой эпохи телевидения и эстетикой Дэвида Линча.
-                        </p>
-                        <p>
-                          Дополняли их мировые хиты 90-х, которые в спектакле звучали как бытовая музыка — 
-                          из магнитофонов, телевизоров, автомобильных радиоприёмников. Это создавало 
-                          аутентичную атмосферу эпохи.
-                        </p>
-                        <div className="bg-gray-800/50 p-4 rounded-lg">
-                          <h4 className="text-primary font-medium mb-2">Ключевые композиции:</h4>
-                          <ul className="space-y-1 text-sm">
-                            <li>• Тема Настасьи Филипповны (нуар-джаз)</li>
-                            <li>• Лейтмотивы персонажей</li>
-                            <li>• Городские атмосферы</li>
-                            <li>• Переходные темы между сценами</li>
-                          </ul>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem value="result" className="glass-effect rounded-lg px-6">
-                      <AccordionTrigger className="text-white hover:text-primary font-medium">
-                        Результат и реакция
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-300 space-y-4">
-                        <p>
-                          <strong className="text-primary">Финальный результат — эффект кино в театре.</strong>
-                        </p>
-                        <p>
-                          Зритель мог смотреть одновременно спектакль и экранную версию с крупными планами. 
-                          Звук создавал эффект присутствия: бытовая музыка звучала реалистично из окон и 
-                          бумбоксов, шум города оживал, а саундтрек вёл драматургию.
-                        </p>
-                        <div className="bg-green-900/20 border border-green-500/30 p-4 rounded-lg">
-                          <h4 className="text-green-400 font-medium mb-2">Отзывы:</h4>
-                          <ul className="space-y-2 text-sm">
-                            <li>• Пресса отметила новаторскую форму и «атмосферу живого кино»</li>
-                            <li>• Зрители заполняют зал на тысячу мест и возвращаются по несколько раз</li>
-                            <li>• Критики пишут хвалебные рецензии</li>
-                          </ul>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem value="contribution" className="glass-effect rounded-lg px-6">
-                      <AccordionTrigger className="text-white hover:text-primary font-medium">
-                        Мой вклад в проект
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-300 space-y-4">
-                        <ul className="space-y-3">
-                          <li className="flex items-start gap-3">
-                            <span className="text-primary mt-1">•</span>
-                            <span>Создание уникальной аудио-концепции спектакля: от полевых записей до 
-                            музыкальной партитуры</span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                            <span className="text-primary mt-1">•</span>
-                            <span>Применение нейросетей для немецкой речи героя — впервые в таком масштабе</span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                            <span className="text-primary mt-1">•</span>
-                            <span>Полная интеграция звука и видео в единую живую систему</span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                            <span className="text-primary mt-1">•</span>
-                            <span>Написание музыки, которая стала самостоятельным пластом спектакля</span>
-                          </li>
-                        </ul>
-                        <div className="bg-primary/10 border border-primary/30 p-4 rounded-lg mt-4">
-                          <p className="text-primary font-medium">
-                            Без моих записей города, без этой музыки и без экспериментов с голосами 
-                            спектакль звучал бы совсем иначе. Мой вклад здесь — это целый аудиомир, 
-                            который делает спектакль живым и убедительным.
-                          </p>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
+                    <div className="space-y-4 text-gray-300 leading-relaxed">
+                      <p>
+                        Постановка по роману Достоевского, радикально переосмысленная Иваном Комаровым. 
+                        Всё действие перенесено в 1999 год — и не абстрактно, а конкретно в Саратов, 
+                        со всеми его реалиями.
+                      </p>
+                      <p>
+                        На сцене — живая и подвижная конструкция: три комнаты, заборы, многослойное 
+                        пространство. Особенность спектакля — сочетание театра и «живого кино»: два 
+                        оператора снимают происходящее, а зритель видит параллельно спектакль и его 
+                        экранную версию в духе 90-х.
+                      </p>
+                      <p>
+                        От меня ждали не просто звука, а киношного звука — чтобы зритель поверил 
+                        в происходящее на экране, как в хорошем сериале 90-х. Я вдохновлялся эстетикой 
+                        Twin Peaks, Секретных материалов и культовыми тв-проектами 90-х.
+                      </p>
+                      <p>
+                        Работа началась с первых репетиций: режиссёр присылал мне видео и черновые 
+                        сценарии. Первой композицией стала тема Настасьи Филипповны в жанре нуар-джаза — 
+                        именно от неё развернулась вся музыкальная драматургия.
+                      </p>
+                      <p>
+                        Затем я приехал в Саратов на две недели и в сжатые сроки создал основную партитуру. 
+                        Параллельно я записывал звуки города: старые красные трамваи, шаги, двери, шум толпы. 
+                        Эти полевые записи стали основой звукового мира спектакля.
+                      </p>
+                      <p>
+                        Важно было добиться реализма: если зритель видит на экране трамвай, он должен его 
+                        узнать. Поэтому я записывал всё сам — от скрипа дверей до объявлений остановок 
+                        и сигнала трамвая.
+                      </p>
+                      <p className="bg-primary/10 border border-primary/30 p-4 rounded-lg">
+                        <strong className="text-primary">Ключевая находка:</strong> использование нейросетей для 
+                        клонирования голоса актёра Александра Островного. Его герой, князь Мышкин, по сюжету 
+                        говорит на немецком. Актёр языка не знал, и я придумал решение: записал голос, 
+                        обработал через ИИ, и в спектакле прозвучал чистый немецкий язык голосом актёра.
+                      </p>
+                      <p>
+                        Музыкальный пласт включал 10 оригинальных композиций в жанрах нуар-джаз и пост-рок, 
+                        вдохновлённых композиторами золотой эпохи телевидения и эстетикой Дэвида Линча.
+                        Дополняли их мировые хиты 90-х, которые в спектакле звучали как бытовая музыка — 
+                        из магнитофонов, телевизоров, автомобильных радиоприёмников.
+                      </p>
+                      <p>
+                        <strong className="text-primary">Финальный результат — эффект кино в театре.</strong> 
+                        Зритель мог смотреть одновременно спектакль и экранную версию с крупными планами. 
+                        Звук создавал эффект присутствия: бытовая музыка звучала реалистично из окон и 
+                        бумбоксов, шум города оживал, а саундтрек вёл драматургию. Без моих записей города, 
+                        без этой музыки и без экспериментов с голосами спектакль звучал бы совсем иначе.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
 
