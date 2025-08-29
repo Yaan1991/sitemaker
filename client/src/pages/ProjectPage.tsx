@@ -137,23 +137,62 @@ export default function ProjectPage() {
                       </div>
                     </div>
 
-                    <div className="space-y-4 text-gray-300 leading-relaxed">
+                    <div className="space-y-6 text-gray-300 leading-relaxed">
                       <p>
                         Постановка по роману Достоевского, радикально переосмысленная Иваном Комаровым. 
                         Всё действие перенесено в 1999 год — и не абстрактно, а конкретно в Саратов, 
                         со всеми его реалиями.
                       </p>
+                      
+                      <div className="my-6">
+                        <img 
+                          src="/images/idiot2_1756479054514.webp" 
+                          alt="Многослойное пространство спектакля" 
+                          className="w-full rounded-lg shadow-lg"
+                        />
+                        <p className="text-sm text-gray-400 mt-2 italic">Многослойное пространство сцены: три комнаты, заборы, подвижная конструкция</p>
+                      </div>
+
                       <p>
                         На сцене — живая и подвижная конструкция: три комнаты, заборы, многослойное 
                         пространство. Особенность спектакля — сочетание театра и «живого кино»: два 
                         оператора снимают происходящее, а зритель видит параллельно спектакль и его 
                         экранную версию в духе 90-х.
                       </p>
+
+                      <div className="my-6">
+                        <img 
+                          src="/images/idiot5_1756479169274.webp" 
+                          alt="Общий план сцены с экраном" 
+                          className="w-full rounded-lg shadow-lg"
+                        />
+                        <p className="text-sm text-gray-400 mt-2 italic">Эффект «живого кино»: зритель видит параллельно спектакль и экранную версию</p>
+                      </div>
                       <p>
                         От меня ждали не просто звука, а киношного звука — чтобы зритель поверил 
                         в происходящее на экране, как в хорошем сериале 90-х. Я вдохновлялся эстетикой 
                         Twin Peaks, Секретных материалов и культовыми тв-проектами 90-х.
                       </p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                        <div>
+                          <img 
+                            src="/images/idiot1_1756479054514.webp" 
+                            alt="Сцена из спектакля Идиот" 
+                            className="w-full rounded-lg shadow-lg"
+                          />
+                          <p className="text-sm text-gray-400 mt-2 italic">Реалистичные сцены в духе 90-х</p>
+                        </div>
+                        <div>
+                          <img 
+                            src="/images/idiot3_1756479054514.webp" 
+                            alt="Атмосферная сцена в кровати" 
+                            className="w-full rounded-lg shadow-lg"
+                          />
+                          <p className="text-sm text-gray-400 mt-2 italic">Атмосферные кадры с тщательной работой со звуком</p>
+                        </div>
+                      </div>
+
                       <p>
                         Работа началась с первых репетиций: режиссёр присылал мне видео и черновые 
                         сценарии. Первой композицией стала тема Настасьи Филипповны в жанре нуар-джаза — 
@@ -169,6 +208,16 @@ export default function ProjectPage() {
                         узнать. Поэтому я записывал всё сам — от скрипа дверей до объявлений остановок 
                         и сигнала трамвая.
                       </p>
+
+                      <div className="my-6">
+                        <img 
+                          src="/images/idiot4_1756479054514.webp" 
+                          alt="Световое решение спектакля" 
+                          className="w-full rounded-lg shadow-lg"
+                        />
+                        <p className="text-sm text-gray-400 mt-2 italic">Световая драматургия и атмосферные эффекты</p>
+                      </div>
+
                       <p className="bg-primary/10 border border-primary/30 p-4 rounded-lg">
                         <strong className="text-primary">Ключевая находка:</strong> использование нейросетей для 
                         клонирования голоса актёра Александра Островного. Его герой, князь Мышкин, по сюжету 
@@ -191,47 +240,6 @@ export default function ProjectPage() {
                     </div>
                   </div>
 
-                  {/* Photo Gallery */}
-                  <div className="mt-8">
-                    <h4 className="text-xl font-semibold text-primary mb-4">Фотографии из спектакля</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="aspect-video overflow-hidden rounded-lg">
-                        <img 
-                          src="/images/idiot1_1756479054514.webp" 
-                          alt="Сцена из спектакля Идиот" 
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="aspect-video overflow-hidden rounded-lg">
-                        <img 
-                          src="/images/idiot2_1756479054514.webp" 
-                          alt="Многослойное пространство спектакля" 
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="aspect-video overflow-hidden rounded-lg">
-                        <img 
-                          src="/images/idiot3_1756479054514.webp" 
-                          alt="Атмосферная сцена в кровати" 
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="aspect-video overflow-hidden rounded-lg">
-                        <img 
-                          src="/images/idiot4_1756479054514.webp" 
-                          alt="Световое решение спектакля" 
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="aspect-video overflow-hidden rounded-lg lg:col-span-2">
-                        <img 
-                          src="/images/idiot5_1756479169274.webp" 
-                          alt="Общий план сцены с экраном" 
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    </div>
-                  </div>
                 </div>
               )}
 
