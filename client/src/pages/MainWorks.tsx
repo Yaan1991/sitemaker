@@ -10,7 +10,7 @@ const mainWorks = [
   {
     id: "idiot-saratov-drama",
     title: "Идиот",
-    year: "2023",
+    year: "2024",
     category: "Театр",
     description: "Уникальное сочетание театра и кино: нуар-джаз + полевые записи + ИИ-технологии.",
   },

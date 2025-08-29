@@ -24,7 +24,7 @@ const projectCategories: ProjectCategory[] = [
       {
         id: "idiot-saratov-drama",
         title: "Идиот",
-        year: "2023",
+        year: "2024",
         description: "Уникальное сочетание театра и кино: нуар-джаз + полевые записи + ИИ-технологии.",
         image: "/images/idiot_main.webp"
       },

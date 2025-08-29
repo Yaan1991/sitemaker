@@ -546,7 +546,7 @@ export const allProjects: AllProject[] = [
   },
   {
     id: "idiot",
-    year: "2023",
+    year: "2024",
     title: "Идиот",
     theater: "Саратовский театр драмы им. Слонова",
     director: "Иван Комаров",
