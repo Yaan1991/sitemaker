@@ -4,6 +4,7 @@ import { projects } from "@/data/projects";
 import SEOHead from "@/components/SEOHead";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
+import { AudioPlayer } from "@/components/AudioPlayer";
 
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
@@ -201,6 +202,33 @@ export default function ProjectPage() {
                         Дополняли их мировые хиты 90-х, которые в спектакле звучали как бытовая музыка — 
                         из магнитофонов, телевизоров, автомобильных радиоприёмников.
                       </p>
+
+                      <div className="my-8">
+                        <AudioPlayer 
+                          tracks={[
+                            {
+                              id: 'myshkin',
+                              title: 'Тема Мышкина',
+                              url: 'https://disk.yandex.ru/d/hJbZ_RPemfQ-Bw'
+                            },
+                            {
+                              id: 'nastasya',
+                              title: 'Тема Настасьи Филипповны',
+                              url: 'https://disk.yandex.ru/d/_N303DN6vIaHbQ'
+                            },
+                            {
+                              id: 'nastasya_nightmare',
+                              title: 'Кошмар Настасьи Филипповны',
+                              url: 'https://disk.yandex.ru/d/Gg5FM6qFqTTVgg'
+                            },
+                            {
+                              id: 'city',
+                              title: 'Тема города',
+                              url: 'https://disk.yandex.ru/d/TZkTlLawtVCNtA'
+                            }
+                          ]}
+                        />
+                      </div>
                       <p>
                         <strong className="text-primary">Финальный результат — эффект кино в театре. </strong> 
                         Зритель мог смотреть одновременно спектакль и экранную версию с крупными планами. 
