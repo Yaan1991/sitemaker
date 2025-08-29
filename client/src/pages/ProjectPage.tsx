@@ -39,7 +39,6 @@ export default function ProjectPage() {
         title={`${project.title} — ${project.year} | Ян Кузьмичёв`}
         description={project.fullDescription}
       />
-      
       <div className="min-h-screen pt-24 pb-12">
         <div className="container mx-auto px-6">
           
@@ -183,7 +182,7 @@ export default function ProjectPage() {
                         из магнитофонов, телевизоров, автомобильных радиоприёмников.
                       </p>
                       <p>
-                        <strong className="text-primary">Финальный результат — эффект кино в театре.</strong> 
+                        <strong className="text-primary">Финальный результат — эффект кино в театре. </strong> 
                         Зритель мог смотреть одновременно спектакль и экранную версию с крупными планами. 
                         Звук создавал эффект присутствия: бытовая музыка звучала реалистично из окон и 
                         бумбоксов, шум города оживал, а саундтрек вёл драматургию. Без моих записей города, 
