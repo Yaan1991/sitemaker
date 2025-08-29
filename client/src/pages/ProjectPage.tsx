@@ -2,13 +2,16 @@ import { motion } from "framer-motion";
 import { useRoute } from "wouter";
 import { projects } from "@/data/projects";
 import SEOHead from "@/components/SEOHead";
-import { ExternalLink, ArrowLeft } from "lucide-react";
+import { ExternalLink, ArrowLeft, Volume2, VolumeX } from "lucide-react";
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
+import { BackgroundAudio } from "@/components/BackgroundAudio";
+import { useState } from "react";
 
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
+  const [audioEnabled, setAudioEnabled] = useState(false);
   
   const project = projects.find(p => p.id === projectId);
 
@@ -43,12 +46,12 @@ export default function ProjectPage() {
       <div className="min-h-screen pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-6">
           
-          {/* Back Button */}
+          {/* Back Button and Audio Toggle */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="mb-8"
+            className="mb-8 flex items-center justify-between"
           >
             <Link 
               href="/"
@@ -58,7 +61,44 @@ export default function ProjectPage() {
               <ArrowLeft className="w-5 h-5" />
               Назад
             </Link>
+
+            {/* Audio Toggle - только для проекта "Идиот" */}
+            {project.id === "idiot-saratov-drama" && (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-400">Музыка из спектакля:</span>
+                <button
+                  onClick={() => setAudioEnabled(!audioEnabled)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                    audioEnabled
+                      ? 'bg-primary text-black shadow-lg shadow-primary/25'
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  }`}
+                  data-testid="button-audio-toggle"
+                >
+                  {audioEnabled ? (
+                    <>
+                      <Volume2 className="w-4 h-4" />
+                      <span className="text-sm font-medium">Включено</span>
+                    </>
+                  ) : (
+                    <>
+                      <VolumeX className="w-4 h-4" />
+                      <span className="text-sm font-medium">Выключено</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
           </motion.div>
+
+          {/* Background Audio для проекта "Идиот" */}
+          {project.id === "idiot-saratov-drama" && (
+            <BackgroundAudio
+              isEnabled={audioEnabled}
+              trackUrl="https://disk.yandex.ru/d/_N303DN6vIaHbQ"
+              volume={0.25}
+            />
+          )}
 
           <div className="grid lg:grid-cols-3 gap-8 items-start">
             
@@ -207,14 +247,14 @@ export default function ProjectPage() {
                         <AudioPlayer 
                           tracks={[
                             {
-                              id: 'myshkin',
-                              title: 'Тема Мышкина',
-                              url: 'https://disk.yandex.ru/d/hJbZ_RPemfQ-Bw'
-                            },
-                            {
                               id: 'nastasya',
                               title: 'Тема Настасьи Филипповны',
                               url: 'https://disk.yandex.ru/d/_N303DN6vIaHbQ'
+                            },
+                            {
+                              id: 'myshkin',
+                              title: 'Тема Мышкина',
+                              url: 'https://disk.yandex.ru/d/hJbZ_RPemfQ-Bw'
                             },
                             {
                               id: 'nastasya_nightmare',
