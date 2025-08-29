@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Volume2, VolumeX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
+import { useAudio } from "@/contexts/AudioContext";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [location] = useLocation();
+  const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
 
   const mainNavigation = [
     { name: "Обо мне", href: "/about" },
@@ -47,8 +49,23 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop Menu Button */}
-          <div className="hidden md:block relative">
+          {/* Audio Toggle & Desktop Menu */}
+          <div className="hidden md:flex items-center gap-4">
+            {/* Audio Toggle */}
+            <button
+              onClick={toggleGlobalAudio}
+              className={`p-2 rounded-lg transition-all duration-300 ${
+                isGlobalAudioEnabled 
+                  ? 'text-primary bg-primary/10 hover:bg-primary/20' 
+                  : 'text-muted-foreground hover:text-white hover:bg-white/5'
+              }`}
+              data-testid="button-audio-toggle"
+              title={isGlobalAudioEnabled ? 'Выключить звук' : 'Включить звук'}
+            >
+              {isGlobalAudioEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
+            </button>
+            
+            {/* Menu Button */}
             <button
               className="text-white hover:text-primary focus:outline-none transition-colors duration-300"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -117,18 +134,34 @@ export default function Header() {
             </AnimatePresence>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-white focus:outline-none"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            data-testid="button-mobile-menu"
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+          {/* Mobile Audio Toggle & Menu */}
+          <div className="md:hidden flex items-center gap-3">
+            {/* Mobile Audio Toggle */}
+            <button
+              onClick={toggleGlobalAudio}
+              className={`p-2 rounded-lg transition-all duration-300 ${
+                isGlobalAudioEnabled 
+                  ? 'text-primary bg-primary/10' 
+                  : 'text-muted-foreground hover:text-white'
+              }`}
+              data-testid="button-mobile-audio-toggle"
+            >
+              {isGlobalAudioEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+            </button>
+            
+            {/* Mobile Menu Button */}
+            <button
+              className="text-white focus:outline-none"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              data-testid="button-mobile-menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu Dropdown */}

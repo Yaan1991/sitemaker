@@ -1,12 +1,16 @@
 import { motion } from "framer-motion";
 import Header from "./Header";
 import Footer from "./Footer";
+import { AudioChoiceModal } from "./AudioChoiceModal";
+import { useAudio } from "@/contexts/AudioContext";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const { showWelcomeModal, handleWelcomeChoice } = useAudio();
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -19,6 +23,12 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </motion.main>
       <Footer />
+      
+      {/* Глобальное модальное окно приветствия */}
+      <AudioChoiceModal
+        isOpen={showWelcomeModal}
+        onChoice={handleWelcomeChoice}
+      />
     </div>
   );
 }

@@ -2,40 +2,18 @@ import { motion } from "framer-motion";
 import { useRoute } from "wouter";
 import { projects } from "@/data/projects";
 import SEOHead from "@/components/SEOHead";
-import { ExternalLink, ArrowLeft, Volume2, VolumeX } from "lucide-react";
+import { ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
-import { BackgroundAudio } from "@/components/BackgroundAudio";
-import { AudioChoiceModal } from "@/components/AudioChoiceModal";
-import { useState, useEffect } from "react";
+import { PageAudio } from "@/components/PageAudio";
+import { useState } from "react";
 
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
-  const [audioEnabled, setAudioEnabled] = useState(false);
-  const [showAudioChoice, setShowAudioChoice] = useState(false);
   const [isMainPlayerPlaying, setIsMainPlayerPlaying] = useState(false);
   
   const project = projects.find(p => p.id === projectId);
-
-  // Показываем модальное окно выбора звука для проекта "Идиот" при первом заходе
-  useEffect(() => {
-    if (project?.id === "idiot-saratov-drama") {
-      const hasSeenAudioChoice = sessionStorage.getItem(`audio-choice-${project.id}`);
-      if (!hasSeenAudioChoice) {
-        setShowAudioChoice(true);
-      }
-    }
-  }, [project?.id]);
-
-  const handleAudioChoice = (withAudio: boolean) => {
-    setAudioEnabled(withAudio);
-    setShowAudioChoice(false);
-    // Запоминаем выбор для текущей сессии
-    if (project?.id) {
-      sessionStorage.setItem(`audio-choice-${project.id}`, 'true');
-    }
-  };
 
   if (!project) {
     return (
@@ -66,20 +44,15 @@ export default function ProjectPage() {
         description={project.fullDescription}
       />
       
-      {/* Modal выбора звука */}
-      <AudioChoiceModal 
-        isOpen={showAudioChoice}
-        onChoice={handleAudioChoice}
-      />
       <div className="min-h-screen pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-6">
           
-          {/* Back Button and Audio Toggle */}
+          {/* Back Button */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="mb-8 flex items-center justify-between"
+            className="mb-8"
           >
             <Link 
               href="/"
@@ -89,45 +62,10 @@ export default function ProjectPage() {
               <ArrowLeft className="w-5 h-5" />
               Назад
             </Link>
-
-            {/* Audio Toggle - только для проекта "Идиот" */}
-            {project.id === "idiot-saratov-drama" && (
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-400">Музыка из спектакля:</span>
-                <button
-                  onClick={() => setAudioEnabled(!audioEnabled)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
-                    audioEnabled
-                      ? 'bg-primary text-black shadow-lg shadow-primary/25'
-                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                  }`}
-                  data-testid="button-audio-toggle"
-                >
-                  {audioEnabled ? (
-                    <>
-                      <Volume2 className="w-4 h-4" />
-                      <span className="text-sm font-medium">Включено</span>
-                    </>
-                  ) : (
-                    <>
-                      <VolumeX className="w-4 h-4" />
-                      <span className="text-sm font-medium">Выключено</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
           </motion.div>
 
-          {/* Background Audio для проекта "Идиот" */}
-          {project.id === "idiot-saratov-drama" && (
-            <BackgroundAudio
-              isEnabled={audioEnabled}
-              trackUrl="https://disk.yandex.ru/d/_N303DN6vIaHbQ"
-              volume={0.25}
-              shouldPause={isMainPlayerPlaying}
-            />
-          )}
+          {/* Фоновая музыка для страницы */}
+          <PageAudio isMainPlayerPlaying={isMainPlayerPlaying} />
 
           <div className="grid lg:grid-cols-3 gap-8 items-start">
             
