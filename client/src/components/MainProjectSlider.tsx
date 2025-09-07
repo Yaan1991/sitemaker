@@ -131,6 +131,26 @@ function ProjectCard({
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/20 sm:bg-gradient-to-r sm:from-black sm:via-black/70 sm:to-transparent" />
       </div>
 
+      {/* Navigation arrows - positioned relative to the entire card */}
+      {category.projects.length > 1 && (
+        <>
+          <button
+            onClick={onPrev}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+            data-testid="button-prev"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={onNext}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+            data-testid="button-next"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </>
+      )}
+
       <div className="relative z-10 h-full flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-12 max-w-2xl">
         {/* Header */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-4 md:mb-6">
@@ -172,26 +192,6 @@ function ProjectCard({
             </motion.div>
           </AnimatePresence>
         </div>
-
-      {/* Navigation arrows - positioned relative to the entire card */}
-      {category.projects.length > 1 && (
-        <>
-          <button
-            onClick={onPrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
-            data-testid="button-prev"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button
-            onClick={onNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
-            data-testid="button-next"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </>
-      )}
 
         {/* Clickable indicators */}
         <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-6 md:mt-8">
