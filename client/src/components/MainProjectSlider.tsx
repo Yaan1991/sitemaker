@@ -210,7 +210,7 @@ export default function MainProjectSlider() {
   }, []);
 
   return (
-    <section className="py-20 px-6">
+    <section id="main-projects" className="py-20 px-6">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -250,7 +250,7 @@ export default function MainProjectSlider() {
         >
           <Link
             href="/projects"
-            className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all duration-300 neon-glow-hover"
+            className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon"
             data-testid="link-all-projects"
           >
             Все работы

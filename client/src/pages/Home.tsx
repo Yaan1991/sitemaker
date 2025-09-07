@@ -10,7 +10,10 @@ export default function Home() {
       <div className="min-h-screen">
         <Hero />
         
-        {/* Simple About Section */}
+        {/* Main Projects Section */}
+        <MainProjectSlider />
+        
+        {/* About Section - после основных работ */}
         <section className="py-20 px-6">
           <div className="container mx-auto max-w-4xl">
             <motion.div
@@ -27,9 +30,6 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
-        
-        {/* Main Projects Section */}
-        <MainProjectSlider />
       </div>
     </>
   );

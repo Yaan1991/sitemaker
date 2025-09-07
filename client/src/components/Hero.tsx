@@ -32,20 +32,23 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-muted-foreground mb-8 font-light"
-        >14+ лет опыта • 100+ проектов • Театр • Кино • Аудиобрендинг</motion.p>
+        >Композитор; Саунд-дизайнер; Звукорежиссер</motion.p>
         
-        <motion.a
+        <motion.button
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          href="https://band.link/zDZyK"
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={() => {
+            const element = document.getElementById('main-projects');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
           className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon"
-          data-testid="button-listen"
+          data-testid="button-view-works"
         >
-          Слушать
-        </motion.a>
+          Смотреть работы
+        </motion.button>
       </div>
       {/* Scroll Indicator */}
       <motion.div
