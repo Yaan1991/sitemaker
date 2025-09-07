@@ -1,13 +1,23 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+interface Track {
+  id: string;
+  title: string;
+  url: string;
+}
+
 interface AudioContextType {
   isGlobalAudioEnabled: boolean;
   toggleGlobalAudio: () => void;
   showWelcomeModal: boolean;
   setShowWelcomeModal: (show: boolean) => void;
   handleWelcomeChoice: (enabled: boolean) => void;
-  currentTrack: string | null;
-  setCurrentTrack: (track: string | null) => void;
+  currentPlaylist: Track[] | null;
+  currentTrackIndex: number;
+  setCurrentPlaylist: (playlist: Track[] | null) => void;
+  setCurrentTrackIndex: (index: number) => void;
+  nextTrack: () => void;
+  prevTrack: () => void;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -15,7 +25,8 @@ const AudioContext = createContext<AudioContextType | undefined>(undefined);
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState<string | null>(null);
+  const [currentPlaylist, setCurrentPlaylist] = useState<Track[] | null>(null);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
   // Проверяем при загрузке, показывали ли уже приветствие
   useEffect(() => {
@@ -42,6 +53,18 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('global-audio-enabled', enabled.toString());
   };
 
+  const nextTrack = () => {
+    if (currentPlaylist && currentTrackIndex < currentPlaylist.length - 1) {
+      setCurrentTrackIndex(currentTrackIndex + 1);
+    }
+  };
+
+  const prevTrack = () => {
+    if (currentPlaylist && currentTrackIndex > 0) {
+      setCurrentTrackIndex(currentTrackIndex - 1);
+    }
+  };
+
   return (
     <AudioContext.Provider value={{
       isGlobalAudioEnabled,
@@ -49,8 +72,12 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       showWelcomeModal,
       setShowWelcomeModal,
       handleWelcomeChoice,
-      currentTrack,
-      setCurrentTrack
+      currentPlaylist,
+      currentTrackIndex,
+      setCurrentPlaylist,
+      setCurrentTrackIndex,
+      nextTrack,
+      prevTrack
     }}>
       {children}
     </AudioContext.Provider>

@@ -3,6 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { AudioChoiceModal } from "./AudioChoiceModal";
 import { GlobalAudioPlayer } from "./GlobalAudioPlayer";
+import { PlaylistControls } from "./PlaylistControls";
 import { useAudio } from "@/contexts/AudioContext";
 
 interface LayoutProps {
@@ -27,6 +28,9 @@ export default function Layout({ children }: LayoutProps) {
       
       {/* Глобальный аудиоплеер */}
       <GlobalAudioPlayer />
+      
+      {/* Контролы плейлиста */}
+      <PlaylistControls />
       
       {/* Глобальное модальное окно приветствия */}
       <AudioChoiceModal

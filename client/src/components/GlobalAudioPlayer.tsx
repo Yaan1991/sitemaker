@@ -2,20 +2,59 @@ import { useRef, useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useAudio } from '@/contexts/AudioContext';
 
-// Мэппинг страниц на треки
-const pageTrackMap: Record<string, string> = {
-  '/': 'https://disk.yandex.ru/d/qD8DD5RQ16ehsw', // Музыка для главной
-  '/project/idiot-saratov-drama': 'https://disk.yandex.ru/d/_N303DN6vIaHbQ', // ТОЛЬКО для Идиота!
-  // Остальные страницы без музыки
+interface Track {
+  id: string;
+  title: string;
+  url: string;
+}
+
+// Мэппинг страниц на треки/плейлисты
+const pageTrackMap: Record<string, Track[] | Track> = {
+  '/': {
+    id: 'homepage',
+    title: 'Фоновая музыка',
+    url: 'https://disk.yandex.ru/d/qD8DD5RQ16ehsw'
+  },
+  '/project/idiot-saratov-drama': [
+    {
+      id: 'nastasya',
+      title: 'Тема Настасьи Филипповны',
+      url: 'https://disk.yandex.ru/d/_N303DN6vIaHbQ'
+    },
+    {
+      id: 'myshkin',
+      title: 'Тема Мышкина',
+      url: 'https://disk.yandex.ru/d/hJbZ_RPemfQ-Bw'
+    },
+    {
+      id: 'nastasya_nightmare',
+      title: 'Кошмар Настасьи Филипповны',
+      url: 'https://disk.yandex.ru/d/Gg5FM6qFqTTVgg'
+    },
+    {
+      id: 'city',
+      title: 'Тема города',
+      url: 'https://disk.yandex.ru/d/TZkTlLawtVCNtA'
+    }
+  ]
 };
 
 export function GlobalAudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [location] = useLocation();
-  const { isGlobalAudioEnabled, currentTrack, setCurrentTrack } = useAudio();
+  const { 
+    isGlobalAudioEnabled, 
+    currentPlaylist, 
+    currentTrackIndex,
+    setCurrentPlaylist,
+    setCurrentTrackIndex
+  } = useAudio();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Получение текущего трека
+  const currentTrack = currentPlaylist ? currentPlaylist[currentTrackIndex] : null;
 
   // Конвертация Yandex.Disk ссылок в прокси
   const getProxyUrl = (shareUrl: string) => {
@@ -28,15 +67,15 @@ export function GlobalAudioPlayer() {
   // Плавный фейд-ин (3 секунды)
   const fadeIn = () => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !currentTrack) return;
 
     audio.volume = 0;
     audio.play().catch(console.error);
     setIsPlaying(true);
 
     let currentVolume = 0;
-    const targetVolume = 0.15; // Уменьшил громкость фоновой музыки для лучшего баланса
-    const fadeStep = targetVolume / (3000 / 50); // 3 секунды, шаг каждые 50мс
+    const targetVolume = 0.25;
+    const fadeStep = targetVolume / (3000 / 50); // 3 секунды
 
     fadeIntervalRef.current = setInterval(() => {
       currentVolume += fadeStep;
@@ -62,7 +101,7 @@ export function GlobalAudioPlayer() {
     }
 
     let currentVolume = audio.volume;
-    const fadeStep = currentVolume / (6000 / 50); // 6 секунд для кроссфейда
+    const fadeStep = currentVolume / (6000 / 50); // 6 секунд
 
     fadeIntervalRef.current = setInterval(() => {
       currentVolume -= fadeStep;
@@ -82,47 +121,75 @@ export function GlobalAudioPlayer() {
     }, 50);
   };
 
-  // Смена трека с кроссфейдом (6 сек фейдаут + 3 сек фейд-ин)
-  const changeTrack = (newTrackUrl: string) => {
-    if (currentTrack === newTrackUrl) return;
+  // Смена плейлиста/трека с кроссфейдом
+  const changePlaylist = (newContent: Track[] | Track) => {
+    const newPlaylist = Array.isArray(newContent) ? newContent : [newContent];
+    
+    // Проверяем, изменился ли плейлист
+    const isSamePlaylist = 
+      currentPlaylist && 
+      currentPlaylist.length === newPlaylist.length &&
+      currentPlaylist.every((track, index) => track.id === newPlaylist[index]?.id);
+    
+    if (isSamePlaylist) return;
 
     if (isPlaying) {
       // 6 секунд фейдаут текущего трека
       fadeOut(() => {
-        // Устанавливаем новый трек после фейдаута
-        setCurrentTrack(newTrackUrl);
+        setCurrentPlaylist(newPlaylist);
+        setCurrentTrackIndex(0); // Начинаем с первого трека в плейлисте
       });
     } else {
-      setCurrentTrack(newTrackUrl);
+      setCurrentPlaylist(newPlaylist);
+      setCurrentTrackIndex(0);
     }
   };
 
   // Отслеживание изменения страницы
   useEffect(() => {
-    const trackForPage = pageTrackMap[location];
+    const contentForPage = pageTrackMap[location];
     
-    if (trackForPage && isGlobalAudioEnabled) {
-      changeTrack(trackForPage);
-    } else if (!trackForPage && isPlaying) {
+    if (contentForPage && isGlobalAudioEnabled) {
+      changePlaylist(contentForPage);
+    } else if (!contentForPage && isPlaying) {
       // Останавливаем музыку на страницах без треков
       fadeOut(() => {
-        setCurrentTrack(null);
+        setCurrentPlaylist(null);
+        setCurrentTrackIndex(0);
       });
     }
   }, [location, isGlobalAudioEnabled]);
 
-  // Загрузка аудио
+  // Отслеживание смены трека в плейлисте
+  useEffect(() => {
+    if (currentTrack && isGlobalAudioEnabled && !isPlaying) {
+      setIsLoaded(false); // Сбрасываем состояние загрузки при смене трека
+    }
+  }, [currentTrackIndex]);
+
+  // Загрузка аудио при смене трека
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !currentTrack) return;
+
+    // Останавливаем текущее воспроизведение и сбрасываем время
+    audio.pause();
+    audio.currentTime = 0;
+    setIsPlaying(false);
+    setIsLoaded(false);
 
     const handleLoadedData = () => {
       setIsLoaded(true);
     };
 
     const handleEnded = () => {
-      audio.currentTime = 0;
-      audio.play().catch(console.error);
+      // Автоматический переход к следующему треку в плейлисте
+      if (currentPlaylist && currentTrackIndex < currentPlaylist.length - 1) {
+        setCurrentTrackIndex(currentTrackIndex + 1);
+      } else {
+        // Зацикливаем плейлист
+        setCurrentTrackIndex(0);
+      }
     };
 
     audio.addEventListener('loadeddata', handleLoadedData);
@@ -159,8 +226,7 @@ export function GlobalAudioPlayer() {
   return (
     <audio
       ref={audioRef}
-      src={getProxyUrl(currentTrack)}
-      loop
+      src={getProxyUrl(currentTrack.url)}
       preload="auto"
       style={{ display: 'none' }}
     />

@@ -208,32 +208,10 @@ export default function ProjectPage() {
                         из магнитофонов, телевизоров, автомобильных радиоприёмников.
                       </p>
 
-                      <div className="my-8">
-                        <AudioPlayer 
-                          tracks={[
-                            {
-                              id: 'nastasya',
-                              title: 'Тема Настасьи Филипповны',
-                              url: 'https://disk.yandex.ru/d/_N303DN6vIaHbQ'
-                            },
-                            {
-                              id: 'myshkin',
-                              title: 'Тема Мышкина',
-                              url: 'https://disk.yandex.ru/d/hJbZ_RPemfQ-Bw'
-                            },
-                            {
-                              id: 'nastasya_nightmare',
-                              title: 'Кошмар Настасьи Филипповны',
-                              url: 'https://disk.yandex.ru/d/Gg5FM6qFqTTVgg'
-                            },
-                            {
-                              id: 'city',
-                              title: 'Тема города',
-                              url: 'https://disk.yandex.ru/d/TZkTlLawtVCNtA'
-                            }
-                          ]}
-                          onPlayStateChange={setIsMainPlayerPlaying}
-                        />
+                      <div className="my-8 p-4 bg-primary/10 border border-primary/30 rounded-lg">
+                        <p className="text-primary font-medium text-center">
+                          🎵 Музыка из спектакля управляется через единый плеер внизу экрана
+                        </p>
                       </div>
                       <p>
                         <strong className="text-primary">Финальный результат — эффект кино в театре. </strong> 
