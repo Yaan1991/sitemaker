@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Project {
   id: string;
@@ -93,7 +94,19 @@ const projectCategories: ProjectCategory[] = [
   }
 ];
 
-function ProjectCard({ category, currentIndex }: { category: ProjectCategory, currentIndex: number }) {
+function ProjectCard({ 
+  category, 
+  currentIndex, 
+  onNext, 
+  onPrev, 
+  onGoTo 
+}: { 
+  category: ProjectCategory, 
+  currentIndex: number,
+  onNext: () => void,
+  onPrev: () => void,
+  onGoTo: (index: number) => void
+}) {
   const currentProject = category.projects[currentIndex];
   
   return (
@@ -160,16 +173,38 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
           </AnimatePresence>
         </div>
 
-        {/* Slider indicators */}
+        {/* Navigation arrows */}
+        {category.projects.length > 1 && (
+          <>
+            <button
+              onClick={onPrev}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+              data-testid="button-prev"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={onNext}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+              data-testid="button-next"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </>
+        )}
+
+        {/* Clickable indicators */}
         <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-6 md:mt-8">
           {category.projects.map((_, index) => (
-            <div
+            <button
               key={index}
-              className={`h-1 sm:h-1.5 w-8 sm:w-10 md:w-12 rounded-full transition-all duration-300 ${
+              onClick={() => onGoTo(index)}
+              className={`h-1 sm:h-1.5 w-8 sm:w-10 md:w-12 rounded-full transition-all duration-300 hover:scale-125 cursor-pointer ${
                 index === currentIndex 
                   ? 'bg-primary' 
-                  : 'bg-gray-600'
+                  : 'bg-gray-600 hover:bg-gray-500'
               }`}
+              data-testid={`indicator-${index}`}
             />
           ))}
         </div>
@@ -180,10 +215,65 @@ function ProjectCard({ category, currentIndex }: { category: ProjectCategory, cu
 
 export default function MainProjectSlider() {
   const [currentIndices, setCurrentIndices] = useState([0, 0, 0]);
+  const [userInteracted, setUserInteracted] = useState([false, false, false]);
+  const intervalsRef = useRef<NodeJS.Timeout[]>([]);
+  const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
+
+  const resetAutoSlide = (categoryIndex: number) => {
+    // Clear existing timeout for this category
+    if (timeoutsRef.current[categoryIndex]) {
+      clearTimeout(timeoutsRef.current[categoryIndex]);
+    }
+    
+    // Set user interaction flag
+    setUserInteracted(prev => {
+      const newState = [...prev];
+      newState[categoryIndex] = true;
+      return newState;
+    });
+    
+    // Resume auto-slide after 10 seconds of inactivity
+    timeoutsRef.current[categoryIndex] = setTimeout(() => {
+      setUserInteracted(prev => {
+        const newState = [...prev];
+        newState[categoryIndex] = false;
+        return newState;
+      });
+    }, 10000);
+  };
+
+  const handleNext = (categoryIndex: number) => {
+    resetAutoSlide(categoryIndex);
+    setCurrentIndices(prev => {
+      const newIndices = [...prev];
+      const maxIndex = projectCategories[categoryIndex].projects.length - 1;
+      newIndices[categoryIndex] = newIndices[categoryIndex] >= maxIndex ? 0 : newIndices[categoryIndex] + 1;
+      return newIndices;
+    });
+  };
+
+  const handlePrev = (categoryIndex: number) => {
+    resetAutoSlide(categoryIndex);
+    setCurrentIndices(prev => {
+      const newIndices = [...prev];
+      const maxIndex = projectCategories[categoryIndex].projects.length - 1;
+      newIndices[categoryIndex] = newIndices[categoryIndex] <= 0 ? maxIndex : newIndices[categoryIndex] - 1;
+      return newIndices;
+    });
+  };
+
+  const handleGoTo = (categoryIndex: number, projectIndex: number) => {
+    resetAutoSlide(categoryIndex);
+    setCurrentIndices(prev => {
+      const newIndices = [...prev];
+      newIndices[categoryIndex] = projectIndex;
+      return newIndices;
+    });
+  };
 
   useEffect(() => {
     // Create separate intervals for each category with different delays
-    const intervals: NodeJS.Timeout[] = [];
+    intervalsRef.current = [];
     
     projectCategories.forEach((_, categoryIndex) => {
       const startDelay = categoryIndex * 1000; // 0ms, 1000ms, 2000ms delays
@@ -192,22 +282,26 @@ export default function MainProjectSlider() {
         const interval = setInterval(() => {
           setCurrentIndices(prev => {
             const newIndices = [...prev];
-            const maxIndex = projectCategories[categoryIndex].projects.length - 1;
-            newIndices[categoryIndex] = newIndices[categoryIndex] >= maxIndex ? 0 : newIndices[categoryIndex] + 1;
+            // Only auto-advance if user hasn't interacted recently
+            if (!userInteracted[categoryIndex]) {
+              const maxIndex = projectCategories[categoryIndex].projects.length - 1;
+              newIndices[categoryIndex] = newIndices[categoryIndex] >= maxIndex ? 0 : newIndices[categoryIndex] + 1;
+            }
             return newIndices;
           });
         }, 5000); // 5 seconds
         
-        intervals.push(interval);
+        intervalsRef.current.push(interval);
       }, startDelay);
       
-      intervals.push(timeout);
+      intervalsRef.current.push(timeout);
     });
 
     return () => {
-      intervals.forEach(interval => clearInterval(interval));
+      intervalsRef.current.forEach(interval => clearInterval(interval));
+      timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
     };
-  }, []);
+  }, [userInteracted]);
 
   return (
     <section id="main-projects" className="py-20 px-6">
@@ -236,7 +330,10 @@ export default function MainProjectSlider() {
             >
               <ProjectCard 
                 category={category} 
-                currentIndex={currentIndices[categoryIndex]} 
+                currentIndex={currentIndices[categoryIndex]}
+                onNext={() => handleNext(categoryIndex)}
+                onPrev={() => handlePrev(categoryIndex)}
+                onGoTo={(projectIndex) => handleGoTo(categoryIndex, projectIndex)}
               />
             </motion.div>
           ))}
