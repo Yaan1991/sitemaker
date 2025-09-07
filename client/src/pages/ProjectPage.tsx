@@ -45,7 +45,7 @@ export default function ProjectPage() {
         description={project.fullDescription}
       />
       
-      <div className="min-h-screen pt-24 pb-12">
+      <div className={`min-h-screen pt-24 pb-12 ${project.id === "idiot-saratov-drama" ? "vhs-container" : ""}`}>
         <div className="max-w-7xl mx-auto px-6">
           
           {/* Back Button */}
@@ -114,7 +114,7 @@ export default function ProjectPage() {
                 <div className="text-sm text-primary font-medium tracking-wide uppercase mb-2">
                   {categoryNames[project.category]} • {project.year}
                 </div>
-                <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4" data-testid="text-title">
+                <h1 className={`text-4xl lg:text-5xl font-bold text-white mb-4 ${project.id === "idiot-saratov-drama" ? "vhs-chromatic" : ""}`} data-testid="text-title">
                   {project.title}
                 </h1>
                 <p className="text-xl text-gray-300 leading-relaxed">
@@ -124,8 +124,8 @@ export default function ProjectPage() {
 
               {/* Case Study for Idiot */}
               {project.id === "idiot-saratov-drama" && (
-                <div className="mt-8">
-                  <h3 className="text-2xl font-russo font-bold text-white mb-6">Детальный кейс</h3>
+                <div className="mt-8 vhs-glitch">
+                  <h3 className="text-2xl font-russo font-bold text-white mb-6 vhs-flicker">Детальный кейс</h3>
                   
                   <div className="glass-effect rounded-xl p-6 space-y-6">
                     <div>
