@@ -99,7 +99,7 @@ export default function ProjectPage() {
                           toggleGlobalAudio();
                         }
                       }}
-                      className="glass-effect px-6 py-3 rounded-lg text-white font-medium text-sm border border-primary/30 hover:border-primary/50 hover:bg-primary/10 transition-all duration-300 shadow-lg backdrop-blur-md"
+                      className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold text-sm hover:bg-white transition-all duration-300 animate-pulse-neon shadow-lg"
                       data-testid="button-listen-music"
                       title="Включить музыку из спектакля"
                     >
