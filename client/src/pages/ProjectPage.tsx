@@ -103,7 +103,7 @@ export default function ProjectPage() {
                       data-testid="button-listen-music"
                       title="Включить музыку из спектакля"
                     >
-                      🎵 Слушать музыку
+                      Вкл. звук
                     </motion.button>
                   </div>
                 )}
