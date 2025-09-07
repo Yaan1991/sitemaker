@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Volume2, VolumeX } from "lucide-react";
+import { Menu, X, Volume2, VolumeX, SkipBack, SkipForward } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
 import { useAudio } from "@/contexts/AudioContext";
@@ -9,7 +9,17 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [location] = useLocation();
-  const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
+  const { 
+    isGlobalAudioEnabled, 
+    toggleGlobalAudio,
+    currentPlaylist,
+    currentTrackIndex,
+    nextTrack,
+    prevTrack
+  } = useAudio();
+
+  const currentTrack = currentPlaylist ? currentPlaylist[currentTrackIndex] : null;
+  const hasPlaylist = currentPlaylist && currentPlaylist.length > 1;
 
   const mainNavigation = [
     { name: "Обо мне", href: "/about" },
@@ -64,6 +74,36 @@ export default function Header() {
             >
               {isGlobalAudioEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
             </button>
+
+            {/* Playlist Controls */}
+            {hasPlaylist && isGlobalAudioEnabled && (
+              <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-lg border border-primary/20">
+                <button
+                  onClick={prevTrack}
+                  disabled={currentTrackIndex === 0}
+                  className="p-1 rounded hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Предыдущий трек"
+                >
+                  <SkipBack size={16} className="text-primary" />
+                </button>
+                
+                <div className="px-2 text-sm">
+                  <div className="text-primary font-medium text-xs">Спектакль</div>
+                  <div className="text-white truncate max-w-[120px]" title={currentTrack?.title}>
+                    {currentTrack?.title}
+                  </div>
+                </div>
+                
+                <button
+                  onClick={nextTrack}
+                  disabled={currentTrackIndex === currentPlaylist.length - 1}
+                  className="p-1 rounded hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Следующий трек"
+                >
+                  <SkipForward size={16} className="text-primary" />
+                </button>
+              </div>
+            )}
             
             {/* Menu Button */}
             <button
@@ -135,7 +175,7 @@ export default function Header() {
           </div>
 
           {/* Mobile Audio Toggle & Menu */}
-          <div className="md:hidden flex items-center gap-3">
+          <div className="md:hidden flex items-center gap-2">
             {/* Mobile Audio Toggle */}
             <button
               onClick={toggleGlobalAudio}
@@ -148,6 +188,31 @@ export default function Header() {
             >
               {isGlobalAudioEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
             </button>
+
+            {/* Mobile Playlist Controls */}
+            {hasPlaylist && isGlobalAudioEnabled && (
+              <div className="flex items-center gap-1 px-2 py-1 bg-primary/10 rounded border border-primary/20">
+                <button
+                  onClick={prevTrack}
+                  disabled={currentTrackIndex === 0}
+                  className="p-1 rounded disabled:opacity-50"
+                >
+                  <SkipBack size={14} className="text-primary" />
+                </button>
+                
+                <div className="text-xs text-primary font-medium min-w-[40px] text-center">
+                  {currentTrackIndex + 1}/{currentPlaylist.length}
+                </div>
+                
+                <button
+                  onClick={nextTrack}
+                  disabled={currentTrackIndex === currentPlaylist.length - 1}
+                  className="p-1 rounded disabled:opacity-50"
+                >
+                  <SkipForward size={14} className="text-primary" />
+                </button>
+              </div>
+            )}
             
             {/* Mobile Menu Button */}
             <button
