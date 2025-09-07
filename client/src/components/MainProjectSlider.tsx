@@ -111,7 +111,7 @@ function ProjectCard({
   
   return (
     <motion.div 
-      className="glass-effect rounded-xl overflow-hidden h-[280px] sm:h-[320px] md:h-[400px] relative group w-full max-w-6xl mx-auto"
+      className="glass-effect overflow-hidden h-[280px] sm:h-[320px] md:h-[400px] relative group w-full"
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
     >
@@ -304,8 +304,9 @@ export default function MainProjectSlider() {
   }, [userInteracted]);
 
   return (
-    <section id="main-projects" className="py-20 px-6">
-      <div className="container mx-auto">
+    <section id="main-projects" className="py-20">
+      {/* Заголовок в контейнере */}
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -319,8 +320,10 @@ export default function MainProjectSlider() {
             Избранные проекты из разных направлений моей деятельности
           </p>
         </motion.div>
+      </div>
 
-        <div className="space-y-8">
+      {/* Полноэкранные карточки */}
+      <div className="space-y-8">
           {projectCategories.map((category, categoryIndex) => (
             <motion.div
               key={category.title}
@@ -337,8 +340,10 @@ export default function MainProjectSlider() {
               />
             </motion.div>
           ))}
-        </div>
+      </div>
 
+      {/* Кнопка в контейнере */}
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
