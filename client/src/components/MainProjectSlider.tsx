@@ -121,7 +121,7 @@ function ProjectCard({
             key={currentIndex}
             src={currentProject.image}
             alt={currentProject.title}
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover"
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
