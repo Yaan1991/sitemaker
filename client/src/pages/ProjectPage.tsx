@@ -94,16 +94,12 @@ export default function ProjectPage() {
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.8, delay: 0.8 }}
-                      onClick={() => {
-                        if (!isGlobalAudioEnabled) {
-                          toggleGlobalAudio();
-                        }
-                      }}
+                      onClick={toggleGlobalAudio}
                       className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold text-sm hover:bg-white transition-all duration-300 animate-pulse-neon shadow-lg"
                       data-testid="button-listen-music"
-                      title="Включить музыку из спектакля"
+                      title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
                     >
-                      Вкл. звук
+                      {isGlobalAudioEnabled ? "Выкл. звук" : "Вкл. звук"}
                     </motion.button>
                   </div>
                 )}
