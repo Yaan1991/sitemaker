@@ -5,7 +5,6 @@ import SEOHead from "@/components/SEOHead";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
-import { PageAudio } from "@/components/PageAudio";
 import { useState } from "react";
 
 export default function ProjectPage() {
@@ -64,8 +63,7 @@ export default function ProjectPage() {
             </Link>
           </motion.div>
 
-          {/* Фоновая музыка для страницы */}
-          <PageAudio isMainPlayerPlaying={isMainPlayerPlaying} />
+          {/* Глобальная фоновая музыка теперь управляется из Layout */}
 
           <div className="grid lg:grid-cols-3 gap-8 items-start">
             

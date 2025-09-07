@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Header from "./Header";
 import Footer from "./Footer";
 import { AudioChoiceModal } from "./AudioChoiceModal";
+import { GlobalAudioPlayer } from "./GlobalAudioPlayer";
 import { useAudio } from "@/contexts/AudioContext";
 
 interface LayoutProps {
@@ -23,6 +24,9 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </motion.main>
       <Footer />
+      
+      {/* Глобальный аудиоплеер */}
+      <GlobalAudioPlayer />
       
       {/* Глобальное модальное окно приветствия */}
       <AudioChoiceModal

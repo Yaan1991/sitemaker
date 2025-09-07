@@ -6,6 +6,8 @@ interface AudioContextType {
   showWelcomeModal: boolean;
   setShowWelcomeModal: (show: boolean) => void;
   handleWelcomeChoice: (enabled: boolean) => void;
+  currentTrack: string | null;
+  setCurrentTrack: (track: string | null) => void;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -13,6 +15,7 @@ const AudioContext = createContext<AudioContextType | undefined>(undefined);
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [currentTrack, setCurrentTrack] = useState<string | null>(null);
 
   // Проверяем при загрузке, показывали ли уже приветствие
   useEffect(() => {
@@ -45,7 +48,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       toggleGlobalAudio,
       showWelcomeModal,
       setShowWelcomeModal,
-      handleWelcomeChoice
+      handleWelcomeChoice,
+      currentTrack,
+      setCurrentTrack
     }}>
       {children}
     </AudioContext.Provider>
