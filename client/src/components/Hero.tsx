@@ -32,7 +32,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-muted-foreground mb-8 font-light"
-        >Композитор; Саунд-дизайнер; Звукорежиссер</motion.p>
+        >Композитор • Саунд‑дизайнер • Звукорежиссёр</motion.p>
         
         <motion.button
           initial={{ opacity: 0, y: 30 }}
