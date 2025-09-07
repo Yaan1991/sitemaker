@@ -149,14 +149,17 @@ export function GlobalAudioPlayer() {
   useEffect(() => {
     const contentForPage = pageTrackMap[location];
     
-    if (contentForPage && isGlobalAudioEnabled) {
-      changePlaylist(contentForPage);
-    } else if (!contentForPage && isPlaying) {
-      // Останавливаем музыку на страницах без треков
-      fadeOut(() => {
-        setCurrentPlaylist(null);
-        setCurrentTrackIndex(0);
-      });
+    if (isGlobalAudioEnabled) {
+      if (contentForPage) {
+        // Есть специфичная музыка для этой страницы
+        changePlaylist(contentForPage);
+      } else {
+        // Нет специфичной музыки - играем музыку с главной страницы
+        const homeMusic = pageTrackMap['/'];
+        if (homeMusic) {
+          changePlaylist(homeMusic);
+        }
+      }
     }
   }, [location, isGlobalAudioEnabled]);
 
