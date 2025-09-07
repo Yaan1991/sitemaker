@@ -126,6 +126,22 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Анимация бегущей строки для названий треков */
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.track-title-marquee {
+  animation: marquee 8s linear infinite;
+}
+
+.track-title-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
 @keyframes pulseNeon {
   0%, 100% { box-shadow: 0 0 5px hsl(45, 95%, 60%); }
   50% { box-shadow: 0 0 20px hsl(45, 95%, 60%), 0 0 30px hsl(45, 95%, 60%); }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Volume2, VolumeX, SkipBack, SkipForward } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,6 +20,17 @@ export default function Header() {
 
   const currentTrack = currentPlaylist ? currentPlaylist[currentTrackIndex] : null;
   const hasPlaylist = currentPlaylist && currentPlaylist.length > 1;
+  const [needsMarquee, setNeedsMarquee] = useState(false);
+  const titleRef = useRef<HTMLDivElement>(null);
+
+  // Проверяем, нужна ли бегущая строка
+  useEffect(() => {
+    if (titleRef.current && currentTrack?.title) {
+      const containerWidth = 120; // фиксированная ширина контейнера
+      const textWidth = titleRef.current.scrollWidth;
+      setNeedsMarquee(textWidth > containerWidth);
+    }
+  }, [currentTrack?.title]);
 
   const mainNavigation = [
     { name: "Обо мне", href: "/about" },
@@ -87,10 +98,18 @@ export default function Header() {
                   <SkipBack size={16} className="text-primary" />
                 </button>
                 
-                <div className="px-2 text-sm">
-                  <div className="text-primary font-medium text-xs">Спектакль</div>
-                  <div className="text-white truncate max-w-[120px]" title={currentTrack?.title}>
-                    {currentTrack?.title}
+                <div className="px-2 text-sm w-[120px]">
+                  <div className="text-primary font-medium text-xs">Плеер</div>
+                  <div className="track-title-container w-full h-5 relative overflow-hidden">
+                    <div 
+                      ref={titleRef}
+                      className={`text-white whitespace-nowrap absolute ${
+                        needsMarquee ? 'track-title-marquee' : ''
+                      }`}
+                      title={currentTrack?.title}
+                    >
+                      {currentTrack?.title}
+                    </div>
                   </div>
                 </div>
                 
