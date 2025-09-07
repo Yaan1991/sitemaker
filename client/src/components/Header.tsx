@@ -149,6 +149,18 @@ export default function Header() {
                 >
                   <div className="py-2">
                     <Link
+                      href="/"
+                      className={`block px-4 py-3 transition-colors duration-200 ${
+                        isActive('/')
+                          ? "text-primary bg-primary/10"
+                          : "text-gray-300 hover:text-primary hover:bg-white/5"
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                      data-testid="link-home"
+                    >
+                      На главную
+                    </Link>
+                    <Link
                       href="/main-works"
                       className={`block px-4 py-3 transition-colors duration-200 ${
                         isActive('/main-works')
@@ -259,6 +271,18 @@ export default function Header() {
               className="absolute right-0 top-full mt-2 w-48 glass-effect rounded-lg border border-border shadow-lg overflow-hidden md:hidden"
             >
               <div className="py-2">
+                <Link
+                  href="/"
+                  className={`block px-4 py-3 transition-colors duration-200 ${
+                    isActive('/')
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-300 hover:text-primary hover:bg-white/5"
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  data-testid="mobile-link-home"
+                >
+                  На главную
+                </Link>
                 <Link
                   href="/main-works"
                   className={`block px-4 py-3 transition-colors duration-200 ${
