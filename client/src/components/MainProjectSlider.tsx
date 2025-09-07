@@ -173,25 +173,25 @@ function ProjectCard({
           </AnimatePresence>
         </div>
 
-        {/* Navigation arrows */}
-        {category.projects.length > 1 && (
-          <>
-            <button
-              onClick={onPrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
-              data-testid="button-prev"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={onNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
-              data-testid="button-next"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </>
-        )}
+      {/* Navigation arrows - positioned relative to the entire card */}
+      {category.projects.length > 1 && (
+        <>
+          <button
+            onClick={onPrev}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+            data-testid="button-prev"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={onNext}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+            data-testid="button-next"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </>
+      )}
 
         {/* Clickable indicators */}
         <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-6 md:mt-8">
