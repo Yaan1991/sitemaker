@@ -5,12 +5,14 @@ import SEOHead from "@/components/SEOHead";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
+import { useAudio } from "@/contexts/AudioContext";
 import { useState } from "react";
 
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
   const [isMainPlayerPlaying, setIsMainPlayerPlaying] = useState(false);
+  const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
   
   const project = projects.find(p => p.id === projectId);
 
@@ -84,6 +86,26 @@ export default function ProjectPage() {
                   data-testid="img-project"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
+                
+                {/* Кнопка слушать музыку для проекта Идиот */}
+                {project.id === "idiot-saratov-drama" && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.8, delay: 0.8 }}
+                      onClick={() => {
+                        if (!isGlobalAudioEnabled) {
+                          toggleGlobalAudio();
+                        }
+                      }}
+                      className="bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon shadow-lg"
+                      data-testid="button-listen-music"
+                    >
+                      Слушать музыку из спектакля
+                    </motion.button>
+                  </div>
+                )}
               </motion.div>
 
               {/* Header */}
