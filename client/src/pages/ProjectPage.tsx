@@ -89,7 +89,7 @@ export default function ProjectPage() {
                 
                 {/* Кнопка слушать музыку для проекта Идиот */}
                 {project.id === "idiot-saratov-drama" && (
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute bottom-4 right-4">
                     <motion.button
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -99,10 +99,11 @@ export default function ProjectPage() {
                           toggleGlobalAudio();
                         }
                       }}
-                      className="bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon shadow-lg"
+                      className="glass-effect px-6 py-3 rounded-lg text-white font-medium text-sm border border-primary/30 hover:border-primary/50 hover:bg-primary/10 transition-all duration-300 shadow-lg backdrop-blur-md"
                       data-testid="button-listen-music"
+                      title="Включить музыку из спектакля"
                     >
-                      Слушать музыку из спектакля
+                      🎵 Слушать музыку
                     </motion.button>
                   </div>
                 )}
