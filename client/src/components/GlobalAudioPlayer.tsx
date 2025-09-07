@@ -35,7 +35,7 @@ export function GlobalAudioPlayer() {
     setIsPlaying(true);
 
     let currentVolume = 0;
-    const targetVolume = 0.25;
+    const targetVolume = 0.15; // Уменьшил громкость фоновой музыки для лучшего баланса
     const fadeStep = targetVolume / (3000 / 50); // 3 секунды, шаг каждые 50мс
 
     fadeIntervalRef.current = setInterval(() => {
@@ -52,7 +52,7 @@ export function GlobalAudioPlayer() {
     }, 50);
   };
 
-  // Плавный фейд-аут
+  // Плавный фейд-аут (6 секунд для кроссфейда)
   const fadeOut = (callback?: () => void) => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -62,7 +62,7 @@ export function GlobalAudioPlayer() {
     }
 
     let currentVolume = audio.volume;
-    const fadeStep = currentVolume / (1000 / 50); // 1 секунда
+    const fadeStep = currentVolume / (6000 / 50); // 6 секунд для кроссфейда
 
     fadeIntervalRef.current = setInterval(() => {
       currentVolume -= fadeStep;
@@ -82,12 +82,14 @@ export function GlobalAudioPlayer() {
     }, 50);
   };
 
-  // Смена трека с плавным переходом
+  // Смена трека с кроссфейдом (6 сек фейдаут + 3 сек фейд-ин)
   const changeTrack = (newTrackUrl: string) => {
     if (currentTrack === newTrackUrl) return;
 
     if (isPlaying) {
+      // 6 секунд фейдаут текущего трека
       fadeOut(() => {
+        // Устанавливаем новый трек после фейдаута
         setCurrentTrack(newTrackUrl);
       });
     } else {

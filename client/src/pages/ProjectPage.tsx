@@ -63,7 +63,7 @@ export default function ProjectPage() {
             </Link>
           </motion.div>
 
-          {/* Глобальная фоновая музыка теперь управляется из Layout */}
+          {/* Локальный плеер для проектов с музыкой уже встроен ниже в специальном разделе для Идиота */}
 
           <div className="grid lg:grid-cols-3 gap-8 items-start">
             
