@@ -111,7 +111,7 @@ function ProjectCard({
   
   return (
     <motion.div 
-      className="glass-effect overflow-hidden h-[280px] sm:h-[320px] md:h-[400px] relative group w-full"
+      className="glass-effect overflow-hidden h-[280px] sm:h-[320px] md:h-[400px] relative group w-screen"
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
     >
@@ -330,6 +330,7 @@ export default function MainProjectSlider() {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: categoryIndex * 0.1 }}
+              className="w-full"
             >
               <ProjectCard 
                 category={category} 
