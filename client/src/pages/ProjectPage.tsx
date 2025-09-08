@@ -127,12 +127,38 @@ export default function ProjectPage() {
                 <div className="mt-8 vhs-glitch">
                   <h3 className="text-2xl font-russo font-bold text-white mb-6 vhs-flicker">Кейс: «Идиот»</h3>
                   
+                  {/* Основное фото проекта */}
+                  <div className="mb-6">
+                    <img 
+                      src="/images/idiot1_1756479054514.webp" 
+                      alt="" 
+                      className="w-full rounded-lg shadow-lg"
+                    />
+                  </div>
+                  
+                  {/* Постановочная команда и роль в проекте в две колонки */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
+                    <div>
+                      <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
+                      <div className="text-gray-300 space-y-1">
+                        <p>Режиссёр: Иван Комаров</p>
+                        <p>Художник: Ольга Кузнецова</p>
+                        <p>Художник по свету: Максим Бирюков</p>
+                        <p>Режиссёр по пластике: Анастасия Морозова</p>
+                        <p>Видеохудожник: Дмитрий Волков</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                      <p className="text-primary font-medium">
+                        Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер: Ян Кузьмичёв
+                      </p>
+                    </div>
+                  </div>
+                  
                   <div className="glass-effect rounded-xl p-6 space-y-6">
                     <p className="text-sm text-gray-400 mb-2">
                       Саратовский театр драмы имени Слонова, 2024
-                    </p>
-                    <p className="text-base text-primary font-medium mb-6">
-                      Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер: Ян Кузьмичёв
                     </p>
 
                     <div className="space-y-6 text-gray-300 leading-relaxed">
@@ -202,13 +228,6 @@ export default function ProjectPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                           <div>
                             <img 
-                              src="/images/idiot1_1756479054514.webp" 
-                              alt="" 
-                              className="w-full rounded-lg shadow-lg"
-                            />
-                          </div>
-                          <div>
-                            <img 
                               src="/images/idiot2_1756479054514.webp" 
                               alt="" 
                               className="w-full rounded-lg shadow-lg"
@@ -228,27 +247,16 @@ export default function ProjectPage() {
                               className="w-full rounded-lg shadow-lg"
                             />
                           </div>
-                        </div>
-                        <div>
-                          <img 
-                            src="/images/idiot5_1756479169274.webp" 
-                            alt="" 
-                            className="w-full rounded-lg shadow-lg"
-                          />
+                          <div>
+                            <img 
+                              src="/images/idiot5_1756479169274.webp" 
+                              alt="" 
+                              className="w-full rounded-lg shadow-lg"
+                            />
+                          </div>
                         </div>
                       </div>
 
-                      {/* Постановочная группа */}
-                      <div className="text-xs text-gray-500 leading-relaxed">
-                        <p className="font-medium text-gray-400 mb-2">Постановочная группа:</p>
-                        <p>
-                          Режиссёр: Иван Комаров | Художник: Ольга Кузнецова | Художник по свету: Максим Бирюков
-                          <br/>
-                          Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер: Ян Кузьмичёв
-                          <br/>
-                          Режиссёр по пластике: Анастасия Морозова | Видеохудожник: Дмитрий Волков
-                        </p>
-                      </div>
 
 
 
