@@ -219,8 +219,8 @@ export default function ProjectPage() {
                   
                   
                   
-                  {/* Постановочная команда и роль в проекте в две колонки */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
+                  {/* Постановочная команда */}
+                  <div className="mb-8 text-sm">
                     <div>
                       <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
                       <div className="text-gray-300 space-y-1">
@@ -228,12 +228,6 @@ export default function ProjectPage() {
                         <p>Художник: Ольга Кузнецова</p>
                         <p>Художник по свету: Максим Бирюков</p>
                       </div>
-                    </div>
-                    <div>
-                      <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
-                      <p className="idiot-primary font-medium">
-                        Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер
-                      </p>
                     </div>
                   </div>
                   
@@ -326,28 +320,28 @@ export default function ProjectPage() {
                   <div className="space-y-4">
                     {project.details.director && (
                       <div>
-                        <span className="text-sm idiot-primary font-medium">Режиссёр:</span>
+                        <span className="text-sm text-primary font-medium">Режиссёр:</span>
                         <span className="text-gray-300 ml-2">{project.details.director}</span>
                       </div>
                     )}
                     
                     {project.details.genre && (
                       <div>
-                        <span className="text-sm idiot-primary font-medium">Жанр:</span>
+                        <span className="text-sm text-primary font-medium">Жанр:</span>
                         <span className="text-gray-300 ml-2">{project.details.genre}</span>
                       </div>
                     )}
                     
                     {project.details.duration && (
                       <div>
-                        <span className="text-sm idiot-primary font-medium">Продолжительность:</span>
+                        <span className="text-sm text-primary font-medium">Продолжительность:</span>
                         <span className="text-gray-300 ml-2">{project.details.duration}</span>
                       </div>
                     )}
 
                     {project.details.technical && project.details.technical.length > 0 && (
                       <div>
-                        <span className="text-sm idiot-primary font-medium block mb-2">Технические решения:</span>
+                        <span className="text-sm text-primary font-medium block mb-2">Технические решения:</span>
                         <div className="flex flex-wrap gap-2">
                           {project.details.technical.map((tech, index) => (
                             <span
@@ -363,7 +357,7 @@ export default function ProjectPage() {
 
                     {project.details.cast && project.details.cast.length > 0 && (
                       <div>
-                        <span className="text-sm idiot-primary font-medium">В ролях:</span>
+                        <span className="text-sm text-primary font-medium">В ролях:</span>
                         <span className="text-gray-300 ml-2">{project.details.cast.join(", ")}</span>
                       </div>
                     )}

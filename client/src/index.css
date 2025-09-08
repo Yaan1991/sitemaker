@@ -115,21 +115,35 @@
     animation: pulseNeon 2s ease-in-out infinite;
   }
 
-  /* Насыщенный темно-розовый неоновый текст с Train One */
+  /* Насыщенный темно-розовый неоновый текст с Train One и фиолетовой пульсацией */
   .neon-scorsese {
     font-family: 'Train One', cursive;
     font-weight: 400;
     letter-spacing: 6px;
     color: #ec4899;
     text-shadow: 
-      0 0 5px #ec4899,
-      0 0 10px #ec4899,
-      0 0 15px #ec4899,
-      0 0 20px #ec4899,
-      0 0 25px #db2777,
-      0 0 30px #db2777,
-      0 0 35px #be185d;
-    filter: drop-shadow(0 0 8px #ec4899);
+      0 0 2px #ec4899,
+      0 0 4px #ec4899,
+      0 0 6px #db2777;
+    filter: drop-shadow(0 0 4px #ec4899);
+    animation: purplePulse 3s ease-in-out infinite;
+  }
+
+  /* Фиолетовая пульсация для всех букв */
+  @keyframes purplePulse {
+    0%, 100% {
+      text-shadow: 
+        0 0 2px #ec4899,
+        0 0 4px #ec4899,
+        0 0 6px #db2777;
+    }
+    50% {
+      text-shadow: 
+        0 0 4px #ec4899,
+        0 0 8px #ec4899,
+        0 0 12px #db2777,
+        0 0 16px #be185d;
+    }
   }
 
   /* Розово-фиолетовая кнопка только для страницы ИДИОТ */
@@ -150,38 +164,28 @@
     color: #ec4899;
   }
 
-  /* Мигающая буква "О" с уменьшенным розовым свечением */
+  /* Стробирующая буква "О" с мягким свечением */
   .neon-flicker-o {
     color: #ec4899 !important;
     text-shadow: 
-      0 0 3px #ec4899,
-      0 0 6px #ec4899,
-      0 0 9px #ec4899,
-      0 0 12px #db2777 !important;
-    animation: flickerO 2s infinite linear;
+      0 0 1px #ec4899,
+      0 0 2px #ec4899,
+      0 0 3px #db2777 !important;
+    animation: strobeO 1.5s infinite linear !important;
   }
 
-  /* Анимация мигания буквы О */
-  @keyframes flickerO {
-    0%, 100% { 
+  /* Стробирующая анимация для буквы О */
+  @keyframes strobeO {
+    0%, 20%, 40%, 60%, 80%, 100% { 
       opacity: 1;
       text-shadow: 
-        0 0 3px #ec4899,
-        0 0 6px #ec4899,
-        0 0 9px #ec4899,
-        0 0 12px #db2777;
+        0 0 1px #ec4899,
+        0 0 2px #ec4899,
+        0 0 3px #db2777;
     }
     10%, 30%, 50%, 70%, 90% { 
-      opacity: 0.1;
+      opacity: 0.05;
       text-shadow: none;
-    }
-    20%, 40%, 60%, 80% { 
-      opacity: 1;
-      text-shadow: 
-        0 0 3px #ec4899,
-        0 0 6px #ec4899,
-        0 0 9px #ec4899,
-        0 0 12px #db2777;
     }
   }
 
