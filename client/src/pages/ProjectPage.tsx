@@ -376,7 +376,7 @@ export default function ProjectPage() {
                     </div>
                     <div>
                       <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
-                      <p className="idiot-primary font-medium">
+                      <p className="idiot-primary font-semibold text-lg">
                         Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер
                       </p>
                     </div>
@@ -403,7 +403,7 @@ export default function ProjectPage() {
                         
                         <div className="mt-4">
                           <p className="font-medium text-white mb-2">Выполненные работы:</p>
-                          <ul className="list-none space-y-1 ml-4">
+                          <ul className="list-none space-y-0 ml-4">
                             <li>• Написание оригинальной музыки</li>
                             <li>• Работа с микрофонами и звукозаписью</li>
                             <li>• Создание полевых записей</li>
@@ -576,9 +576,15 @@ export default function ProjectPage() {
                     </button>
                     
                     <button 
-                      onClick={togglePlayPause}
+                      onClick={() => {
+                        if (!isGlobalAudioEnabled) {
+                          toggleGlobalAudio();
+                          setTimeout(() => togglePlayPause(), 100);
+                        } else {
+                          togglePlayPause();
+                        }
+                      }}
                       className={`winamp-button ${isPlaying ? 'active' : ''}`}
-                      disabled={!isGlobalAudioEnabled}
                       title={isPlaying ? "Пауза" : "Воспроизвести"}
                     >
                       {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
