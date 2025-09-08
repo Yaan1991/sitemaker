@@ -21,19 +21,32 @@ export function GlobalBackgroundAudio() {
     if (!audio) return;
 
     const shouldPlay = isGlobalAudioEnabled && shouldPlayBackground();
+    
+    console.log('=== ФОНОВЫЙ ПЛЕЕР ===');
+    console.log('shouldPlay:', shouldPlay);
+    console.log('isPlaying:', isPlaying);
+    console.log('location:', location);
+    console.log('isGlobalAudioEnabled:', isGlobalAudioEnabled);
 
     if (shouldPlay && !isPlaying) {
+      console.log('🎵 ЗАПУСКАЕМ ФОНОВЫЙ ПЛЕЕР');
       // Запускаем сразу для настоящего кроссфейда (накладываем звуки)
       // Запускаем с нулевой громкости
       audio.volume = 0;
       audio.play().then(() => {
+        console.log('▶️ Фоновый плеер запущен, начинаем fade-in');
         setIsPlaying(true);
         // Плавное появление звука (2 секунды)
         fadeIn();
-      }).catch(console.error);
+      }).catch((error) => {
+        console.error('Ошибка запуска фонового плеера:', error);
+      });
     } else if (!shouldPlay && isPlaying) {
+      console.log('🔇 ОСТАНАВЛИВАЕМ ФОНОВЫЙ ПЛЕЕР');
       // Плавное затухание (без задержки)
       fadeOut();
+    } else {
+      console.log('Нет изменений в фоновом плеере');
     }
   }, [isGlobalAudioEnabled, location, isPlaying]);
 
