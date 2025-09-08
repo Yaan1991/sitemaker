@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 function NeonTitle({ text }: { text: string }) {
   return (
     <div className="inline-block">
-      <h1 className="text-4xl lg:text-6xl neon-scorsese mb-2">
+      <h1 className="text-6xl lg:text-8xl neon-scorsese mb-2">
         {text.split('').map((char, index) => (
           <span 
             key={index} 
@@ -61,9 +61,14 @@ export default function ProjectPage() {
   const [isMainPlayerPlaying, setIsMainPlayerPlaying] = useState(false);
   const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
   
-  // Фотографии для спектакля "Идиот" (пока используем только рабочие)
+  // Фотографии для спектакля "Идиот"
   const idiotPhotos = [
-    "/images/idiot.webp"
+    "/images/idiot.webp",
+    "/images/idiot1.webp", 
+    "/images/idiot2.webp",
+    "/images/idiot3.webp",
+    "/images/idiot4.webp",
+    "/images/idiot5.webp"
   ];
   
   const project = projects.find(p => p.id === projectId);

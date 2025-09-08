@@ -115,33 +115,28 @@
     animation: pulseNeon 2s ease-in-out infinite;
   }
 
-  /* Неоновый текст в стиле Скорсезе с обрамлением */
+  /* Неоновый текст в стиле LA NOIRE */
   .neon-scorsese {
-    color: hsl(45, 95%, 60%);
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    letter-spacing: 3px;
+    color: transparent;
+    font-family: 'Orbitron', 'Exo 2', sans-serif;
+    font-weight: 300;
+    letter-spacing: 8px;
+    font-size: inherit;
+    -webkit-text-stroke: 2px #ffd700;
+    text-stroke: 2px #ffd700;
     text-shadow: 
-      /* Черная обводка для читаемости */
-      -2px -2px 0 #000,
-      2px -2px 0 #000,
-      -2px 2px 0 #000,
-      2px 2px 0 #000,
-      -3px 0 0 #000,
-      3px 0 0 #000,
-      0 -3px 0 #000,
-      0 3px 0 #000,
-      /* Неоновое свечение */
-      0 0 8px hsl(45, 95%, 60%),
-      0 0 15px hsl(45, 95%, 60%),
-      0 0 25px hsl(45, 95%, 60%);
-    background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: 2px solid hsl(45, 95%, 60%);
-    box-shadow: 
-      0 0 10px hsl(45, 95%, 60%),
-      inset 0 0 10px rgba(255, 215, 77, 0.1);
+      0 0 5px #ffd700,
+      0 0 10px #ffd700,
+      0 0 15px #ffd700,
+      0 0 20px #ffd700,
+      0 0 25px #ffd700,
+      0 0 30px #ffd700,
+      0 0 35px #ffd700;
+    filter: drop-shadow(0 0 10px #ffd700);
+    background: transparent;
+    padding: 0;
+    border: none;
+    box-shadow: none;
   }
 
   /* Мигающая буква "О" */
