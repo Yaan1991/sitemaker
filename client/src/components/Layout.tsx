@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { GlobalBackgroundAudio } from "./GlobalBackgroundAudio";
+import { useAudio } from "@/contexts/AudioContext";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,11 +12,24 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
+  const { fadeOutCurrentAudio } = useAudio();
+  const [previousLocation, setPreviousLocation] = useState<string>('');
 
-  // Автоматически скроллим к верху при изменении страницы
+  // Управление переходами между страницами с фейдами
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location]);
+    
+    // Если переходим СО страницы проекта НА другую страницу - делаем фейд аут
+    const isLeavingProject = previousLocation.startsWith('/project/') && !location.startsWith('/project/');
+    
+    if (isLeavingProject) {
+      // Запускаем фейд аут всех активных аудио элементов
+      fadeOutCurrentAudio();
+    }
+    
+    // Обновляем предыдущую локацию
+    setPreviousLocation(location);
+  }, [location, fadeOutCurrentAudio, previousLocation]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">

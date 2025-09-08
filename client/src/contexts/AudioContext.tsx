@@ -52,7 +52,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           const fadePromise = new Promise<void>((fadeResolve) => {
             let currentVolume = audio.volume;
             const fadeOut = setInterval(() => {
-              currentVolume -= 0.05;
+              currentVolume -= 0.003; // 4 секунды затухания
               if (currentVolume <= 0) {
                 currentVolume = 0;
                 audio.volume = 0;
@@ -62,7 +62,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
               } else {
                 audio.volume = currentVolume;
               }
-            }, 30);
+            }, 50);
           });
           fadePromises.push(fadePromise);
         }

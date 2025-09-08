@@ -191,29 +191,6 @@ export default function ProjectPage() {
     }
   }, [isGlobalAudioEnabled, isPlayerReady]);
 
-  // Cleanup эффект для плавного затухания при уходе со страницы проекта
-  useEffect(() => {
-    return () => {
-      // При размонтировании компонента плавно затухаем текущий трек
-      if (project?.id === "idiot-saratov-drama" && audioElements[currentTrack] && isPlaying) {
-        const audio = audioElements[currentTrack];
-        if (!audio.paused) {
-          let volume = audio.volume;
-          const fadeOut = setInterval(() => {
-            volume -= 0.003; // 4 секунды затухания как в GlobalBackgroundAudio
-            if (volume <= 0) {
-              volume = 0;
-              audio.volume = 0;
-              audio.pause();
-              clearInterval(fadeOut);
-            } else {
-              audio.volume = volume;
-            }
-          }, 50);
-        }
-      }
-    };
-  }, [project?.id, currentTrack, audioElements, isPlaying]);
 
   // Функции управления плеером
   const playTrack = (trackIndex: number) => {
