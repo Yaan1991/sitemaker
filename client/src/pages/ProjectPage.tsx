@@ -176,24 +176,28 @@ export default function ProjectPage() {
   // Функции управления плеером
   const handleTogglePlayPause = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     const player = (window as any).projectPlayer;
     if (player) player.togglePlayPause();
   };
   
   const handleNextTrack = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     const player = (window as any).projectPlayer;
     if (player) player.nextTrack();
   };
   
   const handlePrevTrack = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     const player = (window as any).projectPlayer;
     if (player) player.prevTrack();
   };
   
   const handleStopAudio = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     const player = (window as any).projectPlayer;
     if (player) player.stopAudio();
   };
@@ -482,7 +486,11 @@ export default function ProjectPage() {
                         </div>
                         <button 
                           type="button"
-                          onClick={toggleGlobalAudio}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleGlobalAudio();
+                          }}
                           className={`winamp-button text-xs px-2 py-1 ml-2 ${isGlobalAudioEnabled ? 'active' : ''}`}
                           title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
                         >
@@ -522,8 +530,14 @@ export default function ProjectPage() {
                       type="button"
                       onClick={(e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         if (!isGlobalAudioEnabled) {
                           toggleGlobalAudio();
+                          // Запускаем трек через небольшую задержку после включения звука
+                          setTimeout(() => {
+                            const player = (window as any).projectPlayer;
+                            if (player) player.playTrack(0);
+                          }, 200);
                         } else {
                           handleTogglePlayPause(e);
                         }
