@@ -12,10 +12,15 @@ export function GlobalSoundDesignPlayer() {
 
   // Определяем какой звуковой файл должен играть на текущей странице
   const getSoundDesignFile = () => {
+    console.log('=== SOUND DESIGN PLAYER ===');
+    console.log('Current location:', location);
+    
     if (location.startsWith('/project/idiot-saratov-drama')) {
+      console.log('🎭 На странице Идиота, переключаю на idiot_showreel.mp3');
       return '/audio/idiot_showreel.mp3';
     }
     // Для главной и всех остальных страниц
+    console.log('🏠 На другой странице, оставляю vinyl.mp3');
     return '/audio/vinyl.mp3';
   };
 
@@ -26,8 +31,12 @@ export function GlobalSoundDesignPlayer() {
 
     const newSoundFile = getSoundDesignFile();
     
+    console.log('Текущий файл:', currentSoundFile);
+    console.log('Новый файл:', newSoundFile);
+    
     // Если нужно сменить файл
     if (newSoundFile !== currentSoundFile) {
+      console.log('🔄 Смена аудиофайла Sound Design');
       if (isPlaying) {
         // Плавно затухаем текущий звук
         fadeOut(() => {
