@@ -145,7 +145,7 @@ export default function ProjectPage() {
                     {/* Неоновый заголовок с мигающей "О" */}
                     <div className="absolute top-6 left-6 text-white">
                       <NeonTitle text="ИДИОТ" />
-                      <p className="text-lg font-medium text-gray-200 drop-shadow-md">
+                      <p className="text-lg font-medium text-gray-300 bg-black/70 px-4 py-2 rounded-lg border border-gray-500/30 backdrop-blur-sm">
                         Театр им. Слонова • 2024
                       </p>
                     </div>
