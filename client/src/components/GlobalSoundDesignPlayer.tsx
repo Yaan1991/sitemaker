@@ -77,7 +77,9 @@ export function GlobalSoundDesignPlayer() {
     const audio = audioRef.current;
     if (!audio || !isPlaying) return;
 
-    const newVolume = 0.15 * sfxVolume * masterVolume;
+    const sfxMultiplier = sfxVolume / 0.7;
+    const masterMultiplier = masterVolume / 0.7;
+    const newVolume = 0.15 * sfxMultiplier * masterMultiplier;
     audio.volume = newVolume;
     setCurrentVolume(newVolume);
   }, [sfxVolume, masterVolume, isPlaying]);
@@ -87,7 +89,9 @@ export function GlobalSoundDesignPlayer() {
     if (!audio) return;
 
     let volume = 0;
-    const targetVolume = 0.15 * sfxVolume * masterVolume; // Учитываем настройки микшера
+    const sfxMultiplier = sfxVolume / 0.7; // 70% фейдера = 1.0x оригинала
+    const masterMultiplier = masterVolume / 0.7; // 70% фейдера = 1.0x оригинала
+    const targetVolume = 0.15 * sfxMultiplier * masterMultiplier;
     const fadeInterval = setInterval(() => {
       volume += targetVolume / 50; // 2.5 секунды появления
       if (volume >= targetVolume) {

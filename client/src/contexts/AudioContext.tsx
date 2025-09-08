@@ -58,9 +58,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isSoundDesignEnabled, setIsSoundDesignEnabled] = useState(true); // По умолчанию включен
   const [currentSoundDesign, setCurrentSoundDesign] = useState<string | null>(null);
   // Микшер
-  const [musicVolume, setMusicVolume] = useState(0.75); // 75% по умолчанию
-  const [sfxVolume, setSfxVolume] = useState(0.5); // 50% по умолчанию  
-  const [masterVolume, setMasterVolume] = useState(1.0); // 100% по умолчанию
+  const [musicVolume, setMusicVolume] = useState(0.7); // 70% = полная громкость
+  const [sfxVolume, setSfxVolume] = useState(0.7); // 70% = полная громкость  
+  const [masterVolume, setMasterVolume] = useState(0.7); // 70% = полная громкость
   const [isMixerOpen, setIsMixerOpen] = useState(false);
   // Общее
   const [currentPage, setCurrentPage] = useState('/');

@@ -7,6 +7,7 @@ import { GlobalBackgroundAudio } from "./GlobalBackgroundAudio";
 import { GlobalProjectPlayer } from "./GlobalProjectPlayer";
 import { GlobalSoundDesignPlayer } from "./GlobalSoundDesignPlayer";
 import { AudioMixer } from "./AudioMixer";
+import { FloatingMixerButton } from "./FloatingMixerButton";
 import { useAudio } from "@/contexts/AudioContext";
 
 interface LayoutProps {
@@ -59,6 +60,7 @@ export default function Layout({ children }: LayoutProps) {
       <GlobalProjectPlayer />
       <GlobalSoundDesignPlayer />
       <AudioMixer />
+      <FloatingMixerButton />
     </div>
   );
 }

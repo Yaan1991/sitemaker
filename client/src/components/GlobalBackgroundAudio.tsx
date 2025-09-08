@@ -43,7 +43,9 @@ export function GlobalBackgroundAudio() {
     const audio = audioRef.current;
     if (!audio || !isPlaying) return;
 
-    const newVolume = 0.25 * musicVolume * masterVolume;
+    const musicMultiplier = musicVolume / 0.7;
+    const masterMultiplier = masterVolume / 0.7;
+    const newVolume = 0.25 * musicMultiplier * masterMultiplier;
     audio.volume = newVolume;
     setCurrentVolume(newVolume);
   }, [musicVolume, masterVolume, isPlaying]);
@@ -53,7 +55,9 @@ export function GlobalBackgroundAudio() {
     if (!audio) return;
 
     let volume = 0;
-    const targetVolume = 0.25 * musicVolume * masterVolume; // Учитываем настройки микшера
+    const musicMultiplier = musicVolume / 0.7; // 70% фейдера = 1.0x оригинала
+    const masterMultiplier = masterVolume / 0.7; // 70% фейдера = 1.0x оригинала
+    const targetVolume = 0.25 * musicMultiplier * masterMultiplier;
     const fadeInterval = setInterval(() => {
       volume += targetVolume / 40; // 2 секунды появления (2000ms / 50ms = 40 шагов)
       if (volume >= targetVolume) {

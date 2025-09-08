@@ -112,6 +112,18 @@ export function GlobalProjectPlayer() {
     }
   }, [isGlobalAudioEnabled, isProjectPlayerReady, location]);
 
+  // Обновляем громкость при изменении настроек микшера
+  useEffect(() => {
+    if (!isPlaying || !audioElements.length) return;
+
+    const currentAudio = audioElements[currentProjectTrack];
+    if (currentAudio) {
+      const musicMultiplier = musicVolume / 0.7;
+      const masterMultiplier = masterVolume / 0.7;
+      currentAudio.volume = 0.7 * musicMultiplier * masterMultiplier;
+    }
+  }, [musicVolume, masterVolume, isPlaying, audioElements, currentProjectTrack]);
+
   // Функции управления плеером
   const playTrack = (trackIndex: number) => {
     if (!audioElements[trackIndex]) return;
@@ -126,7 +138,9 @@ export function GlobalProjectPlayer() {
     
     const audio = audioElements[trackIndex];
     audio.currentTime = 0;
-    audio.volume = 0.7 * musicVolume * masterVolume; // Учитываем настройки микшера
+    const musicMultiplier = musicVolume / 0.7; // 70% фейдера = 1.0x оригинала
+    const masterMultiplier = masterVolume / 0.7; // 70% фейдера = 1.0x оригинала
+    audio.volume = 0.7 * musicMultiplier * masterMultiplier;
     audio.play().catch(console.error);
 
     // Обновление времени
