@@ -262,7 +262,7 @@
     overflow: hidden;
     white-space: nowrap;
     height: 32px;
-    min-width: 280px;
+    width: 100%;
   }
 
   .winamp-time {
@@ -791,7 +791,7 @@
 
 /* Бегущая строка для длинных названий треков */
 @keyframes marquee {
-  0% { transform: translateX(80%); }
+  0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
 }
 

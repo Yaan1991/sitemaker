@@ -458,11 +458,11 @@ export default function ProjectPage() {
                 <div className="space-y-4">
                   
                   {/* Top row: Display and Equalizer */}
-                  <div className="flex gap-2 sm:gap-4 items-stretch">
-                    <div className="flex-1 min-w-0 max-w-40 sm:max-w-xs md:max-w-md mr-4">
-                      <div className="winamp-display mb-2 h-8 flex items-center w-full">
+                  <div className="flex justify-between items-stretch gap-4">
+                    <div className="w-48 sm:w-64 md:w-80">
+                      <div className="winamp-display mb-2 h-8 flex items-center">
                         {isProjectPlayerReady ? (
-                          <div className="overflow-hidden whitespace-nowrap w-full pr-4">
+                          <div className="overflow-hidden whitespace-nowrap w-full">
                             <div className={`${
                               (currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран').length > 25 
                                 ? 'animate-marquee' 
@@ -476,7 +476,7 @@ export default function ProjectPage() {
                         )}
                       </div>
                       <div className="flex items-center">
-                        <div className="track-info overflow-hidden whitespace-nowrap w-full pr-4">
+                        <div className="track-info overflow-hidden whitespace-nowrap w-full">
                           <span className={`text-xs sm:text-sm ${
                             'Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв'.length > 35 
                               ? 'animate-marquee' 
@@ -499,7 +499,7 @@ export default function ProjectPage() {
                         </button>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-2 flex-shrink-0 w-24 sm:w-auto">
+                    <div className="flex flex-col gap-2 w-24 sm:w-28 md:w-32">
                       <div className="winamp-time text-xs sm:text-base">
                         {formatTime(localCurrentTime)} / {formatTime(localDuration)}
                       </div>
