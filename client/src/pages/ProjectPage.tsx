@@ -518,10 +518,10 @@ export default function ProjectPage() {
               
               <div className="winamp-player p-6 relative">
                 
-                {/* Power button in top right corner */}
+                {/* Power button in top left corner */}
                 <button 
                   onClick={toggleGlobalAudio}
-                  className={`absolute top-2 right-2 winamp-button text-xs px-2 py-1 ${isGlobalAudioEnabled ? 'active' : ''}`}
+                  className={`absolute top-2 left-2 winamp-button text-xs px-2 py-1 ${isGlobalAudioEnabled ? 'active' : ''}`}
                   title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
                 >
                   {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
