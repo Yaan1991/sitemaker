@@ -460,10 +460,14 @@ export default function ProjectPage() {
                   {/* Top row: Display and Equalizer */}
                   <div className="flex gap-4 items-stretch">
                     <div className="flex-1">
-                      <div className="winamp-display mb-2">
+                      <div className="winamp-display mb-2 w-full max-w-sm">
                         {isProjectPlayerReady ? (
-                          <div className="overflow-hidden">
-                            <div className="animate-pulse">
+                          <div className="overflow-hidden whitespace-nowrap">
+                            <div className={`${
+                              (currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран').length > 25 
+                                ? 'animate-marquee' 
+                                : 'animate-pulse'
+                            }`}>
                               ♪ {currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран'} ♪
                             </div>
                           </div>

@@ -122,7 +122,13 @@ export function AudioPlayer({ tracks, className = '', onPlayStateChange }: Audio
 
       {/* Current Track Display */}
       <div className="mb-4">
-        <h5 className="text-lg font-medium text-white mb-2">{currentTrack.title}</h5>
+        <div className="w-full max-w-xs overflow-hidden">
+          <h5 className={`text-lg font-medium text-white mb-2 whitespace-nowrap ${
+            currentTrack.title.length > 20 ? 'animate-marquee' : ''
+          }`}>
+            {currentTrack.title}
+          </h5>
+        </div>
         
         {/* Progress Bar */}
         <div className="mb-3">
@@ -191,7 +197,13 @@ export function AudioPlayer({ tracks, className = '', onPlayStateChange }: Audio
                   ? 'bg-primary animate-pulse' 
                   : 'bg-gray-500'
               }`} />
-              <span className="text-sm">{track.title}</span>
+              <div className="flex-1 overflow-hidden">
+                <span className={`text-sm whitespace-nowrap ${
+                  track.title.length > 25 ? 'animate-marquee' : ''
+                }`}>
+                  {track.title}
+                </span>
+              </div>
             </div>
           </button>
         ))}
