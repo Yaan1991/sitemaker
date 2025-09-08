@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useAudio } from "@/contexts/AudioContext";
+import { GlobalBackgroundAudio } from "./GlobalBackgroundAudio";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,22 +11,11 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
-  const { fadeOutCurrentAudio, setCurrentPage, currentPage } = useAudio();
 
-  // Автоматически скроллим к верху и управляем аудио при изменении страницы
+  // Автоматически скроллим к верху при изменении страницы
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    // Если это смена страницы (не первая загрузка)
-    if (currentPage !== location) {
-      // Плавно затухаем текущее аудио перед сменой страницы
-      fadeOutCurrentAudio().then(() => {
-        setCurrentPage(location);
-      });
-    } else {
-      setCurrentPage(location);
-    }
-  }, [location, currentPage, fadeOutCurrentAudio, setCurrentPage]);
+  }, [location]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -40,6 +29,7 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </motion.main>
       <Footer />
+      <GlobalBackgroundAudio />
     </div>
   );
 }
