@@ -459,8 +459,8 @@ export default function ProjectPage() {
                   
                   {/* Top row: Display and Equalizer */}
                   <div className="flex gap-4 items-stretch">
-                    <div className="w-80 flex-shrink-0">
-                      <div className="winamp-display mb-2 w-80 h-8 flex items-center">
+                    <div className="flex-1 min-w-0">
+                      <div className="winamp-display mb-2 h-8 flex items-center w-full">
                         {isProjectPlayerReady ? (
                           <div className="overflow-hidden whitespace-nowrap w-full">
                             <div className={`${
@@ -476,7 +476,7 @@ export default function ProjectPage() {
                         )}
                       </div>
                       <div className="flex items-center justify-between">
-                        <div className="track-info overflow-hidden text-ellipsis whitespace-nowrap max-w-60">
+                        <div className="track-info overflow-hidden text-ellipsis whitespace-nowrap flex-1 mr-2">
                           Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
                         </div>
                         <button 
