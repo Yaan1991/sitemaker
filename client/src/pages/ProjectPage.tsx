@@ -459,7 +459,7 @@ export default function ProjectPage() {
                   
                   {/* Top row: Display and Equalizer */}
                   <div className="flex gap-4 items-stretch">
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 max-w-xs sm:max-w-sm md:max-w-md">
                       <div className="winamp-display mb-2 h-8 flex items-center w-full">
                         {isProjectPlayerReady ? (
                           <div className="overflow-hidden whitespace-nowrap w-full">
