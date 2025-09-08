@@ -125,70 +125,66 @@ export default function ProjectPage() {
               {/* Case Study for Idiot */}
               {project.id === "idiot-saratov-drama" && (
                 <div className="mt-8 vhs-glitch">
-                  <h3 className="text-2xl font-russo font-bold text-white mb-6 vhs-flicker">Детальный кейс</h3>
+                  <h3 className="text-2xl font-russo font-bold text-white mb-6 vhs-flicker">Кейс: «Идиот»</h3>
                   
                   <div className="glass-effect rounded-xl p-6 space-y-6">
-                    <div>
-                      <h4 className="text-xl font-semibold text-primary mb-4">Творческая команда</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
-                        <div><span className="text-primary font-medium">Режиссёр:</span> Иван Комаров</div>
-                        <div><span className="text-primary font-medium">Художник:</span> Ольга Кузнецова</div>
-                        <div><span className="text-primary font-medium">Художник по свету:</span> Максим Бирюков</div>
-                        <div><span className="text-primary font-medium">Композитор, саунд-дизайнер:</span> Ян Кузьмичёв</div>
-                      </div>
-                    </div>
+                    <p className="text-sm text-gray-400 mb-6">
+                      Саратовский театр драмы имени Слонова, 2024<br/>
+                      Композитор, саунд-дизайнер, звукорежиссер, промт-инжинир: Ян Кузьмичёв
+                    </p>
 
                     <div className="space-y-6 text-gray-300 leading-relaxed">
-                      <p>
-                        Постановка по роману Достоевского, радикально переосмысленная Иваном Комаровым. 
-                        Всё действие перенесено в 1999 год — и не абстрактно, а конкретно в Саратов, 
-                        со всеми его реалиями.
-                      </p>
-                      
-                      <div className="my-6">
-                        <img 
-                          src="/images/idiot2_1756479054514.webp" 
-                          alt="Многослойное пространство спектакля" 
-                          className="w-full rounded-lg shadow-lg"
-                        />
+                      <div>
+                        <h4 className="text-xl font-semibold text-primary mb-3">Концепция</h4>
+                        <p>
+                          Постановка Достоевского, перенесенная в Саратов 1999 года. Спектакль сочетает 
+                          театр и «живое кино» — два оператора снимают действие, зритель видит параллельно 
+                          сцену и экранную версию в эстетике 90-х.
+                        </p>
                       </div>
 
-                      <p>
-                        На сцене — живая и подвижная конструкция: три комнаты, заборы, многослойное 
-                        пространство. Особенность спектакля — сочетание театра и «живого кино»: два 
-                        оператора снимают происходящее, а зритель видит параллельно спектакль и его 
-                        экранную версию в духе 90-х.
-                      </p>
-
-                      <div className="my-6">
-                        <img 
-                          src="/images/idiot5_1756479169274.webp" 
-                          alt="Общий план сцены с экраном" 
-                          className="w-full rounded-lg shadow-lg"
-                        />
-                      </div>
-                      <p>
-                        От меня ждали не просто звука, а киношного звука — чтобы зритель поверил 
-                        в происходящее на экране, как в хорошем сериале 90-х. Я вдохновлялся эстетикой 
-                        Twin Peaks, Секретных материалов и культовыми тв-проектами 90-х.
-                      </p>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-                        <div>
-                          <img 
-                            src="/images/idiot1_1756479054514.webp" 
-                            alt="Сцена из спектакля Идиот" 
-                            className="w-full rounded-lg shadow-lg"
-                          />
-                        </div>
-                        <div>
-                          <img 
-                            src="/images/idiot3_1756479054514.webp" 
-                            alt="Атмосферная сцена в кровати" 
-                            className="w-full rounded-lg shadow-lg"
-                          />
+                      <div>
+                        <h4 className="text-xl font-semibold text-primary mb-3">Творческая задача</h4>
+                        <p>
+                          Создать звук с кино-эстетикой для театра, чтобы зритель поверил в происходящее 
+                          на экране, как в сериалах 90-х в духе Twin Peaks и «Секретных материалов».
+                        </p>
+                        
+                        <div className="mt-4">
+                          <p className="font-medium text-white mb-2">Задачи:</p>
+                          <ul className="list-none space-y-1 ml-4">
+                            <li>• Оригинальная музыка</li>
+                            <li>• Работа с микрофонами</li>
+                            <li>• Полевые записи</li>
+                            <li>• Работа с ИИ-инструментами</li>
+                            <li>• Аутентичные саундскейпы и эффекты</li>
+                            <li>• Создание звуковой партитуры, карты проекта</li>
+                            <li>• Автоматизация звуковой консоли в QLab</li>
+                          </ul>
                         </div>
                       </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-primary mb-3">Ключевые решения</h4>
+                        
+                        <div className="space-y-4">
+                          <p>
+                            <strong className="text-white">Полевые записи:</strong> лично записал звуки Саратова: 
+                            трамваи, шаги, двери, городской шум. Эти записи стали основой звукового мира спектакля.
+                          </p>
+                          
+                          <p>
+                            <strong className="text-white">Нейросети для речи:</strong> клонировал голос актёра 
+                            для немецких реплик князя Мышкина, получив чистое произношение без акцента голосом персонажа.
+                          </p>
+                          
+                          <p>
+                            <strong className="text-white">Музыкальная драматургия:</strong> 11 оригинальных композиций 
+                            двигающих повествование и создающих атмосферу.
+                          </p>
+                        </div>
+                      </div>
+
 
                       <p>
                         Работа началась с первых репетиций: режиссёр присылал мне видео и черновые 
@@ -206,13 +202,6 @@ export default function ProjectPage() {
                         и сигнала трамвая.
                       </p>
 
-                      <div className="my-6">
-                        <img 
-                          src="/images/idiot4_1756479054514.webp" 
-                          alt="Световое решение спектакля" 
-                          className="w-full rounded-lg shadow-lg"
-                        />
-                      </div>
 
                       <p className="bg-primary/10 border border-primary/30 p-4 rounded-lg">
                         <strong className="text-primary">Ключевая находка:</strong> использование нейросетей для 

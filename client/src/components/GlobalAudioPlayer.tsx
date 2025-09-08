@@ -40,8 +40,8 @@ const pageTrackMap: Record<string, Track[] | Track> = {
 };
 
 export function GlobalAudioPlayer() {
-  const primaryAudioRef = useRef<HTMLAudioElement>(null);
-  const secondaryAudioRef = useRef<HTMLAudioElement>(null);
+  const homePlayerRef = useRef<HTMLAudioElement>(null);
+  const projectPlayerRef = useRef<HTMLAudioElement>(null);
   const [location] = useLocation();
   const { 
     isGlobalAudioEnabled, 
@@ -52,9 +52,8 @@ export function GlobalAudioPlayer() {
   } = useAudio();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [activePlayer, setActivePlayer] = useState<'home' | 'project'>('home');
   const crossfadeIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [activeAudioRef, setActiveAudioRef] = useState<'primary' | 'secondary'>('primary');
 
   // Получение текущего трека
   const currentTrack = currentPlaylist ? currentPlaylist[currentTrackIndex] : null;
@@ -64,139 +63,137 @@ export function GlobalAudioPlayer() {
     return url; // Локальные файлы обслуживаются напрямую
   };
 
-  // Получение активного аудиоэлемента
-  const getActiveAudio = () => {
-    return activeAudioRef === 'primary' ? primaryAudioRef.current : secondaryAudioRef.current;
+  // Получение плеера для главной страницы
+  const getHomePlayer = () => homePlayerRef.current;
+
+  // Получение плеера для проектов  
+  const getProjectPlayer = () => projectPlayerRef.current;
+
+  // Получение активного плеера
+  const getActivePlayer = () => {
+    return activePlayer === 'home' ? getHomePlayer() : getProjectPlayer();
   };
 
-  // Получение неактивного аудиоэлемента (для кроссфейда)
-  const getInactiveAudio = () => {
-    return activeAudioRef === 'primary' ? secondaryAudioRef.current : primaryAudioRef.current;
+  // Получение неактивного плеера (для кроссфейда)
+  const getInactivePlayer = () => {
+    return activePlayer === 'home' ? getProjectPlayer() : getHomePlayer();
   };
 
-  // Плавный фейд-ин (3 секунды)
-  const fadeIn = () => {
-    const audio = getActiveAudio();
-    if (!audio || !currentTrack) return;
+  // Простой фейд-ин для одного плеера
+  const fadeIn = (player: HTMLAudioElement) => {
+    if (!player || !currentTrack) return;
 
-    audio.volume = 0;
-    audio.play().catch(console.error);
+    player.volume = 0;
+    player.play().catch(console.error);
     setIsPlaying(true);
 
-    if (fadeIntervalRef.current) {
-      clearInterval(fadeIntervalRef.current);
-    }
-
+    // Плавно увеличиваем громкость до 0.7 за 2 секунды
     let currentVolume = 0;
     const targetVolume = 0.7;
-    const fadeStep = targetVolume / (3000 / 50); // 3 секунды
+    const fadeStep = targetVolume / 40; // 40 шагов = 2 секунды при 50мс интервале
 
-    fadeIntervalRef.current = setInterval(() => {
+    const fadeInterval = setInterval(() => {
       currentVolume += fadeStep;
       if (currentVolume >= targetVolume) {
         currentVolume = targetVolume;
-        if (fadeIntervalRef.current) {
-          clearInterval(fadeIntervalRef.current);
-        }
+        clearInterval(fadeInterval);
       }
-      if (audio) {
-        audio.volume = currentVolume;
-      }
+      player.volume = currentVolume;
     }, 50);
   };
 
-  // Плавный фейд-аут (6 секунд для кроссфейда)
-  const fadeOut = (callback?: () => void) => {
-    const audio = getActiveAudio();
-    if (!audio) return;
+  // Простой фейд-аут для одного плеера  
+  const fadeOut = (player: HTMLAudioElement, callback?: () => void) => {
+    if (!player) return;
 
-    if (fadeIntervalRef.current) {
-      clearInterval(fadeIntervalRef.current);
-    }
+    let currentVolume = player.volume;
+    const fadeStep = currentVolume / 40; // 40 шагов = 2 секунды
 
-    let currentVolume = audio.volume;
-    const fadeStep = currentVolume / (6000 / 50); // 6 секунд
-
-    fadeIntervalRef.current = setInterval(() => {
+    const fadeInterval = setInterval(() => {
       currentVolume -= fadeStep;
       if (currentVolume <= 0) {
         currentVolume = 0;
-        audio.pause();
-        audio.currentTime = 0;
+        player.pause();
+        player.currentTime = 0;
+        player.volume = 0;
         setIsPlaying(false);
-        if (fadeIntervalRef.current) {
-          clearInterval(fadeIntervalRef.current);
-        }
+        clearInterval(fadeInterval);
         callback?.();
       }
-      if (audio) {
-        audio.volume = currentVolume;
-      }
+      player.volume = currentVolume;
     }, 50);
   };
 
-  // Настоящий кроссфейд - одновременное затухание старого и появление нового трека
-  const crossfadeToNewTrack = (newTrack: Track) => {
-    const currentAudio = getActiveAudio();
-    const newAudio = getInactiveAudio();
+  // Кроссфейд между двумя плеерами
+  const crossfadeToPlayer = (targetPlayer: 'home' | 'project', newTrack: Track) => {
+    const oldPlayer = getActivePlayer();
+    const newPlayer = targetPlayer === 'home' ? getHomePlayer() : getProjectPlayer();
     
-    if (!newAudio || !newTrack) return;
+    if (!newPlayer || !newTrack) return;
 
-    // Подготавливаем новый трек
-    newAudio.src = getAudioUrl(newTrack.url);
-    newAudio.volume = 0;
-    newAudio.currentTime = 0;
+    // Подготавливаем новый плеер
+    newPlayer.src = getAudioUrl(newTrack.url);
+    newPlayer.volume = 0;
+    newPlayer.currentTime = 0;
 
     const handleNewTrackLoaded = () => {
-      newAudio.removeEventListener('loadeddata', handleNewTrackLoaded);
+      newPlayer.removeEventListener('loadeddata', handleNewTrackLoaded);
       
-      // Начинаем кроссфейд: новый трек начинает играть с нулевой громкости
-      newAudio.play().catch(console.error);
+      // Начинаем кроссфейд
+      newPlayer.play().catch(console.error);
       
       if (crossfadeIntervalRef.current) {
         clearInterval(crossfadeIntervalRef.current);
       }
 
-      let oldVolume = currentAudio?.volume || 0;
+      let oldVolume = oldPlayer?.volume || 0;
       let newVolume = 0;
       const targetVolume = 0.7;
-      const crossfadeDuration = 4000; // 4 секунды
-      const stepDuration = 50;
-      const volumeStep = targetVolume / (crossfadeDuration / stepDuration);
+      const steps = 60; // 3 секунды при 50мс интервале
+      const volumeStep = targetVolume / steps;
 
       crossfadeIntervalRef.current = setInterval(() => {
-        // Старый трек затухает
-        if (currentAudio && oldVolume > 0) {
+        // Старый плеер затухает
+        if (oldPlayer && oldVolume > 0) {
           oldVolume -= volumeStep;
           if (oldVolume <= 0) {
             oldVolume = 0;
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
+            oldPlayer.pause();
+            oldPlayer.currentTime = 0;
+            oldPlayer.volume = 0;
+          } else {
+            oldPlayer.volume = oldVolume;
           }
-          currentAudio.volume = Math.max(0, oldVolume);
         }
 
-        // Новый трек появляется
+        // Новый плеер появляется
         newVolume += volumeStep;
         if (newVolume >= targetVolume) {
           newVolume = targetVolume;
           if (crossfadeIntervalRef.current) {
             clearInterval(crossfadeIntervalRef.current);
           }
-          // Переключаем активный аудиоэлемент
-          setActiveAudioRef(activeAudioRef === 'primary' ? 'secondary' : 'primary');
+          setActivePlayer(targetPlayer);
         }
-        newAudio.volume = Math.min(targetVolume, newVolume);
-      }, stepDuration);
+        newPlayer.volume = Math.min(targetVolume, newVolume);
+      }, 50);
     };
 
-    newAudio.addEventListener('loadeddata', handleNewTrackLoaded);
-    newAudio.load();
+    newPlayer.addEventListener('loadeddata', handleNewTrackLoaded);
+    newPlayer.load();
   };
 
-  // Смена плейлиста/трека с кроссфейдом
+  // Определяем тип контента (домашний или проектный)
+  const getPlayerTypeForContent = (content: Track[] | Track): 'home' | 'project' => {
+    const firstTrack = Array.isArray(content) ? content[0] : content;
+    // Если это музыка с главной страницы - домашний плеер
+    return firstTrack.id === 'homepage' ? 'home' : 'project';
+  };
+
+  // Смена плейлиста/трека с кроссфейдом между плеерами
   const changePlaylist = (newContent: Track[] | Track) => {
     const newPlaylist = Array.isArray(newContent) ? newContent : [newContent];
+    const targetPlayerType = getPlayerTypeForContent(newContent);
     
     // Проверяем, изменился ли плейлист
     const isSamePlaylist = 
@@ -210,10 +207,19 @@ export function GlobalAudioPlayer() {
     setCurrentTrackIndex(0);
 
     if (isPlaying) {
-      // Используем кроссфейд вместо последовательного fadeOut/fadeIn
-      const newTrack = newPlaylist[0];
-      if (newTrack) {
-        crossfadeToNewTrack(newTrack);
+      // Если нужно переключиться между плеерами - кроссфейд
+      if (activePlayer !== targetPlayerType) {
+        const newTrack = newPlaylist[0];
+        if (newTrack) {
+          crossfadeToPlayer(targetPlayerType, newTrack);
+        }
+      } else {
+        // Если остаемся на том же плеере - простая смена трека
+        const player = getActivePlayer();
+        if (player && newPlaylist[0]) {
+          player.src = getAudioUrl(newPlaylist[0].url);
+          player.load();
+        }
       }
     }
   };
@@ -243,16 +249,19 @@ export function GlobalAudioPlayer() {
     }
   }, [currentTrackIndex]);
 
-  // Загрузка аудио при смене трека
+  // Настройка активного плеера при смене трека
   useEffect(() => {
-    const audio = getActiveAudio();
-    if (!audio || !currentTrack) return;
+    if (!currentTrack) return;
+    
+    const targetPlayerType = getPlayerTypeForContent([currentTrack]);
+    const targetPlayer = targetPlayerType === 'home' ? getHomePlayer() : getProjectPlayer();
+    
+    if (!targetPlayer) return;
 
-    // Останавливаем текущее воспроизведение и сбрасываем время
-    audio.pause();
-    audio.currentTime = 0;
-    setIsPlaying(false);
-    setIsLoaded(false);
+    // Если переключились на другой плеер, обновляем активный
+    if (activePlayer !== targetPlayerType) {
+      setActivePlayer(targetPlayerType);
+    }
 
     const handleLoadedData = () => {
       setIsLoaded(true);
@@ -268,34 +277,42 @@ export function GlobalAudioPlayer() {
       }
     };
 
-    // Устанавливаем источник для активного аудиоэлемента
-    audio.src = getAudioUrl(currentTrack.url);
-    audio.addEventListener('loadeddata', handleLoadedData);
-    audio.addEventListener('ended', handleEnded);
-    
-    return () => {
-      audio.removeEventListener('loadeddata', handleLoadedData);
-      audio.removeEventListener('ended', handleEnded);
-    };
-  }, [currentTrack]);
+    // Устанавливаем источник только если плеер не играет этот трек
+    if (targetPlayer.src !== getAudioUrl(currentTrack.url)) {
+      targetPlayer.pause();
+      targetPlayer.currentTime = 0;
+      targetPlayer.volume = 0;
+      setIsPlaying(false);
+      setIsLoaded(false);
+
+      targetPlayer.src = getAudioUrl(currentTrack.url);
+      targetPlayer.addEventListener('loadeddata', handleLoadedData);
+      targetPlayer.addEventListener('ended', handleEnded);
+      
+      return () => {
+        targetPlayer.removeEventListener('loadeddata', handleLoadedData);
+        targetPlayer.removeEventListener('ended', handleEnded);
+      };
+    }
+  }, [currentTrack, activePlayer]);
 
   // Управление воспроизведением
   useEffect(() => {
     if (!isLoaded || !currentTrack) return;
 
+    const player = getActivePlayer();
+    if (!player) return;
+
     if (isGlobalAudioEnabled && !isPlaying) {
-      fadeIn();
+      fadeIn(player);
     } else if (!isGlobalAudioEnabled && isPlaying) {
-      fadeOut();
+      fadeOut(player);
     }
-  }, [isGlobalAudioEnabled, isLoaded, currentTrack]);
+  }, [isGlobalAudioEnabled, isLoaded, currentTrack, activePlayer]);
 
   // Очистка интервалов при демонтировании
   useEffect(() => {
     return () => {
-      if (fadeIntervalRef.current) {
-        clearInterval(fadeIntervalRef.current);
-      }
       if (crossfadeIntervalRef.current) {
         clearInterval(crossfadeIntervalRef.current);
       }
@@ -307,12 +324,12 @@ export function GlobalAudioPlayer() {
   return (
     <>
       <audio
-        ref={primaryAudioRef}
+        ref={homePlayerRef}
         preload="auto"
         style={{ display: 'none' }}
       />
       <audio
-        ref={secondaryAudioRef}
+        ref={projectPlayerRef}
         preload="auto"
         style={{ display: 'none' }}
       />
