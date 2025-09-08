@@ -169,12 +169,27 @@ export default function ProjectPage() {
 
 
 
-  // Вспомогательные функции для доступа к глобальному плееру
-  const togglePlayPause = () => projectPlayer?.togglePlayPause();
-  const nextTrack = () => projectPlayer?.nextTrack();
-  const prevTrack = () => projectPlayer?.prevTrack();
-  const stopAudio = () => projectPlayer?.stopAudio();
-  const playTrack = (index: number) => projectPlayer?.playTrack(index);
+  // Вспомогательные функции для доступа к глобальному плееру с preventDefault
+  const handleTogglePlayPause = (e: React.MouseEvent) => {
+    e.preventDefault();
+    projectPlayer?.togglePlayPause();
+  };
+  const handleNextTrack = (e: React.MouseEvent) => {
+    e.preventDefault();
+    projectPlayer?.nextTrack();
+  };
+  const handlePrevTrack = (e: React.MouseEvent) => {
+    e.preventDefault();
+    projectPlayer?.prevTrack();
+  };
+  const handleStopAudio = (e: React.MouseEvent) => {
+    e.preventDefault();
+    projectPlayer?.stopAudio();
+  };
+  const handlePlayTrack = (e: React.MouseEvent, index: number) => {
+    e.preventDefault();
+    projectPlayer?.playTrack(index);
+  };
 
   return (
     <>
@@ -480,7 +495,7 @@ export default function ProjectPage() {
                   {/* Control buttons */}
                   <div className="flex items-center justify-center gap-2">
                     <button 
-                      onClick={prevTrack}
+                      onClick={handlePrevTrack}
                       className="winamp-button"
                       disabled={!isGlobalAudioEnabled}
                       title="Предыдущий трек"
@@ -489,12 +504,12 @@ export default function ProjectPage() {
                     </button>
                     
                     <button 
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.preventDefault();
                         if (!isGlobalAudioEnabled) {
                           toggleGlobalAudio();
-                          setTimeout(() => togglePlayPause(), 100);
                         } else {
-                          togglePlayPause();
+                          handleTogglePlayPause(e);
                         }
                       }}
                       className={`winamp-button ${projectPlayer?.isPlaying ? 'active' : ''}`}
@@ -504,7 +519,7 @@ export default function ProjectPage() {
                     </button>
 
                     <button 
-                      onClick={stopAudio}
+                      onClick={handleStopAudio}
                       className="winamp-button"
                       disabled={!isGlobalAudioEnabled}
                       title="Стоп"
@@ -513,7 +528,7 @@ export default function ProjectPage() {
                     </button>
 
                     <button 
-                      onClick={nextTrack}
+                      onClick={handleNextTrack}
                       className="winamp-button"
                       disabled={!isGlobalAudioEnabled}
                       title="Следующий трек"

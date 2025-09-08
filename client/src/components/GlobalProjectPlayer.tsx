@@ -141,16 +141,17 @@ export function GlobalProjectPlayer() {
   };
 
   const togglePlayPause = () => {
+    const audio = audioElements[currentProjectTrack];
+    if (!audio) return;
+    
     if (isPlaying) {
-      pauseAudio();
+      // Ставим на паузу
+      audio.pause();
+      setIsPlaying(false);
     } else {
-      const audio = audioElements[currentProjectTrack];
-      if (audio && audio.currentTime > 0) {
-        setIsPlaying(true);
-        audio.play().catch(console.error);
-      } else {
-        playTrack(currentProjectTrack);
-      }
+      // Возобновляем с текущего места или начинаем заново
+      setIsPlaying(true);
+      audio.play().catch(console.error);
     }
   };
 
@@ -169,9 +170,10 @@ export function GlobalProjectPlayer() {
   };
 
   const stopAudio = () => {
-    if (audioElements[currentProjectTrack]) {
-      audioElements[currentProjectTrack].pause();
-      audioElements[currentProjectTrack].currentTime = 0;
+    const audio = audioElements[currentProjectTrack];
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
       setIsPlaying(false);
       setCurrentTime(0);
     }
