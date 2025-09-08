@@ -23,6 +23,11 @@ interface AudioContextType {
   setCurrentProjectPlaylist: (playlist: Track[] | null) => void;
   setCurrentProjectTrack: (track: number) => void;
   setIsProjectPlayerReady: (ready: boolean) => void;
+  // Sound Design плеер (шумы и эмбиент)
+  isSoundDesignEnabled: boolean;
+  toggleSoundDesign: () => void;
+  currentSoundDesign: string | null;
+  setCurrentSoundDesign: (sound: string | null) => void;
   // Общие функции
   fadeOutCurrentAudio: () => Promise<void>;
   currentPage: string;
@@ -40,15 +45,23 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [currentProjectPlaylist, setCurrentProjectPlaylist] = useState<Track[] | null>(null);
   const [currentProjectTrack, setCurrentProjectTrack] = useState(0);
   const [isProjectPlayerReady, setIsProjectPlayerReady] = useState(false);
+  // Sound Design плеер
+  const [isSoundDesignEnabled, setIsSoundDesignEnabled] = useState(true); // По умолчанию включен
+  const [currentSoundDesign, setCurrentSoundDesign] = useState<string | null>(null);
   // Общее
   const [currentPage, setCurrentPage] = useState('/');
   const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Восстанавливаем состояние звука из localStorage
   useEffect(() => {
-    const saved = localStorage.getItem('global-audio-enabled');
-    if (saved) {
-      setIsGlobalAudioEnabled(saved === 'true');
+    const savedGlobal = localStorage.getItem('global-audio-enabled');
+    if (savedGlobal) {
+      setIsGlobalAudioEnabled(savedGlobal === 'true');
+    }
+    
+    const savedSoundDesign = localStorage.getItem('sound-design-enabled');
+    if (savedSoundDesign) {
+      setIsSoundDesignEnabled(savedSoundDesign === 'true');
     }
   }, []);
 
@@ -56,6 +69,12 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const newValue = !isGlobalAudioEnabled;
     setIsGlobalAudioEnabled(newValue);
     localStorage.setItem('global-audio-enabled', newValue.toString());
+  };
+
+  const toggleSoundDesign = () => {
+    const newValue = !isSoundDesignEnabled;
+    setIsSoundDesignEnabled(newValue);
+    localStorage.setItem('sound-design-enabled', newValue.toString());
   };
 
   // Функция плавного затухания текущего аудио
@@ -125,6 +144,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setCurrentProjectPlaylist,
       setCurrentProjectTrack,
       setIsProjectPlayerReady,
+      // Sound Design плеер
+      isSoundDesignEnabled,
+      toggleSoundDesign,
+      currentSoundDesign,
+      setCurrentSoundDesign,
       // Общие функции
       fadeOutCurrentAudio,
       currentPage,

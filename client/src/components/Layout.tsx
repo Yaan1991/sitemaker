@@ -5,6 +5,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { GlobalBackgroundAudio } from "./GlobalBackgroundAudio";
 import { GlobalProjectPlayer } from "./GlobalProjectPlayer";
+import { GlobalSoundDesignPlayer } from "./GlobalSoundDesignPlayer";
 import { useAudio } from "@/contexts/AudioContext";
 
 interface LayoutProps {
@@ -55,6 +56,7 @@ export default function Layout({ children }: LayoutProps) {
       <Footer />
       <GlobalBackgroundAudio />
       <GlobalProjectPlayer />
+      <GlobalSoundDesignPlayer />
     </div>
   );
 }
