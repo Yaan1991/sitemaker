@@ -74,7 +74,12 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             {/* Audio Toggle */}
             <button
-              onClick={toggleGlobalAudio}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleGlobalAudio();
+              }}
               className={`p-2 rounded-lg transition-all duration-300 ${
                 isGlobalAudioEnabled 
                   ? 'text-primary bg-primary/10 hover:bg-primary/20' 
@@ -90,7 +95,12 @@ export default function Header() {
             {hasPlaylist && isGlobalAudioEnabled && (
               <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-lg border border-primary/20">
                 <button
-                  onClick={prevTrack}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    prevTrack();
+                  }}
                   disabled={currentTrackIndex === 0}
                   className="p-1 rounded hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   title="Предыдущий трек"
@@ -114,7 +124,12 @@ export default function Header() {
                 </div>
                 
                 <button
-                  onClick={nextTrack}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    nextTrack();
+                  }}
                   disabled={currentTrackIndex === currentPlaylist.length - 1}
                   className="p-1 rounded hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   title="Следующий трек"
@@ -209,7 +224,12 @@ export default function Header() {
           <div className="md:hidden flex items-center gap-2">
             {/* Mobile Audio Toggle */}
             <button
-              onClick={toggleGlobalAudio}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleGlobalAudio();
+              }}
               className={`p-2 rounded-lg transition-all duration-300 ${
                 isGlobalAudioEnabled 
                   ? 'text-primary bg-primary/10' 
@@ -224,7 +244,12 @@ export default function Header() {
             {hasPlaylist && isGlobalAudioEnabled && (
               <div className="flex items-center gap-1 px-2 py-1 bg-primary/10 rounded border border-primary/20">
                 <button
-                  onClick={prevTrack}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    prevTrack();
+                  }}
                   disabled={currentTrackIndex === 0}
                   className="p-1 rounded disabled:opacity-50"
                 >
@@ -236,7 +261,12 @@ export default function Header() {
                 </div>
                 
                 <button
-                  onClick={nextTrack}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    nextTrack();
+                  }}
                   disabled={currentTrackIndex === currentPlaylist.length - 1}
                   className="p-1 rounded disabled:opacity-50"
                 >
