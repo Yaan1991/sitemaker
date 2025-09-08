@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useRoute } from "wouter";
 import { projects } from "@/data/projects";
 import SEOHead from "@/components/SEOHead";
-import { ExternalLink, ArrowLeft } from "lucide-react";
+import { ExternalLink, ArrowLeft, VolumeX, Volume2 } from "lucide-react";
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { useAudio } from "@/contexts/AudioContext";
@@ -146,11 +146,21 @@ export default function ProjectPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
                     onClick={toggleGlobalAudio}
-                    className="idiot-button px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 animate-pulse-neon shadow-lg"
+                    className="inline-flex items-center gap-3 idiot-button px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg"
                     data-testid="button-listen-music"
                     title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
                   >
-                    {isGlobalAudioEnabled ? "⏸️ Пауза" : "▶️ Включить звук"}
+                    {isGlobalAudioEnabled ? (
+                      <>
+                        <VolumeX className="w-5 h-5" />
+                        Выкл. звук
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="w-5 h-5" />
+                        Вкл. звук
+                      </>
+                    )}
                   </motion.button>
                 </motion.div>
               )}
@@ -190,7 +200,7 @@ export default function ProjectPage() {
               >
                 {project.id !== "idiot-saratov-drama" && (
                   <>
-                    <div className="text-sm text-primary font-medium tracking-wide uppercase mb-2">
+                    <div className="text-sm idiot-primary font-medium tracking-wide uppercase mb-2">
                       {categoryNames[project.category]} • {project.year}
                     </div>
                     <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4" data-testid="text-title">
@@ -316,33 +326,33 @@ export default function ProjectPage() {
                   <div className="space-y-4">
                     {project.details.director && (
                       <div>
-                        <span className="text-sm text-primary font-medium">Режиссёр:</span>
+                        <span className="text-sm idiot-primary font-medium">Режиссёр:</span>
                         <span className="text-gray-300 ml-2">{project.details.director}</span>
                       </div>
                     )}
                     
                     {project.details.genre && (
                       <div>
-                        <span className="text-sm text-primary font-medium">Жанр:</span>
+                        <span className="text-sm idiot-primary font-medium">Жанр:</span>
                         <span className="text-gray-300 ml-2">{project.details.genre}</span>
                       </div>
                     )}
                     
                     {project.details.duration && (
                       <div>
-                        <span className="text-sm text-primary font-medium">Продолжительность:</span>
+                        <span className="text-sm idiot-primary font-medium">Продолжительность:</span>
                         <span className="text-gray-300 ml-2">{project.details.duration}</span>
                       </div>
                     )}
 
                     {project.details.technical && project.details.technical.length > 0 && (
                       <div>
-                        <span className="text-sm text-primary font-medium block mb-2">Технические решения:</span>
+                        <span className="text-sm idiot-primary font-medium block mb-2">Технические решения:</span>
                         <div className="flex flex-wrap gap-2">
                           {project.details.technical.map((tech, index) => (
                             <span
                               key={index}
-                              className="px-2 py-1 bg-primary/20 text-primary text-sm rounded"
+                              className="px-2 py-1 bg-pink-500/20 idiot-primary text-sm rounded"
                             >
                               {tech}
                             </span>
@@ -353,7 +363,7 @@ export default function ProjectPage() {
 
                     {project.details.cast && project.details.cast.length > 0 && (
                       <div>
-                        <span className="text-sm text-primary font-medium">В ролях:</span>
+                        <span className="text-sm idiot-primary font-medium">В ролях:</span>
                         <span className="text-gray-300 ml-2">{project.details.cast.join(", ")}</span>
                       </div>
                     )}
@@ -377,7 +387,7 @@ export default function ProjectPage() {
                   {project.role.map((role, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-primary/20 text-primary text-sm rounded-full"
+                      className="px-3 py-1 bg-pink-500/20 idiot-primary text-sm rounded-full"
                     >
                       {role}
                     </span>
@@ -404,7 +414,7 @@ export default function ProjectPage() {
                         href={link.url}
                         target={link.external ? "_blank" : "_self"}
                         rel={link.external ? "noopener noreferrer" : undefined}
-                        className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 block"
+                        className="inline-flex items-center gap-2 idiot-primary hover:text-pink-400 transition-colors duration-200 block"
                         data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {link.label}

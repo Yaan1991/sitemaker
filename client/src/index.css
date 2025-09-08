@@ -150,9 +150,17 @@
     color: #ec4899;
   }
 
-  /* Мигающая буква "О" розового цвета */
+  /* Мигающая буква "О" с розовым свечением */
   .neon-flicker-o {
     color: #ec4899 !important;
+    text-shadow: 
+      0 0 5px #ec4899,
+      0 0 10px #ec4899,
+      0 0 15px #ec4899,
+      0 0 20px #ec4899,
+      0 0 25px #db2777,
+      0 0 30px #db2777,
+      0 0 35px #be185d !important;
     animation: flickerO 3s infinite linear;
   }
 
