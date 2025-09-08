@@ -122,8 +122,8 @@ export function AudioPlayer({ tracks, className = '', onPlayStateChange }: Audio
 
       {/* Current Track Display */}
       <div className="mb-4">
-        <div className="w-full max-w-xs overflow-hidden">
-          <h5 className={`text-lg font-medium text-white mb-2 whitespace-nowrap ${
+        <div className="w-80 h-8 overflow-hidden flex items-center flex-shrink-0">
+          <h5 className={`text-lg font-medium text-white whitespace-nowrap ${
             currentTrack.title.length > 20 ? 'animate-marquee' : ''
           }`}>
             {currentTrack.title}
@@ -192,12 +192,12 @@ export function AudioPlayer({ tracks, className = '', onPlayStateChange }: Audio
             data-testid={`button-track-${index}`}
           >
             <div className="flex items-center gap-3">
-              <div className={`w-2 h-2 rounded-full ${
+              <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
                 index === currentTrackIndex && isPlaying 
                   ? 'bg-primary animate-pulse' 
                   : 'bg-gray-500'
               }`} />
-              <div className="flex-1 overflow-hidden">
+              <div className="w-72 overflow-hidden flex-shrink-0">
                 <span className={`text-sm whitespace-nowrap ${
                   track.title.length > 25 ? 'animate-marquee' : ''
                 }`}>
