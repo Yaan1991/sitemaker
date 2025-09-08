@@ -118,26 +118,17 @@ export default function ProjectPage() {
     toggleGlobalAudio,
     currentProjectPlaylist,
     currentProjectTrack,
-    isProjectPlayerReady
+    isProjectPlayerReady,
+    // Добавляем недостающие состояния из глобального плеера
+    isPlaying,
+    currentTime,
+    duration
   } = useAudio();
   
-  // Локальное состояние плеера для UI
-  const [localIsPlaying, setLocalIsPlaying] = useState(false);
-  const [localCurrentTime, setLocalCurrentTime] = useState(0);
-  const [localDuration, setLocalDuration] = useState(0);
-  
-  // Синхронизируем с глобальным плеером через интервал
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const player = (window as any).projectPlayer;
-      if (player) {
-        setLocalIsPlaying(player.isPlaying);
-        setLocalCurrentTime(player.currentTime);
-        setLocalDuration(player.duration);
-      }
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
+  // Используем состояние напрямую из глобального контекста
+  const localIsPlaying = isPlaying;
+  const localCurrentTime = currentTime;
+  const localDuration = duration;
   
   // Фотографии для спектакля "Идиот" (4 фото)
   const idiotPhotos = [

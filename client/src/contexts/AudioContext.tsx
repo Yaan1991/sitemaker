@@ -20,9 +20,15 @@ interface AudioContextType {
   currentProjectPlaylist: Track[] | null;
   currentProjectTrack: number;
   isProjectPlayerReady: boolean;
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
   setCurrentProjectPlaylist: (playlist: Track[] | null) => void;
   setCurrentProjectTrack: (track: number) => void;
   setIsProjectPlayerReady: (ready: boolean) => void;
+  setIsPlaying: (playing: boolean) => void;
+  setCurrentTime: (time: number) => void;
+  setDuration: (duration: number) => void;
   // Sound Design плеер (шумы и эмбиент)
   isSoundDesignEnabled: boolean;
   toggleSoundDesign: () => void;
@@ -54,6 +60,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [currentProjectPlaylist, setCurrentProjectPlaylist] = useState<Track[] | null>(null);
   const [currentProjectTrack, setCurrentProjectTrack] = useState(0);
   const [isProjectPlayerReady, setIsProjectPlayerReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   // Sound Design плеер
   const [isSoundDesignEnabled, setIsSoundDesignEnabled] = useState(true); // По умолчанию включен
   const [currentSoundDesign, setCurrentSoundDesign] = useState<string | null>(null);
@@ -191,9 +200,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       currentProjectPlaylist,
       currentProjectTrack,
       isProjectPlayerReady,
+      isPlaying,
+      currentTime,
+      duration,
       setCurrentProjectPlaylist,
       setCurrentProjectTrack,
       setIsProjectPlayerReady,
+      setIsPlaying,
+      setCurrentTime,
+      setDuration,
       // Sound Design плеер
       isSoundDesignEnabled,
       toggleSoundDesign,

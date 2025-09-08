@@ -42,17 +42,20 @@ export function GlobalProjectPlayer() {
     currentProjectPlaylist, 
     currentProjectTrack,
     isProjectPlayerReady,
+    isPlaying,
+    currentTime,
+    duration,
     setCurrentProjectPlaylist,
     setCurrentProjectTrack,
     setIsProjectPlayerReady,
+    setIsPlaying,
+    setCurrentTime,
+    setDuration,
     musicVolume,
     masterVolume
   } = useAudio();
   
   const [audioElements, setAudioElements] = useState<HTMLAudioElement[]>([]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
 
   // Определяем текущий проект из URL
   const getCurrentProject = () => {
