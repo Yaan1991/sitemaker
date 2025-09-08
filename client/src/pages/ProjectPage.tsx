@@ -516,16 +516,7 @@ export default function ProjectPage() {
                 Музыка из спектакля
               </h3>
               
-              <div className="winamp-player p-6 relative">
-                
-                {/* Power button in top left corner */}
-                <button 
-                  onClick={toggleGlobalAudio}
-                  className={`absolute top-2 left-2 winamp-button text-xs px-2 py-1 ${isGlobalAudioEnabled ? 'active' : ''}`}
-                  title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
-                >
-                  {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
-                </button>
+              <div className="winamp-player p-6">
                 
                 {/* Winamp-style player interface */}
                 <div className="space-y-4">
@@ -544,8 +535,17 @@ export default function ProjectPage() {
                           '*** ЗАГРУЗКА... ***'
                         )}
                       </div>
-                      <div className="track-info">
-                        Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
+                      <div className="flex items-center justify-between">
+                        <div className="track-info">
+                          Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
+                        </div>
+                        <button 
+                          onClick={toggleGlobalAudio}
+                          className={`winamp-button text-xs px-2 py-1 ml-2 ${isGlobalAudioEnabled ? 'active' : ''}`}
+                          title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
+                        >
+                          {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
+                        </button>
                       </div>
                     </div>
                     <div className="flex flex-col gap-2">
