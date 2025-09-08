@@ -7,6 +7,7 @@ import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { useAudio } from "@/contexts/AudioContext";
 import { useState } from "react";
+import AutoSlider from "@/components/AutoSlider";
 
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
@@ -125,15 +126,31 @@ export default function ProjectPage() {
               {/* Case Study for Idiot */}
               {project.id === "idiot-saratov-drama" && (
                 <div className="mt-8 vhs-glitch">
-                  <h3 className="text-2xl font-russo font-bold text-white mb-6 vhs-flicker">Кейс: «Идиот»</h3>
-                  
-                  {/* Основное фото проекта */}
-                  <div className="mb-6">
+                  {/* Основное фото проекта с наложенным текстом */}
+                  <div className="relative mb-8">
                     <img 
                       src="/images/idiot1_1756479054514.webp" 
                       alt="" 
                       className="w-full rounded-lg shadow-lg"
                     />
+                    {/* Наложенный текст на фото */}
+                    <div className="absolute top-6 left-6 text-white">
+                      <h1 className="text-5xl lg:text-6xl font-russo font-bold text-white mb-2 vhs-chromatic drop-shadow-lg">
+                        ИДИОТ
+                      </h1>
+                      <p className="text-lg font-medium text-gray-200 drop-shadow-md">
+                        Театр им. Слонова • 2024
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Описание спектакля */}
+                  <div className="mb-8">
+                    <p className="text-xl text-gray-300 leading-relaxed">
+                      Радикально переосмысленная постановка Достоевского, перенесенная в Саратов 1999 года. 
+                      Спектакль сочетает театр и «живое кино» — два оператора снимают действие, 
+                      зритель видит параллельно сцену и экранную версию в эстетике 90-х.
+                    </p>
                   </div>
                   
                   {/* Постановочная команда и роль в проекте в две колонки */}
@@ -157,9 +174,6 @@ export default function ProjectPage() {
                   </div>
                   
                   <div className="glass-effect rounded-xl p-6 space-y-6">
-                    <p className="text-sm text-gray-400 mb-2">
-                      Саратовский театр драмы имени Слонова, 2024
-                    </p>
 
                     <div className="space-y-6 text-gray-300 leading-relaxed">
                       <div>
@@ -222,39 +236,38 @@ export default function ProjectPage() {
                         </p>
                       </div>
 
-                      {/* Фотогалерея спектакля */}
+                      {/* Фотогалерея спектакля в виде автослайдера */}
                       <div>
                         <h4 className="text-xl font-semibold text-primary mb-4">Фотогалерея спектакля</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                          <div>
+                        <AutoSlider
+                          slides={[
                             <img 
+                              key="idiot2" 
                               src="/images/idiot2_1756479054514.webp" 
                               alt="" 
                               className="w-full rounded-lg shadow-lg"
-                            />
-                          </div>
-                          <div>
+                            />,
                             <img 
+                              key="idiot3" 
                               src="/images/idiot3_1756479054514.webp" 
                               alt="" 
                               className="w-full rounded-lg shadow-lg"
-                            />
-                          </div>
-                          <div>
+                            />,
                             <img 
+                              key="idiot4" 
                               src="/images/idiot4_1756479054514.webp" 
                               alt="" 
                               className="w-full rounded-lg shadow-lg"
-                            />
-                          </div>
-                          <div>
+                            />,
                             <img 
+                              key="idiot5" 
                               src="/images/idiot5_1756479169274.webp" 
                               alt="" 
                               className="w-full rounded-lg shadow-lg"
                             />
-                          </div>
-                        </div>
+                          ]}
+                          className="mb-6"
+                        />
                       </div>
 
 
