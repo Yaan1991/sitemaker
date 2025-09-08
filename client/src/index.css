@@ -115,30 +115,26 @@
     animation: pulseNeon 2s ease-in-out infinite;
   }
 
-  /* Фиолетовый неоновый текст с Train One */
+  /* Розово-фиолетовый неоновый текст с Train One */
   .neon-scorsese {
     font-family: 'Train One', cursive;
     font-weight: 400;
     letter-spacing: 6px;
-    color: #c084fc;
+    color: #e879f9;
     text-shadow: 
-      0 0 5px #c084fc,
-      0 0 10px #c084fc,
-      0 0 15px #c084fc,
-      0 0 20px #c084fc,
-      0 0 25px #a855f7,
-      0 0 30px #a855f7,
-      0 0 35px #9333ea;
-    filter: drop-shadow(0 0 8px #c084fc);
-    background: rgba(0, 0, 0, 0.6);
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: 1px solid rgba(192, 132, 252, 0.3);
+      0 0 5px #e879f9,
+      0 0 10px #e879f9,
+      0 0 15px #e879f9,
+      0 0 20px #e879f9,
+      0 0 25px #d946ef,
+      0 0 30px #d946ef,
+      0 0 35px #c026d3;
+    filter: drop-shadow(0 0 8px #e879f9);
   }
 
-  /* Мигающая буква "О" */
+  /* Буква "О" того же цвета без мигания */
   .neon-flicker-o {
-    animation: flickerO 3s infinite linear;
+    color: #e879f9;
   }
 
   /* Усиленные VHS эффекты */

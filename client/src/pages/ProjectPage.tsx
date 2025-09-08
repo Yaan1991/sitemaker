@@ -142,12 +142,9 @@ export default function ProjectPage() {
                     <PhotoCarousel photos={idiotPhotos} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-lg" />
                     
-                    {/* Неоновый заголовок с мигающей "О" */}
+                    {/* Неоновый заголовок */}
                     <div className="absolute top-6 left-6 text-white">
                       <NeonTitle text="ИДИОТ" />
-                      <p className="text-lg font-medium text-gray-300 bg-black/70 px-4 py-2 rounded-lg border border-gray-500/30 backdrop-blur-sm">
-                        Театр им. Слонова • 2024
-                      </p>
                     </div>
                     
                     {/* Кнопка слушать музыку */}
@@ -178,6 +175,20 @@ export default function ProjectPage() {
                   </>
                 )}
               </motion.div>
+              
+              {/* Информация о театре под фотографиями для проекта Идиот */}
+              {project.id === "idiot-saratov-drama" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="text-center mt-4"
+                >
+                  <p className="text-lg font-medium text-gray-300">
+                    Театр им. Слонова • 2024
+                  </p>
+                </motion.div>
+              )}
 
               {/* Header */}
               <motion.div
