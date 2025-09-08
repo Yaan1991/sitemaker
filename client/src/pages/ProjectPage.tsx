@@ -143,14 +143,7 @@ export default function ProjectPage() {
               {project.id === "idiot-saratov-drama" && (
                 <div className="mt-8 vhs-glitch">
                   
-                  {/* Описание спектакля */}
-                  <div className="mb-8">
-                    <p className="text-xl text-gray-300 leading-relaxed">
-                      Радикально переосмысленная постановка Достоевского, перенесенная в Саратов 1999 года. 
-                      Спектакль сочетает театр и «живое кино» — два оператора снимают действие, 
-                      зритель видит параллельно сцену и экранную версию в эстетике 90-х.
-                    </p>
-                  </div>
+                  
                   
                   {/* Постановочная команда и роль в проекте в две колонки */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
