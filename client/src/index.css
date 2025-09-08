@@ -239,6 +239,135 @@
     color: #ec4899;
   }
 
+  /* Winamp-style плеер */
+  .winamp-player {
+    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 2px solid #444;
+    border-radius: 8px;
+    box-shadow: 
+      inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+      inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+      0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .winamp-display {
+    background: #000;
+    border: 2px inset #444;
+    color: #ec4899;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 8px #ec4899;
+    padding: 8px 12px;
+    border-radius: 4px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .winamp-time {
+    background: #111;
+    border: 1px inset #333;
+    color: #00ff41;
+    font-family: 'Digital-7', 'Courier New', monospace;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 2px;
+    text-shadow: 0 0 6px #00ff41;
+    letter-spacing: 1px;
+  }
+
+  .winamp-button {
+    background: linear-gradient(145deg, #555 0%, #333 100%);
+    border: 2px outset #666;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.1s;
+    user-select: none;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .winamp-button:hover {
+    background: linear-gradient(145deg, #666 0%, #444 100%);
+  }
+
+  .winamp-button:active {
+    border: 2px inset #666;
+    background: linear-gradient(145deg, #333 0%, #555 100%);
+  }
+
+  .winamp-button.active {
+    background: linear-gradient(145deg, #ec4899 0%, #db2777 100%);
+    border-color: #ec4899;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  }
+
+  .equalizer {
+    display: flex;
+    align-items: end;
+    gap: 2px;
+    height: 40px;
+    padding: 4px;
+    background: #111;
+    border: 1px inset #333;
+    border-radius: 2px;
+  }
+
+  .eq-bar {
+    width: 4px;
+    background: linear-gradient(to top, #ec4899 0%, #f472b6 50%, #fbbf24 100%);
+    border-radius: 1px;
+    transition: height 0.1s ease;
+  }
+
+  .progress-bar-container {
+    background: #222;
+    border: 1px inset #444;
+    border-radius: 2px;
+    padding: 2px;
+    height: 12px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ec4899 0%, #f472b6 100%);
+    border-radius: 1px;
+    transition: width 0.1s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+    animation: shine 2s infinite;
+  }
+
+  @keyframes shine {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+  }
+
+  .track-info {
+    background: #000;
+    border: 1px inset #333;
+    color: #ec4899;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 2px;
+    text-shadow: 0 0 4px #ec4899;
+  }
+
   /* Усиленные VHS эффекты */
   .vhs-enhanced {
     filter: 

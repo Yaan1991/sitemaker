@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useRoute } from "wouter";
 import { projects } from "@/data/projects";
 import SEOHead from "@/components/SEOHead";
-import { ExternalLink, ArrowLeft, VolumeX, Volume2, Play, Pause } from "lucide-react";
+import { ExternalLink, ArrowLeft, VolumeX, Volume2, Play, Pause, SkipBack, SkipForward, Square } from "lucide-react";
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { useAudio } from "@/contexts/AudioContext";
@@ -55,6 +55,43 @@ function PhotoCarousel({ photos }: { photos: string[] }) {
   );
 }
 
+// Компонент эквалайзера в стиле Winamp
+function Equalizer({ isPlaying }: { isPlaying: boolean }) {
+  const [bars, setBars] = useState<number[]>(Array(10).fill(0));
+
+  useEffect(() => {
+    if (!isPlaying) {
+      setBars(Array(10).fill(0));
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setBars(bars => bars.map(() => Math.random() * 100));
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  return (
+    <div className="equalizer">
+      {bars.map((height, index) => (
+        <div
+          key={index}
+          className="eq-bar"
+          style={{ height: `${height}%` }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// Компонент форматирования времени
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
 // Треки для спектакля "Идиот"
 const idiotTracks = [
   {
@@ -90,6 +127,8 @@ export default function ProjectPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioElements, setAudioElements] = useState<HTMLAudioElement[]>([]);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   
   // Фотографии для спектакля "Идиот" (4 фото)
   const idiotPhotos = [
@@ -169,6 +208,12 @@ export default function ProjectPage() {
     audio.volume = 0.7;
     audio.play().catch(console.error);
 
+    // Обновление времени
+    audio.ontimeupdate = () => {
+      setCurrentTime(audio.currentTime);
+      setDuration(audio.duration || 0);
+    };
+
     // Автопереход к следующему треку
     audio.onended = () => {
       const nextTrack = (trackIndex + 1) % idiotTracks.length;
@@ -188,6 +233,25 @@ export default function ProjectPage() {
       pauseAudio();
     } else {
       playTrack(currentTrack);
+    }
+  };
+
+  const nextTrack = () => {
+    const next = (currentTrack + 1) % idiotTracks.length;
+    playTrack(next);
+  };
+
+  const prevTrack = () => {
+    const prev = currentTrack === 0 ? idiotTracks.length - 1 : currentTrack - 1;
+    playTrack(prev);
+  };
+
+  const stopAudio = () => {
+    if (audioElements[currentTrack]) {
+      audioElements[currentTrack].pause();
+      audioElements[currentTrack].currentTime = 0;
+      setIsPlaying(false);
+      setCurrentTime(0);
     }
   };
 
@@ -440,73 +504,118 @@ export default function ProjectPage() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="max-w-4xl mx-auto mt-12 mb-8"
             >
-              <div className="glass-effect rounded-xl p-6">
+              <div className="winamp-player p-6">
                 <h3 className="text-2xl font-bold text-white mb-6 text-center">Музыка из спектакля</h3>
                 
-                {/* Основные контролы плеера */}
-                <div className="bg-pink-500/10 border border-pink-500/30 p-4 rounded-lg mb-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-white font-medium">
-                        {isPlayerReady ? `Сейчас: ${idiotTracks[currentTrack]?.title || 'Не выбран'}` : 'Загрузка...'}
-                      </h4>
-                      <p className="text-gray-400 text-sm">Композитор: Ян Кузьмичёв</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <button 
-                        onClick={toggleGlobalAudio}
-                        className="idiot-primary hover:text-pink-400 transition-colors p-2 bg-pink-500/20 rounded-lg"
-                        title={isGlobalAudioEnabled ? "Выключить музыку" : "Включить музыку"}
-                      >
-                        {isGlobalAudioEnabled ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-                      </button>
-                      {isGlobalAudioEnabled && (
-                        <button 
-                          onClick={togglePlayPause}
-                          className="idiot-primary hover:text-pink-400 transition-colors p-2 bg-pink-500/20 rounded-lg"
-                          title={isPlaying ? "Пауза" : "Воспроизвести"}
-                        >
-                          {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Playlist */}
-                <div className="space-y-3">
-                  {idiotTracks.map((track, index) => (
-                    <div 
-                      key={track.id}
-                      className={`bg-pink-500/10 border border-pink-500/30 p-4 rounded-lg transition-all ${
-                        currentTrack === index && isPlaying ? 'bg-pink-500/20 border-pink-500/50' : ''
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="text-white font-medium">{track.title}</h4>
-                          <p className="text-gray-400 text-sm">Композитор: Ян Кузьмичёв</p>
-                        </div>
-                        <button 
-                          onClick={() => isGlobalAudioEnabled ? playTrack(index) : toggleGlobalAudio()}
-                          className="idiot-primary hover:text-pink-400 transition-colors flex items-center gap-2 px-3 py-2 bg-pink-500/20 rounded-lg"
-                          title={!isGlobalAudioEnabled ? "Включить музыку" : "Играть трек"}
-                        >
-                          {currentTrack === index && isPlaying ? (
-                            <>
-                              <Pause className="w-4 h-4" />
-                              Играет
-                            </>
-                          ) : (
-                            <>
-                              <Play className="w-4 h-4" />
-                              Играть
-                            </>
-                          )}
-                        </button>
+                {/* Winamp-style player interface */}
+                <div className="space-y-4">
+                  
+                  {/* Top row: Display and Equalizer */}
+                  <div className="flex gap-4 items-stretch">
+                    <div className="flex-1">
+                      <div className="winamp-display mb-2">
+                        {isPlayerReady ? (
+                          <div className="overflow-hidden">
+                            <div className="animate-pulse">
+                              ♪ {idiotTracks[currentTrack]?.title || 'Не выбран'} ♪
+                            </div>
+                          </div>
+                        ) : (
+                          '*** ЗАГРУЗКА... ***'
+                        )}
+                      </div>
+                      <div className="track-info">
+                        Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
                       </div>
                     </div>
-                  ))}
+                    <div className="flex flex-col gap-2">
+                      <div className="winamp-time">
+                        {formatTime(currentTime)} / {formatTime(duration)}
+                      </div>
+                      <Equalizer isPlaying={isPlaying && isGlobalAudioEnabled} />
+                    </div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div className="progress-bar-container">
+                    <div 
+                      className="progress-bar" 
+                      style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+                    />
+                  </div>
+
+                  {/* Control buttons */}
+                  <div className="flex items-center justify-center gap-2">
+                    <button 
+                      onClick={prevTrack}
+                      className="winamp-button"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Предыдущий трек"
+                    >
+                      <SkipBack className="w-4 h-4" />
+                    </button>
+                    
+                    <button 
+                      onClick={togglePlayPause}
+                      className={`winamp-button ${isPlaying ? 'active' : ''}`}
+                      disabled={!isGlobalAudioEnabled}
+                      title={isPlaying ? "Пауза" : "Воспроизвести"}
+                    >
+                      {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                    </button>
+
+                    <button 
+                      onClick={stopAudio}
+                      className="winamp-button"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Стоп"
+                    >
+                      <Square className="w-4 h-4" />
+                    </button>
+
+                    <button 
+                      onClick={nextTrack}
+                      className="winamp-button"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Следующий трек"
+                    >
+                      <SkipForward className="w-4 h-4" />
+                    </button>
+
+                    <div className="ml-4 border-l border-gray-600 pl-4">
+                      <button 
+                        onClick={toggleGlobalAudio}
+                        className={`winamp-button ${isGlobalAudioEnabled ? 'active' : ''}`}
+                        title={isGlobalAudioEnabled ? "Выключить музыку" : "Включить музыку"}
+                      >
+                        {isGlobalAudioEnabled ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Playlist */}
+                  <div className="mt-6">
+                    <h4 className="text-white font-bold mb-3 text-center">ПЛЕЙЛИСТ</h4>
+                    <div className="space-y-1">
+                      {idiotTracks.map((track, index) => (
+                        <div 
+                          key={track.id}
+                          className={`track-info cursor-pointer hover:bg-gray-800 transition-colors ${
+                            currentTrack === index ? 'bg-gray-700' : ''
+                          }`}
+                          onClick={() => isGlobalAudioEnabled ? playTrack(index) : toggleGlobalAudio()}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span>
+                              {index + 1}. {track.title}
+                              {currentTrack === index && isPlaying && ' ♪'}
+                            </span>
+                            <span className="text-xs opacity-70">03:45</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
