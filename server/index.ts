@@ -1,10 +1,22 @@
 import express, { type Request, Response, NextFunction } from "express";
+import path from "path";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Serve static audio files from public/audio directory
+app.use('/audio', express.static(path.join(process.cwd(), 'public/audio'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.mp3')) {
+      res.setHeader('Content-Type', 'audio/mpeg');
+      res.setHeader('Accept-Ranges', 'bytes');
+      res.setHeader('Cache-Control', 'public, max-age=86400'); // 24 hours cache
+    }
+  }
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();
