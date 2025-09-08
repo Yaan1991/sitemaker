@@ -512,8 +512,11 @@ export default function ProjectPage() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="max-w-4xl mx-auto mt-12 mb-8"
             >
+              <h3 className="text-3xl font-bold text-white mb-8 text-center idiot-title">
+                Музыка из спектакля
+              </h3>
+              
               <div className="winamp-player p-6">
-                <h3 className="text-2xl font-bold text-white mb-6 text-center">Музыка из спектакля</h3>
                 
                 {/* Winamp-style player interface */}
                 <div className="space-y-4">
