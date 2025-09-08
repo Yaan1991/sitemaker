@@ -23,12 +23,18 @@ export default function Layout({ children }: LayoutProps) {
       window.scrollTo(0, 0);
     }
     
-    // Если переходим СО страницы проекта НА другую страницу - делаем фейд аут
+    // Если переходим СО страницы проекта НА другую страницу - делаем кроссфейд
     const isLeavingProject = previousLocation.startsWith('/project/') && !location.startsWith('/project/');
     
     if (isLeavingProject) {
-      // Запускаем фейд аут всех активных аудио элементов
-      fadeOutCurrentAudio();
+      // Запускаем специфичное затухание проектного плеера (4 секунды)
+      const projectPlayer = (window as any).projectPlayer;
+      if (projectPlayer && projectPlayer.fadeOutProjectPlayer) {
+        projectPlayer.fadeOutProjectPlayer();
+      } else {
+        // Fallback: общее затухание всех аудио элементов
+        fadeOutCurrentAudio();
+      }
     }
     
     // Обновляем предыдущую локацию

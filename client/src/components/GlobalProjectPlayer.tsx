@@ -149,6 +149,32 @@ export function GlobalProjectPlayer() {
     }
   };
 
+  // Плавное затухание проектного плеера при уходе со страницы
+  const fadeOutProjectPlayer = (): Promise<void> => {
+    return new Promise((resolve) => {
+      const audio = audioElements[currentProjectTrack];
+      if (!audio || audio.paused) {
+        resolve();
+        return;
+      }
+
+      let currentVolume = audio.volume;
+      const fadeOut = setInterval(() => {
+        currentVolume -= 0.0125; // 4 секунды затухания (4000ms / 50ms = 80 шагов, 1.0 / 80 = 0.0125)
+        if (currentVolume <= 0) {
+          currentVolume = 0;
+          audio.volume = 0;
+          audio.pause();
+          setIsPlaying(false);
+          clearInterval(fadeOut);
+          resolve();
+        } else {
+          audio.volume = currentVolume;
+        }
+      }, 50);
+    });
+  };
+
   const togglePlayPause = () => {
     const audio = audioElements[currentProjectTrack];
     if (!audio) return;
@@ -205,6 +231,7 @@ export function GlobalProjectPlayer() {
       prevTrack,
       stopAudio,
       playTrack,
+      fadeOutProjectPlayer,
       isPlaying,
       currentTime,
       duration,

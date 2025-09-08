@@ -23,15 +23,20 @@ export function GlobalBackgroundAudio() {
     const shouldPlay = isGlobalAudioEnabled && shouldPlayBackground();
 
     if (shouldPlay && !isPlaying) {
-      // Запускаем с нулевой громкости
-      audio.volume = 0;
-      audio.play().then(() => {
-        setIsPlaying(true);
-        // Плавное появление звука
-        fadeIn();
-      }).catch(console.error);
+      // Если переходим С проектной страницы - добавляем задержку для кроссфейда
+      const delay = location === '/' || !location.startsWith('/project/') ? 2000 : 0;
+      
+      setTimeout(() => {
+        // Запускаем с нулевой громкости
+        audio.volume = 0;
+        audio.play().then(() => {
+          setIsPlaying(true);
+          // Плавное появление звука (2 секунды)
+          fadeIn();
+        }).catch(console.error);
+      }, delay);
     } else if (!shouldPlay && isPlaying) {
-      // Плавное затухание
+      // Плавное затухание (без задержки)
       fadeOut();
     }
   }, [isGlobalAudioEnabled, location, isPlaying]);
