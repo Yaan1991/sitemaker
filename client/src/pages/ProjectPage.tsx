@@ -153,7 +153,6 @@ export default function ProjectPage() {
                         <p>Режиссёр: Иван Комаров</p>
                         <p>Художник: Ольга Кузнецова</p>
                         <p>Художник по свету: Максим Бирюков</p>
-                        <p>Видеохудожник: Дмитрий Волков</p>
                       </div>
                     </div>
                     <div>
@@ -227,37 +226,13 @@ export default function ProjectPage() {
                         </p>
                       </div>
 
-                      {/* Фотогалерея спектакля в виде автослайдера */}
+                      {/* Основное фото спектакля */}
                       <div>
-                        <h4 className="text-xl font-semibold text-primary mb-4">Фотогалерея спектакля</h4>
-                        <AutoSlider
-                          slides={[
-                            <img 
-                              key="idiot2" 
-                              src="/images/idiot2_1756479054514.webp" 
-                              alt="" 
-                              className="w-full rounded-lg shadow-lg"
-                            />,
-                            <img 
-                              key="idiot3" 
-                              src="/images/idiot3_1756479054514.webp" 
-                              alt="" 
-                              className="w-full rounded-lg shadow-lg"
-                            />,
-                            <img 
-                              key="idiot4" 
-                              src="/images/idiot4_1756479054514.webp" 
-                              alt="" 
-                              className="w-full rounded-lg shadow-lg"
-                            />,
-                            <img 
-                              key="idiot5" 
-                              src="/images/idiot5_1756479169274.webp" 
-                              alt="" 
-                              className="w-full rounded-lg shadow-lg"
-                            />
-                          ]}
-                          className="mb-6"
+                        <h4 className="text-xl font-semibold text-primary mb-4">Фото спектакля</h4>
+                        <img 
+                          src="/images/idiot.webp" 
+                          alt="Спектакль Идиот" 
+                          className="w-full rounded-lg shadow-lg"
                         />
                       </div>
 
