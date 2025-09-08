@@ -9,9 +9,6 @@ interface Track {
 interface AudioContextType {
   isGlobalAudioEnabled: boolean;
   toggleGlobalAudio: () => void;
-  showWelcomeModal: boolean;
-  setShowWelcomeModal: (show: boolean) => void;
-  handleWelcomeChoice: (enabled: boolean) => void;
   currentPlaylist: Track[] | null;
   currentTrackIndex: number;
   setCurrentPlaylist: (playlist: Track[] | null) => void;
@@ -24,20 +21,13 @@ const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(false);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [currentPlaylist, setCurrentPlaylist] = useState<Track[] | null>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
-  // Проверяем при загрузке, показывали ли уже приветствие
+  // Загружаем сохраненные настройки при инициализации
   useEffect(() => {
-    const hasSeenWelcome = localStorage.getItem('has-seen-audio-welcome');
-    if (!hasSeenWelcome) {
-      setShowWelcomeModal(true);
-    } else {
-      // Загружаем сохраненные настройки
-      const savedAudioPreference = localStorage.getItem('global-audio-enabled');
-      setIsGlobalAudioEnabled(savedAudioPreference === 'true');
-    }
+    const savedAudioPreference = localStorage.getItem('global-audio-enabled');
+    setIsGlobalAudioEnabled(savedAudioPreference === 'true');
   }, []);
 
   const toggleGlobalAudio = () => {
@@ -46,12 +36,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('global-audio-enabled', newValue.toString());
   };
 
-  const handleWelcomeChoice = (enabled: boolean) => {
-    setIsGlobalAudioEnabled(enabled);
-    setShowWelcomeModal(false);
-    localStorage.setItem('has-seen-audio-welcome', 'true');
-    localStorage.setItem('global-audio-enabled', enabled.toString());
-  };
 
   const nextTrack = () => {
     if (currentPlaylist && currentTrackIndex < currentPlaylist.length - 1) {
@@ -69,9 +53,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     <AudioContext.Provider value={{
       isGlobalAudioEnabled,
       toggleGlobalAudio,
-      showWelcomeModal,
-      setShowWelcomeModal,
-      handleWelcomeChoice,
       currentPlaylist,
       currentTrackIndex,
       setCurrentPlaylist,

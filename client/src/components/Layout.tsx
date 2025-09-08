@@ -3,16 +3,13 @@ import { useLocation } from "wouter";
 import { useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { AudioChoiceModal } from "./AudioChoiceModal";
 import { GlobalAudioPlayer } from "./GlobalAudioPlayer";
-import { useAudio } from "@/contexts/AudioContext";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const { showWelcomeModal, handleWelcomeChoice } = useAudio();
   const [location] = useLocation();
 
   // Автоматически скроллим к верху при изменении страницы
@@ -35,12 +32,6 @@ export default function Layout({ children }: LayoutProps) {
       
       {/* Глобальный аудиоплеер */}
       <GlobalAudioPlayer />
-      
-      {/* Глобальное модальное окно приветствия */}
-      <AudioChoiceModal
-        isOpen={showWelcomeModal}
-        onChoice={handleWelcomeChoice}
-      />
     </div>
   );
 }

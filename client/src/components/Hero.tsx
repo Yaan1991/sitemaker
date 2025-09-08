@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Volume2, VolumeX } from "lucide-react";
+import { useAudio } from "@/contexts/AudioContext";
 const heroDesktop = "/images/hero.webp";
 const heroMobile = "/images/hero_mobile.webp";
 
 export default function Hero() {
+  const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
@@ -38,16 +41,21 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          onClick={() => {
-            const element = document.getElementById('main-projects');
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
-          className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon"
-          data-testid="button-view-works"
+          onClick={toggleGlobalAudio}
+          className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon"
+          data-testid="button-toggle-audio"
         >
-          Смотреть работы
+          {isGlobalAudioEnabled ? (
+            <>
+              <VolumeX className="w-5 h-5" />
+              Выкл. звук
+            </>
+          ) : (
+            <>
+              <Volume2 className="w-5 h-5" />
+              Вкл. звук
+            </>
+          )}
         </motion.button>
       </div>
       {/* Scroll Indicator */}
