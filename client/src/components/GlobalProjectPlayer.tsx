@@ -83,14 +83,10 @@ export function GlobalProjectPlayer() {
         });
       };
     } else {
-      // ВАЖНО: НЕ очищаем элементы сразу - даем время для затухания
-      // Задержка чтобы не мешать fade out
-      setTimeout(() => {
-        console.log('🧹 Очистка проектного плеера после затухания');
-        setCurrentProjectPlaylist(null);
-        setIsProjectPlayerReady(false);
-        setAudioElements([]);
-      }, 5000); // 4 секунды затухания + 1 секунда буфер
+      // Если не на странице проекта - очищаем
+      setCurrentProjectPlaylist(null);
+      setIsProjectPlayerReady(false);
+      setAudioElements([]);
     }
   }, [location, setCurrentProjectPlaylist, setIsProjectPlayerReady]);
 
@@ -157,48 +153,23 @@ export function GlobalProjectPlayer() {
   const fadeOutProjectPlayer = (): Promise<void> => {
     return new Promise((resolve) => {
       const audio = audioElements[currentProjectTrack];
-      console.log('fadeOut: аудио элемент:', !!audio);
-      console.log('fadeOut: на паузе:', audio?.paused);
-      console.log('fadeOut: громкость:', audio?.volume);
-      
-      if (!audio) {
-        console.log('Нет аудио элемента, завершаем');
+      if (!audio || audio.paused) {
         resolve();
         return;
       }
 
-      // Сохраняем ссылку на аудио, чтобы она не потерялась при cleanup
-      const audioForFade = audio;
-      
-      if (audioForFade.volume === 0) {
-        console.log('Громкость уже 0, завершаем');
-        resolve();
-        return;
-      }
-
-      console.log('Начинаем затухание, исходная громкость:', audioForFade.volume);
-      
-      let currentVolume = audioForFade.volume;
+      let currentVolume = audio.volume;
       const fadeOut = setInterval(() => {
-        // Проверяем, что элемент еще доступен
-        if (!audioForFade.src) {
-          console.log('❌ Аудио элемент очищен во время затухания!');
-          clearInterval(fadeOut);
-          resolve();
-          return;
-        }
-        
         currentVolume -= 0.0125; // 4 секунды затухания (4000ms / 50ms = 80 шагов, 1.0 / 80 = 0.0125)
-        audioForFade.volume = Math.max(0, currentVolume);
-        
-        console.log('Затухание: громкость =', audioForFade.volume);
-        
         if (currentVolume <= 0) {
-          console.log('✅ Затухание завершено за 4 секунды');
-          audioForFade.pause();
+          currentVolume = 0;
+          audio.volume = 0;
+          audio.pause();
           setIsPlaying(false);
           clearInterval(fadeOut);
           resolve();
+        } else {
+          audio.volume = currentVolume;
         }
       }, 50);
     });
@@ -267,10 +238,7 @@ export function GlobalProjectPlayer() {
       isProjectPlayerReady,
       currentProjectTrack,
       currentProjectPlaylist,
-      formatTime,
-      // ВАЖНО: Сохраняем ссылки на аудио элементы для затухания
-      audioElements: [...audioElements], // Копия массива
-      currentTrack: currentProjectTrack
+      formatTime
     };
   }); // Убираем dependencies чтобы обновлялось каждый рендер
 

@@ -21,32 +21,19 @@ export function GlobalBackgroundAudio() {
     if (!audio) return;
 
     const shouldPlay = isGlobalAudioEnabled && shouldPlayBackground();
-    
-    console.log('=== ФОНОВЫЙ ПЛЕЕР ===');
-    console.log('shouldPlay:', shouldPlay);
-    console.log('isPlaying:', isPlaying);
-    console.log('location:', location);
-    console.log('isGlobalAudioEnabled:', isGlobalAudioEnabled);
 
     if (shouldPlay && !isPlaying) {
-      console.log('🎵 ЗАПУСКАЕМ ФОНОВЫЙ ПЛЕЕР');
       // Запускаем сразу для настоящего кроссфейда (накладываем звуки)
       // Запускаем с нулевой громкости
       audio.volume = 0;
       audio.play().then(() => {
-        console.log('▶️ Фоновый плеер запущен, начинаем fade-in');
         setIsPlaying(true);
         // Плавное появление звука (2 секунды)
         fadeIn();
-      }).catch((error) => {
-        console.error('Ошибка запуска фонового плеера:', error);
-      });
+      }).catch(console.error);
     } else if (!shouldPlay && isPlaying) {
-      console.log('🔇 ОСТАНАВЛИВАЕМ ФОНОВЫЙ ПЛЕЕР');
       // Плавное затухание (без задержки)
       fadeOut();
-    } else {
-      console.log('Нет изменений в фоновом плеере');
     }
   }, [isGlobalAudioEnabled, location, isPlaying]);
 
@@ -54,13 +41,11 @@ export function GlobalBackgroundAudio() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    console.log('🔊 Начинаем fade-in фонового плеера');
     let volume = 0;
     const fadeInterval = setInterval(() => {
       volume += 0.006; // 2 секунды появления (2000ms / 50ms = 40 шагов, 0.25 / 40 = 0.006)
       if (volume >= 0.25) {
         volume = 0.25;
-        console.log('🔊 Fade-in завершен, громкость:', volume);
         clearInterval(fadeInterval);
       }
       audio.volume = volume;
