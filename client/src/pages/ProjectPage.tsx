@@ -121,19 +121,23 @@ export default function ProjectPage() {
     isProjectPlayerReady
   } = useAudio();
   
-  // Состояние для отслеживания обновлений плеера
-  const [forceUpdateCounter, setForceUpdateCounter] = useState(0);
+  // Локальное состояние плеера для UI
+  const [localIsPlaying, setLocalIsPlaying] = useState(false);
+  const [localCurrentTime, setLocalCurrentTime] = useState(0);
+  const [localDuration, setLocalDuration] = useState(0);
   
-  // Принудительно обновляем компонент каждые 100мс для синхронизации с глобальным плеером
+  // Синхронизируем с глобальным плеером через интервал
   useEffect(() => {
     const interval = setInterval(() => {
-      setForceUpdateCounter(prev => prev + 1);
+      const player = (window as any).projectPlayer;
+      if (player) {
+        setLocalIsPlaying(player.isPlaying);
+        setLocalCurrentTime(player.currentTime);
+        setLocalDuration(player.duration);
+      }
     }, 100);
     return () => clearInterval(interval);
   }, []);
-  
-  // Получаем актуальный глобальный плеер
-  const projectPlayer = (window as any).projectPlayer;
   
   // Фотографии для спектакля "Идиот" (4 фото)
   const idiotPhotos = [
@@ -169,26 +173,35 @@ export default function ProjectPage() {
 
 
 
-  // Вспомогательные функции для доступа к глобальному плееру с preventDefault
+  // Функции управления плеером
   const handleTogglePlayPause = (e: React.MouseEvent) => {
     e.preventDefault();
-    projectPlayer?.togglePlayPause();
+    const player = (window as any).projectPlayer;
+    if (player) player.togglePlayPause();
   };
+  
   const handleNextTrack = (e: React.MouseEvent) => {
     e.preventDefault();
-    projectPlayer?.nextTrack();
+    const player = (window as any).projectPlayer;
+    if (player) player.nextTrack();
   };
+  
   const handlePrevTrack = (e: React.MouseEvent) => {
     e.preventDefault();
-    projectPlayer?.prevTrack();
+    const player = (window as any).projectPlayer;
+    if (player) player.prevTrack();
   };
+  
   const handleStopAudio = (e: React.MouseEvent) => {
     e.preventDefault();
-    projectPlayer?.stopAudio();
+    const player = (window as any).projectPlayer;
+    if (player) player.stopAudio();
   };
-  const handlePlayTrack = (e: React.MouseEvent, index: number) => {
-    e.preventDefault();
-    projectPlayer?.playTrack(index);
+  
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -478,9 +491,9 @@ export default function ProjectPage() {
                     </div>
                     <div className="flex flex-col gap-2">
                       <div className="winamp-time">
-                        {projectPlayer?.formatTime(projectPlayer?.currentTime || 0)} / {projectPlayer?.formatTime(projectPlayer?.duration || 0)}
+                        {formatTime(localCurrentTime)} / {formatTime(localDuration)}
                       </div>
-                      <Equalizer isPlaying={projectPlayer?.isPlaying && isGlobalAudioEnabled} />
+                      <Equalizer isPlaying={localIsPlaying && isGlobalAudioEnabled} />
                     </div>
                   </div>
 
@@ -488,7 +501,7 @@ export default function ProjectPage() {
                   <div className="progress-bar-container">
                     <div 
                       className="progress-bar" 
-                      style={{ width: `${(projectPlayer?.duration || 0) > 0 ? ((projectPlayer?.currentTime || 0) / (projectPlayer?.duration || 0)) * 100 : 0}%` }}
+                      style={{ width: `${localDuration > 0 ? (localCurrentTime / localDuration) * 100 : 0}%` }}
                     />
                   </div>
 
@@ -512,10 +525,10 @@ export default function ProjectPage() {
                           handleTogglePlayPause(e);
                         }
                       }}
-                      className={`winamp-button ${projectPlayer?.isPlaying ? 'active' : ''}`}
-                      title={projectPlayer?.isPlaying ? "Пауза" : "Воспроизвести"}
+                      className={`winamp-button ${localIsPlaying ? 'active' : ''}`}
+                      title={localIsPlaying ? "Пауза" : "Воспроизвести"}
                     >
-                      {projectPlayer?.isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                      {localIsPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                     </button>
 
                     <button 
