@@ -83,13 +83,10 @@ export function GlobalProjectPlayer() {
         });
       };
     } else {
-      // Если не на странице проекта - даем время для затухания, затем очищаем
-      // Точно как работает фоновый плеер!
-      setTimeout(() => {
-        setCurrentProjectPlaylist(null);
-        setIsProjectPlayerReady(false);
-        setAudioElements([]);
-      }, 4500); // 4 секунды затухания + буфер
+      // Если не на странице проекта - очищаем
+      setCurrentProjectPlaylist(null);
+      setIsProjectPlayerReady(false);
+      setAudioElements([]);
     }
   }, [location, setCurrentProjectPlaylist, setIsProjectPlayerReady]);
 
