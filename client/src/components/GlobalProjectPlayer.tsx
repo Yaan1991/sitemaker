@@ -71,6 +71,12 @@ export function GlobalProjectPlayer() {
       const playlist = projectPlaylistMap[currentProject];
       setCurrentProjectPlaylist(playlist);
       
+      // Сбрасываем состояние плеера при загрузке нового проекта
+      setIsPlaying(false);
+      setCurrentTime(0);
+      setDuration(0);
+      setCurrentProjectTrack(0);
+      
       // Инициализируем аудио элементы
       const elements = playlist.map((track) => {
         const audio = new Audio(track.url);
@@ -79,6 +85,7 @@ export function GlobalProjectPlayer() {
       });
       setAudioElements(elements);
       setIsProjectPlayerReady(true);
+
 
       // Cleanup предыдущих элементов
       return () => {
@@ -92,8 +99,11 @@ export function GlobalProjectPlayer() {
       setCurrentProjectPlaylist(null);
       setIsProjectPlayerReady(false);
       setAudioElements([]);
+      setIsPlaying(false);
+      setCurrentTime(0);
+      setDuration(0);
     }
-  }, [location, setCurrentProjectPlaylist, setIsProjectPlayerReady]);
+  }, [location, setCurrentProjectPlaylist, setIsProjectPlayerReady, setIsPlaying, setCurrentTime, setDuration]);
 
   // Автозапуск при включении звука на странице проекта (только один раз)
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
