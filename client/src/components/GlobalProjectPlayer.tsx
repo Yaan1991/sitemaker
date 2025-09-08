@@ -153,25 +153,37 @@ export function GlobalProjectPlayer() {
   const fadeOutProjectPlayer = (): Promise<void> => {
     return new Promise((resolve) => {
       const audio = audioElements[currentProjectTrack];
-      if (!audio || audio.paused || audio.volume === 0) {
+      console.log('fadeOut: аудио элемент:', !!audio);
+      console.log('fadeOut: на паузе:', audio?.paused);
+      console.log('fadeOut: громкость:', audio?.volume);
+      
+      if (!audio) {
+        console.log('Нет аудио элемента, завершаем');
         resolve();
         return;
       }
 
-      console.log('Запуск затухания проектного плеера, текущая громкость:', audio.volume);
+      // Убираем проверку на паузу - затухаем в любом случае
+      if (audio.volume === 0) {
+        console.log('Громкость уже 0, завершаем');
+        resolve();
+        return;
+      }
+
+      console.log('Начинаем затухание, исходная громкость:', audio.volume);
       
       let currentVolume = audio.volume;
       const fadeOut = setInterval(() => {
         currentVolume -= 0.0125; // 4 секунды затухания (4000ms / 50ms = 80 шагов, 1.0 / 80 = 0.0125)
+        audio.volume = Math.max(0, currentVolume);
+        
+        console.log('Затухание: громкость =', audio.volume);
+        
         if (currentVolume <= 0) {
-          currentVolume = 0;
-          audio.volume = 0;
-          console.log('Затухание завершено, останавливаем');
+          console.log('Затухание завершено за 4 секунды');
           setIsPlaying(false);
           clearInterval(fadeOut);
           resolve();
-        } else {
-          audio.volume = currentVolume;
         }
       }, 50);
     });
