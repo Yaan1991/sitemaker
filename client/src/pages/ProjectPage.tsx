@@ -88,6 +88,18 @@ export default function ProjectPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
                 
+                {/* Наложенный текст для проекта Идиот */}
+                {project.id === "idiot-saratov-drama" && (
+                  <div className="absolute top-6 left-6 text-white">
+                    <h1 className="text-5xl lg:text-6xl font-russo font-bold text-white mb-2 vhs-chromatic drop-shadow-lg">
+                      ИДИОТ
+                    </h1>
+                    <p className="text-lg font-medium text-gray-200 drop-shadow-md">
+                      Театр им. Слонова • 2024
+                    </p>
+                  </div>
+                )}
+                
                 {/* Кнопка слушать музыку для проекта Идиот */}
                 {project.id === "idiot-saratov-drama" && (
                   <div className="absolute bottom-4 right-4">
@@ -112,12 +124,16 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <div className="text-sm text-primary font-medium tracking-wide uppercase mb-2">
-                  {categoryNames[project.category]} • {project.year}
-                </div>
-                <h1 className={`text-4xl lg:text-5xl font-bold text-white mb-4 ${project.id === "idiot-saratov-drama" ? "vhs-chromatic" : ""}`} data-testid="text-title">
-                  {project.title}
-                </h1>
+                {project.id !== "idiot-saratov-drama" && (
+                  <>
+                    <div className="text-sm text-primary font-medium tracking-wide uppercase mb-2">
+                      {categoryNames[project.category]} • {project.year}
+                    </div>
+                    <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4" data-testid="text-title">
+                      {project.title}
+                    </h1>
+                  </>
+                )}
                 <p className="text-xl text-gray-300 leading-relaxed">
                   {project.fullDescription}
                 </p>
@@ -126,23 +142,6 @@ export default function ProjectPage() {
               {/* Case Study for Idiot */}
               {project.id === "idiot-saratov-drama" && (
                 <div className="mt-8 vhs-glitch">
-                  {/* Основное фото проекта с наложенным текстом */}
-                  <div className="relative mb-8">
-                    <img 
-                      src="/images/idiot1_1756479054514.webp" 
-                      alt="" 
-                      className="w-full rounded-lg shadow-lg"
-                    />
-                    {/* Наложенный текст на фото */}
-                    <div className="absolute top-6 left-6 text-white">
-                      <h1 className="text-5xl lg:text-6xl font-russo font-bold text-white mb-2 vhs-chromatic drop-shadow-lg">
-                        ИДИОТ
-                      </h1>
-                      <p className="text-lg font-medium text-gray-200 drop-shadow-md">
-                        Театр им. Слонова • 2024
-                      </p>
-                    </div>
-                  </div>
                   
                   {/* Описание спектакля */}
                   <div className="mb-8">
