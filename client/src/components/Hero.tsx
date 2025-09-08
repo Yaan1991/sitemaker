@@ -1,11 +1,52 @@
 import { motion } from "framer-motion";
 import { ChevronDown, Volume2, VolumeX } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
+import { useRef, useEffect, useState } from "react";
 const heroDesktop = "/images/hero.webp";
 const heroMobile = "/images/hero_mobile.webp";
 
 export default function Hero() {
   const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // Управление фоновой музыкой на главной
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isGlobalAudioEnabled && !isPlaying) {
+      audio.volume = 0;
+      audio.play().then(() => {
+        setIsPlaying(true);
+        // Плавное появление звука с задержкой для кроссфейда
+        setTimeout(() => {
+          let currentVolume = 0;
+          const fadeIn = setInterval(() => {
+            currentVolume += 0.02;
+            if (currentVolume >= 0.3) {
+              currentVolume = 0.3;
+              clearInterval(fadeIn);
+            }
+            audio.volume = currentVolume;
+          }, 50);
+        }, 200);
+      }).catch(console.error);
+    } else if (!isGlobalAudioEnabled && isPlaying) {
+      // Плавное затухание
+      let currentVolume = audio.volume;
+      const fadeOut = setInterval(() => {
+        currentVolume -= 0.02;
+        if (currentVolume <= 0) {
+          currentVolume = 0;
+          audio.pause();
+          setIsPlaying(false);
+          clearInterval(fadeOut);
+        }
+        audio.volume = currentVolume;
+      }, 50);
+    }
+  }, [isGlobalAudioEnabled, isPlaying]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -67,6 +108,16 @@ export default function Hero() {
       >
         <ChevronDown className="w-6 h-6 text-muted-foreground" />
       </motion.div>
+
+      {/* Невидимый аудио элемент для фоновой музыки */}
+      <audio
+        ref={audioRef}
+        loop
+        preload="auto"
+        className="hidden"
+      >
+        <source src="/audio/homepage.mp3" type="audio/mpeg" />
+      </audio>
     </section>
   );
 }

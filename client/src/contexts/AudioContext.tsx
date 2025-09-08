@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 
 interface Track {
   id: string;
@@ -15,6 +15,9 @@ interface AudioContextType {
   setCurrentTrackIndex: (index: number) => void;
   nextTrack: () => void;
   prevTrack: () => void;
+  fadeOutCurrentAudio: () => Promise<void>;
+  currentPage: string;
+  setCurrentPage: (page: string) => void;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -23,10 +26,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(false);
   const [currentPlaylist, setCurrentPlaylist] = useState<Track[] | null>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState('/');
+  const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // По умолчанию звук выключен - включается только по кнопке
   useEffect(() => {
-    // Убираем автозагрузку настроек - звук всегда выключен по умолчанию
     setIsGlobalAudioEnabled(false);
   }, []);
 
@@ -34,6 +38,42 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const newValue = !isGlobalAudioEnabled;
     setIsGlobalAudioEnabled(newValue);
     localStorage.setItem('global-audio-enabled', newValue.toString());
+  };
+
+  // Функция плавного затухания текущего аудио
+  const fadeOutCurrentAudio = (): Promise<void> => {
+    return new Promise((resolve) => {
+      // Находим все активные аудио элементы и затухаем их
+      const audioElements = document.querySelectorAll('audio');
+      let fadePromises: Promise<void>[] = [];
+
+      audioElements.forEach(audio => {
+        if (!audio.paused && audio.volume > 0) {
+          const fadePromise = new Promise<void>((fadeResolve) => {
+            let currentVolume = audio.volume;
+            const fadeOut = setInterval(() => {
+              currentVolume -= 0.05;
+              if (currentVolume <= 0) {
+                currentVolume = 0;
+                audio.volume = 0;
+                audio.pause();
+                clearInterval(fadeOut);
+                fadeResolve();
+              } else {
+                audio.volume = currentVolume;
+              }
+            }, 30);
+          });
+          fadePromises.push(fadePromise);
+        }
+      });
+
+      if (fadePromises.length === 0) {
+        resolve();
+      } else {
+        Promise.all(fadePromises).then(() => resolve());
+      }
+    });
   };
 
 
@@ -58,7 +98,10 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setCurrentPlaylist,
       setCurrentTrackIndex,
       nextTrack,
-      prevTrack
+      prevTrack,
+      fadeOutCurrentAudio,
+      currentPage,
+      setCurrentPage
     }}>
       {children}
     </AudioContext.Provider>
