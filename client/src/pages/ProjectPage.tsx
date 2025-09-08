@@ -459,10 +459,10 @@ export default function ProjectPage() {
                   
                   {/* Top row: Display and Equalizer */}
                   <div className="flex gap-2 sm:gap-4 items-stretch">
-                    <div className="flex-1 min-w-0 max-w-48 sm:max-w-xs md:max-w-md">
+                    <div className="flex-1 min-w-0 max-w-40 sm:max-w-xs md:max-w-md mr-4">
                       <div className="winamp-display mb-2 h-8 flex items-center w-full">
                         {isProjectPlayerReady ? (
-                          <div className="overflow-hidden whitespace-nowrap w-full">
+                          <div className="overflow-hidden whitespace-nowrap w-full pr-4">
                             <div className={`${
                               (currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран').length > 25 
                                 ? 'animate-marquee' 
@@ -476,7 +476,7 @@ export default function ProjectPage() {
                         )}
                       </div>
                       <div className="flex items-center">
-                        <div className="track-info overflow-hidden whitespace-nowrap w-full">
+                        <div className="track-info overflow-hidden whitespace-nowrap w-full pr-4">
                           <span className={`text-xs sm:text-sm ${
                             'Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв'.length > 35 
                               ? 'animate-marquee' 
