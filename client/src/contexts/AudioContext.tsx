@@ -9,12 +9,21 @@ interface Track {
 interface AudioContextType {
   isGlobalAudioEnabled: boolean;
   toggleGlobalAudio: () => void;
+  // Фоновый плеер (домашняя страница и обычные страницы)
   currentPlaylist: Track[] | null;
   currentTrackIndex: number;
   setCurrentPlaylist: (playlist: Track[] | null) => void;
   setCurrentTrackIndex: (index: number) => void;
   nextTrack: () => void;
   prevTrack: () => void;
+  // Проектный плеер (страницы проектов)
+  currentProjectPlaylist: Track[] | null;
+  currentProjectTrack: number;
+  isProjectPlayerReady: boolean;
+  setCurrentProjectPlaylist: (playlist: Track[] | null) => void;
+  setCurrentProjectTrack: (track: number) => void;
+  setIsProjectPlayerReady: (ready: boolean) => void;
+  // Общие функции
   fadeOutCurrentAudio: () => Promise<void>;
   currentPage: string;
   setCurrentPage: (page: string) => void;
@@ -24,8 +33,14 @@ const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(false);
+  // Фоновый плеер
   const [currentPlaylist, setCurrentPlaylist] = useState<Track[] | null>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  // Проектный плеер
+  const [currentProjectPlaylist, setCurrentProjectPlaylist] = useState<Track[] | null>(null);
+  const [currentProjectTrack, setCurrentProjectTrack] = useState(0);
+  const [isProjectPlayerReady, setIsProjectPlayerReady] = useState(false);
+  // Общее
   const [currentPage, setCurrentPage] = useState('/');
   const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -93,12 +108,21 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     <AudioContext.Provider value={{
       isGlobalAudioEnabled,
       toggleGlobalAudio,
+      // Фоновый плеер
       currentPlaylist,
       currentTrackIndex,
       setCurrentPlaylist,
       setCurrentTrackIndex,
       nextTrack,
       prevTrack,
+      // Проектный плеер
+      currentProjectPlaylist,
+      currentProjectTrack,
+      isProjectPlayerReady,
+      setCurrentProjectPlaylist,
+      setCurrentProjectTrack,
+      setIsProjectPlayerReady,
+      // Общие функции
       fadeOutCurrentAudio,
       currentPage,
       setCurrentPage

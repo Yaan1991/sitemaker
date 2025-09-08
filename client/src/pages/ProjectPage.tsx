@@ -85,12 +85,6 @@ function Equalizer({ isPlaying }: { isPlaying: boolean }) {
   );
 }
 
-// Компонент форматирования времени
-function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-}
 
 // Треки для спектакля "Идиот"
 const idiotTracks = [
@@ -119,16 +113,28 @@ const idiotTracks = [
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
-  const [isMainPlayerPlaying, setIsMainPlayerPlaying] = useState(false);
-  const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
+  const { 
+    isGlobalAudioEnabled, 
+    toggleGlobalAudio,
+    currentProjectPlaylist,
+    currentProjectTrack,
+    isProjectPlayerReady
+  } = useAudio();
   
-  // Состояние для локального плеера
-  const [currentTrack, setCurrentTrack] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audioElements, setAudioElements] = useState<HTMLAudioElement[]>([]);
-  const [isPlayerReady, setIsPlayerReady] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  // Глобальные функции плеера доступны через window
+  const [projectPlayer, setProjectPlayer] = useState<any>(null);
+  
+  useEffect(() => {
+    // Получаем доступ к глобальному плееру
+    const checkPlayer = () => {
+      if ((window as any).projectPlayer) {
+        setProjectPlayer((window as any).projectPlayer);
+      } else {
+        setTimeout(checkPlayer, 100);
+      }
+    };
+    checkPlayer();
+  }, []);
   
   // Фотографии для спектакля "Идиот" (4 фото)
   const idiotPhotos = [
@@ -162,107 +168,14 @@ export default function ProjectPage() {
     audio: "Аудиоспектакли"
   };
 
-  // Инициализация аудиоэлементов для плеера "Идиот"
-  useEffect(() => {
-    if (project?.id === "idiot-saratov-drama") {
-      const elements = idiotTracks.map((track) => {
-        const audio = new Audio(track.url);
-        audio.preload = 'metadata';
-        return audio;
-      });
-      setAudioElements(elements);
-      setIsPlayerReady(true);
-
-      return () => {
-        elements.forEach(audio => {
-          audio.pause();
-          audio.src = '';
-        });
-      };
-    }
-  }, [project]);
-
-  // Автовоспроизведение первого трека при включении звука
-  useEffect(() => {
-    if (project?.id === "idiot-saratov-drama" && isGlobalAudioEnabled && isPlayerReady && !isPlaying) {
-      playTrack(0);
-    } else if (!isGlobalAudioEnabled && isPlaying) {
-      pauseAudio();
-    }
-  }, [isGlobalAudioEnabled, isPlayerReady]);
 
 
-  // Функции управления плеером
-  const playTrack = (trackIndex: number) => {
-    if (!audioElements[trackIndex]) return;
-
-    // Останавливаем текущий трек
-    if (isPlaying) {
-      audioElements[currentTrack]?.pause();
-    }
-
-    setCurrentTrack(trackIndex);
-    setIsPlaying(true);
-    
-    const audio = audioElements[trackIndex];
-    audio.currentTime = 0;
-    audio.volume = 0.7;
-    audio.play().catch(console.error);
-
-    // Обновление времени
-    audio.ontimeupdate = () => {
-      setCurrentTime(audio.currentTime);
-      setDuration(audio.duration || 0);
-    };
-
-    // Автопереход к следующему треку
-    audio.onended = () => {
-      const nextTrack = (trackIndex + 1) % idiotTracks.length;
-      playTrack(nextTrack);
-    };
-  };
-
-  const pauseAudio = () => {
-    if (audioElements[currentTrack]) {
-      audioElements[currentTrack].pause();
-      setIsPlaying(false);
-      // НЕ сбрасываем время - это пауза, а не стоп
-    }
-  };
-
-  const togglePlayPause = () => {
-    if (isPlaying) {
-      pauseAudio();
-    } else {
-      // Если пауза - продолжаем с текущего времени, если стоп - начинаем заново
-      const audio = audioElements[currentTrack];
-      if (audio && audio.currentTime > 0) {
-        setIsPlaying(true);
-        audio.play().catch(console.error);
-      } else {
-        playTrack(currentTrack);
-      }
-    }
-  };
-
-  const nextTrack = () => {
-    const next = (currentTrack + 1) % idiotTracks.length;
-    playTrack(next);
-  };
-
-  const prevTrack = () => {
-    const prev = currentTrack === 0 ? idiotTracks.length - 1 : currentTrack - 1;
-    playTrack(prev);
-  };
-
-  const stopAudio = () => {
-    if (audioElements[currentTrack]) {
-      audioElements[currentTrack].pause();
-      audioElements[currentTrack].currentTime = 0;
-      setIsPlaying(false);
-      setCurrentTime(0);
-    }
-  };
+  // Вспомогательные функции для доступа к глобальному плееру
+  const togglePlayPause = () => projectPlayer?.togglePlayPause();
+  const nextTrack = () => projectPlayer?.nextTrack();
+  const prevTrack = () => projectPlayer?.prevTrack();
+  const stopAudio = () => projectPlayer?.stopAudio();
+  const playTrack = (index: number) => projectPlayer?.playTrack(index);
 
   return (
     <>
@@ -526,10 +439,10 @@ export default function ProjectPage() {
                   <div className="flex gap-4 items-stretch">
                     <div className="flex-1">
                       <div className="winamp-display mb-2">
-                        {isPlayerReady ? (
+                        {isProjectPlayerReady ? (
                           <div className="overflow-hidden">
                             <div className="animate-pulse">
-                              ♪ {idiotTracks[currentTrack]?.title || 'Не выбран'} ♪
+                              ♪ {currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран'} ♪
                             </div>
                           </div>
                         ) : (
@@ -551,9 +464,9 @@ export default function ProjectPage() {
                     </div>
                     <div className="flex flex-col gap-2">
                       <div className="winamp-time">
-                        {formatTime(currentTime)} / {formatTime(duration)}
+                        {projectPlayer?.formatTime(projectPlayer?.currentTime || 0)} / {projectPlayer?.formatTime(projectPlayer?.duration || 0)}
                       </div>
-                      <Equalizer isPlaying={isPlaying && isGlobalAudioEnabled} />
+                      <Equalizer isPlaying={projectPlayer?.isPlaying && isGlobalAudioEnabled} />
                     </div>
                   </div>
 
@@ -561,7 +474,7 @@ export default function ProjectPage() {
                   <div className="progress-bar-container">
                     <div 
                       className="progress-bar" 
-                      style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+                      style={{ width: `${(projectPlayer?.duration || 0) > 0 ? ((projectPlayer?.currentTime || 0) / (projectPlayer?.duration || 0)) * 100 : 0}%` }}
                     />
                   </div>
 
@@ -585,10 +498,10 @@ export default function ProjectPage() {
                           togglePlayPause();
                         }
                       }}
-                      className={`winamp-button ${isPlaying ? 'active' : ''}`}
-                      title={isPlaying ? "Пауза" : "Воспроизвести"}
+                      className={`winamp-button ${projectPlayer?.isPlaying ? 'active' : ''}`}
+                      title={projectPlayer?.isPlaying ? "Пауза" : "Воспроизвести"}
                     >
-                      {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                      {projectPlayer?.isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                     </button>
 
                     <button 

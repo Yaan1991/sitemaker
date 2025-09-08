@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { GlobalBackgroundAudio } from "./GlobalBackgroundAudio";
+import { GlobalProjectPlayer } from "./GlobalProjectPlayer";
 import { useAudio } from "@/contexts/AudioContext";
 
 interface LayoutProps {
@@ -44,6 +45,7 @@ export default function Layout({ children }: LayoutProps) {
       </motion.main>
       <Footer />
       <GlobalBackgroundAudio />
+      <GlobalProjectPlayer />
     </div>
   );
 }
