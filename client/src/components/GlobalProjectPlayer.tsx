@@ -117,7 +117,7 @@ export function GlobalProjectPlayer() {
     if (currentAudio) {
       const musicMultiplier = musicVolume / 0.7;
       const masterMultiplier = masterVolume / 0.7;
-      currentAudio.volume = 0.7 * musicMultiplier * masterMultiplier;
+      currentAudio.volume = 0.56 * musicMultiplier * masterMultiplier; // Понижено на 20%
     }
   }, [musicVolume, masterVolume, isPlaying, audioElements, currentProjectTrack]);
 
@@ -137,7 +137,7 @@ export function GlobalProjectPlayer() {
     audio.currentTime = 0;
     const musicMultiplier = musicVolume / 0.7; // 70% фейдера = 1.0x оригинала
     const masterMultiplier = masterVolume / 0.7; // 70% фейдера = 1.0x оригинала
-    audio.volume = 0.7 * musicMultiplier * masterMultiplier;
+    audio.volume = 0.56 * musicMultiplier * masterMultiplier; // Понижено на 20%
     audio.play().catch(console.error);
 
     // Обновление времени

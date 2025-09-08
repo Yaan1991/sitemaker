@@ -21,6 +21,7 @@ const dbScale = [
 
 export function VerticalFader({ value, onChange, label, isMaster = false }: VerticalFaderProps) {
   const [isDragging, setIsDragging] = useState(false);
+  const [isTouching, setIsTouching] = useState(false);
   const faderRef = useRef<HTMLDivElement>(null);
   const trackHeight = 200; // высота трека фейдера
 
@@ -55,6 +56,25 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
     onChange(Math.max(0, Math.min(1.1, newValue))); // Разрешаем до 110% (+10dB)
   };
 
+  // Touch-события для мобильных устройств
+  const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault(); // Предотвращаем скролл страницы
+    setIsTouching(true);
+    handleTouchMove(e);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent | TouchEvent) => {
+    if (!faderRef.current) return;
+    
+    const touch = e.touches[0];
+    const rect = faderRef.current.getBoundingClientRect();
+    const y = touch.clientY - rect.top;
+    const percentage = (y / trackHeight) * 100;
+    const newValue = positionToValue(percentage);
+    
+    onChange(Math.max(0, Math.min(1.1, newValue))); // Разрешаем до 110% (+10dB)
+  };
+
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
       if (isDragging) {
@@ -66,16 +86,34 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
       setIsDragging(false);
     };
 
+    const handleGlobalTouchMove = (e: TouchEvent) => {
+      if (isTouching) {
+        e.preventDefault(); // Предотвращаем скролл страницы
+        handleTouchMove(e);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      setIsTouching(false);
+    };
+
     if (isDragging) {
       document.addEventListener('mousemove', handleGlobalMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     }
 
+    if (isTouching) {
+      document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
+      document.addEventListener('touchend', handleTouchEnd);
+    }
+
     return () => {
       document.removeEventListener('mousemove', handleGlobalMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleGlobalTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [isDragging]);
+  }, [isDragging, isTouching]);
 
   // Получаем ближайшее значение dB для отображения
   const getDbValue = (val: number) => {
@@ -113,9 +151,10 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
         {/* Трек фейдера */}
         <div 
           ref={faderRef}
-          className="relative w-8 bg-gray-800 border border-gray-600 cursor-pointer select-none"
+          className="relative w-8 bg-gray-800 border border-gray-600 cursor-pointer select-none touch-none"
           style={{ height: `${trackHeight}px` }}
           onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
         >
           {/* Фон трека */}
           <div className="absolute inset-0 bg-gradient-to-b from-gray-700 to-gray-900"></div>
@@ -126,11 +165,11 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
               isMaster 
                 ? 'bg-red-500 border-red-400 shadow-red-500/50' 
                 : 'bg-gray-200 border-gray-300 shadow-gray-400/50'
-            } ${isDragging ? 'shadow-lg scale-105' : 'shadow-md'}`}
+            } ${(isDragging || isTouching) ? 'shadow-lg scale-105' : 'shadow-md'}`}
             style={{
               top: `${currentPosition}%`,
               transform: 'translateY(-50%)',
-              boxShadow: isDragging 
+              boxShadow: (isDragging || isTouching)
                 ? `0 0 10px ${isMaster ? '#ef4444' : '#9ca3af'}` 
                 : `0 2px 4px ${isMaster ? '#dc2626' : '#6b7280'}`
             }}
