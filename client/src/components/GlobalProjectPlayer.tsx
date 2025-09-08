@@ -83,10 +83,14 @@ export function GlobalProjectPlayer() {
         });
       };
     } else {
-      // Если не на странице проекта - очищаем (затухание уже запущено в Layout)
-      setCurrentProjectPlaylist(null);
-      setIsProjectPlayerReady(false);
-      setAudioElements([]);
+      // ВАЖНО: НЕ очищаем элементы сразу - даем время для затухания
+      // Задержка чтобы не мешать fade out
+      setTimeout(() => {
+        console.log('🧹 Очистка проектного плеера после затухания');
+        setCurrentProjectPlaylist(null);
+        setIsProjectPlayerReady(false);
+        setAudioElements([]);
+      }, 5000); // 4 секунды затухания + 1 секунда буфер
     }
   }, [location, setCurrentProjectPlaylist, setIsProjectPlayerReady]);
 
@@ -163,24 +167,35 @@ export function GlobalProjectPlayer() {
         return;
       }
 
-      // Убираем проверку на паузу - затухаем в любом случае
-      if (audio.volume === 0) {
+      // Сохраняем ссылку на аудио, чтобы она не потерялась при cleanup
+      const audioForFade = audio;
+      
+      if (audioForFade.volume === 0) {
         console.log('Громкость уже 0, завершаем');
         resolve();
         return;
       }
 
-      console.log('Начинаем затухание, исходная громкость:', audio.volume);
+      console.log('Начинаем затухание, исходная громкость:', audioForFade.volume);
       
-      let currentVolume = audio.volume;
+      let currentVolume = audioForFade.volume;
       const fadeOut = setInterval(() => {
-        currentVolume -= 0.0125; // 4 секунды затухания (4000ms / 50ms = 80 шагов, 1.0 / 80 = 0.0125)
-        audio.volume = Math.max(0, currentVolume);
+        // Проверяем, что элемент еще доступен
+        if (!audioForFade.src) {
+          console.log('❌ Аудио элемент очищен во время затухания!');
+          clearInterval(fadeOut);
+          resolve();
+          return;
+        }
         
-        console.log('Затухание: громкость =', audio.volume);
+        currentVolume -= 0.0125; // 4 секунды затухания (4000ms / 50ms = 80 шагов, 1.0 / 80 = 0.0125)
+        audioForFade.volume = Math.max(0, currentVolume);
+        
+        console.log('Затухание: громкость =', audioForFade.volume);
         
         if (currentVolume <= 0) {
-          console.log('Затухание завершено за 4 секунды');
+          console.log('✅ Затухание завершено за 4 секунды');
+          audioForFade.pause();
           setIsPlaying(false);
           clearInterval(fadeOut);
           resolve();
