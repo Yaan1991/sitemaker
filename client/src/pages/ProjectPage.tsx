@@ -476,8 +476,14 @@ export default function ProjectPage() {
                         )}
                       </div>
                       <div className="flex items-center justify-between">
-                        <div className="track-info overflow-hidden text-ellipsis whitespace-nowrap flex-1 mr-2">
-                          Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
+                        <div className="track-info overflow-hidden whitespace-nowrap flex-1 mr-2">
+                          <span className={`${
+                            'Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв'.length > 35 
+                              ? 'animate-marquee' 
+                              : ''
+                          }`}>
+                            Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
+                          </span>
                         </div>
                         <button 
                           type="button"

@@ -111,7 +111,13 @@ export function AudioPlayer({ tracks, className = '', onPlayStateChange }: Audio
 
   return (
     <div className={`glass-effect rounded-xl p-6 ${className}`}>
-      <h4 className="text-xl font-semibold text-primary mb-4">Музыка из спектакля</h4>
+      <div className="overflow-hidden mb-4">
+        <h4 className={`text-xl font-semibold text-primary whitespace-nowrap ${
+          'Музыка из спектакля'.length > 15 ? 'animate-marquee' : ''
+        }`}>
+          Музыка из спектакля
+        </h4>
+      </div>
       
       {/* Audio Element */}
       <audio
