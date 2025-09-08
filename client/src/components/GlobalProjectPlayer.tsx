@@ -75,22 +75,18 @@ export function GlobalProjectPlayer() {
       setAudioElements(elements);
       setIsProjectPlayerReady(true);
 
-      // Cleanup предыдущих элементов - с задержкой для затухания
+      // Cleanup предыдущих элементов
       return () => {
-        setTimeout(() => {
-          elements.forEach(audio => {
-            audio.pause();
-            audio.src = '';
-          });
-        }, 4500); // Ждем завершения затухания
+        elements.forEach(audio => {
+          audio.pause();
+          audio.src = '';
+        });
       };
     } else {
-      // Если не на странице проекта - даем время для плавного затухания, затем очищаем
-      setTimeout(() => {
-        setCurrentProjectPlaylist(null);
-        setIsProjectPlayerReady(false);
-        setAudioElements([]);
-      }, 4500); // Ждем завершения затухания (4 секунды + буфер)
+      // Если не на странице проекта - очищаем (затухание уже запущено в Layout)
+      setCurrentProjectPlaylist(null);
+      setIsProjectPlayerReady(false);
+      setAudioElements([]);
     }
   }, [location, setCurrentProjectPlaylist, setIsProjectPlayerReady]);
 
@@ -157,18 +153,20 @@ export function GlobalProjectPlayer() {
   const fadeOutProjectPlayer = (): Promise<void> => {
     return new Promise((resolve) => {
       const audio = audioElements[currentProjectTrack];
-      if (!audio || audio.paused) {
+      if (!audio || audio.paused || audio.volume === 0) {
         resolve();
         return;
       }
 
+      console.log('Запуск затухания проектного плеера, текущая громкость:', audio.volume);
+      
       let currentVolume = audio.volume;
       const fadeOut = setInterval(() => {
         currentVolume -= 0.0125; // 4 секунды затухания (4000ms / 50ms = 80 шагов, 1.0 / 80 = 0.0125)
         if (currentVolume <= 0) {
           currentVolume = 0;
           audio.volume = 0;
-          audio.pause();
+          console.log('Затухание завершено, останавливаем');
           setIsPlaying(false);
           clearInterval(fadeOut);
           resolve();

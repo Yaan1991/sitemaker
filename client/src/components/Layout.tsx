@@ -27,11 +27,16 @@ export default function Layout({ children }: LayoutProps) {
     const isLeavingProject = previousLocation.startsWith('/project/') && !location.startsWith('/project/');
     
     if (isLeavingProject) {
+      console.log('Покидаем проектную страницу, запускаем затухание');
       // Запускаем специфичное затухание проектного плеера (4 секунды)
       const projectPlayer = (window as any).projectPlayer;
       if (projectPlayer && projectPlayer.fadeOutProjectPlayer) {
-        projectPlayer.fadeOutProjectPlayer();
+        console.log('Найден проектный плеер, запускаем fadeOutProjectPlayer');
+        projectPlayer.fadeOutProjectPlayer().then(() => {
+          console.log('Затухание проектного плеера завершено');
+        });
       } else {
+        console.log('Проектный плеер не найден, fallback на общее затухание');
         // Fallback: общее затухание всех аудио элементов
         fadeOutCurrentAudio();
       }
