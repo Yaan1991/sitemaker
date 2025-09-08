@@ -10,7 +10,7 @@
   --card-foreground: hsl(0, 0%, 100%);
   --popover: hsl(0, 0%, 7%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --primary: hsl(327, 73%, 57%);
+  --primary: hsl(45, 95%, 60%);
   --primary-foreground: hsl(0, 0%, 0%);
   --secondary: hsl(0, 0%, 15%);
   --secondary-foreground: hsl(0, 0%, 100%);
@@ -38,7 +38,7 @@
   --card-foreground: hsl(0, 0%, 100%);
   --popover: hsl(0, 0%, 7%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --primary: hsl(327, 73%, 57%);
+  --primary: hsl(45, 95%, 60%);
   --primary-foreground: hsl(0, 0%, 0%);
   --secondary: hsl(0, 0%, 15%);
   --secondary-foreground: hsl(0, 0%, 100%);
@@ -130,6 +130,24 @@
       0 0 30px #db2777,
       0 0 35px #be185d;
     filter: drop-shadow(0 0 8px #ec4899);
+  }
+
+  /* Розово-фиолетовая кнопка только для страницы ИДИОТ */
+  .idiot-button {
+    background: linear-gradient(135deg, #ec4899, #db2777);
+    color: white;
+    border: 1px solid #ec4899;
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+  }
+
+  .idiot-button:hover {
+    background: linear-gradient(135deg, #db2777, #be185d);
+    box-shadow: 0 0 30px rgba(236, 72, 153, 0.6);
+  }
+
+  /* Розово-фиолетовый цвет текста для страницы ИДИОТ */
+  .idiot-primary {
+    color: #ec4899;
   }
 
   /* Мигающая буква "О" */

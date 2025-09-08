@@ -146,7 +146,7 @@ export default function ProjectPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
                     onClick={toggleGlobalAudio}
-                    className="bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon shadow-lg"
+                    className="idiot-button px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 animate-pulse-neon shadow-lg"
                     data-testid="button-listen-music"
                     title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
                   >
@@ -221,7 +221,7 @@ export default function ProjectPage() {
                     </div>
                     <div>
                       <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
-                      <p className="text-primary font-medium">
+                      <p className="idiot-primary font-medium">
                         Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер
                       </p>
                     </div>
