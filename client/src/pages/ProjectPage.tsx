@@ -516,7 +516,16 @@ export default function ProjectPage() {
                 Музыка из спектакля
               </h3>
               
-              <div className="winamp-player p-6">
+              <div className="winamp-player p-6 relative">
+                
+                {/* Power button in top right corner */}
+                <button 
+                  onClick={toggleGlobalAudio}
+                  className={`absolute top-2 right-2 winamp-button text-xs px-2 py-1 ${isGlobalAudioEnabled ? 'active' : ''}`}
+                  title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
+                >
+                  {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
+                </button>
                 
                 {/* Winamp-style player interface */}
                 <div className="space-y-4">
@@ -591,17 +600,6 @@ export default function ProjectPage() {
                       title="Следующий трек"
                     >
                       <SkipForward className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  {/* Power button */}
-                  <div className="flex justify-center mt-4">
-                    <button 
-                      onClick={toggleGlobalAudio}
-                      className={`winamp-button text-lg px-6 ${isGlobalAudioEnabled ? 'active' : ''}`}
-                      title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
-                    >
-                      {isGlobalAudioEnabled ? 'POWER OFF' : 'POWER ON'}
                     </button>
                   </div>
                 </div>
