@@ -184,9 +184,9 @@ export function GlobalProjectPlayer() {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Экспортируем функции в глобальный контекст
+  // Экспортируем функции в глобальный контекст с реальным временем
   useEffect(() => {
-    // Добавляем функции в window для доступа из ProjectPage
+    // Обновляем window.projectPlayer в реальном времени
     (window as any).projectPlayer = {
       togglePlayPause,
       nextTrack,
@@ -201,7 +201,7 @@ export function GlobalProjectPlayer() {
       currentProjectPlaylist,
       formatTime
     };
-  }, [togglePlayPause, nextTrack, prevTrack, stopAudio, playTrack, isPlaying, currentTime, duration, isProjectPlayerReady, currentProjectTrack, currentProjectPlaylist]);
+  }); // Убираем dependencies чтобы обновлялось каждый рендер
 
   return null; // Этот компонент не рендерит UI - только логика
 }

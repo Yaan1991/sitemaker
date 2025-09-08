@@ -121,20 +121,19 @@ export default function ProjectPage() {
     isProjectPlayerReady
   } = useAudio();
   
-  // Глобальные функции плеера доступны через window
-  const [projectPlayer, setProjectPlayer] = useState<any>(null);
+  // Состояние для отслеживания обновлений плеера
+  const [, forceUpdate] = useState(0);
   
+  // Принудительно обновляем компонент каждые 100мс для синхронизации с глобальным плеером
   useEffect(() => {
-    // Получаем доступ к глобальному плееру
-    const checkPlayer = () => {
-      if ((window as any).projectPlayer) {
-        setProjectPlayer((window as any).projectPlayer);
-      } else {
-        setTimeout(checkPlayer, 100);
-      }
-    };
-    checkPlayer();
+    const interval = setInterval(() => {
+      setForceUpdate(prev => prev + 1);
+    }, 100);
+    return () => clearInterval(interval);
   }, []);
+  
+  // Получаем актуальный глобальный плеер
+  const projectPlayer = (window as any).projectPlayer;
   
   // Фотографии для спектакля "Идиот" (4 фото)
   const idiotPhotos = [
