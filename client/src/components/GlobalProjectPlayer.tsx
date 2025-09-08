@@ -75,18 +75,22 @@ export function GlobalProjectPlayer() {
       setAudioElements(elements);
       setIsProjectPlayerReady(true);
 
-      // Cleanup предыдущих элементов
+      // Cleanup предыдущих элементов - с задержкой для затухания
       return () => {
-        elements.forEach(audio => {
-          audio.pause();
-          audio.src = '';
-        });
+        setTimeout(() => {
+          elements.forEach(audio => {
+            audio.pause();
+            audio.src = '';
+          });
+        }, 4500); // Ждем завершения затухания
       };
     } else {
-      // Если не на странице проекта - очищаем
-      setCurrentProjectPlaylist(null);
-      setIsProjectPlayerReady(false);
-      setAudioElements([]);
+      // Если не на странице проекта - даем время для плавного затухания, затем очищаем
+      setTimeout(() => {
+        setCurrentProjectPlaylist(null);
+        setIsProjectPlayerReady(false);
+        setAudioElements([]);
+      }, 4500); // Ждем завершения затухания (4 секунды + буфер)
     }
   }, [location, setCurrentProjectPlaylist, setIsProjectPlayerReady]);
 
