@@ -61,11 +61,9 @@ export default function ProjectPage() {
   const [isMainPlayerPlaying, setIsMainPlayerPlaying] = useState(false);
   const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
   
-  // Фотографии для спектакля "Идиот"
+  // Фотографии для спектакля "Идиот" (4 фото)
   const idiotPhotos = [
     "/images/idiot.webp",
-    "/images/idiot1_1756479054514.webp", 
-    "/images/idiot2_1756479054514.webp",
     "/images/idiot3_1756479054514.webp",
     "/images/idiot4_1756479054514.webp",
     "/images/idiot5_1756479169274.webp"
@@ -129,38 +127,46 @@ export default function ProjectPage() {
             {/* Main Content - 2 columns */}
             <div className="lg:col-span-2 space-y-8">
               
+              {/* Заголовок и информация для проекта Идиот */}
+              {project.id === "idiot-saratov-drama" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-8"
+                >
+                  <NeonTitle text="ИДИОТ" />
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-6">
+                    Театр им. Слонова • 2024
+                  </p>
+                  
+                  {/* Кнопка слушать музыку */}
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    onClick={toggleGlobalAudio}
+                    className="bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon shadow-lg"
+                    data-testid="button-listen-music"
+                    title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
+                  >
+                    {isGlobalAudioEnabled ? "🔇 Выключить звук" : "🎵 Включить звук"}
+                  </motion.button>
+                </motion.div>
+              )}
+
               {/* Project Image */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
                 className="relative"
               >
                 {/* Автосмена фото для проекта Идиот */}
                 {project.id === "idiot-saratov-drama" ? (
                   <div className="relative">
                     <PhotoCarousel photos={idiotPhotos} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-lg" />
-                    
-                    {/* Неоновый заголовок */}
-                    <div className="absolute top-6 left-6 text-white">
-                      <NeonTitle text="ИДИОТ" />
-                    </div>
-                    
-                    {/* Кнопка слушать музыку */}
-                    <div className="absolute bottom-4 right-4 z-20">
-                      <motion.button
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.8 }}
-                        onClick={toggleGlobalAudio}
-                        className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold text-sm hover:bg-white transition-all duration-300 animate-pulse-neon shadow-lg"
-                        data-testid="button-listen-music"
-                        title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
-                      >
-                        {isGlobalAudioEnabled ? "Выкл. звук" : "Вкл. звук"}
-                      </motion.button>
-                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
                   </div>
                 ) : (
                   /* Обычное фото для других проектов */
@@ -175,20 +181,6 @@ export default function ProjectPage() {
                   </>
                 )}
               </motion.div>
-              
-              {/* Информация о театре под фотографиями для проекта Идиот */}
-              {project.id === "idiot-saratov-drama" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="text-center mt-4"
-                >
-                  <p className="text-lg font-medium text-gray-300">
-                    Театр им. Слонова • 2024
-                  </p>
-                </motion.div>
-              )}
 
               {/* Header */}
               <motion.div

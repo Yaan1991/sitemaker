@@ -10,7 +10,7 @@
   --card-foreground: hsl(0, 0%, 100%);
   --popover: hsl(0, 0%, 7%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --primary: hsl(45, 95%, 60%);
+  --primary: hsl(327, 73%, 57%);
   --primary-foreground: hsl(0, 0%, 0%);
   --secondary: hsl(0, 0%, 15%);
   --secondary-foreground: hsl(0, 0%, 100%);
@@ -38,7 +38,7 @@
   --card-foreground: hsl(0, 0%, 100%);
   --popover: hsl(0, 0%, 7%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --primary: hsl(45, 95%, 60%);
+  --primary: hsl(327, 73%, 57%);
   --primary-foreground: hsl(0, 0%, 0%);
   --secondary: hsl(0, 0%, 15%);
   --secondary-foreground: hsl(0, 0%, 100%);
@@ -115,26 +115,26 @@
     animation: pulseNeon 2s ease-in-out infinite;
   }
 
-  /* Розово-фиолетовый неоновый текст с Train One */
+  /* Насыщенный темно-розовый неоновый текст с Train One */
   .neon-scorsese {
     font-family: 'Train One', cursive;
     font-weight: 400;
     letter-spacing: 6px;
-    color: #e879f9;
+    color: #ec4899;
     text-shadow: 
-      0 0 5px #e879f9,
-      0 0 10px #e879f9,
-      0 0 15px #e879f9,
-      0 0 20px #e879f9,
-      0 0 25px #d946ef,
-      0 0 30px #d946ef,
-      0 0 35px #c026d3;
-    filter: drop-shadow(0 0 8px #e879f9);
+      0 0 5px #ec4899,
+      0 0 10px #ec4899,
+      0 0 15px #ec4899,
+      0 0 20px #ec4899,
+      0 0 25px #db2777,
+      0 0 30px #db2777,
+      0 0 35px #be185d;
+    filter: drop-shadow(0 0 8px #ec4899);
   }
 
-  /* Буква "О" того же цвета без мигания */
+  /* Мигающая буква "О" */
   .neon-flicker-o {
-    color: #e879f9;
+    animation: flickerO 3s infinite linear;
   }
 
   /* Усиленные VHS эффекты */
