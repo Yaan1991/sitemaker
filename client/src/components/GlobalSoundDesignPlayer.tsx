@@ -5,7 +5,7 @@ import { useAudio } from '@/contexts/AudioContext';
 export function GlobalSoundDesignPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [location] = useLocation();
-  const { isGlobalAudioEnabled } = useAudio();
+  const { isGlobalAudioEnabled, sfxVolume, masterVolume } = useAudio();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentVolume, setCurrentVolume] = useState(0);
   const [currentSoundFile, setCurrentSoundFile] = useState<string>('');
@@ -72,15 +72,26 @@ export function GlobalSoundDesignPlayer() {
     }
   }, [isGlobalAudioEnabled, isPlaying, currentSoundFile]);
 
+  // Обновляем громкость при изменении настроек микшера
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !isPlaying) return;
+
+    const newVolume = 0.15 * sfxVolume * masterVolume;
+    audio.volume = newVolume;
+    setCurrentVolume(newVolume);
+  }, [sfxVolume, masterVolume, isPlaying]);
+
   const fadeIn = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     let volume = 0;
+    const targetVolume = 0.15 * sfxVolume * masterVolume; // Учитываем настройки микшера
     const fadeInterval = setInterval(() => {
-      volume += 0.002; // 2.5 секунды появления, тише чем основная музыка
-      if (volume >= 0.15) { // Максимум 15% громкости для фоновых шумов
-        volume = 0.15;
+      volume += targetVolume / 50; // 2.5 секунды появления
+      if (volume >= targetVolume) {
+        volume = targetVolume;
         clearInterval(fadeInterval);
       }
       audio.volume = volume;

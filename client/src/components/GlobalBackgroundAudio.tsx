@@ -5,7 +5,7 @@ import { useAudio } from '@/contexts/AudioContext';
 export function GlobalBackgroundAudio() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [location] = useLocation();
-  const { isGlobalAudioEnabled } = useAudio();
+  const { isGlobalAudioEnabled, musicVolume, masterVolume } = useAudio();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentVolume, setCurrentVolume] = useState(0);
 
@@ -38,15 +38,26 @@ export function GlobalBackgroundAudio() {
     }
   }, [isGlobalAudioEnabled, location, isPlaying]);
 
+  // Обновляем громкость при изменении настроек микшера
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !isPlaying) return;
+
+    const newVolume = 0.25 * musicVolume * masterVolume;
+    audio.volume = newVolume;
+    setCurrentVolume(newVolume);
+  }, [musicVolume, masterVolume, isPlaying]);
+
   const fadeIn = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     let volume = 0;
+    const targetVolume = 0.25 * musicVolume * masterVolume; // Учитываем настройки микшера
     const fadeInterval = setInterval(() => {
-      volume += 0.006; // 2 секунды появления (2000ms / 50ms = 40 шагов, 0.25 / 40 = 0.006)
-      if (volume >= 0.25) {
-        volume = 0.25;
+      volume += targetVolume / 40; // 2 секунды появления (2000ms / 50ms = 40 шагов)
+      if (volume >= targetVolume) {
+        volume = targetVolume;
         clearInterval(fadeInterval);
       }
       audio.volume = volume;

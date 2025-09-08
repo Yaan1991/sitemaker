@@ -44,7 +44,9 @@ export function GlobalProjectPlayer() {
     isProjectPlayerReady,
     setCurrentProjectPlaylist,
     setCurrentProjectTrack,
-    setIsProjectPlayerReady
+    setIsProjectPlayerReady,
+    musicVolume,
+    masterVolume
   } = useAudio();
   
   const [audioElements, setAudioElements] = useState<HTMLAudioElement[]>([]);
@@ -124,7 +126,7 @@ export function GlobalProjectPlayer() {
     
     const audio = audioElements[trackIndex];
     audio.currentTime = 0;
-    audio.volume = 0.7;
+    audio.volume = 0.7 * musicVolume * masterVolume; // Учитываем настройки микшера
     audio.play().catch(console.error);
 
     // Обновление времени
