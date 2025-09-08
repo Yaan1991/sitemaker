@@ -6,14 +6,66 @@ import { ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { useAudio } from "@/contexts/AudioContext";
-import { useState } from "react";
-import AutoSlider from "@/components/AutoSlider";
+import { useState, useEffect } from "react";
+
+// Компонент неонового текста с мигающей "О"
+function NeonTitle({ text }: { text: string }) {
+  return (
+    <h1 className="text-6xl lg:text-8xl font-russo font-bold neon-scorsese drop-shadow-lg mb-2">
+      {text.split('').map((char, index) => (
+        <span 
+          key={index} 
+          className={char === 'О' ? 'neon-flicker-o' : ''}
+        >
+          {char}
+        </span>
+      ))}
+    </h1>
+  );
+}
+
+// Компонент автосмены фото
+function PhotoCarousel({ photos }: { photos: string[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % photos.length);
+    }, 4000); // Смена каждые 4 секунды
+
+    return () => clearInterval(interval);
+  }, [photos.length]);
+
+  return (
+    <div className="photo-carousel vhs-enhanced w-full h-auto aspect-video rounded-lg shadow-2xl overflow-hidden">
+      {photos.map((photo, index) => (
+        <img
+          key={photo}
+          src={photo}
+          alt={`Кадр из спектакля ${index + 1}`}
+          className={`rounded-lg shadow-2xl ${index === currentIndex ? 'active' : ''}`}
+          data-testid="img-project"
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
   const [isMainPlayerPlaying, setIsMainPlayerPlaying] = useState(false);
   const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
+  
+  // Фотографии для спектакля "Идиот"
+  const idiotPhotos = [
+    "/images/idiot.webp",
+    "/images/idiot1.webp", 
+    "/images/idiot2.webp",
+    "/images/idiot3.webp",
+    "/images/idiot4.webp",
+    "/images/idiot5.webp"
+  ];
   
   const project = projects.find(p => p.id === projectId);
 
@@ -80,41 +132,46 @@ export default function ProjectPage() {
                 transition={{ duration: 0.6 }}
                 className="relative"
               >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-auto rounded-lg shadow-2xl"
-                  data-testid="img-project"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
-                
-                {/* Наложенный текст для проекта Идиот */}
-                {project.id === "idiot-saratov-drama" && (
-                  <div className="absolute top-6 left-6 text-white">
-                    <h1 className="text-6xl lg:text-8xl font-russo font-bold text-primary mb-2 vhs-chromatic drop-shadow-lg animate-pulse-neon">
-                      ИДИОТ
-                    </h1>
-                    <p className="text-lg font-medium text-gray-200 drop-shadow-md">
-                      Театр им. Слонова • 2024
-                    </p>
+                {/* Автосмена фото для проекта Идиот */}
+                {project.id === "idiot-saratov-drama" ? (
+                  <div className="relative">
+                    <PhotoCarousel photos={idiotPhotos} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-lg" />
+                    
+                    {/* Неоновый заголовок с мигающей "О" */}
+                    <div className="absolute top-6 left-6 text-white">
+                      <NeonTitle text="ИДИОТ" />
+                      <p className="text-lg font-medium text-gray-200 drop-shadow-md">
+                        Театр им. Слонова • 2024
+                      </p>
+                    </div>
+                    
+                    {/* Кнопка слушать музыку */}
+                    <div className="absolute bottom-4 right-4 z-20">
+                      <motion.button
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.8 }}
+                        onClick={toggleGlobalAudio}
+                        className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold text-sm hover:bg-white transition-all duration-300 animate-pulse-neon shadow-lg"
+                        data-testid="button-listen-music"
+                        title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
+                      >
+                        {isGlobalAudioEnabled ? "Выкл. звук" : "Вкл. звук"}
+                      </motion.button>
+                    </div>
                   </div>
-                )}
-                
-                {/* Кнопка слушать музыку для проекта Идиот */}
-                {project.id === "idiot-saratov-drama" && (
-                  <div className="absolute bottom-4 right-4">
-                    <motion.button
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.8, delay: 0.8 }}
-                      onClick={toggleGlobalAudio}
-                      className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold text-sm hover:bg-white transition-all duration-300 animate-pulse-neon shadow-lg"
-                      data-testid="button-listen-music"
-                      title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
-                    >
-                      {isGlobalAudioEnabled ? "Выкл. звук" : "Вкл. звук"}
-                    </motion.button>
-                  </div>
+                ) : (
+                  /* Обычное фото для других проектов */
+                  <>
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-auto rounded-lg shadow-2xl"
+                      data-testid="img-project"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
+                  </>
                 )}
               </motion.div>
 
@@ -226,15 +283,6 @@ export default function ProjectPage() {
                         </p>
                       </div>
 
-                      {/* Основное фото спектакля */}
-                      <div>
-                        <h4 className="text-xl font-semibold text-primary mb-4">Фото спектакля</h4>
-                        <img 
-                          src="/images/idiot.webp" 
-                          alt="Спектакль Идиот" 
-                          className="w-full rounded-lg shadow-lg"
-                        />
-                      </div>
 
 
 
