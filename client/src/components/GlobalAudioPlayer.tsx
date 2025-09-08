@@ -8,33 +8,33 @@ interface Track {
   url: string;
 }
 
-// Мэппинг страниц на треки/плейлисты
+// Мэппинг страниц на треки/плейлисты (локальные файлы)
 const pageTrackMap: Record<string, Track[] | Track> = {
   '/': {
     id: 'homepage',
     title: 'Фоновая музыка',
-    url: 'https://disk.yandex.ru/d/qD8DD5RQ16ehsw'
+    url: '/audio/homepage.mp3'
   },
   '/project/idiot-saratov-drama': [
     {
       id: 'nastasya',
       title: 'Тема Настасьи Филипповны',
-      url: 'https://disk.yandex.ru/d/_N303DN6vIaHbQ'
+      url: '/audio/nastasya.mp3'
     },
     {
       id: 'myshkin',
       title: 'Тема Мышкина',
-      url: 'https://disk.yandex.ru/d/hJbZ_RPemfQ-Bw'
+      url: '/audio/myshkin.mp3'
     },
     {
       id: 'nastasya_nightmare',
       title: 'Кошмар Настасьи Филипповны',
-      url: 'https://disk.yandex.ru/d/Gg5FM6qFqTTVgg'
+      url: '/audio/nastasya_nightmare.mp3'
     },
     {
       id: 'city',
       title: 'Тема города',
-      url: 'https://disk.yandex.ru/d/TZkTlLawtVCNtA'
+      url: '/audio/city.mp3'
     }
   ]
 };
@@ -56,12 +56,9 @@ export function GlobalAudioPlayer() {
   // Получение текущего трека
   const currentTrack = currentPlaylist ? currentPlaylist[currentTrackIndex] : null;
 
-  // Конвертация Yandex.Disk ссылок в прокси
-  const getProxyUrl = (shareUrl: string) => {
-    if (shareUrl.includes('disk.yandex.ru/d/')) {
-      return `/api/proxy-audio?url=${encodeURIComponent(shareUrl)}`;
-    }
-    return shareUrl;
+  // Локальные аудиофайлы не требуют прокси
+  const getAudioUrl = (url: string) => {
+    return url; // Используем URL как есть для локальных файлов
   };
 
   // Плавный фейд-ин (3 секунды)
@@ -229,7 +226,7 @@ export function GlobalAudioPlayer() {
   return (
     <audio
       ref={audioRef}
-      src={getProxyUrl(currentTrack.url)}
+      src={getAudioUrl(currentTrack.url)}
       preload="auto"
       style={{ display: 'none' }}
     />
