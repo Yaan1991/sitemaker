@@ -90,16 +90,25 @@ export function GlobalProjectPlayer() {
     }
   }, [location, setCurrentProjectPlaylist, setIsProjectPlayerReady]);
 
-  // Автозапуск при включении звука на странице проекта
+  // Автозапуск при включении звука на странице проекта (только один раз)
+  const [hasAutoStarted, setHasAutoStarted] = useState(false);
+  
   useEffect(() => {
-    if (getCurrentProject() && isGlobalAudioEnabled && isProjectPlayerReady && !isPlaying) {
+    if (getCurrentProject() && isGlobalAudioEnabled && isProjectPlayerReady && !isPlaying && !hasAutoStarted) {
       setTimeout(() => {
         playTrack(0);
+        setHasAutoStarted(true);
       }, 500);
     } else if (!isGlobalAudioEnabled && isPlaying) {
       pauseAudio();
+      setHasAutoStarted(false); // Сброс при выключении звука
     }
-  }, [isGlobalAudioEnabled, isProjectPlayerReady, location, isPlaying]);
+    
+    // Сброс флага при смене проекта
+    if (!getCurrentProject()) {
+      setHasAutoStarted(false);
+    }
+  }, [isGlobalAudioEnabled, isProjectPlayerReady, location]);
 
   // Функции управления плеером
   const playTrack = (trackIndex: number) => {
@@ -176,6 +185,7 @@ export function GlobalProjectPlayer() {
       audio.currentTime = 0;
       setIsPlaying(false);
       setCurrentTime(0);
+      // НЕ сбрасываем hasAutoStarted - пользователь сам остановил
     }
   };
 

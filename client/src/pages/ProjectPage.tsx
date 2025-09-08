@@ -481,6 +481,7 @@ export default function ProjectPage() {
                           Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
                         </div>
                         <button 
+                          type="button"
                           onClick={toggleGlobalAudio}
                           className={`winamp-button text-xs px-2 py-1 ml-2 ${isGlobalAudioEnabled ? 'active' : ''}`}
                           title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
@@ -508,6 +509,7 @@ export default function ProjectPage() {
                   {/* Control buttons */}
                   <div className="flex items-center justify-center gap-2">
                     <button 
+                      type="button"
                       onClick={handlePrevTrack}
                       className="winamp-button"
                       disabled={!isGlobalAudioEnabled}
@@ -517,6 +519,7 @@ export default function ProjectPage() {
                     </button>
                     
                     <button 
+                      type="button"
                       onClick={(e) => {
                         e.preventDefault();
                         if (!isGlobalAudioEnabled) {
@@ -532,6 +535,7 @@ export default function ProjectPage() {
                     </button>
 
                     <button 
+                      type="button"
                       onClick={handleStopAudio}
                       className="winamp-button"
                       disabled={!isGlobalAudioEnabled}
@@ -541,6 +545,7 @@ export default function ProjectPage() {
                     </button>
 
                     <button 
+                      type="button"
                       onClick={handleNextTrack}
                       className="winamp-button"
                       disabled={!isGlobalAudioEnabled}
