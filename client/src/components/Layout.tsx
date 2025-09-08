@@ -30,11 +30,29 @@ export default function Layout({ children }: LayoutProps) {
       console.log('Покидаем проектную страницу, запускаем затухание');
       // Запускаем специфичное затухание проектного плеера (4 секунды)
       const projectPlayer = (window as any).projectPlayer;
-      if (projectPlayer && projectPlayer.fadeOutProjectPlayer) {
-        console.log('Найден проектный плеер, запускаем fadeOutProjectPlayer');
-        projectPlayer.fadeOutProjectPlayer().then(() => {
-          console.log('Затухание проектного плеера завершено');
-        });
+      if (projectPlayer && projectPlayer.audioElements && projectPlayer.currentTrack !== undefined) {
+        console.log('Найден проектный плеер с аудио элементами');
+        const audio = projectPlayer.audioElements[projectPlayer.currentTrack];
+        if (audio && !audio.paused && audio.volume > 0) {
+          console.log('Запускаем кастомное затухание проектного плеера');
+          // Затухание напрямую с сохраненными элементами
+          let currentVolume = audio.volume;
+          const fadeOut = setInterval(() => {
+            if (!audio.src) {
+              console.log('❌ Аудио элемент очищен во время затухания!');
+              clearInterval(fadeOut);
+              return;
+            }
+            currentVolume -= 0.0125; // 4 секунды затухания
+            audio.volume = Math.max(0, currentVolume);
+            console.log('Затухание: громкость =', audio.volume);
+            if (currentVolume <= 0) {
+              console.log('✅ Затухание завершено за 4 секунды');
+              audio.pause();
+              clearInterval(fadeOut);
+            }
+          }, 50);
+        }
       } else {
         console.log('Проектный плеер не найден, fallback на общее затухание');
         // Fallback: общее затухание всех аудио элементов

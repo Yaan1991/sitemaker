@@ -267,7 +267,10 @@ export function GlobalProjectPlayer() {
       isProjectPlayerReady,
       currentProjectTrack,
       currentProjectPlaylist,
-      formatTime
+      formatTime,
+      // ВАЖНО: Сохраняем ссылки на аудио элементы для затухания
+      audioElements: [...audioElements], // Копия массива
+      currentTrack: currentProjectTrack
     };
   }); // Убираем dependencies чтобы обновлялось каждый рендер
 
