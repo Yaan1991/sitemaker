@@ -160,7 +160,7 @@ export default function ProjectPage() {
                     <div>
                       <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
                       <p className="text-primary font-medium">
-                        Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер: Ян Кузьмичёв
+                        Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер
                       </p>
                     </div>
                   </div>
