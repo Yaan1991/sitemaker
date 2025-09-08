@@ -122,10 +122,8 @@ export default function ProjectPage() {
 
           {/* Локальный плеер для проектов с музыкой уже встроен ниже в специальном разделе для Идиота */}
 
-          <div className="grid lg:grid-cols-3 gap-8 items-start">
-            
-            {/* Main Content - 2 columns */}
-            <div className="lg:col-span-2 space-y-8">
+          {/* Main Content - Centered */}
+          <div className="max-w-4xl mx-auto space-y-8">
               
               {/* Заголовок и информация для проекта Идиот */}
               {project.id === "idiot-saratov-drama" && (
@@ -357,56 +355,51 @@ export default function ProjectPage() {
                   </div>
                 </div>
               )}
-            </div>
-
-            {/* Sidebar - 1 column */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="space-y-6"
-            >
-              
-
-
-              {/* Links */}
-              {project.links && project.links.length > 0 && (
-                <div className="glass-effect rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-white mb-3">Ссылки</h3>
-                  <div className="space-y-2">
-                    {project.links.map((link, index) => (
-                      <a
-                        key={index}
-                        href={link.url}
-                        target={link.external ? "_blank" : "_self"}
-                        rel={link.external ? "noopener noreferrer" : undefined}
-                        className="inline-flex items-center gap-2 idiot-primary hover:text-pink-400 transition-colors duration-200 block"
-                        data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-                      >
-                        {link.label}
-                        {link.external && <ExternalLink className="w-4 h-4" />}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Awards */}
-              {project.awards && project.awards.length > 0 && (
-                <div className="glass-effect rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-white mb-3">Награды</h3>
-                  <ul className="space-y-2">
-                    {project.awards.map((award, index) => (
-                      <li key={index} className="text-gray-300">
-                        • {award}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-            </motion.div>
           </div>
+
+          {/* Links and Awards - Centered at bottom */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="max-w-4xl mx-auto mt-12 space-y-6"
+          >
+            {/* Links */}
+            {project.links && project.links.length > 0 && (
+              <div className="glass-effect rounded-xl p-6 text-center">
+                <h3 className="text-lg font-semibold text-white mb-4">Ссылки</h3>
+                <div className="flex flex-wrap justify-center gap-4">
+                  {project.links.map((link, index) => (
+                    <a
+                      key={index}
+                      href={link.url}
+                      target={link.external ? "_blank" : "_self"}
+                      rel={link.external ? "noopener noreferrer" : undefined}
+                      className="inline-flex items-center gap-2 idiot-primary hover:text-pink-400 transition-colors duration-200 px-4 py-2 bg-pink-500/10 rounded-lg border border-pink-500/30"
+                      data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      {link.label}
+                      {link.external && <ExternalLink className="w-4 h-4" />}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Awards */}
+            {project.awards && project.awards.length > 0 && (
+              <div className="glass-effect rounded-xl p-6 text-center">
+                <h3 className="text-lg font-semibold text-white mb-4">Награды</h3>
+                <ul className="space-y-2">
+                  {project.awards.map((award, index) => (
+                    <li key={index} className="text-gray-300">
+                      • {award}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </motion.div>
         </div>
       </div>
     </>
