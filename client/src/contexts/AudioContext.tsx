@@ -44,9 +44,12 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [currentPage, setCurrentPage] = useState('/');
   const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // По умолчанию звук выключен - включается только по кнопке
+  // Восстанавливаем состояние звука из localStorage
   useEffect(() => {
-    setIsGlobalAudioEnabled(false);
+    const saved = localStorage.getItem('global-audio-enabled');
+    if (saved) {
+      setIsGlobalAudioEnabled(saved === 'true');
+    }
   }, []);
 
   const toggleGlobalAudio = () => {

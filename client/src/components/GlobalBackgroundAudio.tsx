@@ -54,11 +54,13 @@ export function GlobalBackgroundAudio() {
     const audio = audioRef.current;
     if (!audio) return;
 
+    console.log('🔊 Начинаем fade-in фонового плеера');
     let volume = 0;
     const fadeInterval = setInterval(() => {
       volume += 0.006; // 2 секунды появления (2000ms / 50ms = 40 шагов, 0.25 / 40 = 0.006)
       if (volume >= 0.25) {
         volume = 0.25;
+        console.log('🔊 Fade-in завершен, громкость:', volume);
         clearInterval(fadeInterval);
       }
       audio.volume = volume;
