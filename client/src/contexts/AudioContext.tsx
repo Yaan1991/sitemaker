@@ -24,10 +24,10 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [currentPlaylist, setCurrentPlaylist] = useState<Track[] | null>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
-  // Загружаем сохраненные настройки при инициализации
+  // По умолчанию звук выключен - включается только по кнопке
   useEffect(() => {
-    const savedAudioPreference = localStorage.getItem('global-audio-enabled');
-    setIsGlobalAudioEnabled(savedAudioPreference === 'true');
+    // Убираем автозагрузку настроек - звук всегда выключен по умолчанию
+    setIsGlobalAudioEnabled(false);
   }, []);
 
   const toggleGlobalAudio = () => {
