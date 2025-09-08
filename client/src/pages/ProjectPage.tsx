@@ -91,7 +91,7 @@ export default function ProjectPage() {
                 {/* Наложенный текст для проекта Идиот */}
                 {project.id === "idiot-saratov-drama" && (
                   <div className="absolute top-6 left-6 text-white">
-                    <h1 className="text-5xl lg:text-6xl font-russo font-bold text-white mb-2 vhs-chromatic drop-shadow-lg">
+                    <h1 className="text-6xl lg:text-8xl font-russo font-bold text-primary mb-2 vhs-chromatic drop-shadow-lg animate-pulse-neon">
                       ИДИОТ
                     </h1>
                     <p className="text-lg font-medium text-gray-200 drop-shadow-md">
