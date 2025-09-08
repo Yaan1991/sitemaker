@@ -29,7 +29,7 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </motion.main>
       <Footer />
-      
+      <GlobalAudioPlayer />
     </div>
   );
 }
