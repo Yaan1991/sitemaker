@@ -64,11 +64,11 @@ export default function ProjectPage() {
   // Фотографии для спектакля "Идиот"
   const idiotPhotos = [
     "/images/idiot.webp",
-    "/images/idiot1.webp", 
-    "/images/idiot2.webp",
-    "/images/idiot3.webp",
-    "/images/idiot4.webp",
-    "/images/idiot5.webp"
+    "/images/idiot1_1756479054514.webp", 
+    "/images/idiot2_1756479054514.webp",
+    "/images/idiot3_1756479054514.webp",
+    "/images/idiot4_1756479054514.webp",
+    "/images/idiot5_1756479169274.webp"
   ];
   
   const project = projects.find(p => p.id === projectId);

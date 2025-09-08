@@ -115,28 +115,25 @@
     animation: pulseNeon 2s ease-in-out infinite;
   }
 
-  /* Неоновый текст в стиле LA NOIRE */
+  /* Неоновый текст в стиле LA NOIRE с Rubik Vinyl */
   .neon-scorsese {
-    color: transparent;
-    font-family: 'Orbitron', 'Exo 2', sans-serif;
-    font-weight: 300;
-    letter-spacing: 8px;
-    font-size: inherit;
-    -webkit-text-stroke: 2px #ffd700;
-    text-stroke: 2px #ffd700;
+    font-family: 'Rubik Vinyl', cursive;
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: #ffd700;
     text-shadow: 
       0 0 5px #ffd700,
       0 0 10px #ffd700,
       0 0 15px #ffd700,
       0 0 20px #ffd700,
-      0 0 25px #ffd700,
-      0 0 30px #ffd700,
-      0 0 35px #ffd700;
-    filter: drop-shadow(0 0 10px #ffd700);
-    background: transparent;
-    padding: 0;
-    border: none;
-    box-shadow: none;
+      0 0 25px #ffed4e,
+      0 0 30px #ffed4e,
+      0 0 35px #ffed4e;
+    filter: drop-shadow(0 0 8px #ffd700);
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
   }
 
   /* Мигающая буква "О" */
