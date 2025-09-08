@@ -18,7 +18,10 @@ export default function Layout({ children }: LayoutProps) {
 
   // Управление переходами между страницами с фейдами
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Скроллим вверх ТОЛЬКО при реальной смене страниц, а не при обновлениях состояния
+    if (previousLocation !== location && previousLocation !== '') {
+      window.scrollTo(0, 0);
+    }
     
     // Если переходим СО страницы проекта НА другую страницу - делаем фейд аут
     const isLeavingProject = previousLocation.startsWith('/project/') && !location.startsWith('/project/');
