@@ -11,16 +11,18 @@ import { useState, useEffect } from "react";
 // Компонент неонового текста с мигающей "О"
 function NeonTitle({ text }: { text: string }) {
   return (
-    <h1 className="text-6xl lg:text-8xl font-russo font-bold neon-scorsese drop-shadow-lg mb-2">
-      {text.split('').map((char, index) => (
-        <span 
-          key={index} 
-          className={char === 'О' ? 'neon-flicker-o' : ''}
-        >
-          {char}
-        </span>
-      ))}
-    </h1>
+    <div className="inline-block">
+      <h1 className="text-4xl lg:text-6xl neon-scorsese mb-2">
+        {text.split('').map((char, index) => (
+          <span 
+            key={index} 
+            className={char === 'О' ? 'neon-flicker-o' : ''}
+          >
+            {char}
+          </span>
+        ))}
+      </h1>
+    </div>
   );
 }
 
@@ -37,14 +39,16 @@ function PhotoCarousel({ photos }: { photos: string[] }) {
   }, [photos.length]);
 
   return (
-    <div className="photo-carousel vhs-enhanced w-full h-auto aspect-video rounded-lg shadow-2xl overflow-hidden">
+    <div className="photo-carousel vhs-enhanced rounded-lg shadow-2xl">
       {photos.map((photo, index) => (
         <img
-          key={photo}
+          key={`${photo}-${index}`}
           src={photo}
           alt={`Кадр из спектакля ${index + 1}`}
-          className={`rounded-lg shadow-2xl ${index === currentIndex ? 'active' : ''}`}
+          className={index === currentIndex ? 'active' : ''}
           data-testid="img-project"
+          onError={(e) => console.log('Ошибка загрузки фото:', photo)}
+          onLoad={() => console.log('Фото загружено:', photo)}
         />
       ))}
     </div>
@@ -57,14 +61,9 @@ export default function ProjectPage() {
   const [isMainPlayerPlaying, setIsMainPlayerPlaying] = useState(false);
   const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
   
-  // Фотографии для спектакля "Идиот"
+  // Фотографии для спектакля "Идиот" (пока используем только рабочие)
   const idiotPhotos = [
-    "/images/idiot.webp",
-    "/images/idiot1.webp", 
-    "/images/idiot2.webp",
-    "/images/idiot3.webp",
-    "/images/idiot4.webp",
-    "/images/idiot5.webp"
+    "/images/idiot.webp"
   ];
   
   const project = projects.find(p => p.id === projectId);

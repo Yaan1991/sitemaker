@@ -115,17 +115,33 @@
     animation: pulseNeon 2s ease-in-out infinite;
   }
 
-  /* Неоновый текст в стиле Скорсезе */
+  /* Неоновый текст в стиле Скорсезе с обрамлением */
   .neon-scorsese {
     color: hsl(45, 95%, 60%);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 3px;
     text-shadow: 
-      0 0 5px hsl(45, 95%, 60%),
-      0 0 10px hsl(45, 95%, 60%),
+      /* Черная обводка для читаемости */
+      -2px -2px 0 #000,
+      2px -2px 0 #000,
+      -2px 2px 0 #000,
+      2px 2px 0 #000,
+      -3px 0 0 #000,
+      3px 0 0 #000,
+      0 -3px 0 #000,
+      0 3px 0 #000,
+      /* Неоновое свечение */
+      0 0 8px hsl(45, 95%, 60%),
       0 0 15px hsl(45, 95%, 60%),
-      0 0 20px hsl(45, 95%, 60%),
-      0 0 35px hsl(45, 95%, 60%),
-      0 0 40px hsl(45, 95%, 60%);
-    filter: drop-shadow(0 0 8px hsl(45, 95%, 60%));
+      0 0 25px hsl(45, 95%, 60%);
+    background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 2px solid hsl(45, 95%, 60%);
+    box-shadow: 
+      0 0 10px hsl(45, 95%, 60%),
+      inset 0 0 10px rgba(255, 215, 77, 0.1);
   }
 
   /* Мигающая буква "О" */
@@ -188,6 +204,9 @@
   .photo-carousel {
     position: relative;
     overflow: hidden;
+    width: 100%;
+    aspect-ratio: 16/9;
+    min-height: 400px;
   }
 
   .photo-carousel img {
@@ -199,10 +218,17 @@
     object-fit: cover;
     opacity: 0;
     transition: opacity 1.5s ease-in-out;
+    border-radius: 0.5rem;
   }
 
   .photo-carousel img.active {
     opacity: 1;
+    z-index: 2;
+  }
+
+  .photo-carousel img:first-child {
+    opacity: 1;
+    z-index: 1;
   }
 }
 
