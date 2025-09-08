@@ -99,7 +99,7 @@ export function GlobalProjectPlayer() {
     } else if (!isGlobalAudioEnabled && isPlaying) {
       pauseAudio();
     }
-  }, [isGlobalAudioEnabled, isProjectPlayerReady, location]);
+  }, [isGlobalAudioEnabled, isProjectPlayerReady, location, isPlaying]);
 
   // Функции управления плеером
   const playTrack = (trackIndex: number) => {

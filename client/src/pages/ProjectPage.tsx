@@ -122,12 +122,12 @@ export default function ProjectPage() {
   } = useAudio();
   
   // Состояние для отслеживания обновлений плеера
-  const [, forceUpdate] = useState(0);
+  const [forceUpdateCounter, setForceUpdateCounter] = useState(0);
   
   // Принудительно обновляем компонент каждые 100мс для синхронизации с глобальным плеером
   useEffect(() => {
     const interval = setInterval(() => {
-      setForceUpdate(prev => prev + 1);
+      setForceUpdateCounter(prev => prev + 1);
     }, 100);
     return () => clearInterval(interval);
   }, []);
