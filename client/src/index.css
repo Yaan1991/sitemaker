@@ -174,16 +174,61 @@
     animation: strobeO 1.5s infinite linear !important;
   }
 
-  /* Стробирующая анимация для буквы О */
+  /* Стробирующая анимация для буквы О с неожиданными интервалами */
   @keyframes strobeO {
-    0%, 20%, 40%, 60%, 80%, 100% { 
+    0% { 
       opacity: 1;
       text-shadow: 
         0 0 1px #ec4899,
         0 0 2px #ec4899,
         0 0 3px #db2777;
     }
-    10%, 30%, 50%, 70%, 90% { 
+    /* 30ms горит */
+    20% { 
+      opacity: 1;
+      text-shadow: 
+        0 0 1px #ec4899,
+        0 0 2px #ec4899,
+        0 0 3px #db2777;
+    }
+    /* 8ms гаснет */
+    25% { 
+      opacity: 0.05;
+      text-shadow: none;
+    }
+    /* 20ms горит */
+    40% { 
+      opacity: 1;
+      text-shadow: 
+        0 0 1px #ec4899,
+        0 0 2px #ec4899,
+        0 0 3px #db2777;
+    }
+    /* 10ms гаснет */
+    50% { 
+      opacity: 0.05;
+      text-shadow: none;
+    }
+    /* неожиданная вспышка */
+    70% { 
+      opacity: 1;
+      text-shadow: 
+        0 0 1px #ec4899,
+        0 0 2px #ec4899,
+        0 0 3px #db2777;
+    }
+    75% { 
+      opacity: 0.05;
+      text-shadow: none;
+    }
+    95% { 
+      opacity: 1;
+      text-shadow: 
+        0 0 1px #ec4899,
+        0 0 2px #ec4899,
+        0 0 3px #db2777;
+    }
+    100% { 
       opacity: 0.05;
       text-shadow: none;
     }

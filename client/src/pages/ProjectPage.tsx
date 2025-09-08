@@ -219,8 +219,8 @@ export default function ProjectPage() {
                   
                   
                   
-                  {/* Постановочная команда */}
-                  <div className="mb-8 text-sm">
+                  {/* Постановочная команда и роль в проекте в две колонки */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
                     <div>
                       <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
                       <div className="text-gray-300 space-y-1">
@@ -228,6 +228,12 @@ export default function ProjectPage() {
                         <p>Художник: Ольга Кузнецова</p>
                         <p>Художник по свету: Максим Бирюков</p>
                       </div>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                      <p className="idiot-primary font-medium">
+                        Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер
+                      </p>
                     </div>
                   </div>
                   
@@ -293,19 +299,6 @@ export default function ProjectPage() {
                           Мой вклад: создание целого аудиомира - от городских записей до музыкальной партитуры.
                         </p>
                       </div>
-
-
-
-
-
-                      
-                      <p>
-                        <strong className="text-primary">Финальный результат — эффект кино в театре. </strong> 
-                        Зритель мог смотреть одновременно спектакль и экранную версию с крупными планами. 
-                        Звук создавал эффект присутствия: бытовая музыка звучала реалистично из окон и 
-                        бумбоксов, шум города оживал, а саундтрек вёл драматургию. Без моих записей города, 
-                        без этой музыки и без экспериментов с голосами спектакль звучал бы совсем иначе.
-                      </p>
                     </div>
                   </div>
 
@@ -374,28 +367,7 @@ export default function ProjectPage() {
               className="space-y-6"
             >
               
-              {/* Roles */}
-              <div className="glass-effect rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-white mb-3">Роль в проекте</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.role.map((role, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-pink-500/20 idiot-primary text-sm rounded-full"
-                    >
-                      {role}
-                    </span>
-                  ))}
-                </div>
-              </div>
 
-              {/* Venue */}
-              {project.venue && (
-                <div className="glass-effect rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-white mb-3">Место проведения</h3>
-                  <p className="text-gray-300">{project.venue}</p>
-                </div>
-              )}
 
               {/* Links */}
               {project.links && project.links.length > 0 && (
