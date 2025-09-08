@@ -28,6 +28,15 @@ interface AudioContextType {
   toggleSoundDesign: () => void;
   currentSoundDesign: string | null;
   setCurrentSoundDesign: (sound: string | null) => void;
+  // Микшер (управление громкостью)
+  musicVolume: number;
+  sfxVolume: number;
+  masterVolume: number;
+  setMusicVolume: (volume: number) => void;
+  setSfxVolume: (volume: number) => void;
+  setMasterVolume: (volume: number) => void;
+  isMixerOpen: boolean;
+  setIsMixerOpen: (open: boolean) => void;
   // Общие функции
   fadeOutCurrentAudio: () => Promise<void>;
   currentPage: string;
@@ -48,6 +57,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   // Sound Design плеер
   const [isSoundDesignEnabled, setIsSoundDesignEnabled] = useState(true); // По умолчанию включен
   const [currentSoundDesign, setCurrentSoundDesign] = useState<string | null>(null);
+  // Микшер
+  const [musicVolume, setMusicVolume] = useState(0.75); // 75% по умолчанию
+  const [sfxVolume, setSfxVolume] = useState(0.5); // 50% по умолчанию  
+  const [masterVolume, setMasterVolume] = useState(1.0); // 100% по умолчанию
+  const [isMixerOpen, setIsMixerOpen] = useState(false);
   // Общее
   const [currentPage, setCurrentPage] = useState('/');
   const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -63,6 +77,22 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     if (savedSoundDesign) {
       setIsSoundDesignEnabled(savedSoundDesign === 'true');
     }
+
+    // Восстанавливаем настройки микшера
+    const savedMusicVolume = localStorage.getItem('mixer-music-volume');
+    if (savedMusicVolume) {
+      setMusicVolume(parseFloat(savedMusicVolume));
+    }
+
+    const savedSfxVolume = localStorage.getItem('mixer-sfx-volume');
+    if (savedSfxVolume) {
+      setSfxVolume(parseFloat(savedSfxVolume));
+    }
+
+    const savedMasterVolume = localStorage.getItem('mixer-master-volume');
+    if (savedMasterVolume) {
+      setMasterVolume(parseFloat(savedMasterVolume));
+    }
   }, []);
 
   const toggleGlobalAudio = () => {
@@ -75,6 +105,22 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const newValue = !isSoundDesignEnabled;
     setIsSoundDesignEnabled(newValue);
     localStorage.setItem('sound-design-enabled', newValue.toString());
+  };
+
+  // Функции управления громкостью с сохранением в localStorage
+  const handleSetMusicVolume = (volume: number) => {
+    setMusicVolume(volume);
+    localStorage.setItem('mixer-music-volume', volume.toString());
+  };
+
+  const handleSetSfxVolume = (volume: number) => {
+    setSfxVolume(volume);
+    localStorage.setItem('mixer-sfx-volume', volume.toString());
+  };
+
+  const handleSetMasterVolume = (volume: number) => {
+    setMasterVolume(volume);
+    localStorage.setItem('mixer-master-volume', volume.toString());
   };
 
   // Функция плавного затухания текущего аудио
@@ -149,6 +195,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       toggleSoundDesign,
       currentSoundDesign,
       setCurrentSoundDesign,
+      // Микшер
+      musicVolume,
+      sfxVolume,
+      masterVolume,
+      setMusicVolume: handleSetMusicVolume,
+      setSfxVolume: handleSetSfxVolume,
+      setMasterVolume: handleSetMasterVolume,
+      isMixerOpen,
+      setIsMixerOpen,
       // Общие функции
       fadeOutCurrentAudio,
       currentPage,
