@@ -15,6 +15,23 @@ export function GlobalBackgroundAudio() {
     return !location.startsWith('/project/');
   };
 
+  // Настройка плавного лупа без пауз
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    // Плавный перезапуск без пауз
+    const handleEnded = () => {
+      if (isPlaying) {
+        audio.currentTime = 0;
+        audio.play().catch(console.error);
+      }
+    };
+
+    audio.addEventListener('ended', handleEnded);
+    return () => audio.removeEventListener('ended', handleEnded);
+  }, [isPlaying]);
+
   // Плавное включение/выключение в зависимости от страницы и глобального состояния
   useEffect(() => {
     const audio = audioRef.current;
@@ -76,7 +93,6 @@ export function GlobalBackgroundAudio() {
   return (
     <audio
       ref={audioRef}
-      loop
       preload="auto"
       className="hidden"
     >
