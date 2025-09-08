@@ -46,7 +46,7 @@ interface AudioContextType {
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
-  const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(false);
+  const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(true); // Включен по умолчанию
   // Фоновый плеер
   const [currentPlaylist, setCurrentPlaylist] = useState<Track[] | null>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -71,6 +71,10 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const savedGlobal = localStorage.getItem('global-audio-enabled');
     if (savedGlobal) {
       setIsGlobalAudioEnabled(savedGlobal === 'true');
+    } else {
+      // Если нет сохраненного состояния, устанавливаем true и сохраняем
+      setIsGlobalAudioEnabled(true);
+      localStorage.setItem('global-audio-enabled', 'true');
     }
     
     const savedSoundDesign = localStorage.getItem('sound-design-enabled');

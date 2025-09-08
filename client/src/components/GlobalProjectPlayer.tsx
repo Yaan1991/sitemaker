@@ -95,22 +95,6 @@ export function GlobalProjectPlayer() {
   // Автозапуск при включении звука на странице проекта (только один раз)
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
   
-  useEffect(() => {
-    if (getCurrentProject() && isGlobalAudioEnabled && isProjectPlayerReady && !isPlaying && !hasAutoStarted) {
-      setTimeout(() => {
-        playTrack(0);
-        setHasAutoStarted(true);
-      }, 500);
-    } else if (!isGlobalAudioEnabled && isPlaying) {
-      pauseAudio();
-      setHasAutoStarted(false); // Сброс при выключении звука
-    }
-    
-    // Сброс флага при смене проекта
-    if (!getCurrentProject()) {
-      setHasAutoStarted(false);
-    }
-  }, [isGlobalAudioEnabled, isProjectPlayerReady, location]);
 
   // Обновляем громкость при изменении настроек микшера
   useEffect(() => {
@@ -190,6 +174,26 @@ export function GlobalProjectPlayer() {
       }, 50);
     });
   };
+
+  // Автозапуск при включении звука на странице проекта (только один раз)
+  useEffect(() => {
+    const currentProject = getCurrentProject();
+    
+    if (currentProject && isGlobalAudioEnabled && isProjectPlayerReady && !isPlaying && !hasAutoStarted) {
+      setTimeout(() => {
+        playTrack(0);
+        setHasAutoStarted(true);
+      }, 500);
+    } else if (!isGlobalAudioEnabled && isPlaying) {
+      pauseAudio();
+      setHasAutoStarted(false); // Сброс при выключении звука
+    }
+    
+    // Сброс флага при смене проекта
+    if (!currentProject) {
+      setHasAutoStarted(false);
+    }
+  }, [isGlobalAudioEnabled, isProjectPlayerReady, location, hasAutoStarted, isPlaying]);
 
   const togglePlayPause = () => {
     const audio = audioElements[currentProjectTrack];
