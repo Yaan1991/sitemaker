@@ -146,7 +146,7 @@ export default function ProjectPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
                     onClick={toggleGlobalAudio}
-                    className="inline-flex items-center gap-3 idiot-button px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg"
+                    className="inline-flex items-center gap-3 idiot-button px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg animate-pulse-neon"
                     data-testid="button-listen-music"
                     title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
                   >

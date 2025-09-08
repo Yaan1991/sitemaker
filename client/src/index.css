@@ -150,18 +150,39 @@
     color: #ec4899;
   }
 
-  /* Мигающая буква "О" с розовым свечением */
+  /* Мигающая буква "О" с уменьшенным розовым свечением */
   .neon-flicker-o {
     color: #ec4899 !important;
     text-shadow: 
-      0 0 5px #ec4899,
-      0 0 10px #ec4899,
-      0 0 15px #ec4899,
-      0 0 20px #ec4899,
-      0 0 25px #db2777,
-      0 0 30px #db2777,
-      0 0 35px #be185d !important;
-    animation: flickerO 3s infinite linear;
+      0 0 3px #ec4899,
+      0 0 6px #ec4899,
+      0 0 9px #ec4899,
+      0 0 12px #db2777 !important;
+    animation: flickerO 2s infinite linear;
+  }
+
+  /* Анимация мигания буквы О */
+  @keyframes flickerO {
+    0%, 100% { 
+      opacity: 1;
+      text-shadow: 
+        0 0 3px #ec4899,
+        0 0 6px #ec4899,
+        0 0 9px #ec4899,
+        0 0 12px #db2777;
+    }
+    10%, 30%, 50%, 70%, 90% { 
+      opacity: 0.1;
+      text-shadow: none;
+    }
+    20%, 40%, 60%, 80% { 
+      opacity: 1;
+      text-shadow: 
+        0 0 3px #ec4899,
+        0 0 6px #ec4899,
+        0 0 9px #ec4899,
+        0 0 12px #db2777;
+    }
   }
 
   /* Заголовки розово-фиолетового цвета только на странице ИДИОТ */
