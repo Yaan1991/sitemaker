@@ -225,6 +225,7 @@ export default function ProjectPage() {
     if (audioElements[currentTrack]) {
       audioElements[currentTrack].pause();
       setIsPlaying(false);
+      // НЕ сбрасываем время - это пауза, а не стоп
     }
   };
 
@@ -232,7 +233,14 @@ export default function ProjectPage() {
     if (isPlaying) {
       pauseAudio();
     } else {
-      playTrack(currentTrack);
+      // Если пауза - продолжаем с текущего времени, если стоп - начинаем заново
+      const audio = audioElements[currentTrack];
+      if (audio && audio.currentTime > 0) {
+        setIsPlaying(true);
+        audio.play().catch(console.error);
+      } else {
+        playTrack(currentTrack);
+      }
     }
   };
 
@@ -581,40 +589,17 @@ export default function ProjectPage() {
                     >
                       <SkipForward className="w-4 h-4" />
                     </button>
-
-                    <div className="ml-4 border-l border-gray-600 pl-4">
-                      <button 
-                        onClick={toggleGlobalAudio}
-                        className={`winamp-button ${isGlobalAudioEnabled ? 'active' : ''}`}
-                        title={isGlobalAudioEnabled ? "Выключить музыку" : "Включить музыку"}
-                      >
-                        {isGlobalAudioEnabled ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                      </button>
-                    </div>
                   </div>
 
-                  {/* Playlist */}
-                  <div className="mt-6">
-                    <h4 className="text-white font-bold mb-3 text-center">ПЛЕЙЛИСТ</h4>
-                    <div className="space-y-1">
-                      {idiotTracks.map((track, index) => (
-                        <div 
-                          key={track.id}
-                          className={`track-info cursor-pointer hover:bg-gray-800 transition-colors ${
-                            currentTrack === index ? 'bg-gray-700' : ''
-                          }`}
-                          onClick={() => isGlobalAudioEnabled ? playTrack(index) : toggleGlobalAudio()}
-                        >
-                          <div className="flex items-center justify-between">
-                            <span>
-                              {index + 1}. {track.title}
-                              {currentTrack === index && isPlaying && ' ♪'}
-                            </span>
-                            <span className="text-xs opacity-70">03:45</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                  {/* Power button */}
+                  <div className="flex justify-center mt-4">
+                    <button 
+                      onClick={toggleGlobalAudio}
+                      className={`winamp-button text-lg px-6 ${isGlobalAudioEnabled ? 'active' : ''}`}
+                      title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
+                    >
+                      {isGlobalAudioEnabled ? 'POWER OFF' : 'POWER ON'}
+                    </button>
                   </div>
                 </div>
               </div>
