@@ -12,15 +12,10 @@ export function GlobalSoundDesignPlayer() {
 
   // Определяем какой звуковой файл должен играть на текущей странице
   const getSoundDesignFile = () => {
-    console.log('=== SOUND DESIGN PLAYER ===');
-    console.log('Current location:', location);
-    
     if (location.startsWith('/project/idiot-saratov-drama')) {
-      console.log('🎭 На странице Идиота, переключаю на idiot_showreel.mp3');
       return '/audio/idiot_showreel.mp3';
     }
     // Для главной и всех остальных страниц
-    console.log('🏠 На другой странице, оставляю vinyl.mp3');
     return '/audio/vinyl.mp3';
   };
 
@@ -31,37 +26,28 @@ export function GlobalSoundDesignPlayer() {
 
     const newSoundFile = getSoundDesignFile();
     
-    console.log('Текущий файл:', currentSoundFile);
-    console.log('Новый файл:', newSoundFile);
-    
     // Если нужно сменить файл
     if (newSoundFile !== currentSoundFile) {
-      console.log('🔄 Смена аудиофайла Sound Design');
+      setCurrentSoundFile(newSoundFile);
+      
       if (isPlaying) {
         // Плавно затухаем текущий звук
         fadeOut(() => {
-          // После затухания меняем файл
-          console.log('🎵 Загружаю новый аудиофайл:', newSoundFile);
-          setCurrentSoundFile(newSoundFile);
-          // ВАЖНО: Перезагружаем аудио элемент с новым источником
-          audio.load(); 
-          // И запускаем новый если нужно
-          if (isGlobalAudioEnabled) {
-            setTimeout(() => {
+          // После затухания перезагружаем и запускаем новый
+          setTimeout(() => {
+            audio.load();
+            if (isGlobalAudioEnabled) {
               audio.volume = 0;
               audio.play().then(() => {
-                console.log('▶️ Новый файл играет:', newSoundFile);
                 setIsPlaying(true);
                 fadeIn();
               }).catch(console.error);
-            }, 200); // Больше времени для загрузки
-          }
+            }
+          }, 100);
         });
       } else {
-        // Просто меняем файл если не играет
-        console.log('🎵 Меняю файл в паузе:', newSoundFile);
-        setCurrentSoundFile(newSoundFile);
-        audio.load(); // Перезагружаем новый источник
+        // Просто перезагружаем новый источник
+        audio.load();
       }
     }
   }, [location, currentSoundFile, isPlaying, isGlobalAudioEnabled]);
@@ -126,11 +112,10 @@ export function GlobalSoundDesignPlayer() {
   return (
     <audio
       ref={audioRef}
+      src={currentSoundFile}
       loop
       preload="auto"
       className="hidden"
-    >
-      {currentSoundFile && <source src={currentSoundFile} type="audio/mpeg" />}
-    </audio>
+    />
   );
 }
