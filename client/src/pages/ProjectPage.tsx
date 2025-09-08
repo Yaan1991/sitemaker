@@ -150,7 +150,7 @@ export default function ProjectPage() {
                     data-testid="button-listen-music"
                     title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
                   >
-                    {isGlobalAudioEnabled ? "🔇 Выключить звук" : "🎵 Включить звук"}
+                    {isGlobalAudioEnabled ? "⏸️ Пауза" : "▶️ Включить звук"}
                   </motion.button>
                 </motion.div>
               )}
@@ -231,7 +231,7 @@ export default function ProjectPage() {
 
                     <div className="space-y-6 text-gray-300 leading-relaxed">
                       <div>
-                        <h4 className="text-xl font-semibold text-primary mb-3">Концепция</h4>
+                        <h4 className="text-xl font-semibold idiot-heading mb-3">Концепция</h4>
                         <p>
                           Постановка Достоевского, перенесенная в Саратов 1999 года. Спектакль сочетает 
                           театр и «живое кино» — два оператора снимают действие, зритель видит параллельно 
@@ -240,7 +240,7 @@ export default function ProjectPage() {
                       </div>
 
                       <div>
-                        <h4 className="text-xl font-semibold text-primary mb-3">Творческая задача</h4>
+                        <h4 className="text-xl font-semibold idiot-heading mb-3">Творческая задача</h4>
                         <p>
                           Создать звук с кино-эстетикой для театра, чтобы зритель поверил в происходящее 
                           на экране, как в сериалах 90-х в духе Twin Peaks и «Секретных материалов».
@@ -261,7 +261,7 @@ export default function ProjectPage() {
                       </div>
 
                       <div>
-                        <h4 className="text-xl font-semibold text-primary mb-3">Ключевые решения</h4>
+                        <h4 className="text-xl font-semibold idiot-heading mb-3">Ключевые решения</h4>
                         
                         <div className="space-y-4">
                           <p>
@@ -282,8 +282,8 @@ export default function ProjectPage() {
                       </div>
 
 
-                      <div className="bg-primary/10 border border-primary/30 p-4 rounded-lg">
-                        <h4 className="text-xl font-semibold text-primary mb-3">Результат</h4>
+                      <div className="bg-pink-500/10 border border-pink-500/30 p-4 rounded-lg">
+                        <h4 className="text-xl font-semibold idiot-heading mb-3">Результат</h4>
                         <p>
                           Эффект полного погружения - зритель видит спектакль и его экранную версию одновременно.<br/>
                           Мой вклад: создание целого аудиомира - от городских записей до музыкальной партитуры.
