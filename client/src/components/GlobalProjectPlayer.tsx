@@ -175,7 +175,7 @@ export function GlobalProjectPlayer() {
     });
   };
 
-  // Автозапуск при включении звука на странице проекта (только один раз)
+  // Автозапуск при включении звука на странице проекта (только один раз при заходе)
   useEffect(() => {
     const currentProject = getCurrentProject();
     
@@ -189,11 +189,16 @@ export function GlobalProjectPlayer() {
       setHasAutoStarted(false); // Сброс при выключении звука
     }
     
-    // Сброс флага при смене проекта
+    // Сброс флага при смене проекта или уходе с проекта
     if (!currentProject) {
       setHasAutoStarted(false);
     }
   }, [isGlobalAudioEnabled, isProjectPlayerReady, location, hasAutoStarted, isPlaying]);
+
+  // Сброс флага автозапуска при смене URL (для повторных заходов)
+  useEffect(() => {
+    setHasAutoStarted(false);
+  }, [location]);
 
   const togglePlayPause = () => {
     const audio = audioElements[currentProjectTrack];
