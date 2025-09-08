@@ -41,21 +41,27 @@ export function GlobalSoundDesignPlayer() {
         // Плавно затухаем текущий звук
         fadeOut(() => {
           // После затухания меняем файл
+          console.log('🎵 Загружаю новый аудиофайл:', newSoundFile);
           setCurrentSoundFile(newSoundFile);
+          // ВАЖНО: Перезагружаем аудио элемент с новым источником
+          audio.load(); 
           // И запускаем новый если нужно
           if (isGlobalAudioEnabled) {
             setTimeout(() => {
               audio.volume = 0;
               audio.play().then(() => {
+                console.log('▶️ Новый файл играет:', newSoundFile);
                 setIsPlaying(true);
                 fadeIn();
               }).catch(console.error);
-            }, 100);
+            }, 200); // Больше времени для загрузки
           }
         });
       } else {
         // Просто меняем файл если не играет
+        console.log('🎵 Меняю файл в паузе:', newSoundFile);
         setCurrentSoundFile(newSoundFile);
+        audio.load(); // Перезагружаем новый источник
       }
     }
   }, [location, currentSoundFile, isPlaying, isGlobalAudioEnabled]);
