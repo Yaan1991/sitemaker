@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { useRoute } from "wouter";
 import { projects } from "@/data/projects";
 import SEOHead from "@/components/SEOHead";
-import { ExternalLink, ArrowLeft, VolumeX, Volume2 } from "lucide-react";
+import { ExternalLink, ArrowLeft, VolumeX, Volume2, Play, Pause } from "lucide-react";
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { useAudio } from "@/contexts/AudioContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Компонент неонового текста с мигающей "О"
 function NeonTitle({ text }: { text: string }) {
@@ -55,11 +55,41 @@ function PhotoCarousel({ photos }: { photos: string[] }) {
   );
 }
 
+// Треки для спектакля "Идиот"
+const idiotTracks = [
+  {
+    id: 'nastasya',
+    title: 'Тема Настасьи Филипповны',
+    url: '/audio/nastasya.mp3'
+  },
+  {
+    id: 'myshkin',
+    title: 'Тема Мышкина',
+    url: '/audio/myshkin.mp3'
+  },
+  {
+    id: 'nastasya_nightmare',
+    title: 'Кошмар Настасьи Филипповны',
+    url: '/audio/nastasya_nightmare.mp3'
+  },
+  {
+    id: 'city',
+    title: 'Тема города',
+    url: '/audio/city.mp3'
+  }
+];
+
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
   const [isMainPlayerPlaying, setIsMainPlayerPlaying] = useState(false);
   const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
+  
+  // Состояние для локального плеера
+  const [currentTrack, setCurrentTrack] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioElements, setAudioElements] = useState<HTMLAudioElement[]>([]);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
   
   // Фотографии для спектакля "Идиот" (4 фото)
   const idiotPhotos = [
@@ -91,6 +121,74 @@ export default function ProjectPage() {
     theatre: "Театр",
     film: "Кино", 
     audio: "Аудиоспектакли"
+  };
+
+  // Инициализация аудиоэлементов для плеера "Идиот"
+  useEffect(() => {
+    if (project?.id === "idiot-saratov-drama") {
+      const elements = idiotTracks.map((track) => {
+        const audio = new Audio(track.url);
+        audio.preload = 'metadata';
+        return audio;
+      });
+      setAudioElements(elements);
+      setIsPlayerReady(true);
+
+      return () => {
+        elements.forEach(audio => {
+          audio.pause();
+          audio.src = '';
+        });
+      };
+    }
+  }, [project]);
+
+  // Автовоспроизведение первого трека при включении звука
+  useEffect(() => {
+    if (project?.id === "idiot-saratov-drama" && isGlobalAudioEnabled && isPlayerReady && !isPlaying) {
+      playTrack(0);
+    } else if (!isGlobalAudioEnabled && isPlaying) {
+      pauseAudio();
+    }
+  }, [isGlobalAudioEnabled, isPlayerReady]);
+
+  // Функции управления плеером
+  const playTrack = (trackIndex: number) => {
+    if (!audioElements[trackIndex]) return;
+
+    // Останавливаем текущий трек
+    if (isPlaying) {
+      audioElements[currentTrack]?.pause();
+    }
+
+    setCurrentTrack(trackIndex);
+    setIsPlaying(true);
+    
+    const audio = audioElements[trackIndex];
+    audio.currentTime = 0;
+    audio.volume = 0.7;
+    audio.play().catch(console.error);
+
+    // Автопереход к следующему треку
+    audio.onended = () => {
+      const nextTrack = (trackIndex + 1) % idiotTracks.length;
+      playTrack(nextTrack);
+    };
+  };
+
+  const pauseAudio = () => {
+    if (audioElements[currentTrack]) {
+      audioElements[currentTrack].pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      pauseAudio();
+    } else {
+      playTrack(currentTrack);
+    }
   };
 
   return (
@@ -137,29 +235,6 @@ export default function ProjectPage() {
                   <p className="text-xl font-medium text-gray-300 mt-4 mb-6">
                     Театр им. Слонова • 2024
                   </p>
-                  
-                  {/* Кнопка слушать музыку */}
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    onClick={toggleGlobalAudio}
-                    className="inline-flex items-center gap-3 idiot-button px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg animate-pulse-neon"
-                    data-testid="button-listen-music"
-                    title={isGlobalAudioEnabled ? "Выключить музыку из спектакля" : "Включить музыку из спектакля"}
-                  >
-                    {isGlobalAudioEnabled ? (
-                      <>
-                        <VolumeX className="w-5 h-5" />
-                        Выкл. звук
-                      </>
-                    ) : (
-                      <>
-                        <Volume2 className="w-5 h-5" />
-                        Вкл. звук
-                      </>
-                    )}
-                  </motion.button>
                 </motion.div>
               )}
 
@@ -356,6 +431,86 @@ export default function ProjectPage() {
                 </div>
               )}
           </div>
+
+          {/* Music Section for Idiot Project */}
+          {project.id === "idiot-saratov-drama" && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="max-w-4xl mx-auto mt-12 mb-8"
+            >
+              <div className="glass-effect rounded-xl p-6">
+                <h3 className="text-2xl font-bold text-white mb-6 text-center">Музыка из спектакля</h3>
+                
+                {/* Основные контролы плеера */}
+                <div className="bg-pink-500/10 border border-pink-500/30 p-4 rounded-lg mb-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-white font-medium">
+                        {isPlayerReady ? `Сейчас: ${idiotTracks[currentTrack]?.title || 'Не выбран'}` : 'Загрузка...'}
+                      </h4>
+                      <p className="text-gray-400 text-sm">Композитор: Ян Кузьмичёв</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button 
+                        onClick={toggleGlobalAudio}
+                        className="idiot-primary hover:text-pink-400 transition-colors p-2 bg-pink-500/20 rounded-lg"
+                        title={isGlobalAudioEnabled ? "Выключить музыку" : "Включить музыку"}
+                      >
+                        {isGlobalAudioEnabled ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                      </button>
+                      {isGlobalAudioEnabled && (
+                        <button 
+                          onClick={togglePlayPause}
+                          className="idiot-primary hover:text-pink-400 transition-colors p-2 bg-pink-500/20 rounded-lg"
+                          title={isPlaying ? "Пауза" : "Воспроизвести"}
+                        >
+                          {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Playlist */}
+                <div className="space-y-3">
+                  {idiotTracks.map((track, index) => (
+                    <div 
+                      key={track.id}
+                      className={`bg-pink-500/10 border border-pink-500/30 p-4 rounded-lg transition-all ${
+                        currentTrack === index && isPlaying ? 'bg-pink-500/20 border-pink-500/50' : ''
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="text-white font-medium">{track.title}</h4>
+                          <p className="text-gray-400 text-sm">Композитор: Ян Кузьмичёв</p>
+                        </div>
+                        <button 
+                          onClick={() => isGlobalAudioEnabled ? playTrack(index) : toggleGlobalAudio()}
+                          className="idiot-primary hover:text-pink-400 transition-colors flex items-center gap-2 px-3 py-2 bg-pink-500/20 rounded-lg"
+                          title={!isGlobalAudioEnabled ? "Включить музыку" : "Играть трек"}
+                        >
+                          {currentTrack === index && isPlaying ? (
+                            <>
+                              <Pause className="w-4 h-4" />
+                              Играет
+                            </>
+                          ) : (
+                            <>
+                              <Play className="w-4 h-4" />
+                              Играть
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* Links and Awards - Centered at bottom */}
           <motion.div

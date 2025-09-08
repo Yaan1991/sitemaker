@@ -30,8 +30,6 @@ export default function Layout({ children }: LayoutProps) {
       </motion.main>
       <Footer />
       
-      {/* Глобальный аудиоплеер */}
-      <GlobalAudioPlayer />
     </div>
   );
 }
