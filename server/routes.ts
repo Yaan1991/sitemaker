@@ -4,19 +4,55 @@ import { storage } from "./storage";
 import { ObjectStorageService } from "./objectStorage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Debug endpoint to list files in object storage
+  app.get("/debug/storage", async (req, res) => {
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const searchPaths = objectStorageService.getPublicObjectSearchPaths();
+      console.log(`🔍 Public search paths:`, searchPaths);
+      
+      // Try to list files in the bucket
+      const bucketName = searchPaths[0].split('/')[1]; // Extract bucket name
+      const bucket = objectStorageService.objectStorageClient.bucket(bucketName);
+      
+      const [files] = await bucket.getFiles({ prefix: 'public/' });
+      const fileList = files.map(file => ({
+        name: file.name,
+        size: file.metadata.size,
+        contentType: file.metadata.contentType
+      }));
+      
+      res.json({
+        searchPaths,
+        bucketName,
+        files: fileList
+      });
+    } catch (error) {
+      console.error("❌ Error listing storage files:", error);
+      res.status(500).json({ error: error instanceof Error ? error.message : String(error) });
+    }
+  });
+
   // Audio files from object storage
   app.get("/audio/:filePath(*)", async (req, res) => {
     const filePath = req.params.filePath;
+    console.log(`🎵 Searching for audio file: ${filePath}`);
+    
     const objectStorageService = new ObjectStorageService();
     try {
+      console.log(`🔍 Search paths:`, objectStorageService.getPublicObjectSearchPaths());
+      
       const file = await objectStorageService.searchPublicObject(filePath);
       if (!file) {
-        return res.status(404).json({ error: "Audio file not found" });
+        console.log(`❌ Audio file not found: ${filePath}`);
+        return res.status(404).json({ error: `Audio file not found: ${filePath}` });
       }
+      
+      console.log(`✅ Found audio file: ${filePath}`);
       // Cache audio files for 24 hours for better performance
       objectStorageService.downloadObject(file, res, 86400);
     } catch (error) {
-      console.error("Error serving audio file:", error);
+      console.error("❌ Error serving audio file:", error);
       return res.status(500).json({ error: "Internal server error" });
     }
   });

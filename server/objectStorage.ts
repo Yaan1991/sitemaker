@@ -32,6 +32,8 @@ export class ObjectNotFoundError extends Error {
 
 // The object storage service is used to interact with the object storage service.
 export class ObjectStorageService {
+  objectStorageClient = objectStorageClient;
+  
   constructor() {}
 
   // Gets the public object search paths.
