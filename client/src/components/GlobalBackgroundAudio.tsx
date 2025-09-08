@@ -42,14 +42,14 @@ export function GlobalBackgroundAudio() {
 
     let volume = 0;
     const fadeInterval = setInterval(() => {
-      volume += 0.01;
+      volume += 0.006; // 2 секунды появления (2000ms / 50ms = 40 шагов, 0.25 / 40 = 0.006)
       if (volume >= 0.25) {
         volume = 0.25;
         clearInterval(fadeInterval);
       }
       audio.volume = volume;
       setCurrentVolume(volume);
-    }, 30);
+    }, 50);
   };
 
   const fadeOut = () => {
@@ -58,7 +58,7 @@ export function GlobalBackgroundAudio() {
 
     let volume = currentVolume;
     const fadeInterval = setInterval(() => {
-      volume -= 0.02;
+      volume -= 0.003; // 4 секунды затухания (4000ms / 50ms = 80 шагов, 0.25 / 80 = 0.003)
       if (volume <= 0) {
         volume = 0;
         audio.volume = 0;
@@ -69,7 +69,7 @@ export function GlobalBackgroundAudio() {
         audio.volume = volume;
       }
       setCurrentVolume(volume);
-    }, 30);
+    }, 50);
   };
 
   return (
