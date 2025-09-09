@@ -44,17 +44,15 @@ function MayakTitle({ text }: { text: string }) {
   );
 }
 
-// Canvas анимация для фона Петровых
-function initCanvasAnimation(canvas: HTMLCanvasElement) {
-  console.log('Инициализация Canvas анимации...');
-  
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    console.error('Не удалось получить контекст Canvas');
-    return;
-  }
+// Рабочая Canvas анимация из parallax-script.js
+function initParallaxBackground(canvasId: string) {
+  const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+  if (!canvas) return;
 
-  // Настройки
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  // Настройки из рабочего скрипта
   const imageUrls = [
     '/images/petrovy2.webp', // 1
     '/images/petrovy1.webp', // 0
@@ -72,27 +70,17 @@ function initCanvasAnimation(canvas: HTMLCanvasElement) {
   function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    console.log(`Canvas размер: ${canvas.width}x${canvas.height}`);
   }
-  
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
-  
-  // Сначала проверим, что Canvas работает - нарисуем простой прямоугольник
-  ctx.fillStyle = '#ff0000';
-  ctx.fillRect(50, 50, 200, 100);
-  console.log('Нарисован тестовый красный прямоугольник');
 
-  // Класс для управления лентой изображений
+  // Копируем рабочий класс ImageStrip
   class ImageStrip {
-    images: HTMLImageElement[];
-    positions: Array<{x: number, width: number, imageIndex: number}>;
-    isLoaded: boolean;
+    images: HTMLImageElement[] = [];
+    positions: Array<{x: number, width: number, imageIndex: number}> = [];
+    isLoaded: boolean = false;
 
     constructor() {
-      this.images = [];
-      this.positions = [];
-      this.isLoaded = false;
       this.loadImages();
     }
 
@@ -155,12 +143,12 @@ function initCanvasAnimation(canvas: HTMLCanvasElement) {
     }
 
     draw() {
-      if (!this.isLoaded || !ctx) return;
+      if (!this.isLoaded) return;
       
-      ctx.globalAlpha = 0.6; // Полупрозрачность для фона
+      ctx.globalAlpha = 0.7;
       
       this.positions.forEach(pos => {
-        if (pos.x + pos.width > 0 && pos.x < canvas.width && ctx) {
+        if (pos.x + pos.width > 0 && pos.x < canvas.width) {
           const img = this.images[pos.imageIndex];
           const scale = canvas.height / img.height;
           const height = canvas.height;
@@ -176,8 +164,6 @@ function initCanvasAnimation(canvas: HTMLCanvasElement) {
   const imageStrip = new ImageStrip();
 
   function animate() {
-    if (!ctx) return;
-    
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
@@ -431,13 +417,12 @@ export default function ProjectPage() {
   useEffect(() => {
     if (project?.id !== "petrovy-saratov-drama") return;
 
-    const canvas = document.getElementById('petrovy-bg-canvas') as HTMLCanvasElement;
-    if (canvas) {
-      console.log('Запускаем Canvas анимацию для Петровых');
-      initCanvasAnimation(canvas);
-    } else {
-      console.error('Canvas не найден!');
-    }
+    // Небольшая задержка чтобы Canvas успел создаться в DOM
+    const timer = setTimeout(() => {
+      initParallaxBackground('petrovy-bg-canvas');
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, [project?.id]);
 
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
@@ -487,11 +472,10 @@ export default function ProjectPage() {
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100vw',
-            height: '100vh',
-            zIndex: -10,
-            pointerEvents: 'none',
-            background: '#222'
+            width: '100%',
+            height: '100%',
+            zIndex: -1,
+            pointerEvents: 'none'
           }}
         />
       )}
