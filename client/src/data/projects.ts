@@ -159,8 +159,8 @@ export const projects: Project[] = [
         external: true,
       },
       {
-        label: "Пресса - Яндекс поиск",
-        url: "https://ya.ru/search/?text=петровы+в+гриппе+и+вокруг+него+саратов&lr=117916&search_source=yaru_desktop_common&search_domain=yaru",
+        label: "Афиша - Культура.рф",
+        url: "https://www.culture.ru/events/5710519/spektakl-petrovy-v-grippe-i-vokrug-nego?ysclid=mfcsqillxw602150566",
         external: true,
       },
     ],
