@@ -849,15 +849,15 @@
     radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.3) 100%),
     /* Темные края слева и справа */
     linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, transparent 8%, transparent 92%, rgba(0, 0, 0, 0.4) 100%),
-    /* Вертикальные царапины-линии с глитч эффектом (менее заметные) */
-    linear-gradient(90deg, transparent 12%, rgba(0, 0, 0, 0.25) 12.2%, transparent 12.4%),
-    linear-gradient(90deg, transparent 12.1%, rgba(255, 0, 0, 0.08) 12.25%, transparent 12.35%),
-    linear-gradient(90deg, transparent 25%, rgba(0, 0, 0, 0.18) 25.1%, transparent 25.3%),
-    linear-gradient(90deg, transparent 25.05%, rgba(0, 255, 255, 0.06) 25.15%, transparent 25.25%),
-    linear-gradient(90deg, transparent 67%, rgba(0, 0, 0, 0.22) 67.2%, transparent 67.4%),
-    linear-gradient(90deg, transparent 67.1%, rgba(255, 0, 255, 0.05) 67.25%, transparent 67.35%),
+    /* Вертикальные царапины-линии с глитч эффектом (очень тонкие) */
+    linear-gradient(90deg, transparent 12%, rgba(0, 0, 0, 0.12) 12.2%, transparent 12.4%),
+    linear-gradient(90deg, transparent 12.1%, rgba(255, 0, 0, 0.04) 12.25%, transparent 12.35%),
+    linear-gradient(90deg, transparent 25%, rgba(0, 0, 0, 0.08) 25.1%, transparent 25.3%),
+    linear-gradient(90deg, transparent 25.05%, rgba(0, 255, 255, 0.03) 25.15%, transparent 25.25%),
+    linear-gradient(90deg, transparent 67%, rgba(0, 0, 0, 0.1) 67.2%, transparent 67.4%),
+    linear-gradient(90deg, transparent 67.1%, rgba(255, 0, 255, 0.025) 67.25%, transparent 67.35%),
     /* Диагональная царапина */
-    linear-gradient(135deg, transparent 45%, rgba(0, 0, 0, 0.15) 45.1%, transparent 45.3%);
+    linear-gradient(135deg, transparent 45%, rgba(0, 0, 0, 0.07) 45.1%, transparent 45.3%);
   pointer-events: none;
   z-index: 10;
   animation: film-scratches-realistic 8s linear infinite, glitch-lines 3s linear infinite;
