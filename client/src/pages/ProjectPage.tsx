@@ -317,10 +317,9 @@ export default function ProjectPage() {
       const timer = setTimeout(() => {
         const player = (window as any).projectPlayer;
         if (player && isGlobalAudioEnabled) {
-          player.setPlaylist(petrovyTracks);
-          player.setCurrentTrack(petrovyTracks[0]); // Автоматически играем первый трек (тема одиночества)
+          // Плейлист Петровых уже загружен автоматически в GlobalProjectPlayer
           if (!isPlaying) {
-            player.togglePlayPause();
+            player.playTrack(0); // Запускаем первый трек
           }
         } else if (!isGlobalAudioEnabled) {
           // Если глобальный звук выключен, включаем его для автозапуска
@@ -329,9 +328,7 @@ export default function ProjectPage() {
           setTimeout(() => {
             const player = (window as any).projectPlayer;
             if (player) {
-              player.setPlaylist(petrovyTracks);
-              player.setCurrentTrack(petrovyTracks[0]);
-              player.togglePlayPause();
+              player.playTrack(0); // Запускаем первый трек
             }
           }, 200);
         }
@@ -461,7 +458,7 @@ export default function ProjectPage() {
                 >
                   <div className="relative overflow-hidden rounded-lg">
                     <img 
-                      src="/images/Petrovy.webp" 
+                      src="/images/petrovy.webp" 
                       alt="Петровы в гриппе"
                       className="w-full h-auto"
                       style={{ filter: 'brightness(0.8) contrast(1.1)' }}
@@ -479,19 +476,15 @@ export default function ProjectPage() {
                           setTimeout(() => {
                             const player = (window as any).projectPlayer;
                             if (player) {
-                              player.setPlaylist(petrovyTracks);
-                              player.setCurrentTrack(petrovyTracks[0]);
-                              player.togglePlayPause();
+                              player.playTrack(0); // Запускаем первый трек
                             }
                           }, 300);
                         } else {
                           // Если звук уже включен, начинаем воспроизведение
                           const player = (window as any).projectPlayer;
                           if (player) {
-                            player.setPlaylist(petrovyTracks);
-                            player.setCurrentTrack(petrovyTracks[0]);
                             if (!isPlaying) {
-                              player.togglePlayPause();
+                              player.playTrack(0); // Запускаем первый трек
                             }
                           }
                         }
@@ -791,25 +784,25 @@ export default function ProjectPage() {
                     </div>
                   </div>
                   
-                  <div className="space-y-6 text-gray-300 leading-relaxed">
-                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg">
-                      <h4 className="text-xl font-semibold text-green-400 mb-3">Концепция</h4>
-                      <p>
+                  <div className="space-y-8 text-gray-300 leading-relaxed">
+                    <div className="p-6">
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">Концепция</h4>
+                      <p className="text-lg">
                         Театр как комикс, где пространство одновременно рассказывает историю Петровых и размышляет о театре как о пространстве бреда. 
                         Постановка балансирует между бытовым реализмом и абсурдом.
                       </p>
                     </div>
 
-                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg">
-                      <h4 className="text-xl font-semibold text-green-400 mb-3">Творческая задача</h4>
-                      <p>
+                    <div className="p-6">
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">Творческая задача</h4>
+                      <p className="text-lg mb-4">
                         Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, 
                         который поможет удержать зрителя в лабиринте абсурдного повествования.
                       </p>
                       
-                      <div className="mt-4">
-                        <p className="font-medium text-white mb-2">Выполненные работы:</p>
-                        <ul className="list-none space-y-0 ml-4">
+                      <div className="mt-6">
+                        <p className="text-xl font-semibold text-white mb-3">Выполненные работы:</p>
+                        <ul className="list-none space-y-2 ml-6 text-lg">
                           <li>• Создание 12 полноценных композиций разных жанров</li>
                           <li>• Разработка лейтмотивной системы для персонажей и сцен</li>
                           <li>• Создание атмосферных эмбиентов и дроун-текстур</li>
@@ -820,35 +813,35 @@ export default function ProjectPage() {
                       </div>
                     </div>
 
-                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg">
-                      <h4 className="text-xl font-semibold text-green-400 mb-3">Техническая задача</h4>
-                      <p>
+                    <div className="p-6">
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">Техническая задача</h4>
+                      <p className="text-lg">
                         Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
                         для управления всеми звуковыми элементами спектакля.
                       </p>
                     </div>
 
-                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg">
-                      <h4 className="text-xl font-semibold text-green-400 mb-3">Ключевые решения</h4>
+                    <div className="p-6">
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">Ключевые решения</h4>
                       
-                      <div className="space-y-4">
+                      <div className="space-y-6 text-lg">
                         <p>
-                          <strong className="text-white">Жанровая мозаика:</strong> музыка следует логике спектакля, 
+                          <strong className="text-white text-xl">Жанровая мозаика:</strong> музыка следует логике спектакля, 
                           переключаясь от сентиментального неоклассицизма до тревожных эмбиентов и мультяшной гротескности.
                         </p>
                         
                         <p>
-                          <strong className="text-white">Ироничные ИИ-эксперименты:</strong> оперная обработка песни «Ноль» 
+                          <strong className="text-white text-xl">Ироничные ИИ-эксперименты:</strong> оперная обработка песни «Ноль» 
                           подчеркнула комиксную природу постановки.
                         </p>
                       </div>
                     </div>
 
-                    <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
-                      <h4 className="text-xl font-semibold text-green-400 mb-3">Результат</h4>
-                      <p>
+                    <div className="bg-green-500/10 border border-green-500/30 p-6 rounded-lg">
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">Результат</h4>
+                      <p className="text-lg">
                         Спектакль, где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.<br/>
-                        Мой вклад: создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, техническая реализация сложной звуковой архитектуры спектакля.
+                        <strong className="text-white">Мой вклад:</strong> создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, техническая реализация сложной звуковой архитектуры спектакля.
                       </p>
                     </div>
                   </div>
