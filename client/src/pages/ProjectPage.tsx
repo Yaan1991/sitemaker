@@ -451,6 +451,64 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
+              {/* Главное фото с кнопкой звука для Петровых как в Идиоте */}
+              {project.id === "petrovy-saratov-drama" && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="relative max-w-3xl mx-auto mb-12"
+                >
+                  <div className="relative overflow-hidden rounded-lg">
+                    <img 
+                      src="/images/Petrovy.webp" 
+                      alt="Петровы в гриппе"
+                      className="w-full h-auto"
+                      style={{ filter: 'brightness(0.8) contrast(1.1)' }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    
+                    {/* Кнопка включения звука как в Идиоте */}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!isGlobalAudioEnabled) {
+                          toggleGlobalAudio();
+                          // Небольшая задержка для запуска плеера
+                          setTimeout(() => {
+                            const player = (window as any).projectPlayer;
+                            if (player) {
+                              player.setPlaylist(petrovyTracks);
+                              player.setCurrentTrack(petrovyTracks[0]);
+                              player.togglePlayPause();
+                            }
+                          }, 300);
+                        } else {
+                          // Если звук уже включен, начинаем воспроизведение
+                          const player = (window as any).projectPlayer;
+                          if (player) {
+                            player.setPlaylist(petrovyTracks);
+                            player.setCurrentTrack(petrovyTracks[0]);
+                            if (!isPlaying) {
+                              player.togglePlayPause();
+                            }
+                          }
+                        }
+                      }}
+                      className={`absolute top-4 right-4 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+                        isGlobalAudioEnabled 
+                          ? 'bg-green-600 hover:bg-green-700 text-white' 
+                          : 'bg-gray-800/80 hover:bg-green-600 text-white'
+                      } backdrop-blur-sm border border-green-500/30`}
+                      data-testid="button-toggle-audio"
+                    >
+                      {isGlobalAudioEnabled ? '🔊 Звук включен' : '🔇 Вкл. звук'}
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
 
               {/* Project Image */}
               <motion.div
