@@ -6,6 +6,7 @@ import { ExternalLink, ArrowLeft, VolumeX, Volume2, Play, Pause, SkipBack, SkipF
 import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { useAudio } from "@/contexts/AudioContext";
+import { TypewriterText } from "@/components/TypewriterText";
 import { useState, useEffect, useRef } from "react";
 
 // Компонент неонового текста с мигающей "О"
@@ -355,11 +356,21 @@ export default function ProjectPage() {
                     </h1>
                   </>
                 )}
-                <p className={`text-xl leading-relaxed ${
-                  project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" : "text-gray-300"
-                }`}>
-                  {project.fullDescription}
-                </p>
+{project.id === "mayakovsky-moscow-estrada" ? (
+                  <TypewriterText
+                    text={project.fullDescription}
+                    speed={45}
+                    delay={800}
+                    className="text-xl leading-relaxed text-gray-800"
+                    style={{
+                      fontWeight: '500'
+                    }}
+                  />
+                ) : (
+                  <p className="text-xl text-gray-300 leading-relaxed">
+                    {project.fullDescription}
+                  </p>
+                )}
               </motion.div>
 
               {/* Case Study for Idiot */}
@@ -483,28 +494,32 @@ export default function ProjectPage() {
                     <div className="space-y-6 text-gray-800 leading-relaxed">
                       <div>
                         <h4 className="text-xl font-semibold mayak-heading mb-3">Концепция</h4>
-                        <p>
-                          Спектакль начинается "за секунду до" - перед выстрелом Маяковский вспоминает свою биографию. 
-                          Постановка раскрывает поэта как живого человека со страстями и страданиями, а не просто "продукт времени". 
-                          Минимум декораций и визуальных спецэффектов, акцент на психологизме. Создана трёхслойная звуковая драматургия: 
-                          реальность, поэтический слой и абстракция.
-                        </p>
+                        <TypewriterText
+                          text="Спектакль начинается «за секунду до» - перед выстрелом Маяковский вспоминает свою биографию. Постановка раскрывает поэта как живого человека со страстями и страданиями, а не просто «продукт времени». Минимум декораций и визуальных спецэффектов, акцент на психологизме. Создана трёхслойная звуковая драматургия: реальность, поэтический слой и абстракция."
+                          speed={35}
+                          delay={200}
+                          className="text-gray-800"
+                        />
                       </div>
 
                       <div>
                         <h4 className="text-xl font-semibold mayak-heading mb-3">Творческая задача</h4>
-                        <p>
-                          Создать звуковую партитуру, где зритель интуитивно чувствует переключение между жизнью, 
-                          поэтическим текстом и внутренним монологом героя.
-                        </p>
+                        <TypewriterText
+                          text="Создать звуковую партитуру, где зритель интуитивно чувствует переключение между жизнью, поэтическим текстом и внутренним монологом героя."
+                          speed={40}
+                          delay={400}
+                          className="text-gray-800"
+                        />
                       </div>
 
                       <div>
                         <h4 className="text-xl font-semibold mayak-heading mb-3">Техническая задача</h4>
-                        <p>
-                          Обеспечить гибкую архитектуру для антрепризы - спектакль должен стабильно звучать на любых 
-                          площадках с разными консолями и акустическими условиями.
-                        </p>
+                        <TypewriterText
+                          text="Обеспечить гибкую архитектуру для антрепризы - спектакль должен стабильно звучать на любых площадках с разными консолями и акустическими условиями."
+                          speed={40}
+                          delay={600}
+                          className="text-gray-800"
+                        />
                         
                         <div className="mt-4">
                           <p className="font-medium mayak-primary mb-2">Выполненные работы:</p>
@@ -525,20 +540,35 @@ export default function ProjectPage() {
                       <div>
                         <h4 className="text-xl font-semibold mayak-heading mb-3">Ключевые решения</h4>
                         <div className="space-y-4">
-                          <p>
-                            <strong className="mayak-primary">Динамическая трансформация звука:</strong> музыка и голоса в реальном времени 
-                            превращаются из естественных в совершенно иные формы, создавая эффект смены восприятия.
-                          </p>
+                          <div className="mb-4">
+                            <strong className="mayak-primary">Динамическая трансформация звука:</strong>
+                            <TypewriterText
+                              text=" музыка и голоса в реальном времени превращаются из естественных в совершенно иные формы, создавая эффект смены восприятия."
+                              speed={35}
+                              delay={800}
+                              className="text-gray-800 inline"
+                            />
+                          </div>
                           
-                          <p>
-                            <strong className="mayak-primary">Антрепризная архитектура:</strong> автоматическая адаптация от surround к стерео, 
-                            от Yamaha Rivage к M32/X32 с готовыми шаблонами.
-                          </p>
+                          <div className="mb-4">
+                            <strong className="mayak-primary">Антрепризная архитектура:</strong>
+                            <TypewriterText
+                              text=" автоматическая адаптация от surround к стерео, от Yamaha Rivage к M32/X32 с готовыми шаблонами."
+                              speed={35}
+                              delay={1000}
+                              className="text-gray-800 inline"
+                            />
+                          </div>
                           
-                          <p>
-                            <strong className="mayak-primary">Живые записи:</strong> на Zoom-рекордер записывал актёров и бытовые звуки, 
-                            ставшие частью слоя спектакля.
-                          </p>
+                          <div>
+                            <strong className="mayak-primary">Живые записи:</strong>
+                            <TypewriterText
+                              text=" на Zoom-рекордер записывал актёров и бытовые звуки, ставшие частью слоя спектакля."
+                              speed={35}
+                              delay={1200}
+                              className="text-gray-800 inline"
+                            />
+                          </div>
                         </div>
                       </div>
 
