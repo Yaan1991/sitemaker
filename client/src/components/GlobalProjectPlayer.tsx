@@ -53,17 +53,17 @@ const projectPlaylistMap: Record<string, Track[]> = {
     {
       id: 'petrovy_lonely_theme',
       title: 'Тема одиночества',
-      url: '/audio/petrovy_lonely_theme.mp3'
+      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav'
     },
     {
       id: 'petrovy_mad_theme',
       title: 'Приехали в гости',
-      url: '/audio/petrovy_mad_theme.mp3'
+      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/CantinaBand60.wav'
     },
     {
       id: 'petrovy_theme_of_sick',
       title: 'Болезнь Петрова младшего',
-      url: '/audio/petrovy_theme_of_sick.mp3'
+      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav'
     }
   ]
   // Будущие проекты добавляются сюда
