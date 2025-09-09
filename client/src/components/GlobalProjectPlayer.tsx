@@ -48,23 +48,6 @@ const projectPlaylistMap: Record<string, Track[]> = {
       title: 'Гори-гори',
       url: '/audio/mayak_gori_gori.mp3'
     }
-  ],
-  'petrovy-saratov-drama': [
-    {
-      id: 'petrovy_lonely_theme',
-      title: 'Тема одиночества',
-      url: '/audio/petrovy_lonely_theme.mp3'
-    },
-    {
-      id: 'petrovy_mad_theme',
-      title: 'Приехали в гости',
-      url: '/audio/petrovy_mad_theme.mp3'
-    },
-    {
-      id: 'petrovy_theme_of_sick',
-      title: 'Болезнь Петрова младшего',
-      url: '/audio/petrovy_theme_of_sick.mp3'
-    }
   ]
   // Будущие проекты добавляются сюда
 };

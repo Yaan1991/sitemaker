@@ -1,12 +1,5 @@
 const idiotImage = "/images/idiot.webp";
 const mayakovskyImage = "/images/mayakovsky.webp";
-const petrovyImage = "/images/petrovy.webp";
-// Комиксные изображения для Петровых
-import petrovyCoverImage from "@assets/CoverPetrovy_1757432306008.webp";
-import petrovyBoyImage from "@assets/Boy_1757432306008.webp";
-import petrovyTramImage from "@assets/boyandtram_1757432306008.webp";
-import petrovyPhoneImage from "@assets/Phone_1757432306008.webp";
-import petrovyPhone2Image from "@assets/Phone2_1757432306009.webp";
 const homoHominiImage = "/images/homohomini.webp";
 const maFilmImage = "/images/ma_film.webp";
 const lifeInArtImage = "/images/life_in_art.webp";
@@ -30,13 +23,6 @@ export interface Project {
   }>;
   awards?: string[];
   photos?: string[];
-  comicImages?: {
-    cover: string;
-    boy: string;
-    tram: string;
-    phone: string;
-    phone2: string;
-  };
   tracks?: Array<{
     id: string;
     title: string;
@@ -112,55 +98,6 @@ export const projects: Project[] = [
       cast: ["Никита Кологривый"],
       genre: "Моноспектакль",
       technical: ["Оригинальные композиции", "Аранжировки", "QLab"],
-    },
-  },
-  {
-    id: "petrovy-saratov-drama",
-    title: "Петровы в гриппе и вокруг него",
-    year: "2025",
-    description: "12 композиций разных жанров для спектакля-комикса по роману Алексея Сальникова.",
-    fullDescription: "Постановка по роману Алексея Сальникова — одному из самых «несценичных» текстов современной литературы. Спектакль решён как комикс и театр о самом себе: действие начинается в закулисье с режиссёром-панк-ведьмой и уборщицей со шваброй-знаменем. Создано 12 оригинальных композиций разных жанров, разработана лейтмотивная система для персонажей и сцен, использованы экспериментальные ИИ-решения для создания оперного кавера песни «Ноль».",
-    image: petrovyCoverImage,
-    category: "theatre",
-    role: ["Композитор", "Саунд-дизайнер", "Звукорежиссёр", "Промт-инженер"],
-    venue: "Саратовский театр драмы",
-    comicImages: {
-      cover: petrovyCoverImage,
-      boy: petrovyBoyImage,
-      tram: petrovyTramImage,
-      phone: petrovyPhoneImage,
-      phone2: petrovyPhone2Image,
-    },
-    tracks: [
-      {
-        id: "petrovy_lonely_theme",
-        title: "Тема одиночества",
-        url: "/audio/petrovy_lonely_theme.mp3"
-      },
-      {
-        id: "petrovy_mad_theme",
-        title: "Приехали в гости",
-        url: "/audio/petrovy_mad_theme.mp3"
-      },
-      {
-        id: "petrovy_theme_of_sick",
-        title: "Болезнь Петрова младшего",
-        url: "/audio/petrovy_theme_of_sick.mp3"
-      }
-    ],
-    links: [
-      {
-        label: "Афиша театра",
-        url: "https://www.saratovdrama.com/repertoire/petrovy-v-grippe-i-vokrug-nego/",
-        external: true,
-      },
-    ],
-    details: {
-      director: "Иван Комаров",
-      genre: "Комикс-драма",
-      theatre: "Саратовский театр драмы",
-      producer: "Художник-постановщик: Ольга Кузнецова, Художник по свету: Максим Бирюков",
-      technical: ["12 композиций разных жанров", "Лейтмотивная система", "QLab автоматизация", "MIDI и OSC-протоколы", "ИИ-эксперименты", "Оперный кавер"],
     },
   },
 
