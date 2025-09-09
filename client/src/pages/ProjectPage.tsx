@@ -576,28 +576,32 @@ export default function ProjectPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="mb-8"
-                  style={{
-                    backgroundColor: 'rgba(0,0,0,0.85)',
-                    backdropFilter: 'blur(2px)',
-                    padding: '24px',
-                    marginLeft: '-6rem',
-                    marginRight: '-6rem',
-                    width: 'calc(100% + 12rem)'
-                  }}
+                  className="text-center mb-8"
                 >
-                  <div className="text-center">
-                    <h1 
-                      className="petrovy-title" 
-                      data-text="ПЕТРОВЫ В ГРИППЕ"
-                      data-testid="text-title"
-                    >
-                      ПЕТРОВЫ В ГРИППЕ
-                    </h1>
-                    <div className="petrovy-subtitle">и вокруг него</div>
-                    <p className="text-xl font-medium text-gray-300 mt-4 mb-6">Театр драмы им. Слонова • 2025</p>
-                  </div>
+                  <h1 
+                    className="petrovy-title" 
+                    data-text="ПЕТРОВЫ В ГРИППЕ"
+                    data-testid="text-title"
+                  >
+                    ПЕТРОВЫ В ГРИППЕ
+                  </h1>
+                  <div className="petrovy-subtitle">и вокруг него</div>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-6">Театр драмы им. Слонова • 2025</p>
                 </motion.div>
+              )}
+
+              {/* Полупрозрачный фон на всю ширину для заголовка и фото */}
+              {project.id === "petrovy-saratov-drama" && (
+                <div 
+                  className="fixed left-0 w-screen z-0"
+                  style={{
+                    top: '64px', // Высота хедера
+                    height: '600px', // Покрывает заголовок + фото
+                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    backdropFilter: 'blur(2px)',
+                    pointerEvents: 'none'
+                  }}
+                />
               )}
 
               {/* Главное фото с кнопкой звука для Петровых как в Идиоте */}
@@ -606,12 +610,7 @@ export default function ProjectPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className="relative max-w-3xl mx-auto mb-12"
-                  style={{
-                    backgroundColor: 'rgba(0,0,0,0.75)',
-                    backdropFilter: 'blur(2px)',
-                    padding: '24px'
-                  }}
+                  className="relative max-w-3xl mx-auto mb-12 z-10"
                 >
                   <div className="relative overflow-hidden rounded-lg">
                     <img 
