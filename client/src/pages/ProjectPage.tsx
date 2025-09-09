@@ -523,7 +523,7 @@ export default function ProjectPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="mb-8"
+            className="mb-8 relative z-20"
           >
             <Link 
               href="/"
@@ -576,7 +576,7 @@ export default function ProjectPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="text-center mb-8"
+                  className="text-center mb-8 relative z-20"
                 >
                   <h1 
                     className="petrovy-title" 
@@ -593,12 +593,13 @@ export default function ProjectPage() {
               {/* Полупрозрачный фон на всю ширину для заголовка и фото */}
               {project.id === "petrovy-saratov-drama" && (
                 <div 
-                  className="fixed left-0 w-screen z-0"
+                  className="fixed left-0 w-screen"
                   style={{
-                    top: '64px', // Высота хедера
-                    height: '600px', // Покрывает заголовок + фото
+                    top: '0px', // Начинается от самого верха
+                    height: '700px', // Покрывает хедер + заголовок + фото
                     backgroundColor: 'rgba(0,0,0,0.75)',
                     backdropFilter: 'blur(2px)',
+                    zIndex: 1,
                     pointerEvents: 'none'
                   }}
                 />
@@ -610,7 +611,7 @@ export default function ProjectPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className="relative max-w-3xl mx-auto mb-12 z-10"
+                  className="relative max-w-3xl mx-auto mb-12 z-20"
                 >
                   <div className="relative overflow-hidden rounded-lg">
                     <img 
