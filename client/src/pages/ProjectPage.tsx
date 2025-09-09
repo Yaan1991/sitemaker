@@ -212,6 +212,8 @@ const petrovyTracks = [
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
+  const [currentBackgroundImage, setCurrentBackgroundImage] = useState('');
+  
   const { 
     isGlobalAudioEnabled, 
     toggleGlobalAudio,
@@ -285,6 +287,43 @@ export default function ProjectPage() {
     if (player) player.prevTrack();
   };
   
+  // Intersection Observer для смены фона при скроллинге (только для Петровых)
+  useEffect(() => {
+    if (project?.id !== "petrovy-saratov-drama" || !project.comicImages) return;
+
+    const sections = document.querySelectorAll('[data-section]');
+    const imageMapping: { [key: string]: string } = {
+      'concept': project.comicImages.cover,
+      'creative-task': project.comicImages.boy,
+      'technical-task': project.comicImages.phone,
+      'key-solutions': project.comicImages.tram,
+      'result': project.comicImages.phone2 || project.comicImages.phone,
+    };
+
+    // Устанавливаем начальное изображение
+    setCurrentBackgroundImage(project.comicImages.cover);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionName = entry.target.getAttribute('data-section');
+            if (sectionName && imageMapping[sectionName]) {
+              setCurrentBackgroundImage(imageMapping[sectionName]);
+            }
+          }
+        });
+      },
+      { threshold: 0.3 } // Изображение меняется когда секция на 30% видна
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      sections.forEach((section) => observer.unobserve(section));
+    };
+  }, [project?.id, project?.comicImages]);
+
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
   useEffect(() => {
     if (project?.id === "petrovy-saratov-drama") {
@@ -322,11 +361,20 @@ export default function ProjectPage() {
         description={project.fullDescription}
       />
       
-      <div className={`min-h-screen pt-24 pb-12 ${
-        project.id === "idiot-saratov-drama" ? "vhs-container" : 
-        project.id === "mayakovsky-moscow-estrada" ? "projector-container" :
-        project.id === "petrovy-saratov-drama" ? "comic-container" : ""
-      }`}>
+      <div 
+        className={`min-h-screen pt-24 pb-12 ${
+          project.id === "idiot-saratov-drama" ? "vhs-container" : 
+          project.id === "mayakovsky-moscow-estrada" ? "projector-container" :
+          project.id === "petrovy-saratov-drama" ? "comic-container" : ""
+        }`}
+        style={project.id === "petrovy-saratov-drama" && currentBackgroundImage ? {
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${currentBackgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          transition: 'background-image 0.8s ease-in-out'
+        } : {}}
+      >
         <div className="max-w-7xl mx-auto px-6">
           
           {/* Back Button */}
@@ -686,14 +734,7 @@ export default function ProjectPage() {
                   </div>
                   
                   <div className="space-y-6 text-gray-300 leading-relaxed">
-                    <div 
-                      className="relative p-6 rounded-lg"
-                      style={{
-                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${project.comicImages?.cover})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center'
-                      }}
-                    >
+                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg border border-green-500/30" data-section="concept">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Концепция</h4>
                       <p>
                         Театр как комикс, где пространство одновременно рассказывает историю Петровых и размышляет о театре как о пространстве бреда. 
@@ -701,14 +742,7 @@ export default function ProjectPage() {
                       </p>
                     </div>
 
-                    <div 
-                      className="relative p-6 rounded-lg"
-                      style={{
-                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${project.comicImages?.boy})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center'
-                      }}
-                    >
+                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg border border-green-500/30" data-section="creative-task">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Творческая задача</h4>
                       <p>
                         Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, 
@@ -728,14 +762,7 @@ export default function ProjectPage() {
                       </div>
                     </div>
 
-                    <div 
-                      className="relative p-6 rounded-lg"
-                      style={{
-                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${project.comicImages?.phone})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center'
-                      }}
-                    >
+                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg border border-green-500/30" data-section="technical-task">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Техническая задача</h4>
                       <p>
                         Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
@@ -743,14 +770,7 @@ export default function ProjectPage() {
                       </p>
                     </div>
 
-                    <div 
-                      className="relative p-6 rounded-lg"
-                      style={{
-                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${project.comicImages?.tram})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center'
-                      }}
-                    >
+                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg border border-green-500/30" data-section="key-solutions">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Ключевые решения</h4>
                       
                       <div className="space-y-4">
@@ -766,7 +786,7 @@ export default function ProjectPage() {
                       </div>
                     </div>
 
-                    <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                    <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg" data-section="result">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Результат</h4>
                       <p>
                         Спектакль, где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.<br/>
