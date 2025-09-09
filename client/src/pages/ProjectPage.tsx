@@ -381,6 +381,28 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
+              {/* Заголовок и информация для проекта Петровы */}
+              {project.id === "petrovy-saratov-drama" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-8"
+                >
+                  <h1 
+                    className="petrovy-title" 
+                    data-text="ПЕТРОВЫ В ГРИППЕ"
+                    data-testid="text-title"
+                  >
+                    ПЕТРОВЫ В ГРИППЕ
+                  </h1>
+                  <div className="petrovy-subtitle">и вокруг него</div>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-6">
+                    Саратовский театр драмы • 2025
+                  </p>
+                </motion.div>
+              )}
+
 
               {/* Project Image */}
               <motion.div
@@ -407,11 +429,8 @@ export default function ProjectPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 to-transparent rounded-lg" />
                   </div>
                 ) : project.id === "petrovy-saratov-drama" ? (
-                  /* Комиксные фото для Петровых */
-                  <div className="relative">
-                    <ComicImageCarousel project={project} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-green-900/20 to-transparent rounded-lg" />
-                  </div>
+                  /* Убираем отдельную галерею для Петровых, будем использовать изображения как фон разделов */
+                  <></>
                 ) : (
                   /* Обычное фото для других проектов */
                   <>
@@ -432,22 +451,6 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                {/* Специальный заголовок для Петровых */}
-                {project.id === "petrovy-saratov-drama" && (
-                  <>
-                    <div className="text-center mb-6">
-                      <h1 
-                        className="petrovy-title" 
-                        data-text="ПЕТРОВЫ В ГРИППЕ"
-                        data-testid="text-title"
-                      >
-                        ПЕТРОВЫ В ГРИППЕ
-                      </h1>
-                      <div className="petrovy-subtitle">и вокруг него</div>
-                    </div>
-                  </>
-                )}
-                
                 {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && (
                   <>
                     <div className="text-sm idiot-primary font-medium tracking-wide uppercase mb-2">
@@ -461,7 +464,7 @@ export default function ProjectPage() {
                 
                 <p className={`text-xl leading-relaxed ${
                   project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" :
-                  project.id === "petrovy-saratov-drama" ? "text-cyan-100" : "text-gray-300"
+                  project.id === "petrovy-saratov-drama" ? "text-gray-300" : "text-gray-300"
                 }`}>
                   {project.fullDescription}
                 </p>
@@ -667,87 +670,108 @@ export default function ProjectPage() {
                   {/* Постановочная команда и роль в проекте в две колонки */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
                     <div>
-                      <h4 className="text-green-400 font-medium mb-3">Постановочная команда</h4>
-                      <div className="text-cyan-100 space-y-1">
+                      <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
+                      <div className="text-gray-300 space-y-1">
                         <p>Режиссёр, автор инсценировки: Иван Комаров</p>
                         <p>Художник-постановщик: Ольга Кузнецова</p>
                         <p>Художник по свету: Максим Бирюков</p>
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-green-400 font-medium mb-3">Роль в проекте</h4>
+                      <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
                       <p className="text-green-400 font-semibold text-lg">
                         Композитор, саунд-дизайнер, звукорежиссёр, промт-инженер
                       </p>
                     </div>
                   </div>
                   
-                  <div className="comic-content-section">
-                    <div className="space-y-6 text-cyan-100 leading-relaxed">
-                      <div>
-                        <h4 className="text-xl font-semibold text-green-400 mb-3">Концепция</h4>
-                        <p>
-                          Театр как комикс, где пространство одновременно рассказывает историю Петровых и размышляет о театре как о пространстве бреда. 
-                          Постановка балансирует между бытовым реализмом и абсурдом.
-                        </p>
-                      </div>
+                  <div className="space-y-6 text-gray-300 leading-relaxed">
+                    <div 
+                      className="relative p-6 rounded-lg"
+                      style={{
+                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${project.comicImages?.cover})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    >
+                      <h4 className="text-xl font-semibold text-green-400 mb-3">Концепция</h4>
+                      <p>
+                        Театр как комикс, где пространство одновременно рассказывает историю Петровых и размышляет о театре как о пространстве бреда. 
+                        Постановка балансирует между бытовым реализмом и абсурдом.
+                      </p>
+                    </div>
 
-                      <div>
-                        <h4 className="text-xl font-semibold text-green-400 mb-3">Творческая задача</h4>
-                        <p>
-                          Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, 
-                          который поможет удержать зрителя в лабиринте абсурдного повествования.
-                        </p>
+                    <div 
+                      className="relative p-6 rounded-lg"
+                      style={{
+                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${project.comicImages?.boy})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    >
+                      <h4 className="text-xl font-semibold text-green-400 mb-3">Творческая задача</h4>
+                      <p>
+                        Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, 
+                        который поможет удержать зрителя в лабиринте абсурдного повествования.
+                      </p>
+                      
+                      <div className="mt-4">
+                        <p className="font-medium text-white mb-2">Выполненные работы:</p>
+                        <ul className="list-none space-y-0 ml-4">
+                          <li>• Создание 12 полноценных композиций разных жанров</li>
+                          <li>• Разработка лейтмотивной системы для персонажей и сцен</li>
+                          <li>• Создание атмосферных эмбиентов и дроун-текстур</li>
+                          <li>• Работа с ИИ для создания оперного кавера</li>
+                          <li>• Программирование и автоматизация в QLab</li>
+                          <li>• Звукорежиссура и FOH-инженеринг</li>
+                        </ul>
                       </div>
+                    </div>
 
-                      <div>
-                        <h4 className="text-xl font-semibold text-green-400 mb-3">Техническая задача</h4>
+                    <div 
+                      className="relative p-6 rounded-lg"
+                      style={{
+                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${project.comicImages?.phone})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    >
+                      <h4 className="text-xl font-semibold text-green-400 mb-3">Техническая задача</h4>
+                      <p>
+                        Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
+                        для управления всеми звуковыми элементами спектакля.
+                      </p>
+                    </div>
+
+                    <div 
+                      className="relative p-6 rounded-lg"
+                      style={{
+                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${project.comicImages?.tram})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    >
+                      <h4 className="text-xl font-semibold text-green-400 mb-3">Ключевые решения</h4>
+                      
+                      <div className="space-y-4">
                         <p>
-                          Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
-                          для управления всеми звуковыми элементами спектакля.
+                          <strong className="text-white">Жанровая мозаика:</strong> музыка следует логике спектакля, 
+                          переключаясь от сентиментального неоклассицизма до тревожных эмбиентов и мультяшной гротескности.
                         </p>
                         
-                        <div className="mt-4">
-                          <p className="font-medium text-green-400 mb-2">Выполненные работы:</p>
-                          <ul className="list-none space-y-0 ml-4">
-                            <li>• Создание 12 полноценных композиций разных жанров</li>
-                            <li>• Разработка лейтмотивной системы для персонажей и сцен</li>
-                            <li>• Создание атмосферных эмбиентов и дроун-текстур</li>
-                            <li>• Работа с ИИ для создания оперного кавера</li>
-                            <li>• Программирование и автоматизация в QLab</li>
-                            <li>• Звукорежиссура и FOH-инженеринг</li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="text-xl font-semibold text-green-400 mb-3">Ключевые решения</h4>
-                        
-                        <div className="space-y-4">
-                          <p>
-                            <strong className="text-yellow-400">Жанровая мозаика:</strong> музыка следует логике спектакля, 
-                            переключаясь от сентиментального неоклассицизма до тревожных эмбиентов и мультяшной гротескности.
-                          </p>
-                          
-                          <p>
-                            <strong className="text-yellow-400">Ироничные ИИ-эксперименты:</strong> оперная обработка песни «Ноль» 
-                            подчеркнула комиксную природу постановки.
-                          </p>
-                          
-                          <p>
-                            <strong className="text-yellow-400">Комиксная драматургия:</strong> каждый элемент звуковой партитуры 
-                            работает на создание целостного художественного высказывания.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
-                        <h4 className="text-xl font-semibold text-green-400 mb-3">Результат</h4>
                         <p>
-                          Спектакль, где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.<br/>
-                          Мой вклад: создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, техническая реализация сложной звуковой архитектуры спектакля.
+                          <strong className="text-white">Ироничные ИИ-эксперименты:</strong> оперная обработка песни «Ноль» 
+                          подчеркнула комиксную природу постановки.
                         </p>
                       </div>
+                    </div>
+
+                    <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                      <h4 className="text-xl font-semibold text-green-400 mb-3">Результат</h4>
+                      <p>
+                        Спектакль, где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.<br/>
+                        Мой вклад: создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, техническая реализация сложной звуковой архитектуры спектакля.
+                      </p>
                     </div>
                   </div>
 
@@ -1079,6 +1103,142 @@ export default function ProjectPage() {
             </motion.div>
           )}
 
+          {/* Music Section for Petrovy Project */}
+          {project.id === "petrovy-saratov-drama" && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="max-w-4xl mx-auto mt-12 mb-8"
+            >
+              <h3 className="text-3xl font-bold mb-8 text-center text-green-400">
+                Музыка из спектакля
+              </h3>
+              
+              <div className="bg-black/90 rounded-xl p-6 border border-green-500/30">
+                
+                {/* Comic-style player interface */}
+                <div className="space-y-4">
+                  
+                  {/* Top row: Display and Equalizer */}
+                  <div className="flex justify-between items-stretch gap-4">
+                    <div className="w-48 sm:w-64 md:w-80">
+                      <div className="bg-green-900 text-green-100 mb-2 h-8 flex items-center border-2 border-green-500/50 rounded font-mono text-sm px-3 shadow-inner">
+                        {isProjectPlayerReady ? (
+                          <div className="overflow-hidden whitespace-nowrap w-full">
+                            <div className={`${
+                              (currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран').length > 25 
+                                ? 'animate-marquee' 
+                                : 'animate-pulse'
+                            }`}>
+                              ♪ {currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран'} ♪
+                            </div>
+                          </div>
+                        ) : (
+                          '*** ЗАГРУЗКА... ***'
+                        )}
+                      </div>
+                      <div className="flex items-center">
+                        <div className="track-info overflow-hidden whitespace-nowrap w-full">
+                          <span className={`text-xs sm:text-sm text-gray-300 ${
+                            'Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв'.length > 35 
+                              ? 'animate-marquee' 
+                              : ''
+                          }`}>
+                            Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
+                          </span>
+                        </div>
+                        <button 
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleGlobalAudio();
+                          }}
+                          className={`px-2 py-1 ml-2 text-xs rounded border-2 font-mono transition-colors duration-200 ${
+                            isGlobalAudioEnabled 
+                              ? 'bg-green-600 border-green-500 text-white hover:bg-green-700'
+                              : 'bg-green-900 border-green-800 text-green-200 hover:bg-green-800'
+                          }`}
+                          title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
+                        >
+                          {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2 w-24 sm:w-28 md:w-32">
+                      <div className="bg-green-900 text-green-100 text-xs sm:text-base border-2 border-green-500/50 rounded px-2 py-1 text-center font-mono shadow-inner">
+                        {formatTime(localCurrentTime)} / {formatTime(localDuration)}
+                      </div>
+                      <div className="flex items-end gap-1 p-2 border border-green-500/50 rounded shadow-inner bg-black">
+                        {Array(10).fill(0).map((_, index) => (
+                          <div
+                            key={index}
+                            className="w-2 bg-gradient-to-t from-green-600 via-green-400 to-yellow-300 rounded-sm transition-all duration-100"
+                            style={{ 
+                              height: `${localIsPlaying && isGlobalAudioEnabled ? Math.random() * 100 : 0}%`,
+                              minHeight: '2px'
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div className="bg-black border border-green-500/50 rounded p-1 shadow-inner">
+                    <div 
+                      className="h-2 bg-gradient-to-r from-green-600 to-yellow-400 rounded transition-all duration-100 relative overflow-hidden"
+                      style={{ width: `${localDuration ? (localCurrentTime / localDuration) * 100 : 0}%` }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
+                    </div>
+                  </div>
+
+                  {/* Control buttons */}
+                  <div className="flex justify-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handlePrevTrack}
+                      className="px-3 py-2 bg-green-900 border-2 border-green-800 text-green-200 rounded font-mono hover:bg-green-800 transition-colors duration-200 disabled:opacity-50"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Предыдущий трек"
+                    >
+                      <SkipBack className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleTogglePlayPause}
+                      className="px-4 py-2 bg-green-600 border-2 border-green-500 text-white rounded font-mono hover:bg-green-700 transition-colors duration-200 disabled:opacity-50"
+                      disabled={!isGlobalAudioEnabled}
+                      title={localIsPlaying ? "Пауза" : "Воспроизведение"}
+                    >
+                      {localIsPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleStopAudio}
+                      className="px-3 py-2 bg-green-900 border-2 border-green-800 text-green-200 rounded font-mono hover:bg-green-800 transition-colors duration-200 disabled:opacity-50"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Стоп"
+                    >
+                      <Square className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextTrack}
+                      className="px-3 py-2 bg-green-900 border-2 border-green-800 text-green-200 rounded font-mono hover:bg-green-800 transition-colors duration-200 disabled:opacity-50"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Следующий трек"
+                    >
+                      <SkipForward className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           {/* Links and Awards - Centered at bottom */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -1100,6 +1260,8 @@ export default function ProjectPage() {
                       className={`inline-flex items-center gap-2 transition-colors duration-200 px-4 py-2 rounded-lg border ${
                         project.id === "mayakovsky-moscow-estrada" 
                           ? "text-red-600 hover:text-red-400 bg-red-500/10 border-red-500/30" 
+                          : project.id === "petrovy-saratov-drama"
+                          ? "text-green-400 hover:text-green-300 bg-green-500/10 border-green-500/30"
                           : "idiot-primary hover:text-pink-400 bg-pink-500/10 border-pink-500/30"
                       }`}
                       data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
