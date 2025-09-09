@@ -597,8 +597,8 @@ export default function ProjectPage() {
                 <div 
                   className="fixed left-0 w-screen"
                   style={{
-                    top: '64px', // Начинается под хедером
-                    height: '650px', // Покрывает заголовок + фото (без хедера)
+                    top: '0px', // Начинается от самого верха
+                    height: '100vh', // На всю высоту страницы
                     backgroundColor: 'rgba(0,0,0,0.75)',
                     backdropFilter: 'blur(2px)',
                     zIndex: 5, // Полупрозрачный слой
