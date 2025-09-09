@@ -467,24 +467,25 @@ export default function ProjectPage() {
     };
   }, [project?.id]);
 
-  // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
+  // Автоматическое воспроизведение для Петровых ТОЛЬКО при первом заходе на страницу
   useEffect(() => {
     if (project?.id === "petrovy-saratov-drama") {
-      // Небольшая задержка чтобы страница и глобальный контекст загрузились
-      const timer = setTimeout(() => {
-        const player = (window as any).projectPlayer;
-        if (player && isGlobalAudioEnabled) {
-          // Плейлист Петровых уже загружен автоматически в GlobalProjectPlayer
-          if (!isPlaying) {
-            player.playTrack(0); // Запускаем первый трек
-          }
-        }
-        // Убрана принудительная логика включения звука
-      }, 2000);
+      // Флаг для предотвращения повторного автозапуска
+      const hasAutoStarted = sessionStorage.getItem('petrovy-auto-started');
       
-      return () => clearTimeout(timer);
+      if (!hasAutoStarted) {
+        const timer = setTimeout(() => {
+          const player = (window as any).projectPlayer;
+          if (player && isGlobalAudioEnabled && !isPlaying) {
+            player.playTrack(0); // Запускаем первый трек
+            sessionStorage.setItem('petrovy-auto-started', 'true');
+          }
+        }, 2000);
+        
+        return () => clearTimeout(timer);
+      }
     }
-  }, [project?.id, isGlobalAudioEnabled, isPlaying, toggleGlobalAudio]);
+  }, [project?.id, isGlobalAudioEnabled]); // УБРАЛИ isPlaying из зависимостей!
   
   const handleStopAudio = (e: React.MouseEvent) => {
     e.preventDefault();
