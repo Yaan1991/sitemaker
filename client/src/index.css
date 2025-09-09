@@ -1598,14 +1598,65 @@
   }
 }
 
-/* Плавные переходы фона для Петровых */
+/* Движущийся фон для Петровых */
 .petrovy-animated-bg {
   position: relative;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  transition: all 2s ease-in-out;
-  background-blend-mode: multiply;
+  overflow: hidden;
+}
+
+.petrovy-animated-bg::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 500%;
+  height: 100%;
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url('/images/petrovy.webp') 0% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 20% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 40% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 60% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 80% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 100% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 120% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 140% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 160% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 180% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 200% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 220% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 240% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 260% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 280% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 300% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 320% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 340% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 360% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 380% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 400% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 420% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 440% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 460% 0% / 20% 100% no-repeat,
+    url('/images/petrovy.webp') 480% 0% / 20% 100% no-repeat;
+  animation: petrovy-slide-right-to-left 25s linear infinite;
+  z-index: -1;
+  filter: contrast(1.1) saturate(1.2) hue-rotate(5deg);
+}
+
+@keyframes petrovy-slide-right-to-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-80%);
+  }
+}
+
+@media (max-width: 768px) {
+  .petrovy-animated-bg::before {
+    animation-duration: 20s;
+    filter: contrast(1.2) saturate(1.3) brightness(1.1);
+  }
 }
 
 /* Комиксная секция описания */
