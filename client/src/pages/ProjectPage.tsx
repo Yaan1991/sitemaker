@@ -67,9 +67,21 @@ function initCanvasAnimation(canvas: HTMLCanvasElement) {
   function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
   }
+  
   resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
+  const resizeHandler = () => resizeCanvas();
+  window.addEventListener("resize", resizeHandler);
+  
+  // Удаляем обработчик при очистке
+  const cleanup = () => {
+    window.removeEventListener("resize", resizeHandler);
+  };
+  
+  // Сохраняем cleanup функцию
+  (canvas as any).cleanup = cleanup;
 
   // Класс для управления лентой изображений
   class ImageStrip {
@@ -422,24 +434,34 @@ export default function ProjectPage() {
     // Создаем Canvas элемент
     const canvas = document.createElement('canvas');
     canvas.id = 'petrovy-bg-canvas';
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.zIndex = '-1';
-    canvas.style.pointerEvents = 'none';
+    
+    // Стили для фонового Canvas
+    canvas.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -10;
+      pointer-events: none;
+      background: #000;
+    `;
 
-    // Добавляем Canvas в body
-    document.body.appendChild(canvas);
+    // Добавляем Canvas в начало body
+    document.body.insertBefore(canvas, document.body.firstChild);
 
     // Запускаем анимацию
     initCanvasAnimation(canvas);
 
     // Очистка при размонтировании
     return () => {
-      if (document.body.contains(canvas)) {
-        document.body.removeChild(canvas);
+      const existingCanvas = document.getElementById('petrovy-bg-canvas');
+      if (existingCanvas) {
+        // Очищаем обработчики событий
+        if ((existingCanvas as any).cleanup) {
+          (existingCanvas as any).cleanup();
+        }
+        document.body.removeChild(existingCanvas);
       }
     };
   }, [project?.id]);
