@@ -44,6 +44,140 @@ function MayakTitle({ text }: { text: string }) {
   );
 }
 
+// Canvas анимация для фона Петровых
+function initCanvasAnimation(canvas: HTMLCanvasElement) {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  // Настройки
+  const imageUrls = [
+    '/images/petrovy2.webp', // 1
+    '/images/petrovy1.webp', // 0
+    '/images/petrovy5.webp', // 4
+    '/images/petrovy3.webp', // 2
+    '/images/petrovy6.webp', // 5
+    '/images/petrovy4.webp', // 3
+    '/images/petrovy7.webp'  // 6
+  ];
+  
+  const baseSpeed = 2;
+  const speed = 0.5;
+  const direction = -1;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  // Класс для управления лентой изображений
+  class ImageStrip {
+    images: HTMLImageElement[];
+    positions: Array<{x: number, width: number, imageIndex: number}>;
+    isLoaded: boolean;
+
+    constructor() {
+      this.images = [];
+      this.positions = [];
+      this.isLoaded = false;
+      this.loadImages();
+    }
+
+    async loadImages() {
+      try {
+        this.images = await Promise.all(
+          imageUrls.map(url => {
+            return new Promise<HTMLImageElement>((resolve, reject) => {
+              const img = new Image();
+              img.onload = () => resolve(img);
+              img.onerror = reject;
+              img.src = url;
+            });
+          })
+        );
+        this.setupPositions();
+        this.isLoaded = true;
+      } catch (error) {
+        console.error('Ошибка загрузки изображений:', error);
+      }
+    }
+
+    setupPositions() {
+      this.positions = [];
+      let currentX = 0;
+      
+      for (let i = 0; i < this.images.length; i++) {
+        const img = this.images[i];
+        const scale = canvas.height / img.height;
+        const width = img.width * scale;
+        
+        this.positions.push({
+          x: currentX,
+          width: width,
+          imageIndex: i
+        });
+        
+        currentX += width;
+      }
+    }
+
+    update() {
+      if (!this.isLoaded) return;
+      
+      const moveSpeed = baseSpeed * speed * direction;
+      
+      this.positions.forEach(pos => {
+        pos.x += moveSpeed;
+      });
+      
+      if (direction === -1) {
+        const firstPos = this.positions[0];
+        if (firstPos && firstPos.x + firstPos.width < 0) {
+          const lastPos = this.positions[this.positions.length - 1];
+          firstPos.x = lastPos.x + lastPos.width;
+          const removed = this.positions.shift();
+          if (removed) this.positions.push(removed);
+        }
+      }
+    }
+
+    draw() {
+      if (!this.isLoaded || !ctx) return;
+      
+      ctx.globalAlpha = 0.6; // Полупрозрачность для фона
+      
+      this.positions.forEach(pos => {
+        if (pos.x + pos.width > 0 && pos.x < canvas.width && ctx) {
+          const img = this.images[pos.imageIndex];
+          const scale = canvas.height / img.height;
+          const height = canvas.height;
+          
+          ctx.drawImage(img, pos.x, 0, pos.width, height);
+        }
+      });
+      
+      ctx.globalAlpha = 1.0;
+    }
+  }
+
+  const imageStrip = new ImageStrip();
+
+  function animate() {
+    if (!ctx) return;
+    
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    imageStrip.update();
+    imageStrip.draw();
+    
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
 
 
 
@@ -281,11 +415,34 @@ export default function ProjectPage() {
     if (player) player.prevTrack();
   };
   
-  // Подготовка данных для движущегося фона
+  // Canvas анимация для Петровых
   useEffect(() => {
-    if (project?.id !== "petrovy-saratov-drama" || !project.comicImages) return;
-    // Для движущегося фона нужно только создать CSS класс
-  }, [project?.id, project?.comicImages]);
+    if (project?.id !== "petrovy-saratov-drama") return;
+
+    // Создаем Canvas элемент
+    const canvas = document.createElement('canvas');
+    canvas.id = 'petrovy-bg-canvas';
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '-1';
+    canvas.style.pointerEvents = 'none';
+
+    // Добавляем Canvas в body
+    document.body.appendChild(canvas);
+
+    // Запускаем анимацию
+    initCanvasAnimation(canvas);
+
+    // Очистка при размонтировании
+    return () => {
+      if (document.body.contains(canvas)) {
+        document.body.removeChild(canvas);
+      }
+    };
+  }, [project?.id]);
 
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
   useEffect(() => {
