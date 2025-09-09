@@ -464,40 +464,6 @@ export default function ProjectPage() {
                       style={{ filter: 'brightness(0.8) contrast(1.1)' }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                    
-                    {/* Кнопка включения звука как в Идиоте */}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (!isGlobalAudioEnabled) {
-                          toggleGlobalAudio();
-                          // Небольшая задержка для запуска плеера
-                          setTimeout(() => {
-                            const player = (window as any).projectPlayer;
-                            if (player) {
-                              player.playTrack(0); // Запускаем первый трек
-                            }
-                          }, 300);
-                        } else {
-                          // Если звук уже включен, начинаем воспроизведение
-                          const player = (window as any).projectPlayer;
-                          if (player) {
-                            if (!isPlaying) {
-                              player.playTrack(0); // Запускаем первый трек
-                            }
-                          }
-                        }
-                      }}
-                      className={`absolute top-4 right-4 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                        isGlobalAudioEnabled 
-                          ? 'bg-green-600 hover:bg-green-700 text-white' 
-                          : 'bg-gray-800/80 hover:bg-green-600 text-white'
-                      } backdrop-blur-sm border border-green-500/30`}
-                      data-testid="button-toggle-audio"
-                    >
-                      {isGlobalAudioEnabled ? '🔊 Звук включен' : '🔇 Вкл. звук'}
-                    </button>
                   </div>
                 </motion.div>
               )}
