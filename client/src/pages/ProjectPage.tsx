@@ -499,7 +499,7 @@ export default function ProjectPage() {
             left: 0,
             width: '100vw',
             height: '100vh',
-            zIndex: 0, // Фоновый слой
+            zIndex: 1, // Canvas фон
             pointerEvents: 'none'
           }}
         />
@@ -513,7 +513,7 @@ export default function ProjectPage() {
         }`}
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
-          zIndex: 100  // Основной контент впереди полупрозрачного слоя
+          zIndex: 30  // Основной контент впереди полупрозрачного слоя
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
@@ -524,7 +524,7 @@ export default function ProjectPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
             className="mb-8 relative" 
-            style={{zIndex: 100}}
+            style={{zIndex: 30}}
           >
             <Link 
               href="/"
@@ -578,7 +578,7 @@ export default function ProjectPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
                   className="text-center mb-8 relative"
-                  style={{zIndex: 100}}
+                  style={{zIndex: 30}}
                 >
                   <h1 
                     className="petrovy-title" 
@@ -601,7 +601,7 @@ export default function ProjectPage() {
                     height: '650px', // Покрывает заголовок + фото (без хедера)
                     backgroundColor: 'rgba(0,0,0,0.75)',
                     backdropFilter: 'blur(2px)',
-                    zIndex: -1, // Ниже всего контента
+                    zIndex: 5, // Полупрозрачный слой
                     pointerEvents: 'none'
                   }}
                 />
@@ -614,7 +614,7 @@ export default function ProjectPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="relative max-w-3xl mx-auto mb-12"
-                  style={{zIndex: 100}}
+                  style={{zIndex: 30}}
                 >
                   <div className="relative overflow-hidden rounded-lg">
                     <img 
@@ -1313,7 +1313,7 @@ export default function ProjectPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             className="max-w-4xl mx-auto mt-12 space-y-6 relative"
-            style={{zIndex: 100}}
+            style={{zIndex: 30}}
           >
             {/* Links */}
             {project.links && project.links.length > 0 && (
