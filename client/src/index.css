@@ -1494,7 +1494,7 @@
   position: relative;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  animation: shake 2s ease-in-out infinite;
+  animation: shake 3s ease-in-out infinite;
   margin-bottom: 0.5rem;
 }
 
@@ -1671,16 +1671,14 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  10% { transform: translate(-1px, -1px) rotate(-0.5deg); }
-  20% { transform: translate(1px, -1px) rotate(0.5deg); }
-  30% { transform: translate(-1px, 1px) rotate(-0.5deg); }
-  40% { transform: translate(1px, 1px) rotate(0.5deg); }
-  50% { transform: translate(-1px, 0px) rotate(-0.3deg); }
-  60% { transform: translate(1px, 0px) rotate(0.3deg); }
-  70% { transform: translate(0px, -1px) rotate(-0.2deg); }
-  80% { transform: translate(0px, 1px) rotate(0.2deg); }
-  90% { transform: translate(-0.5px, 0px) rotate(-0.1deg); }
+  0% { transform: translate(0, 0) rotate(0deg); }
+  2% { transform: translate(-2px, -1px) rotate(-1deg); }
+  4% { transform: translate(2px, -1px) rotate(1deg); }
+  6% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+  8% { transform: translate(1px, 1px) rotate(0.5deg); }
+  10% { transform: translate(-1px, 0px) rotate(-0.3deg); }
+  12% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }
 
 /* Адаптивные медиа-запросы для мобильных */
