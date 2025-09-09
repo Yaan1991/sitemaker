@@ -1,7 +1,85 @@
 import { motion } from "framer-motion";
 import Hero from "@/components/Hero";
 import SEOHead from "@/components/SEOHead";
-import MainProjectSlider from "@/components/MainProjectSlider";
+import CollapsibleProjectSection from "@/components/CollapsibleProjectSection";
+
+// Project categories data
+const projectCategories = [
+  {
+    title: "Театр",
+    icon: "🎭",
+    projects: [
+      {
+        id: "idiot-saratov-drama",
+        title: "Идиот",
+        year: "2024",
+        description: "Уникальное сочетание театра и кино: нуар-джаз + полевые записи + ИИ-технологии.",
+        image: "/images/idiot_main.webp"
+      },
+      {
+        id: "mayakovsky-moscow-estrada", 
+        title: "Маяковский. Я сам",
+        year: "2024",
+        description: "6 композиций, трёхуровневая звуковая концепция.",
+        image: "/images/mayakovsky_main.webp"
+      },
+      {
+        id: "petrovy-saratov-drama",
+        title: "Петровы в гриппе и вокруг него", 
+        year: "2025",
+        description: "Кроссовер/нео-джаз + сюрреалистические эффекты.",
+        image: "/images/petrovy_main.webp"
+      }
+    ]
+  },
+  {
+    title: "Кино",
+    icon: "🎬",
+    projects: [
+      {
+        id: "homo-homini-short",
+        title: "Homo Homini",
+        year: "2025", 
+        description: "13 композиций + полный пост.",
+        image: "/images/homohomini_main.webp"
+      },
+      {
+        id: "ma-short-film",
+        title: "Ма",
+        year: "2023",
+        description: "Сведение, шумы, амбиенты.",
+        image: "/images/ma_film_main.webp"
+      },
+      {
+        id: "life-in-art-short",
+        title: "Жизнь в искусстве",
+        year: "2019",
+        description: "Полная переозвучка шумов и амбиентов.",
+        image: "/images/life_in_art_main.webp"
+      }
+    ]
+  },
+  {
+    title: "Аудиоспектакли",
+    icon: "🎧",
+    projects: [
+      {
+        id: "son-o-hlebe-zotov",
+        title: "Сон о Хлебе",
+        year: "2024",
+        description: "Оригинальная музыка, пространственный звук.",
+        image: "/images/son_o_hlebe_main.webp"
+      },
+      {
+        id: "pogruzhenie-promenad",
+        title: "Погружение. Променад",
+        year: "2023",
+        description: "Иммерсивный аудиоспектакль с бинауральным звуком.",
+        image: "/images/pogruzhenie_main.webp"
+      }
+    ]
+  }
+];
 
 export default function Home() {
   return (
@@ -11,7 +89,7 @@ export default function Home() {
         <Hero />
         
         {/* Main Projects Section */}
-        <MainProjectSlider />
+        <CollapsibleProjectSection categories={projectCategories} />
         
         {/* About Section - после основных работ */}
         <section className="py-20 px-6">
