@@ -1054,6 +1054,7 @@ export default function ProjectPage() {
                           type="button"
                           onClick={handlePrevTrack}
                           className="winamp-button"
+                          style={{zIndex: 60}}
                           disabled={!isGlobalAudioEnabled}
                           title="Предыдущий трек"
                         >
@@ -1081,6 +1082,7 @@ export default function ProjectPage() {
                             }
                           }}
                           className={`winamp-button ${localIsPlaying ? 'active' : ''}`}
+                          style={{zIndex: 60}}
                           title={localIsPlaying ? "Пауза" : "Воспроизвести"}
                         >
                           {localIsPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -1090,6 +1092,7 @@ export default function ProjectPage() {
                           type="button"
                           onClick={handleStopAudio}
                           className="winamp-button"
+                          style={{zIndex: 60}}
                           disabled={!isGlobalAudioEnabled}
                           title="Стоп"
                         >
@@ -1100,6 +1103,7 @@ export default function ProjectPage() {
                           type="button"
                           onClick={handleNextTrack}
                           className="winamp-button"
+                          style={{zIndex: 60}}
                           disabled={!isGlobalAudioEnabled}
                           title="Следующий трек"
                         >
