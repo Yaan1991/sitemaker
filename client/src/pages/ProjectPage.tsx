@@ -1312,14 +1312,6 @@ export default function ProjectPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             className="max-w-4xl mx-auto mt-12 space-y-6"
-            style={project.id === "petrovy-saratov-drama" ? {
-              position: 'relative',
-              zIndex: 2, // Подвал поверх Canvas
-              backgroundColor: 'rgba(0,0,0,0.85)',
-              backdropFilter: 'blur(2px)',
-              borderRadius: '12px',
-              padding: '24px'
-            } : {}}
           >
             {/* Links */}
             {project.links && project.links.length > 0 && (
