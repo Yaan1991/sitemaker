@@ -53,17 +53,17 @@ const projectPlaylistMap: Record<string, Track[]> = {
     {
       id: 'petrovy_lonely_theme',
       title: 'Тема одиночества',
-      url: '/audio/petrovy_lonely.mp3'
+      url: '/audio/Petrovy_lonely_theme.mp3'
     },
     {
       id: 'petrovy_mad_theme',
       title: 'Приехали в гости',
-      url: '/audio/petrovy_guests.mp3'
+      url: '/audio/Petrovy_mad_theme.mp3'
     },
     {
       id: 'petrovy_theme_of_sick',
       title: 'Болезнь Петрова младшего',
-      url: '/audio/petrovy_illness.mp3'
+      url: '/audio/Petrovy_theme_of_sick.mp3'
     }
   ]
   // Будущие проекты добавляются сюда
