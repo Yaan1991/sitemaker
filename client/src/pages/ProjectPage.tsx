@@ -911,7 +911,7 @@ export default function ProjectPage() {
                   </div>
                   
                   <div className="space-y-8 text-gray-300 leading-relaxed relative" style={{zIndex: 30}}>
-                    <div className="p-6">
+                    <div className="p-6 relative" style={{zIndex: 30}}>
                       <h4 className="text-2xl font-bold text-green-400 mb-4">Концепция</h4>
                       <p className="text-lg">
                         Постановка по роману Алексея Сальникова - одному из самых «несценичных» текстов современной литературы. 
@@ -920,7 +920,7 @@ export default function ProjectPage() {
                       </p>
                     </div>
 
-                    <div className="p-6">
+                    <div className="p-6 relative" style={{zIndex: 30}}>
                       <h4 className="text-2xl font-bold text-green-400 mb-4">Техническая задача</h4>
                       <p className="text-lg">
                         Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
@@ -928,7 +928,7 @@ export default function ProjectPage() {
                       </p>
                     </div>
 
-                    <div className="p-6">
+                    <div className="p-6 relative" style={{zIndex: 30}}>
                       <h4 className="text-2xl font-bold text-green-400 mb-4">Творческая задача</h4>
                       <p className="text-lg mb-4">
                         Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, 
@@ -948,7 +948,7 @@ export default function ProjectPage() {
                       </div>
                     </div>
 
-                    <div className="p-6">
+                    <div className="p-6 relative" style={{zIndex: 30}}>
                       <h4 className="text-2xl font-bold text-green-400 mb-4">Ключевые решения</h4>
                       
                       <div className="space-y-6 text-lg">
