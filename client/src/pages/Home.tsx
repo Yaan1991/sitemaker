@@ -1,13 +1,12 @@
 import { motion } from "framer-motion";
 import Hero from "@/components/Hero";
 import SEOHead from "@/components/SEOHead";
-import CollapsibleProjectSection from "@/components/CollapsibleProjectSection";
+import ProjectSection from "@/components/CollapsibleProjectSection";
 
 // Project categories data
 const projectCategories = [
   {
     title: "Театр",
-    icon: "🎭",
     projects: [
       {
         id: "idiot-saratov-drama",
@@ -34,7 +33,6 @@ const projectCategories = [
   },
   {
     title: "Кино",
-    icon: "🎬",
     projects: [
       {
         id: "homo-homini-short",
@@ -61,7 +59,6 @@ const projectCategories = [
   },
   {
     title: "Аудиоспектакли",
-    icon: "🎧",
     projects: [
       {
         id: "son-o-hlebe-zotov",
@@ -89,7 +86,7 @@ export default function Home() {
         <Hero />
         
         {/* Main Projects Section */}
-        <CollapsibleProjectSection categories={projectCategories} />
+        <ProjectSection categories={projectCategories} />
         
         {/* About Section - после основных работ */}
         <section className="py-20 px-6">
