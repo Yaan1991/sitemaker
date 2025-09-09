@@ -523,7 +523,8 @@ export default function ProjectPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="mb-8 relative z-20"
+            className="mb-8 relative" 
+            style={{zIndex: 10}}
           >
             <Link 
               href="/"
@@ -538,7 +539,7 @@ export default function ProjectPage() {
           {/* Локальный плеер для проектов с музыкой уже встроен ниже в специальном разделе для Идиота */}
 
           {/* Main Content - Centered */}
-          <div className="max-w-4xl mx-auto space-y-8 relative z-10">
+          <div className="max-w-4xl mx-auto space-y-8 relative" style={{zIndex: 10}}>
               
               {/* Заголовок и информация для проекта Идиот */}
               {project.id === "idiot-saratov-drama" && (
@@ -576,7 +577,8 @@ export default function ProjectPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="text-center mb-8 relative z-20"
+                  className="text-center mb-8 relative"
+                  style={{zIndex: 10}}
                 >
                   <h1 
                     className="petrovy-title" 
@@ -599,7 +601,7 @@ export default function ProjectPage() {
                     height: '700px', // Покрывает хедер + заголовок + фото
                     backgroundColor: 'rgba(0,0,0,0.75)',
                     backdropFilter: 'blur(2px)',
-                    zIndex: 1,
+                    zIndex: -1, // Ниже всего контента
                     pointerEvents: 'none'
                   }}
                 />
@@ -611,7 +613,8 @@ export default function ProjectPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className="relative max-w-3xl mx-auto mb-12 z-20"
+                  className="relative max-w-3xl mx-auto mb-12"
+                  style={{zIndex: 10}}
                 >
                   <div className="relative overflow-hidden rounded-lg">
                     <img 
