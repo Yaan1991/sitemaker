@@ -113,22 +113,10 @@ export function GlobalProjectPlayer() {
       
       // Инициализируем аудио элементы
       const elements = playlist.map((track) => {
-        console.log('Creating audio element for:', track);
         const audio = new Audio(track.url);
         audio.preload = 'metadata';
-        
-        // Добавляем обработчики ошибок
-        audio.onerror = (error) => {
-          console.error('Audio loading error for', track.url, error);
-        };
-        
-        audio.onloadedmetadata = () => {
-          console.log('Audio metadata loaded for:', track.title);
-        };
-        
         return audio;
       });
-      console.log('Audio elements created:', elements.length);
       setAudioElements(elements);
       setIsProjectPlayerReady(true);
 
@@ -169,12 +157,7 @@ export function GlobalProjectPlayer() {
 
   // Функции управления плеером
   const playTrack = (trackIndex: number) => {
-    console.log('playTrack called:', { trackIndex, audioElementsLength: audioElements.length, isProjectPlayerReady, currentProjectPlaylist });
-    
-    if (!audioElements[trackIndex]) {
-      console.error('Audio element not found:', { trackIndex, audioElements });
-      return;
-    }
+    if (!audioElements[trackIndex]) return;
 
     // Останавливаем текущий трек
     if (isPlaying) {
@@ -189,11 +172,7 @@ export function GlobalProjectPlayer() {
     const musicMultiplier = musicVolume / 0.7; // 70% фейдера = 1.0x оригинала
     const masterMultiplier = masterVolume / 0.7; // 70% фейдера = 1.0x оригинала
     audio.volume = 0.56 * musicMultiplier * masterMultiplier; // Понижено на 20%
-    
-    console.log('Starting audio playback:', { url: audio.src, volume: audio.volume });
-    audio.play().catch((error) => {
-      console.error('Audio playback failed:', error);
-    });
+    audio.play().catch(console.error);
 
     // Обновление времени
     audio.ontimeupdate = () => {
