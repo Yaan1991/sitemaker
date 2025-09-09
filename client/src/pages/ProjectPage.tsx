@@ -146,7 +146,7 @@ function initParallaxBackground(canvasId: string) {
     draw() {
       if (!this.isLoaded || !ctx) return;
       
-      ctx.globalAlpha = 0.6; // Тонкий фоновый эффект
+      ctx.globalAlpha = 1.0; // Полная непрозрачность для проверки
       
       this.positions.forEach(pos => {
         if (pos.x + pos.width > 0 && pos.x < canvas.width) {
@@ -157,8 +157,6 @@ function initParallaxBackground(canvasId: string) {
           ctx.drawImage(img, pos.x, 0, pos.width, height);
         }
       });
-      
-      ctx.globalAlpha = 1.0;
     }
   }
 
@@ -478,7 +476,7 @@ export default function ProjectPage() {
             left: 0,
             width: '100vw',
             height: '100vh',
-            zIndex: -1,
+            zIndex: 0,  // Поднимаем выше
             pointerEvents: 'none'
           }}
         />
@@ -490,7 +488,11 @@ export default function ProjectPage() {
           project.id === "mayakovsky-moscow-estrada" ? "projector-container" :
           project.id === "petrovy-saratov-drama" ? "comic-container petrovy-animated-bg" : ""
         }`}
-        style={{}}
+        style={project.id === "petrovy-saratov-drama" ? {
+          position: 'relative',
+          zIndex: 10,  // Контент выше Canvas
+          backgroundColor: 'rgba(0,0,0,0.1)' // Легкий фон для видимости
+        } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
           
