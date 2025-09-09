@@ -124,7 +124,8 @@ function initParallaxBackground(canvasId: string) {
 
     setupPositions() {
       this.positions = [];
-      let currentX = 0;
+      // Начинаем справа от экрана
+      let currentX = canvas.width;
       
       console.log(`📐 Размеры Canvas: ${canvas.width}x${canvas.height}`);
       
@@ -169,58 +170,28 @@ function initParallaxBackground(canvasId: string) {
     draw() {
       if (!this.isLoaded) return;
       
-      ctx.globalAlpha = 1.0; // Сначала сделаем непрозрачными для отладки
+      ctx.globalAlpha = 0.8; // Полупрозрачность для фона
       
-      let drawnCount = 0;
-      this.positions.forEach((pos, index) => {
+      this.positions.forEach(pos => {
         if (pos.x + pos.width > 0 && pos.x < canvas.width) {
           const img = this.images[pos.imageIndex];
           const scale = canvas.height / img.height;
           const height = canvas.height;
           
           ctx.drawImage(img, pos.x, 0, pos.width, height);
-          drawnCount++;
-          
-          // Отладка для первого кадра
-          if (index === 0) {
-            console.log(`🖼️ Рисуем изображение:`, {
-              x: pos.x,
-              y: 0,
-              width: pos.width,
-              height: height,
-              canvasWidth: canvas.width,
-              canvasHeight: canvas.height,
-              imgWidth: img.width,
-              imgHeight: img.height,
-              scale: scale
-            });
-          }
         }
       });
       
-      // Отладим сколько изображений рисуется
-      if (drawnCount === 0) {
-        console.log('⚠️ Ни одно изображение не рисуется! Позиции:', this.positions.map(p => ({x: p.x, width: p.width})));
-      }
+      ctx.globalAlpha = 1.0;
     }
   }
 
   const imageStrip = new ImageStrip();
 
-  // Сначала нарисуем простой тест
-  ctx.fillStyle = '#ff0000'; // красный
-  ctx.fillRect(0, 0, 200, 200); // красный квадрат в углу
-  
-  ctx.fillStyle = '#00ff00'; // зеленый  
-  ctx.fillRect(canvas.width - 200, 0, 200, 200); // зеленый квадрат в правом углу
-  
-  ctx.fillStyle = '#0000ff'; // синий
-  ctx.fillRect(canvas.width/2 - 100, canvas.height/2 - 100, 200, 200); // синий квадрат в центре
-
   function animate() {
-    // Закомментируем черную заливку чтобы видеть цветные квадраты
-    // ctx.fillStyle = '#000';
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Возвращаем черный фон
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     imageStrip.update();
     imageStrip.draw();
