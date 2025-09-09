@@ -17,8 +17,10 @@ const ctx = canvas.getContext('2d');
 // Переменные для анимации
 let images = [];
 let currentImageIndex = 0;
+let nextImageIndex = 1;
 let imageX = 0;
 let canvasWidth, canvasHeight;
+let imageWidth = 0;
 
 // Загрузка изображений
 function loadImages() {
@@ -51,19 +53,8 @@ function calculateImageSize(img) {
 // Отрисовка изображения
 function drawImage(img, x) {
     const { width, height } = calculateImageSize(img);
-    
-    // Рисуем основное изображение
     ctx.drawImage(img, x, 0, width, height);
-    
-    // Рисуем копию справа для бесшовности
-    if (x + width < canvasWidth) {
-        ctx.drawImage(img, x + width, 0, width, height);
-    }
-    
-    // Рисуем копию слева для бесшовности
-    if (x > 0) {
-        ctx.drawImage(img, x - width, 0, width, height);
-    }
+    return { width, height };
 }
 
 // Основной цикл анимации
@@ -74,18 +65,31 @@ function animate() {
     
     if (images.length > 0) {
         const currentImg = images[currentImageIndex];
-        const { width } = calculateImageSize(currentImg);
+        const nextImg = images[nextImageIndex];
         
-        // Отрисовка текущего изображения
+        // Получаем размеры текущего изображения
+        const { width, height } = calculateImageSize(currentImg);
+        imageWidth = width;
+        
+        // Рисуем текущее изображение
         drawImage(currentImg, imageX);
         
-        // Движение изображения слева направо
-        imageX += speed;
+        // Рисуем следующее изображение справа от текущего
+        drawImage(nextImg, imageX + width);
         
-        // Когда изображение полностью прошло экран, переключаемся на следующее
-        if (imageX >= width) {
+        // Если текущее изображение частично ушло за левый край, рисуем его справа
+        if (imageX < 0) {
+            drawImage(currentImg, imageX + width);
+        }
+        
+        // Движение изображений слева направо
+        imageX -= speed;
+        
+        // Когда текущее изображение полностью ушло за левый край экрана
+        if (imageX <= -width) {
             imageX = 0;
-            currentImageIndex = (currentImageIndex + 1) % images.length;
+            currentImageIndex = nextImageIndex;
+            nextImageIndex = (nextImageIndex + 1) % images.length;
         }
     }
     
