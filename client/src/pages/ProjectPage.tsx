@@ -50,6 +50,44 @@ function MayakTitle({ text }: { text: string }) {
 
 
 // Компонент автосмены фото
+// Карусель комиксных изображений для Петровых
+function ComicImageCarousel({ project }: { project: any }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // Используем comicImages из проекта
+  const images = project.comicImages ? [
+    project.comicImages.cover,
+    project.comicImages.boy,
+    project.comicImages.tram,
+    project.comicImages.phone,
+    project.comicImages.phone2
+  ] : [project.image];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 3000); // Смена каждые 3 секунды для динамичности
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    <div className="comic-image-carousel">
+      {images.map((image, index) => (
+        <img
+          key={`${image}-${index}`}
+          src={image}
+          alt={`Комикс кадр ${index + 1}`}
+          className={index === currentIndex ? 'active' : ''}
+          data-testid="img-project"
+          onError={(e) => console.log('Ошибка загрузки комикс изображения:', image)}
+          onLoad={() => console.log('Комикс изображение загружено:', image)}
+        />
+      ))}
+    </div>
+  );
+}
+
 function PhotoCarousel({ photos }: { photos: string[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -155,19 +193,19 @@ const mayakTracks = [
 // Треки для спектакля "Петровы в гриппе и вокруг него"
 const petrovyTracks = [
   {
-    id: 'loneliness',
+    id: 'petrovy_lonely_theme',
     title: 'Тема одиночества',
-    url: '/audio/petrovy_loneliness.mp3'
+    url: '/audio/petrovy_lonely_theme.mp3'
   },
   {
-    id: 'visitors',
+    id: 'petrovy_mad_theme', 
     title: 'Приехали в гости',
-    url: '/audio/petrovy_visitors.mp3'
+    url: '/audio/petrovy_mad_theme.mp3'
   },
   {
-    id: 'illness',
+    id: 'petrovy_theme_of_sick',
     title: 'Болезнь Петрова младшего',
-    url: '/audio/petrovy_illness.mp3'
+    url: '/audio/petrovy_theme_of_sick.mp3'
   }
 ];
 
@@ -246,6 +284,23 @@ export default function ProjectPage() {
     const player = (window as any).projectPlayer;
     if (player) player.prevTrack();
   };
+  
+  // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
+  useEffect(() => {
+    if (project?.id === "petrovy-saratov-drama") {
+      // Небольшая задержка чтобы страница загрузилась полностью
+      const timer = setTimeout(() => {
+        const player = (window as any).projectPlayer;
+        if (player) {
+          player.setPlaylist(petrovyTracks);
+          player.setCurrentTrack(petrovyTracks[0]); // Автоматически играем первый трек (тема одиночества)
+          player.togglePlayPause();
+        }
+      }, 1500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [project?.id]);
   
   const handleStopAudio = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -351,6 +406,12 @@ export default function ProjectPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 to-transparent rounded-lg" />
                   </div>
+                ) : project.id === "petrovy-saratov-drama" ? (
+                  /* Комиксные фото для Петровых */
+                  <div className="relative">
+                    <ComicImageCarousel project={project} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-green-900/20 to-transparent rounded-lg" />
+                  </div>
                 ) : (
                   /* Обычное фото для других проектов */
                   <>
@@ -371,6 +432,22 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
+                {/* Специальный заголовок для Петровых */}
+                {project.id === "petrovy-saratov-drama" && (
+                  <>
+                    <div className="text-center mb-6">
+                      <h1 
+                        className="petrovy-title" 
+                        data-text="ПЕТРОВЫ В ГРИППЕ"
+                        data-testid="text-title"
+                      >
+                        ПЕТРОВЫ В ГРИППЕ
+                      </h1>
+                      <div className="petrovy-subtitle">и вокруг него</div>
+                    </div>
+                  </>
+                )}
+                
                 {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && (
                   <>
                     <div className="text-sm idiot-primary font-medium tracking-wide uppercase mb-2">
@@ -381,7 +458,8 @@ export default function ProjectPage() {
                     </h1>
                   </>
                 )}
-<p className={`text-xl leading-relaxed ${
+                
+                <p className={`text-xl leading-relaxed ${
                   project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" :
                   project.id === "petrovy-saratov-drama" ? "text-cyan-100" : "text-gray-300"
                 }`}>
@@ -574,6 +652,100 @@ export default function ProjectPage() {
                         <p>
                           Насыщенная звуковая партитура с эффектом погружения. Спектакль успешно гастролирует, стабильно звучит на разных площадках.<br/>
                           Мой вклад: построение трёхслойной звуковой драматургии, создание музыкальных композиций, проектирование гибкой технической системы.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              {/* Case Study for Petrovy */}
+              {project.id === "petrovy-saratov-drama" && (
+                <div className="mt-8">
+                  
+                  {/* Постановочная команда и роль в проекте в две колонки */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
+                    <div>
+                      <h4 className="text-green-400 font-medium mb-3">Постановочная команда</h4>
+                      <div className="text-cyan-100 space-y-1">
+                        <p>Режиссёр, автор инсценировки: Иван Комаров</p>
+                        <p>Художник-постановщик: Ольга Кузнецова</p>
+                        <p>Художник по свету: Максим Бирюков</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-green-400 font-medium mb-3">Роль в проекте</h4>
+                      <p className="text-green-400 font-semibold text-lg">
+                        Композитор, саунд-дизайнер, звукорежиссёр, промт-инженер
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="comic-content-section">
+                    <div className="space-y-6 text-cyan-100 leading-relaxed">
+                      <div>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3">Концепция</h4>
+                        <p>
+                          Театр как комикс, где пространство одновременно рассказывает историю Петровых и размышляет о театре как о пространстве бреда. 
+                          Постановка балансирует между бытовым реализмом и абсурдом.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3">Творческая задача</h4>
+                        <p>
+                          Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, 
+                          который поможет удержать зрителя в лабиринте абсурдного повествования.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3">Техническая задача</h4>
+                        <p>
+                          Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
+                          для управления всеми звуковыми элементами спектакля.
+                        </p>
+                        
+                        <div className="mt-4">
+                          <p className="font-medium text-green-400 mb-2">Выполненные работы:</p>
+                          <ul className="list-none space-y-0 ml-4">
+                            <li>• Создание 12 полноценных композиций разных жанров</li>
+                            <li>• Разработка лейтмотивной системы для персонажей и сцен</li>
+                            <li>• Создание атмосферных эмбиентов и дроун-текстур</li>
+                            <li>• Работа с ИИ для создания оперного кавера</li>
+                            <li>• Программирование и автоматизация в QLab</li>
+                            <li>• Звукорежиссура и FOH-инженеринг</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3">Ключевые решения</h4>
+                        
+                        <div className="space-y-4">
+                          <p>
+                            <strong className="text-yellow-400">Жанровая мозаика:</strong> музыка следует логике спектакля, 
+                            переключаясь от сентиментального неоклассицизма до тревожных эмбиентов и мультяшной гротескности.
+                          </p>
+                          
+                          <p>
+                            <strong className="text-yellow-400">Ироничные ИИ-эксперименты:</strong> оперная обработка песни «Ноль» 
+                            подчеркнула комиксную природу постановки.
+                          </p>
+                          
+                          <p>
+                            <strong className="text-yellow-400">Комиксная драматургия:</strong> каждый элемент звуковой партитуры 
+                            работает на создание целостного художественного высказывания.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                        <h4 className="text-xl font-semibold text-green-400 mb-3">Результат</h4>
+                        <p>
+                          Спектакль, где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.<br/>
+                          Мой вклад: создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, техническая реализация сложной звуковой архитектуры спектакля.
                         </p>
                       </div>
                     </div>
