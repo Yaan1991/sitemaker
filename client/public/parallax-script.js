@@ -36,18 +36,14 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
-// Класс для управления одним слоем
-class ParallaxLayer {
+// Класс для управления лентой изображений
+class ImageStrip {
     constructor(imageUrls, speed, opacity) {
         this.imageUrls = imageUrls;
         this.speed = speed;
         this.opacity = opacity;
         this.images = [];
-        this.currentImageIndex = 0;
-        this.nextImageIndex = 1;
-        this.x1 = 0;
-        this.x2 = 0;
-        this.imageWidth = 0;
+        this.positions = [];
         this.isLoaded = false;
         
         this.loadImages();
@@ -65,101 +61,91 @@ class ParallaxLayer {
                     });
                 })
             );
-            this.setupInitialPositions();
+            this.setupPositions();
             this.isLoaded = true;
         } catch (error) {
-            console.error('Ошибка загрузки изображений слоя:', error);
+            console.error('Ошибка загрузки изображений:', error);
         }
     }
     
-    setupInitialPositions() {
-        if (this.images.length > 0) {
-            const img = this.images[this.currentImageIndex];
+    setupPositions() {
+        this.positions = [];
+        let currentX = 0;
+        
+        // Создаем позиции для всех изображений в последовательности
+        for (let i = 0; i < this.images.length; i++) {
+            const img = this.images[i];
             const scale = canvas.height / img.height;
-            this.imageWidth = img.width * scale;
-            this.x1 = 0;
-            this.x2 = this.imageWidth;
+            const width = img.width * scale;
+            
+            this.positions.push({
+                x: currentX,
+                width: width,
+                imageIndex: i
+            });
+            
+            currentX += width;
         }
     }
     
     update() {
-        if (!this.isLoaded || this.images.length === 0) return;
+        if (!this.isLoaded) return;
         
-        const currentSpeed = baseSpeed * this.speed * direction;
-        this.x1 += currentSpeed;
-        this.x2 += currentSpeed;
+        const moveSpeed = baseSpeed * this.speed * direction;
         
-        // Проверяем, нужно ли переставить изображения
-        if (direction === -1) { // движение справа налево
-            if (this.x1 <= -this.imageWidth) {
-                this.x1 = this.x2 + this.imageWidth;
-                this.switchToNextImage();
+        // Двигаем все позиции
+        this.positions.forEach(pos => {
+            pos.x += moveSpeed;
+        });
+        
+        // Если движение справа налево
+        if (direction === -1) {
+            // Проверяем, не ушло ли изображение за левый край
+            const firstPos = this.positions[0];
+            if (firstPos.x + firstPos.width < 0) {
+                // Перемещаем его в конец ленты
+                const lastPos = this.positions[this.positions.length - 1];
+                firstPos.x = lastPos.x + lastPos.width;
+                
+                // Перемещаем в конец массива
+                this.positions.push(this.positions.shift());
             }
-            if (this.x2 <= -this.imageWidth) {
-                this.x2 = this.x1 + this.imageWidth;
-                this.switchToNextImage();
-            }
-        } else { // движение слева направо
-            if (this.x1 >= canvas.width) {
-                this.x1 = this.x2 - this.imageWidth;
-                this.switchToNextImage();
-            }
-            if (this.x2 >= canvas.width) {
-                this.x2 = this.x1 - this.imageWidth;
-                this.switchToNextImage();
+        } else {
+            // Движение слева направо
+            const lastPos = this.positions[this.positions.length - 1];
+            if (lastPos.x > canvas.width) {
+                const firstPos = this.positions[0];
+                lastPos.x = firstPos.x - lastPos.width;
+                
+                // Перемещаем в начало массива
+                this.positions.unshift(this.positions.pop());
             }
         }
-    }
-    
-    switchToNextImage() {
-        this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
-        this.nextImageIndex = (this.currentImageIndex + 1) % this.images.length;
-        
-        // Обновляем ширину для нового изображения
-        const img = this.images[this.currentImageIndex];
-        const scale = canvas.height / img.height;
-        this.imageWidth = img.width * scale;
     }
     
     draw() {
-        if (!this.isLoaded || this.images.length === 0) return;
+        if (!this.isLoaded) return;
         
-        const currentImg = this.images[this.currentImageIndex];
-        const nextImg = this.images[this.nextImageIndex];
-        
-        // Устанавливаем прозрачность слоя
         ctx.globalAlpha = this.opacity;
         
-        // Рисуем текущие изображения
-        const scale = canvas.height / currentImg.height;
-        const imgWidth = currentImg.width * scale;
-        const imgHeight = canvas.height;
-        
-        ctx.drawImage(currentImg, this.x1, 0, imgWidth, imgHeight);
-        ctx.drawImage(nextImg, this.x2, 0, imgWidth, imgHeight);
-        
-        // Дополнительные копии для полного покрытия экрана
-        if (direction === -1) {
-            // Справа налево - добавляем копии справа
-            if (this.x2 + imgWidth < canvas.width) {
-                ctx.drawImage(currentImg, this.x2 + imgWidth, 0, imgWidth, imgHeight);
+        // Рисуем все видимые изображения
+        this.positions.forEach(pos => {
+            // Рисуем только если изображение видно на экране
+            if (pos.x + pos.width > 0 && pos.x < canvas.width) {
+                const img = this.images[pos.imageIndex];
+                const scale = canvas.height / img.height;
+                const height = canvas.height;
+                
+                ctx.drawImage(img, pos.x, 0, pos.width, height);
             }
-        } else {
-            // Слева направо - добавляем копии слева
-            if (this.x1 - imgWidth > 0) {
-                ctx.drawImage(currentImg, this.x1 - imgWidth, 0, imgWidth, imgHeight);
-            }
-        }
+        });
         
-        // Сбрасываем прозрачность
         ctx.globalAlpha = 1.0;
     }
 }
 
-// Создаем слои
-const parallaxLayers = layers.map(layer => 
-    new ParallaxLayer(layer.images, layer.speed, layer.opacity)
-);
+// Создаем ленту изображений
+const imageStrip = new ImageStrip(layers[0].images, layers[0].speed, layers[0].opacity);
 
 // Основной цикл анимации
 function animate() {
@@ -167,11 +153,9 @@ function animate() {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Обновляем и рисуем каждый слой (от дальнего к ближнему)
-    parallaxLayers.forEach(layer => {
-        layer.update();
-        layer.draw();
-    });
+    // Обновляем и рисуем ленту изображений
+    imageStrip.update();
+    imageStrip.draw();
     
     requestAnimationFrame(animate);
 }
