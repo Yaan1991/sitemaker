@@ -513,7 +513,7 @@ export default function ProjectPage() {
         }`}
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
-          zIndex: 10  // Основной контент впереди полупрозрачного слоя
+          zIndex: 100  // Основной контент впереди полупрозрачного слоя
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
@@ -524,7 +524,7 @@ export default function ProjectPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
             className="mb-8 relative" 
-            style={{zIndex: 10}}
+            style={{zIndex: 100}}
           >
             <Link 
               href="/"
@@ -578,7 +578,7 @@ export default function ProjectPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
                   className="text-center mb-8 relative"
-                  style={{zIndex: 10}}
+                  style={{zIndex: 100}}
                 >
                   <h1 
                     className="petrovy-title" 
@@ -614,7 +614,7 @@ export default function ProjectPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="relative max-w-3xl mx-auto mb-12"
-                  style={{zIndex: 10}}
+                  style={{zIndex: 100}}
                 >
                   <div className="relative overflow-hidden rounded-lg">
                     <img 
@@ -1312,7 +1312,8 @@ export default function ProjectPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="max-w-4xl mx-auto mt-12 space-y-6"
+            className="max-w-4xl mx-auto mt-12 space-y-6 relative"
+            style={{zIndex: 100}}
           >
             {/* Links */}
             {project.links && project.links.length > 0 && (
