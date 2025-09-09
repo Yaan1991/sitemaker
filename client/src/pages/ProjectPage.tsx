@@ -64,10 +64,7 @@ function initParallaxBackground(canvasId: string) {
 
   console.log('✅ Контекст Canvas получен');
   
-  // Сразу нарисуем тестовый прямоугольник
-  ctx.fillStyle = '#ff0000';
-  ctx.fillRect(100, 100, 300, 200);
-  console.log('🎨 Нарисован тестовый красный прямоугольник');
+  // Убираем тестовый прямоугольник - он больше не нужен
 
   // Настройки из рабочего скрипта
   const imageUrls = [
@@ -163,7 +160,7 @@ function initParallaxBackground(canvasId: string) {
     draw() {
       if (!this.isLoaded || !ctx) return;
       
-      ctx.globalAlpha = 1.0; // Полная непрозрачность для проверки
+      ctx.globalAlpha = 0.4; // Тонкий фоновый эффект
       
       this.positions.forEach(pos => {
         if (pos.x + pos.width > 0 && pos.x < canvas.width) {
@@ -174,6 +171,8 @@ function initParallaxBackground(canvasId: string) {
           ctx.drawImage(img, pos.x, 0, pos.width, height);
         }
       });
+      
+      ctx.globalAlpha = 1.0;
     }
   }
 
@@ -182,9 +181,8 @@ function initParallaxBackground(canvasId: string) {
   function animate() {
     if (!ctx) return;
     
-    // Возвращаем черный фон
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // НЕ рисуем черный фон - пусть будет прозрачно!
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     imageStrip.update();
     imageStrip.draw();
@@ -524,9 +522,8 @@ export default function ProjectPage() {
               left: 0,
               width: '100vw',
               height: '100vh',
-              zIndex: 1000, // НАМНОГО выше
-              pointerEvents: 'none',
-              border: '2px solid yellow' // Временная желтая рамка
+              zIndex: -1, // Назад за все
+              pointerEvents: 'none'
             }}
           />
         </div>
@@ -540,8 +537,8 @@ export default function ProjectPage() {
         }`}
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
-          zIndex: 2000,  // Контент еще выше
-          backgroundColor: 'rgba(0,0,0,0.7)' // Темный фон для читаемости
+          zIndex: 1,  // Контент впереди фона
+          backgroundColor: 'rgba(0,0,0,0.3)' // Легкий фон
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
