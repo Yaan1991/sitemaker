@@ -348,7 +348,6 @@ export default function ProjectPage() {
         title={`${project.title} — ${project.year} | Ян Кузьмичёв`}
         description={project.fullDescription}
       />
-      
       <div 
         className={`min-h-screen pt-24 pb-12 ${
           project.id === "idiot-saratov-drama" ? "vhs-container" : 
@@ -433,9 +432,7 @@ export default function ProjectPage() {
                     ПЕТРОВЫ В ГРИППЕ
                   </h1>
                   <div className="petrovy-subtitle">и вокруг него</div>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-6">
-                    Саратовский театр драмы • 2025
-                  </p>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-6">Театр драмы им. Слонова • 2025</p>
                 </motion.div>
               )}
 
@@ -475,7 +472,7 @@ export default function ProjectPage() {
                   </div>
                 ) : project.id === "mayakovsky-moscow-estrada" ? (
                   /* Фото с эффектом проектора для Маяковского */
-                  <div className="relative">
+                  (<div className="relative">
                     <img
                       src={project.image}
                       alt={project.title}
@@ -483,13 +480,13 @@ export default function ProjectPage() {
                       data-testid="img-project"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 to-transparent rounded-lg" />
-                  </div>
+                  </div>)
                 ) : project.id === "petrovy-saratov-drama" ? (
                   /* Убираем отдельную галерею для Петровых, будем использовать изображения как фон разделов */
-                  <></>
+                  (<></>)
                 ) : (
                   /* Обычное фото для других проектов */
-                  <>
+                  (<>
                     <img
                       src={project.image}
                       alt={project.title}
@@ -497,7 +494,7 @@ export default function ProjectPage() {
                       data-testid="img-project"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
-                  </>
+                  </>)
                 )}
               </motion.div>
 
