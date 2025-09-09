@@ -159,8 +159,8 @@ export const projects: Project[] = [
         external: true,
       },
       {
-        label: "Афиша - Культура.рф",
-        url: "https://www.culture.ru/events/5710519/spektakl-petrovy-v-grippe-i-vokrug-nego?ysclid=mfcsqillxw602150566",
+        label: "Пресса - SarInform",
+        url: "https://sarinform.ru/news/culture/petrovy-v-grippe-i-vokrug-nego-spektakl-o-mnozhestvennyh-mirah-v-boleznennom-bredu?ysclid=mfd3rl4hjv56090761",
         external: true,
       },
     ],
