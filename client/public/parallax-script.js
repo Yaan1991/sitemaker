@@ -1,16 +1,21 @@
 // ========== НАСТРОЙКИ ==========
-// Один слой со всеми изображениями
+// Изображения с номерами (petrovy1 = 0, petrovy7 = 6)
+const imageUrls = [
+    '/images/petrovy1.webp', // 0
+    '/images/petrovy2.webp', // 1
+    '/images/petrovy3.webp', // 2
+    '/images/petrovy4.webp', // 3
+    '/images/petrovy5.webp', // 4
+    '/images/petrovy6.webp', // 5
+    '/images/petrovy7.webp'  // 6
+];
+
+// Последовательность показа: 0; 2; 4; 1; 5; 3; 6
+const sequence = [0, 2, 4, 1, 5, 3, 6];
+
 const layers = [
     {
-        images: [
-            '/images/petrovy1.webp',
-            '/images/petrovy2.webp',
-            '/images/petrovy3.webp',
-            '/images/petrovy4.webp',
-            '/images/petrovy5.webp',
-            '/images/petrovy6.webp',
-            '/images/petrovy7.webp'
-        ],
+        images: sequence.map(index => imageUrls[index]),
         speed: 0.5, // плавная скорость
         opacity: 1.0 // полная непрозрачность
     }
