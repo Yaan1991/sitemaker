@@ -207,9 +207,20 @@ function initParallaxBackground(canvasId: string) {
 
   const imageStrip = new ImageStrip();
 
+  // Сначала нарисуем простой тест
+  ctx.fillStyle = '#ff0000'; // красный
+  ctx.fillRect(0, 0, 200, 200); // красный квадрат в углу
+  
+  ctx.fillStyle = '#00ff00'; // зеленый  
+  ctx.fillRect(canvas.width - 200, 0, 200, 200); // зеленый квадрат в правом углу
+  
+  ctx.fillStyle = '#0000ff'; // синий
+  ctx.fillRect(canvas.width/2 - 100, canvas.height/2 - 100, 200, 200); // синий квадрат в центре
+
   function animate() {
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Закомментируем черную заливку чтобы видеть цветные квадраты
+    // ctx.fillStyle = '#000';
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     imageStrip.update();
     imageStrip.draw();
