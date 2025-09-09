@@ -1617,13 +1617,14 @@
   width: 200%;
   height: 100%;
   background: 
-    url('/images/petrovy1.webp') 0% 0% / 50% 100% no-repeat,
-    url('/images/petrovy2.webp') 50% 0% / 50% 100% no-repeat,
-    url('/images/petrovy3.webp') 100% 0% / 50% 100% no-repeat,
-    url('/images/petrovy4.webp') 150% 0% / 50% 100% no-repeat;
+    url('/images/petrovy2.webp') 0% 0% / 50% auto no-repeat,
+    url('/images/petrovy3.webp') 50% 0% / 50% auto no-repeat,
+    url('/images/petrovy4.webp') 100% 0% / 50% auto no-repeat,
+    url('/images/petrovy5.webp') 150% 0% / 50% auto no-repeat;
+  background-position: 0% center, 50% center, 100% center, 150% center;
   animation: petrovy-slide 15s linear infinite;
-  z-index: 1;
-  opacity: 0.9;
+  z-index: -1;
+  opacity: 0.3;
 }
 
 @keyframes petrovy-slide {
