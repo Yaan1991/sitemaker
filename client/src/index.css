@@ -808,65 +808,80 @@
   animation: projector-shake-rare 12s infinite, projector-strobe 17s infinite;
 }
 
-/* Единственная полоса слева */
+/* Дополнительный слой для пленочного зерна */
+.projector-container::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    /* Пленочное зерно */
+    radial-gradient(circle at 15% 25%, rgba(0, 0, 0, 0.15) 0.5px, transparent 1px),
+    radial-gradient(circle at 45% 35%, rgba(0, 0, 0, 0.1) 0.3px, transparent 0.8px),
+    radial-gradient(circle at 75% 15%, rgba(0, 0, 0, 0.12) 0.4px, transparent 0.9px),
+    radial-gradient(circle at 25% 65%, rgba(0, 0, 0, 0.08) 0.6px, transparent 1.1px),
+    radial-gradient(circle at 85% 75%, rgba(0, 0, 0, 0.14) 0.3px, transparent 0.7px),
+    radial-gradient(circle at 55% 85%, rgba(0, 0, 0, 0.09) 0.5px, transparent 1px);
+  background-size: 
+    80px 80px, 120px 120px, 60px 60px, 
+    100px 100px, 90px 90px, 140px 140px;
+  pointer-events: none;
+  z-index: 11;
+  animation: film-grain-chaos 1.5s linear infinite, film-grain-shift 4s linear infinite;
+}
+
+/* Пленочные эффекты как в референсе */
 .projector-container::before {
   content: '';
   position: fixed;
   top: 0;
   left: 0;
-  width: 15%;
+  width: 100%;
   height: 100%;
   background: 
-    repeating-linear-gradient(
-      90deg,
-      rgba(139, 69, 19, 0.3) 0px,
-      rgba(139, 69, 19, 0.2) 2px,
-      rgba(139, 69, 19, 0.15) 4px,
-      transparent 8px
-    );
+    /* Виньетирование по краям */
+    radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.3) 100%),
+    /* Темные края слева и справа */
+    linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, transparent 8%, transparent 92%, rgba(0, 0, 0, 0.4) 100%),
+    /* Вертикальные царапины-линии */
+    linear-gradient(90deg, transparent 12%, rgba(0, 0, 0, 0.6) 12.2%, transparent 12.4%),
+    linear-gradient(90deg, transparent 25%, rgba(0, 0, 0, 0.4) 25.1%, transparent 25.3%),
+    linear-gradient(90deg, transparent 67%, rgba(0, 0, 0, 0.5) 67.2%, transparent 67.4%),
+    /* Диагональная царапина */
+    linear-gradient(135deg, transparent 45%, rgba(0, 0, 0, 0.3) 45.1%, transparent 45.3%);
   pointer-events: none;
   z-index: 10;
-  animation: left-scratch-flicker 6s linear infinite;
+  animation: film-scratches-realistic 8s linear infinite;
 }
 
 
-/* Дрожащая полоса слева */
-@keyframes left-scratch-flicker {
+/* Реалистичные царапины как в референсе */
+@keyframes film-scratches-realistic {
   0% { 
-    opacity: 0.8;
-    transform: translateX(0px) translateY(0px);
-  }
-  15% { 
-    opacity: 0;
-    transform: translateX(1px) translateY(-2px);
-  }
-  25% { 
-    opacity: 1;
-    transform: translateX(-1px) translateY(-1px);
-  }
-  35% { 
-    opacity: 0.3;
-    transform: translateX(0px) translateY(1px);
-  }
-  50% { 
-    opacity: 0;
-    transform: translateX(-1px) translateY(-1px);
-  }
-  65% { 
     opacity: 0.9;
-    transform: translateX(1px) translateY(0px);
+    transform: translateY(0px);
+  }
+  20% { 
+    opacity: 0.5;
+    transform: translateY(-3px);
+  }
+  40% { 
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+  60% { 
+    opacity: 0.3;
+    transform: translateY(-8px);
   }
   80% { 
-    opacity: 0.1;
-    transform: translateX(0px) translateY(-2px);
-  }
-  90% { 
-    opacity: 0.7;
-    transform: translateX(-1px) translateY(1px);
+    opacity: 0.8;
+    transform: translateY(-12px);
   }
   100% { 
-    opacity: 0.8;
-    transform: translateX(0px) translateY(0px);
+    opacity: 0.9;
+    transform: translateY(-15px);
   }
 }
 
