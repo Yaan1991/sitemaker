@@ -1602,55 +1602,34 @@
 .petrovy-animated-bg {
   position: relative;
   overflow: hidden;
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/images/petrovy1.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .petrovy-animated-bg::before {
   content: '';
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 500%;
+  width: 300%;
   height: 100%;
   background: 
-    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url('/images/petrovy1.webp') 0% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy2.webp') 14.28% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy3.webp') 28.56% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy4.webp') 42.84% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy5.webp') 57.12% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy6.webp') 71.4% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy7.webp') 85.68% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy1.webp') 100% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy2.webp') 114.28% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy3.webp') 128.56% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy4.webp') 142.84% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy5.webp') 157.12% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy6.webp') 171.4% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy7.webp') 185.68% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy1.webp') 200% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy2.webp') 214.28% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy3.webp') 228.56% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy4.webp') 242.84% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy5.webp') 257.12% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy6.webp') 271.4% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy7.webp') 285.68% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy1.webp') 300% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy2.webp') 314.28% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy3.webp') 328.56% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy4.webp') 342.84% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy5.webp') 357.12% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy6.webp') 371.4% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy7.webp') 385.68% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy1.webp') 400% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy2.webp') 414.28% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy3.webp') 428.56% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy4.webp') 442.84% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy5.webp') 457.12% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy6.webp') 471.4% 0% / 14.28% 100% no-repeat,
-    url('/images/petrovy7.webp') 485.68% 0% / 14.28% 100% no-repeat;
-  animation: petrovy-slide-right-to-left 25s linear infinite;
+    url('/images/petrovy1.webp') 0% 0% / 33.33% 100% no-repeat,
+    url('/images/petrovy2.webp') 33.33% 0% / 33.33% 100% no-repeat,
+    url('/images/petrovy3.webp') 66.66% 0% / 33.33% 100% no-repeat,
+    url('/images/petrovy4.webp') 100% 0% / 33.33% 100% no-repeat,
+    url('/images/petrovy5.webp') 133.33% 0% / 33.33% 100% no-repeat,
+    url('/images/petrovy6.webp') 166.66% 0% / 33.33% 100% no-repeat,
+    url('/images/petrovy7.webp') 200% 0% / 33.33% 100% no-repeat,
+    url('/images/petrovy1.webp') 233.33% 0% / 33.33% 100% no-repeat,
+    url('/images/petrovy2.webp') 266.66% 0% / 33.33% 100% no-repeat;
+  animation: petrovy-slide-right-to-left 20s linear infinite;
   z-index: -1;
-  filter: contrast(1.1) saturate(1.2) hue-rotate(5deg);
+  opacity: 0.8;
 }
 
 @keyframes petrovy-slide-right-to-left {
@@ -1658,7 +1637,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-80%);
+    transform: translateX(-66.66%);
   }
 }
 
