@@ -46,11 +46,21 @@ function MayakTitle({ text }: { text: string }) {
 
 // Рабочая Canvas анимация из parallax-script.js
 function initParallaxBackground(canvasId: string) {
+  console.log('🎬 Инициализация параллакс фона для Canvas:', canvasId);
+  
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-  if (!canvas) return;
+  if (!canvas) {
+    console.error('❌ Canvas не найден:', canvasId);
+    return;
+  }
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) {
+    console.error('❌ Не удалось получить контекст Canvas');
+    return;
+  }
+  
+  console.log('✅ Canvas найден и готов!');
 
   // Настройки из рабочего скрипта
   const imageUrls = [
@@ -85,21 +95,30 @@ function initParallaxBackground(canvasId: string) {
     }
 
     async loadImages() {
+      console.log('Начинаем загрузку изображений:', imageUrls);
+      
       try {
         this.images = await Promise.all(
-          imageUrls.map(url => {
+          imageUrls.map((url, index) => {
             return new Promise<HTMLImageElement>((resolve, reject) => {
               const img = new Image();
-              img.onload = () => resolve(img);
-              img.onerror = reject;
+              img.onload = () => {
+                console.log(`✅ Загружено изображение ${index + 1}/7:`, url);
+                resolve(img);
+              };
+              img.onerror = (e) => {
+                console.error(`❌ Ошибка загрузки изображения ${index + 1}/7:`, url, e);
+                reject(e);
+              };
               img.src = url;
             });
           })
         );
         this.setupPositions();
         this.isLoaded = true;
+        console.log('🎉 Все изображения загружены! Запускаем анимацию...');
       } catch (error) {
-        console.error('Ошибка загрузки изображений:', error);
+        console.error('💥 Критическая ошибка загрузки изображений:', error);
       }
     }
 
