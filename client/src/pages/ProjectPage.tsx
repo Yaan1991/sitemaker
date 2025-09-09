@@ -499,7 +499,7 @@ export default function ProjectPage() {
             left: 0,
             width: '100vw',
             height: '100vh',
-            zIndex: -2, // НАМНОГО ниже всего контента
+            zIndex: 0, // Фоновый слой
             pointerEvents: 'none'
           }}
         />
@@ -513,9 +513,7 @@ export default function ProjectPage() {
         }`}
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
-          zIndex: 1,  // Основной контент впереди Canvas
-          backgroundColor: 'rgba(0,0,0,0.85)', // Темный полупрозрачный фон
-          backdropFilter: 'blur(2px)' // Размытие для красоты
+          zIndex: 1  // Основной контент впереди Canvas
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
@@ -659,6 +657,12 @@ export default function ProjectPage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
+                style={project.id === "petrovy-saratov-drama" ? {
+                  backgroundColor: 'rgba(0,0,0,0.75)',
+                  backdropFilter: 'blur(2px)',
+                  borderRadius: '12px',
+                  padding: '24px'
+                } : {}}
               >
                 {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && (
                   <>
@@ -874,7 +878,12 @@ export default function ProjectPage() {
 
               {/* Case Study for Petrovy */}
               {project.id === "petrovy-saratov-drama" && (
-                <div className="mt-8">
+                <div className="mt-8" style={{
+                  backgroundColor: 'rgba(0,0,0,0.75)',
+                  backdropFilter: 'blur(2px)',
+                  borderRadius: '12px',
+                  padding: '24px'
+                }}>
                   
                   {/* Постановочная команда и роль в проекте в две колонки */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
@@ -967,6 +976,12 @@ export default function ProjectPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
                   className="max-w-4xl mx-auto mt-12 mb-8"
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    backdropFilter: 'blur(2px)',
+                    borderRadius: '12px',
+                    padding: '24px'
+                  }}
                 >
                   <h3 className="text-3xl font-bold text-white mb-8 text-center" style={{color: '#22c55e'}}>
                     Музыка из спектакля
@@ -1299,7 +1314,7 @@ export default function ProjectPage() {
             className="max-w-4xl mx-auto mt-12 space-y-6"
             style={project.id === "petrovy-saratov-drama" ? {
               position: 'relative',
-              zIndex: 2, // Подвал еще выше
+              zIndex: 2, // Подвал поверх Canvas
               backgroundColor: 'rgba(0,0,0,0.85)',
               backdropFilter: 'blur(2px)',
               borderRadius: '12px',
