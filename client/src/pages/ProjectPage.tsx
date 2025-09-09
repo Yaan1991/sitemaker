@@ -44,6 +44,118 @@ function MayakTitle({ text }: { text: string }) {
   );
 }
 
+// Компонент заголовка для комиксного проекта "Петровы в гриппе"
+function ComicTitle({ title }: { title: string }) {
+  return (
+    <div className="text-center mb-8">
+      <h1 className="comic-title mb-4">
+        ПЕТРОВЫ В ГРИППЕ И ВОКРУГ НЕГО
+      </h1>
+      <p className="text-xl text-cyan-300 font-semibold">
+        Звуковой комикс • Саратовский театр драмы • 2025
+      </p>
+    </div>
+  );
+}
+
+// Компонент интерактивной сноски
+function ComicAnnotation({ 
+  children, 
+  position, 
+  tail = "bottom",
+  onClick 
+}: { 
+  children: React.ReactNode;
+  position: { top?: string; left?: string; bottom?: string; right?: string };
+  tail?: "top" | "bottom" | "left" | "right";
+  onClick?: () => void;
+}) {
+  return (
+    <div 
+      className="comic-annotation absolute"
+      style={position}
+      data-tail={tail}
+      onClick={onClick}
+      data-testid="comic-annotation"
+    >
+      {children}
+    </div>
+  );
+}
+
+// Компонент интерактивной зоны для сносок
+function ComicAnnotationZone({ 
+  position, 
+  onClick 
+}: { 
+  position: { top: string; left: string };
+  onClick: () => void;
+}) {
+  return (
+    <div
+      className="comic-annotation-zone"
+      style={position}
+      onClick={onClick}
+      data-testid="comic-annotation-zone"
+    />
+  );
+}
+
+// Компонент изображения с интерактивными сносками
+function ComicImageWithAnnotations({ 
+  src, 
+  alt, 
+  annotations 
+}: { 
+  src: string; 
+  alt: string;
+  annotations: Array<{
+    id: string;
+    position: { top: string; left: string };
+    content: React.ReactNode;
+    annotationPosition?: { top?: string; left?: string; bottom?: string; right?: string };
+    tail?: "top" | "bottom" | "left" | "right";
+  }>;
+}) {
+  const [activeAnnotation, setActiveAnnotation] = useState<string | null>(null);
+
+  return (
+    <div className="comic-image-container relative">
+      <img 
+        src={src} 
+        alt={alt}
+        className="comic-image"
+        data-testid="comic-image"
+      />
+      
+      {/* Интерактивные зоны */}
+      {annotations.map((annotation) => (
+        <ComicAnnotationZone
+          key={`zone-${annotation.id}`}
+          position={annotation.position}
+          onClick={() => setActiveAnnotation(
+            activeAnnotation === annotation.id ? null : annotation.id
+          )}
+        />
+      ))}
+      
+      {/* Активные сноски */}
+      {annotations.map((annotation) => 
+        activeAnnotation === annotation.id && (
+          <ComicAnnotation
+            key={`annotation-${annotation.id}`}
+            position={annotation.annotationPosition || { top: '10px', left: '10px' }}
+            tail={annotation.tail}
+            onClick={() => setActiveAnnotation(null)}
+          >
+            {annotation.content}
+          </ComicAnnotation>
+        )
+      )}
+    </div>
+  );
+}
+
 // Компонент автосмены фото
 function PhotoCarousel({ photos }: { photos: string[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -245,7 +357,8 @@ export default function ProjectPage() {
       
       <div className={`min-h-screen pt-24 pb-12 ${
         project.id === "idiot-saratov-drama" ? "vhs-container" : 
-        project.id === "mayakovsky-moscow-estrada" ? "projector-container" : ""
+        project.id === "mayakovsky-moscow-estrada" ? "projector-container" :
+        project.id === "petrovy-saratov-drama" ? "comic-container" : ""
       }`}>
         <div className="max-w-7xl mx-auto px-6">
           
@@ -301,6 +414,18 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
+              {/* Заголовок для комиксного проекта "Петровы в гриппе" */}
+              {project.id === "petrovy-saratov-drama" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="mb-8"
+                >
+                  <ComicTitle title={project.title} />
+                </motion.div>
+              )}
+
               {/* Project Image */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -325,6 +450,53 @@ export default function ProjectPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 to-transparent rounded-lg" />
                   </div>
+                ) : project.id === "petrovy-saratov-drama" ? (
+                  /* Комиксное изображение с интерактивными сносками */
+                  <ComicImageWithAnnotations
+                    src={project.image}
+                    alt={project.title}
+                    annotations={[
+                      {
+                        id: "role",
+                        position: { top: "15%", left: "70%" },
+                        content: (
+                          <div>
+                            <strong>Роль в проекте:</strong><br />
+                            Композитор, саунд-дизайнер и т.д.
+                          </div>
+                        ),
+                        annotationPosition: { top: "20%", right: "5%" },
+                        tail: "right"
+                      },
+                      {
+                        id: "team",
+                        position: { top: "60%", left: "10%" },
+                        content: (
+                          <div>
+                            <strong>Постановочная команда</strong><br />
+                            Режиссёр: Семён Шомин<br />
+                            Художник: [имя]<br />
+                            Художник по свету: [имя]
+                          </div>
+                        ),
+                        annotationPosition: { bottom: "25%", left: "5%" },
+                        tail: "left"
+                      },
+                      {
+                        id: "concept",
+                        position: { top: "40%", left: "50%" },
+                        content: (
+                          <div>
+                            <strong>Музыкальная концепция</strong><br />
+                            Кроссовер/нео-джаз + сюрреалистические звуковые эффекты.<br />
+                            Создание звукового "комикса"
+                          </div>
+                        ),
+                        annotationPosition: { top: "25%", left: "30%" },
+                        tail: "bottom"
+                      }
+                    ]}
+                  />
                 ) : (
                   /* Обычное фото для других проектов */
                   <>
@@ -345,7 +517,7 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && (
+                {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && (
                   <>
                     <div className="text-sm idiot-primary font-medium tracking-wide uppercase mb-2">
                       {categoryNames[project.category]} • {project.year}
@@ -356,7 +528,8 @@ export default function ProjectPage() {
                   </>
                 )}
 <p className={`text-xl leading-relaxed ${
-                  project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" : "text-gray-300"
+                  project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" :
+                  project.id === "petrovy-saratov-drama" ? "text-cyan-100" : "text-gray-300"
                 }`}>
                   {project.fullDescription}
                 </p>
@@ -455,6 +628,95 @@ export default function ProjectPage() {
               )}
 
               {/* Case Study for Mayakovsky */}
+              {/* Специальная секция для комиксного проекта "Петровы в гриппе" */}
+              {project.id === "petrovy-saratov-drama" && (
+                <div className="mt-8 space-y-8">
+                  
+                  {/* Постановочная команда и роль в проекте в стиле комикса */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
+                    <div className="comic-annotation bg-white/10 backdrop-blur-sm border border-cyan-400/30 rounded-lg p-4">
+                      <h4 className="text-cyan-300 font-semibold mb-3 text-lg">Постановочная команда</h4>
+                      <div className="text-cyan-100 space-y-1">
+                        <p>Режиссёр: {project.details?.director || "Семён Шомин"}</p>
+                        <p>Художник-постановщик: [имя]</p>
+                        <p>Звукорежиссёр: [имя]</p>
+                      </div>
+                    </div>
+                    <div className="comic-annotation bg-white/10 backdrop-blur-sm border border-cyan-400/30 rounded-lg p-4">
+                      <h4 className="text-cyan-300 font-semibold mb-3 text-lg">Роль в проекте</h4>
+                      <div className="text-cyan-100 space-y-1">
+                        {project.role.map((role, index) => (
+                          <p key={index} className="font-medium">{role}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 backdrop-blur-sm rounded-xl p-6 border border-cyan-400/20">
+
+                    <div className="space-y-6 text-cyan-100 leading-relaxed">
+                      <div>
+                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Концепция звукового комикса</h4>
+                        <p>
+                          По роману Алексея Сальникова. Музыкальное решение построено на синтезе кроссовера 
+                          и нео-джаза с экспериментальными звуковыми эффектами, создавая сюрреалистическую 
+                          атмосферу абсурдистского мира произведения.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Творческая задача</h4>
+                        <p>
+                          Создать звуковую вселенную, которая бы отражала хаотичность и абсурдность повседневности 
+                          из романа. Музыка должна была стать своеобразным "комиксным" сопровождением, 
+                          с яркими музыкальными "пузырями" диалогов и звуковыми эффектами.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Техническая задача</h4>
+                        <p>
+                          Написание оригинальных композиций в стиле кроссовер/нео-джаз, создание библиотеки 
+                          сюрреалистических звуковых эффектов, микширование и сведение в формате спектакля-комикса 
+                          с использованием пространственного звука.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Ключевые решения</h4>
+                        <ul className="space-y-2 list-none">
+                          <li className="flex items-start gap-2">
+                            <span className="text-cyan-400 font-bold">→</span>
+                            <span>Использование живых инструментов в сочетании с электронной обработкой</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-cyan-400 font-bold">→</span>
+                            <span>Создание "комиксных" звуковых эффектов (бумс, хлопки, свисты)</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-cyan-400 font-bold">→</span>
+                            <span>Многослойная звуковая драматургия с переходами между реальностью и абстракцией</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-cyan-400 font-bold">→</span>
+                            <span>Интеграция музыки с визуальными эффектами</span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Результат</h4>
+                        <p>
+                          Создан уникальный звуковой мир спектакля-комикса, где музыка и эффекты стали 
+                          полноценными персонажами истории. Работа получила признание критиков как 
+                          инновационный подход к театральному звуковому дизайну.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {project.id === "mayakovsky-moscow-estrada" && (
                 <div className="mt-8 projector-glitch">
                   
@@ -556,7 +818,7 @@ export default function ProjectPage() {
               )}
 
               {/* Regular Details for other projects */}
-              {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.details && (
+              {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && project.details && (
                 <div className="glass-effect rounded-xl p-6">
                   <h3 className="text-2xl font-russo font-bold text-white mb-6">Детали проекта</h3>
                   

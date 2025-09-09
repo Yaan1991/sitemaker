@@ -1248,3 +1248,237 @@
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
 }
+
+/* КОМИКСНАЯ СТИЛИСТИКА ДЛЯ ПЕТРОВЫХ В ГРИППЕ */
+
+:root {
+  /* Комиксная палитра: сине-зелено-черная */
+  --comic-dark-blue: #0B1426;
+  --comic-bright-blue: #1E3A8A;
+  --comic-cyan: #06B6D4;
+  --comic-green: #059669;
+  --comic-white: #F8FAFC;
+  --comic-light-gray: #E2E8F0;
+  --comic-accent: #3B82F6;
+}
+
+/* Контейнер для комиксного проекта */
+.comic-container {
+  background: linear-gradient(135deg, var(--comic-dark-blue) 0%, #0F172A 50%, var(--comic-dark-blue) 100%);
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Полутоновый паттерн (Ben-Day dots) */
+.comic-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 25% 25%, var(--comic-bright-blue) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, var(--comic-cyan) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, var(--comic-green) 1.5px, transparent 1.5px);
+  background-size: 30px 30px, 20px 20px, 40px 40px;
+  background-position: 0 0, 10px 10px, 5px 5px;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 1;
+  animation: comic-dots-drift 15s linear infinite;
+}
+
+@keyframes comic-dots-drift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(5px, -3px); }
+  50% { transform: translate(-3px, 2px); }
+  75% { transform: translate(2px, -5px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Заголовок в комиксном стиле */
+.comic-title {
+  font-family: 'Jost', sans-serif;
+  font-weight: 800;
+  background: linear-gradient(45deg, var(--comic-cyan), var(--comic-white), var(--comic-accent));
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(6, 182, 212, 0.3);
+  animation: comic-title-glow 3s ease-in-out infinite alternate;
+  position: relative;
+  z-index: 3;
+  font-size: clamp(2rem, 6vw, 4rem);
+  line-height: 1.1;
+}
+
+@keyframes comic-title-glow {
+  0% { 
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.3));
+  }
+  100% { 
+    background-position: 100% 50%;
+    filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.5));
+  }
+}
+
+/* Комиксная сноска */
+.comic-annotation {
+  background: var(--comic-white);
+  color: var(--comic-dark-blue);
+  padding: 12px 16px;
+  border-radius: 8px;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 2px solid var(--comic-dark-blue);
+  max-width: 280px;
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+/* Рваные края сноски */
+.comic-annotation::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--comic-dark-blue);
+  border-radius: 10px;
+  z-index: -1;
+  clip-path: polygon(
+    0% 5%, 3% 0%, 8% 3%, 12% 0%, 18% 4%, 23% 0%, 28% 3%, 33% 0%, 38% 4%, 
+    43% 0%, 48% 3%, 53% 0%, 58% 4%, 63% 0%, 68% 3%, 73% 0%, 78% 4%, 83% 0%, 
+    88% 3%, 93% 0%, 97% 4%, 100% 8%, 96% 12%, 100% 18%, 95% 23%, 100% 28%, 
+    96% 33%, 100% 38%, 95% 43%, 100% 48%, 96% 53%, 100% 58%, 95% 63%, 100% 68%, 
+    96% 73%, 100% 78%, 95% 83%, 100% 88%, 96% 93%, 100% 97%, 95% 100%, 90% 96%, 
+    85% 100%, 80% 95%, 75% 100%, 70% 96%, 65% 100%, 60% 95%, 55% 100%, 50% 96%, 
+    45% 100%, 40% 95%, 35% 100%, 30% 96%, 25% 100%, 20% 95%, 15% 100%, 10% 96%, 
+    5% 100%, 0% 95%
+  );
+}
+
+/* Хвостик сноски */
+.comic-annotation::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--comic-white);
+  border: 2px solid var(--comic-dark-blue);
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+/* Хвостик снизу */
+.comic-annotation[data-tail="bottom"]::after {
+  bottom: -12px;
+  left: 30px;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
+}
+
+/* Хвостик сверху */
+.comic-annotation[data-tail="top"]::after {
+  top: -12px;
+  left: 30px;
+  clip-path: polygon(0% 100%, 100% 100%, 100% 0%);
+}
+
+/* Хвостик слева */
+.comic-annotation[data-tail="left"]::after {
+  left: -12px;
+  top: 30px;
+  clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
+}
+
+/* Хвостик справа */
+.comic-annotation[data-tail="right"]::after {
+  right: -12px;
+  top: 30px;
+  clip-path: polygon(0% 0%, 0% 100%, 100% 100%);
+}
+
+/* Hover эффект для сносок */
+.comic-annotation:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 8px 25px rgba(6, 182, 212, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-color: var(--comic-cyan);
+}
+
+/* Контейнер изображений в комиксном стиле */
+.comic-image-container {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 3px solid var(--comic-bright-blue);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(6, 182, 212, 0.2);
+}
+
+.comic-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: 
+    contrast(1.2) 
+    saturate(1.1) 
+    sepia(0.1) 
+    hue-rotate(180deg);
+  transition: filter 0.3s ease;
+}
+
+.comic-image:hover {
+  filter: 
+    contrast(1.3) 
+    saturate(1.3) 
+    sepia(0.05) 
+    hue-rotate(185deg);
+}
+
+/* Интерактивная зона для размещения сносок */
+.comic-annotation-zone {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: var(--comic-cyan);
+  border: 3px solid var(--comic-white);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.6);
+  transition: all 0.3s ease;
+  animation: comic-pulse 2s infinite;
+}
+
+@keyframes comic-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.6);
+  }
+  50% { 
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.8);
+  }
+}
+
+.comic-annotation-zone:hover {
+  transform: scale(1.2);
+  background: var(--comic-white);
+  border-color: var(--comic-cyan);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.9);
+}
