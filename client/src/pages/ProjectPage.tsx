@@ -47,28 +47,16 @@ function MayakTitle({ text }: { text: string }) {
 // Canvas анимация параллакс-фона для Петровых
 function initParallaxBackground(canvasId: string) {
   // Проверяем глобальный флаг
-  if ((window as any).isCanvasInitialized) {
-    console.log('Canvas уже инициализирован, пропускаем');
-    return;
-  }
-  
-  console.log('🎨 Инициализация Canvas:', canvasId);
+  if ((window as any).isCanvasInitialized) return;
   
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-  if (!canvas) {
-    console.error('Canvas не найден:', canvasId);
-    return;
-  }
+  if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    console.error('Не удалось получить контекст Canvas');
-    return;
-  }
+  if (!ctx) return;
 
   // Помечаем как инициализированный
   (window as any).isCanvasInitialized = true;
-  console.log('✅ Canvas успешно инициализирован!');
   
   // Убираем тестовый прямоугольник - он больше не нужен
 
@@ -440,20 +428,14 @@ export default function ProjectPage() {
   useEffect(() => {
     if (project?.id !== "petrovy-saratov-drama") return;
 
-    console.log('🎬 Старт Canvas анимации');
-    
     // Сброс флага на случай если он заблокирован
     (window as any).isCanvasInitialized = false;
 
     // Одноразовая инициализация Canvas
     const initCanvas = () => {
       const canvas = document.getElementById('petrovy-bg-canvas');
-      console.log('Canvas найден:', !!canvas);
       if (canvas) {
-        console.log('Запускаем initParallaxBackground');
         initParallaxBackground('petrovy-bg-canvas');
-      } else {
-        console.error('Canvas не найден в DOM!');
       }
     };
 
@@ -532,7 +514,8 @@ export default function ProjectPage() {
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
           zIndex: 10,  // Контент выше Canvas
-          backgroundColor: 'rgba(0,0,0,0.6)' // Темный фон для читаемости
+          backgroundColor: 'rgba(0,0,0,0.85)', // Темный полупрозрачный фон
+          backdropFilter: 'blur(2px)' // Размытие для красоты
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
@@ -1314,6 +1297,12 @@ export default function ProjectPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             className="max-w-4xl mx-auto mt-12 space-y-6"
+            style={project.id === "petrovy-saratov-drama" ? {
+              backgroundColor: 'rgba(0,0,0,0.85)',
+              backdropFilter: 'blur(2px)',
+              borderRadius: '12px',
+              padding: '24px'
+            } : {}}
           >
             {/* Links */}
             {project.links && project.links.length > 0 && (
