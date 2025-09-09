@@ -817,23 +817,33 @@
   width: 100%;
   height: 100%;
   background: 
-    /* Редкие тонкие царапины */
+    /* Заметные царапины */
     repeating-linear-gradient(
       90deg,
       transparent 0px,
-      transparent 80px,
-      rgba(139, 69, 19, 0.1) 80.5px,
-      transparent 81px,
-      transparent 200px
+      transparent 60px,
+      rgba(139, 69, 19, 0.25) 60.5px,
+      rgba(139, 69, 19, 0.15) 61px,
+      transparent 62px,
+      transparent 150px
     ),
-    /* Еще более редкие царапины */
+    /* Диагональные царапины */
     repeating-linear-gradient(
       88deg,
       transparent 0px,
-      transparent 150px,
-      rgba(160, 82, 45, 0.08) 150.5px,
-      transparent 151px,
-      transparent 350px
+      transparent 100px,
+      rgba(160, 82, 45, 0.2) 100.5px,
+      transparent 101px,
+      transparent 250px
+    ),
+    /* Мелкие частые царапины */
+    repeating-linear-gradient(
+      92deg,
+      transparent 0px,
+      transparent 25px,
+      rgba(139, 69, 19, 0.12) 25.2px,
+      transparent 25.5px,
+      transparent 75px
     );
   pointer-events: none;
   z-index: 10;
@@ -849,26 +859,31 @@
   width: 100%;
   height: 100%;
   background-image: 
-    /* Движущееся зерно - слой 1 */
-    radial-gradient(circle at 12% 15%, rgba(139, 69, 19, 0.15) 0.5px, transparent 1px),
-    radial-gradient(circle at 67% 23%, rgba(160, 82, 45, 0.12) 0.5px, transparent 1px),
-    radial-gradient(circle at 89% 34%, rgba(139, 69, 19, 0.1) 0.5px, transparent 1px),
-    radial-gradient(circle at 34% 56%, rgba(160, 82, 45, 0.13) 0.5px, transparent 1px),
-    radial-gradient(circle at 78% 67%, rgba(139, 69, 19, 0.11) 0.5px, transparent 1px),
-    radial-gradient(circle at 45% 78%, rgba(160, 82, 45, 0.14) 0.5px, transparent 1px),
-    radial-gradient(circle at 23% 89%, rgba(139, 69, 19, 0.09) 0.5px, transparent 1px),
-    /* Движущееся зерно - слой 2 */
-    radial-gradient(circle at 56% 12%, rgba(160, 82, 45, 0.08) 0.3px, transparent 0.8px),
-    radial-gradient(circle at 78% 45%, rgba(139, 69, 19, 0.12) 0.3px, transparent 0.8px),
-    radial-gradient(circle at 23% 67%, rgba(160, 82, 45, 0.1) 0.3px, transparent 0.8px),
-    radial-gradient(circle at 89% 78%, rgba(139, 69, 19, 0.07) 0.3px, transparent 0.8px);
+    /* Движущееся зерно - слой 1 (более крупное и яркое) */
+    radial-gradient(circle at 12% 15%, rgba(139, 69, 19, 0.35) 1px, transparent 2px),
+    radial-gradient(circle at 67% 23%, rgba(160, 82, 45, 0.3) 1px, transparent 2px),
+    radial-gradient(circle at 89% 34%, rgba(139, 69, 19, 0.25) 1px, transparent 2px),
+    radial-gradient(circle at 34% 56%, rgba(160, 82, 45, 0.32) 1px, transparent 2px),
+    radial-gradient(circle at 78% 67%, rgba(139, 69, 19, 0.28) 1px, transparent 2px),
+    radial-gradient(circle at 45% 78%, rgba(160, 82, 45, 0.33) 1px, transparent 2px),
+    radial-gradient(circle at 23% 89%, rgba(139, 69, 19, 0.26) 1px, transparent 2px),
+    /* Движущееся зерно - слой 2 (средний размер) */
+    radial-gradient(circle at 56% 12%, rgba(160, 82, 45, 0.22) 0.7px, transparent 1.5px),
+    radial-gradient(circle at 78% 45%, rgba(139, 69, 19, 0.28) 0.7px, transparent 1.5px),
+    radial-gradient(circle at 23% 67%, rgba(160, 82, 45, 0.24) 0.7px, transparent 1.5px),
+    radial-gradient(circle at 89% 78%, rgba(139, 69, 19, 0.2) 0.7px, transparent 1.5px),
+    /* Движущееся зерно - слой 3 (мелкое, но плотное) */
+    radial-gradient(circle at 45% 25%, rgba(139, 69, 19, 0.18) 0.4px, transparent 1px),
+    radial-gradient(circle at 72% 58%, rgba(160, 82, 45, 0.16) 0.4px, transparent 1px),
+    radial-gradient(circle at 18% 82%, rgba(139, 69, 19, 0.14) 0.4px, transparent 1px);
   background-size: 
-    120px 120px, 150px 150px, 110px 110px, 130px 130px,
-    140px 140px, 100px 100px, 160px 160px,
-    90px 90px, 170px 170px, 80px 80px, 180px 180px;
+    80px 80px, 100px 100px, 70px 70px, 90px 90px,
+    110px 110px, 60px 60px, 120px 120px,
+    50px 50px, 130px 130px, 45px 45px, 140px 140px,
+    35px 35px, 40px 40px, 30px 30px;
   pointer-events: none;
   z-index: 11;
-  animation: film-grain-dance 3s linear infinite, film-grain-shift 8s linear infinite;
+  animation: film-grain-dance 2s linear infinite, film-grain-shift 5s linear infinite;
 }
 
 /* Тонкие анимации */
@@ -884,56 +899,71 @@
   100% { transform: translateY(-100vh); opacity: 1; }
 }
 
-/* Анимация танцующего зерна */
+/* Анимация танцующего зерна (более активная) */
 @keyframes film-grain-dance {
   0% { 
     background-position: 
-      0% 0%, 10% 5%, 20% 10%, 30% 15%, 40% 20%, 50% 25%, 60% 30%,
-      70% 35%, 80% 40%, 90% 45%, 100% 50%;
-    opacity: 0.8;
-  }
-  25% { 
-    background-position: 
-      5% 10%, 15% 15%, 25% 20%, 35% 25%, 45% 30%, 55% 35%, 65% 40%,
-      75% 45%, 85% 50%, 95% 55%, 5% 60%;
+      0% 0%, 15% 10%, 30% 20%, 45% 30%, 60% 40%, 75% 50%, 90% 60%,
+      5% 70%, 20% 80%, 35% 90%, 50% 0%, 65% 10%, 80% 20%, 95% 30%;
     opacity: 1;
   }
-  50% { 
+  20% { 
     background-position: 
-      10% 20%, 20% 25%, 30% 30%, 40% 35%, 50% 40%, 60% 45%, 70% 50%,
-      80% 55%, 90% 60%, 0% 65%, 10% 70%;
+      10% 15%, 25% 25%, 40% 35%, 55% 45%, 70% 55%, 85% 65%, 0% 75%,
+      15% 85%, 30% 95%, 45% 5%, 60% 15%, 75% 25%, 90% 35%, 5% 45%;
+    opacity: 1.3;
+  }
+  40% { 
+    background-position: 
+      20% 30%, 35% 40%, 50% 50%, 65% 60%, 80% 70%, 95% 80%, 10% 90%,
+      25% 0%, 40% 10%, 55% 20%, 70% 30%, 85% 40%, 0% 50%, 15% 60%;
     opacity: 0.9;
   }
-  75% { 
+  60% { 
     background-position: 
-      15% 30%, 25% 35%, 35% 40%, 45% 45%, 55% 50%, 65% 55%, 75% 60%,
-      85% 65%, 95% 70%, 5% 75%, 15% 80%;
+      30% 45%, 45% 55%, 60% 65%, 75% 75%, 90% 85%, 5% 95%, 20% 5%,
+      35% 15%, 50% 25%, 65% 35%, 80% 45%, 95% 55%, 10% 65%, 25% 75%;
+    opacity: 1.4;
+  }
+  80% { 
+    background-position: 
+      40% 60%, 55% 70%, 70% 80%, 85% 90%, 0% 0%, 15% 10%, 30% 20%,
+      45% 30%, 60% 40%, 75% 50%, 90% 60%, 5% 70%, 20% 80%, 35% 90%;
     opacity: 1.1;
   }
   100% { 
     background-position: 
-      20% 40%, 30% 45%, 40% 50%, 50% 55%, 60% 60%, 70% 65%, 80% 70%,
-      90% 75%, 0% 80%, 10% 85%, 20% 90%;
-    opacity: 0.8;
+      50% 75%, 65% 85%, 80% 95%, 95% 5%, 10% 15%, 25% 25%, 40% 35%,
+      55% 45%, 70% 55%, 85% 65%, 0% 75%, 15% 85%, 30% 95%, 45% 5%;
+    opacity: 1;
   }
 }
 
-/* Сдвиг всего зерна */
+/* Сдвиг всего зерна (более заметный) */
 @keyframes film-grain-shift {
   0% { 
     transform: translate(0px, 0px) scale(1);
+    filter: contrast(1.1);
   }
-  25% { 
-    transform: translate(-1px, -2px) scale(1.02);
+  20% { 
+    transform: translate(-2px, -3px) scale(1.05);
+    filter: contrast(1.3);
   }
-  50% { 
-    transform: translate(1px, -1px) scale(0.98);
+  40% { 
+    transform: translate(2px, -1px) scale(0.95);
+    filter: contrast(0.9);
   }
-  75% { 
-    transform: translate(-0.5px, 1px) scale(1.01);
+  60% { 
+    transform: translate(-1px, 2px) scale(1.03);
+    filter: contrast(1.2);
+  }
+  80% { 
+    transform: translate(1px, -2px) scale(0.97);
+    filter: contrast(1.1);
   }
   100% { 
     transform: translate(0px, 0px) scale(1);
+    filter: contrast(1.1);
   }
 }
 
