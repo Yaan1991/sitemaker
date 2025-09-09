@@ -1607,39 +1607,81 @@
     url('/images/petrovy1.webp'),
     url('/images/petrovy2.webp'),
     url('/images/petrovy3.webp'),
-    url('/images/petrovy4.webp');
+    url('/images/petrovy4.webp'),
+    url('/images/petrovy5.webp');
   background-size: 
-    100% 100%, 
-    120% auto, 
-    120% auto, 
-    120% auto, 
-    120% auto;
+    cover, 
+    cover, 
+    cover, 
+    cover, 
+    cover, 
+    cover;
   background-position: 
     center center,
-    0% center,
     100% center,
     200% center,
-    300% center;
+    300% center,
+    400% center,
+    500% center;
   background-repeat: no-repeat;
-  animation: petrovy-slide-backgrounds 25s linear infinite;
+  background-attachment: fixed;
+  animation: petrovy-slide-backgrounds 30s linear infinite;
 }
 
 @keyframes petrovy-slide-backgrounds {
   0% {
     background-position: 
       center center,
-      0% center,
+      100% center,
+      200% center,
+      300% center,
+      400% center,
+      500% center;
+  }
+  20% {
+    background-position: 
+      center center,
+      center center,
+      100% center,
+      200% center,
+      300% center,
+      400% center;
+  }
+  40% {
+    background-position: 
+      center center,
+      -100% center,
+      center center,
       100% center,
       200% center,
       300% center;
   }
+  60% {
+    background-position: 
+      center center,
+      -200% center,
+      -100% center,
+      center center,
+      100% center,
+      200% center;
+  }
+  80% {
+    background-position: 
+      center center,
+      -300% center,
+      -200% center,
+      -100% center,
+      center center,
+      100% center;
+  }
   100% {
     background-position: 
       center center,
+      -400% center,
+      -300% center,
+      -200% center,
       -100% center,
-      0% center,
-      100% center,
-      200% center;
+      center center;
   }
 }
 
