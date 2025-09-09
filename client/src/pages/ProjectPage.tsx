@@ -376,8 +376,9 @@ export default function ProjectPage() {
     "/images/idiot5_1756479169274.webp"
   ];
 
-  // Фотографии для спектакля "Петровы в гриппе и вокруг него" (4 фото)
+  // Фотографии для спектакля "Петровы в гриппе и вокруг него" (5 фото)
   const petrovyPhotos = [
+    "/images/petrovy.webp",
     "/images/petrovygal1.webp",
     "/images/petrovygal2.webp", 
     "/images/petrovygal3.webp",
@@ -615,26 +616,6 @@ export default function ProjectPage() {
                 />
               )}
 
-              {/* Главное фото с кнопкой звука для Петровых как в Идиоте */}
-              {project.id === "petrovy-saratov-drama" && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="relative max-w-3xl mx-auto mb-12"
-                  style={{zIndex: 50}}
-                >
-                  <div className="relative overflow-hidden rounded-lg">
-                    <img 
-                      src="/images/petrovy.webp" 
-                      alt="Петровы в гриппе"
-                      className="w-full h-auto"
-                      style={{ filter: 'brightness(0.8) contrast(1.1)' }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                  </div>
-                </motion.div>
-              )}
 
 
               {/* Project Image */}
