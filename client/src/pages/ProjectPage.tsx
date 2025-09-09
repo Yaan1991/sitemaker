@@ -29,10 +29,17 @@ function NeonTitle({ text }: { text: string }) {
 // Компонент заголовка для Маяковского с переливающимся красным цветом
 function MayakTitle({ text }: { text: string }) {
   return (
-    <div className="inline-block">
+    <div className="inline-block text-center">
       <h1 className="text-6xl lg:text-8xl mayak-heading font-bold mb-2" style={{fontFamily: 'Fira Sans, sans-serif'}}>
-        {text}
+        МАЯКОВСКИЙ
       </h1>
+      <h2 className="text-4xl lg:text-6xl font-bold" style={{
+        fontFamily: 'Bad Script, cursive',
+        color: '#8B4513',
+        textShadow: '2px 2px 4px rgba(139, 69, 19, 0.3)'
+      }}>
+        Я сам
+      </h2>
     </div>
   );
 }
@@ -287,7 +294,7 @@ export default function ProjectPage() {
                   transition={{ duration: 0.6 }}
                   className="text-center mb-8"
                 >
-                  <MayakTitle text="МАЯКОВСКИЙ. Я Сам" />
+                  <MayakTitle text="" />
                   <p className="text-xl font-medium mt-4 mb-6" style={{color: '#8B4513'}}>
                     «Артлайф» • 2024
                   </p>
@@ -890,7 +897,11 @@ export default function ProjectPage() {
                       href={link.url}
                       target={link.external ? "_blank" : "_self"}
                       rel={link.external ? "noopener noreferrer" : undefined}
-                      className="inline-flex items-center gap-2 idiot-primary hover:text-pink-400 transition-colors duration-200 px-4 py-2 bg-pink-500/10 rounded-lg border border-pink-500/30"
+                      className={`inline-flex items-center gap-2 transition-colors duration-200 px-4 py-2 rounded-lg border ${
+                        project.id === "mayakovsky-moscow-estrada" 
+                          ? "text-red-600 hover:text-red-400 bg-red-500/10 border-red-500/30" 
+                          : "idiot-primary hover:text-pink-400 bg-pink-500/10 border-pink-500/30"
+                      }`}
                       data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
                     >
                       {link.label}
