@@ -73,6 +73,10 @@ export function TypewriterText({
     }
   }, [isVisible, safeText, speed, delay, hasStarted]);
 
+  // Вычисляем примерную высоту контента заранее
+  const estimatedLines = Math.max(1, Math.ceil(safeText.length / 70));
+  const reservedHeight = `${estimatedLines * 1.6 + 0.5}em`;
+
   return (
     <div
       ref={elementRef}
@@ -81,11 +85,15 @@ export function TypewriterText({
         fontFamily: '"Courier New", "American Typewriter", monospace',
         letterSpacing: '0.5px',
         lineHeight: '1.6',
-        minHeight: `${Math.ceil(safeText.length / 80) * 1.6}em`, // Резервируем пространство заранее
+        minHeight: reservedHeight,
+        height: reservedHeight, // Жесткая фиксация высоты
+        overflow: 'visible',
         ...style
       }}
     >
-      {displayedText}
+      <span style={{ whiteSpace: 'pre-wrap' }}>
+        {displayedText}
+      </span>
     </div>
   );
 }
