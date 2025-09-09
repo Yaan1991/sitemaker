@@ -805,10 +805,10 @@
   position: relative;
   overflow: hidden;
   background-color: #f5f5dc; /* Бежевый фон */
-  animation: projector-shake-rare 12s infinite, projector-strobe 3s infinite;
+  animation: projector-shake-rare 12s infinite, projector-strobe 7s infinite;
 }
 
-/* Слой 1: Тонкие движущиеся царапины */
+/* Полоса 1 - вертикальная */
 .projector-container::before {
   content: '';
   position: fixed;
@@ -817,40 +817,21 @@
   width: 100%;
   height: 100%;
   background: 
-    /* Рандомные полосы - слой 1 */
     repeating-linear-gradient(
       90deg,
       transparent 0px,
-      transparent 60px,
-      rgba(139, 69, 19, 0.25) 60.5px,
-      rgba(139, 69, 19, 0.15) 61px,
-      transparent 62px,
-      transparent 150px
-    ),
-    /* Рандомные полосы - слой 2 */
-    repeating-linear-gradient(
-      45deg,
-      transparent 0px,
       transparent 80px,
-      rgba(160, 82, 45, 0.18) 80.5px,
-      transparent 81px,
+      rgba(139, 69, 19, 0.25) 80.5px,
+      rgba(139, 69, 19, 0.15) 81px,
+      transparent 82px,
       transparent 200px
-    ),
-    /* Рандомные полосы - слой 3 */
-    repeating-linear-gradient(
-      135deg,
-      transparent 0px,
-      transparent 120px,
-      rgba(139, 69, 19, 0.15) 120.5px,
-      transparent 121px,
-      transparent 300px
     );
   pointer-events: none;
   z-index: 10;
-  animation: film-scratches-random 6s linear infinite;
+  animation: scratches-1 8s linear infinite;
 }
 
-/* Слой 2: Живое пленочное зерно */
+/* Полоса 2 - диагональная */
 .projector-container::after {
   content: '';
   position: fixed;
@@ -858,59 +839,72 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    /* Тонкое зерно - слой 1 */
-    radial-gradient(circle at 12% 15%, rgba(139, 69, 19, 0.12) 0.6px, transparent 1.2px),
-    radial-gradient(circle at 67% 23%, rgba(160, 82, 45, 0.1) 0.6px, transparent 1.2px),
-    radial-gradient(circle at 89% 34%, rgba(139, 69, 19, 0.08) 0.6px, transparent 1.2px),
-    radial-gradient(circle at 34% 56%, rgba(160, 82, 45, 0.11) 0.6px, transparent 1.2px),
-    radial-gradient(circle at 78% 67%, rgba(139, 69, 19, 0.09) 0.6px, transparent 1.2px),
-    /* Мелкое зерно - слой 2 */
-    radial-gradient(circle at 56% 12%, rgba(160, 82, 45, 0.07) 0.4px, transparent 0.8px),
-    radial-gradient(circle at 78% 45%, rgba(139, 69, 19, 0.09) 0.4px, transparent 0.8px),
-    radial-gradient(circle at 23% 67%, rgba(160, 82, 45, 0.06) 0.4px, transparent 0.8px),
-    radial-gradient(circle at 89% 78%, rgba(139, 69, 19, 0.08) 0.4px, transparent 0.8px);
-  background-size: 
-    90px 90px, 110px 110px, 80px 80px, 100px 100px, 120px 120px,
-    60px 60px, 140px 140px, 70px 70px, 130px 130px;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 120px,
+      rgba(160, 82, 45, 0.18) 120.5px,
+      transparent 121px,
+      transparent 300px
+    );
   pointer-events: none;
-  z-index: 11;
-  animation: film-grain-chaos 1.5s linear infinite, film-grain-shift 4s linear infinite;
+  z-index: 8;
+  animation: scratches-2 12s linear infinite;
 }
 
-/* Рандомное появление/исчезновение полос */
-@keyframes film-scratches-random {
+/* Независимые анимации полос */
+@keyframes scratches-1 {
   0% { 
-    transform: translateY(0px) rotate(0deg); 
     opacity: 1;
+    transform: translateY(0px);
   }
-  15% { 
-    transform: translateY(-5px) rotate(2deg); 
+  20% { 
     opacity: 0;
+    transform: translateY(-3px);
   }
-  30% { 
-    transform: translateY(-10px) rotate(-1deg); 
+  40% { 
     opacity: 0.8;
-  }
-  45% { 
-    transform: translateY(-8px) rotate(3deg); 
-    opacity: 0;
+    transform: translateY(-6px);
   }
   60% { 
-    transform: translateY(-12px) rotate(0deg); 
-    opacity: 1;
-  }
-  75% { 
-    transform: translateY(-15px) rotate(-2deg); 
-    opacity: 0.3;
-  }
-  90% { 
-    transform: translateY(-18px) rotate(1deg); 
     opacity: 0;
+    transform: translateY(-10px);
+  }
+  80% { 
+    opacity: 1;
+    transform: translateY(-12px);
   }
   100% { 
-    transform: translateY(-20px) rotate(0deg); 
-    opacity: 0.9;
+    opacity: 1;
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes scratches-2 {
+  0% { 
+    opacity: 0;
+    transform: translateX(0px) rotate(0deg);
+  }
+  30% { 
+    opacity: 0.7;
+    transform: translateX(-2px) rotate(1deg);
+  }
+  50% { 
+    opacity: 0;
+    transform: translateX(-4px) rotate(-1deg);
+  }
+  70% { 
+    opacity: 1;
+    transform: translateX(-6px) rotate(0deg);
+  }
+  90% { 
+    opacity: 0.3;
+    transform: translateX(-8px) rotate(0.5deg);
+  }
+  100% { 
+    opacity: 0;
+    transform: translateX(-10px) rotate(0deg);
   }
 }
 
@@ -1001,25 +995,22 @@
   100% { transform: translate(0px, 0px); }
 }
 
-/* Быстрый строб затемнения */
+/* Редкий строб затемнения */
 @keyframes projector-strobe {
-  0%, 92% { 
+  0%, 85% { 
     filter: brightness(1); 
   }
-  94% { 
+  87% { 
     filter: brightness(0.8); 
   }
-  96% { 
+  89% { 
     filter: brightness(1); 
   }
-  97% { 
-    filter: brightness(0.6); 
+  91% { 
+    filter: brightness(0.7); 
   }
-  98% { 
+  93% { 
     filter: brightness(1); 
-  }
-  99% { 
-    filter: brightness(0.9); 
   }
   100% { 
     filter: brightness(1); 
