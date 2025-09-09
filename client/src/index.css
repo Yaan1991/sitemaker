@@ -1604,42 +1604,48 @@
   overflow: hidden;
   background: 
     linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url('/images/petrovy1.webp');
-  background-size: cover;
-  background-position: center;
+    url('/images/petrovy1.webp'),
+    url('/images/petrovy2.webp'),
+    url('/images/petrovy3.webp'),
+    url('/images/petrovy4.webp');
+  background-size: 
+    100% 100%, 
+    120% auto, 
+    120% auto, 
+    120% auto, 
+    120% auto;
+  background-position: 
+    center center,
+    0% center,
+    100% center,
+    200% center,
+    300% center;
+  background-repeat: no-repeat;
+  animation: petrovy-slide-backgrounds 25s linear infinite;
 }
 
-.petrovy-animated-bg::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 100%;
-  background: 
-    url('/images/petrovy2.webp') 0% 0% / 50% auto no-repeat,
-    url('/images/petrovy3.webp') 50% 0% / 50% auto no-repeat,
-    url('/images/petrovy4.webp') 100% 0% / 50% auto no-repeat,
-    url('/images/petrovy5.webp') 150% 0% / 50% auto no-repeat;
-  background-position: 0% center, 50% center, 100% center, 150% center;
-  animation: petrovy-slide 15s linear infinite;
-  z-index: -1;
-  opacity: 0.3;
-}
-
-@keyframes petrovy-slide {
+@keyframes petrovy-slide-backgrounds {
   0% {
-    transform: translateX(0);
+    background-position: 
+      center center,
+      0% center,
+      100% center,
+      200% center,
+      300% center;
   }
   100% {
-    transform: translateX(-50%);
+    background-position: 
+      center center,
+      -100% center,
+      0% center,
+      100% center,
+      200% center;
   }
 }
 
 @media (max-width: 768px) {
-  .petrovy-animated-bg::before {
+  .petrovy-animated-bg {
     animation-duration: 20s;
-    filter: contrast(1.2) saturate(1.3) brightness(1.1);
   }
 }
 
