@@ -599,7 +599,7 @@ export default function ProjectPage() {
                   style={{
                     top: '0px', // Начинается от самого верха
                     height: '100vh', // На всю высоту страницы
-                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    backgroundColor: 'rgba(0,0,0,0.375)',
                     backdropFilter: 'blur(2px)',
                     zIndex: 5, // Полупрозрачный слой
                     pointerEvents: 'none'
