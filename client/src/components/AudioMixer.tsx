@@ -17,7 +17,7 @@ export function AudioMixer() {
   if (!isMixerOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-60 bg-black/80 backdrop-blur-sm flex items-center justify-center">
+    <div className="fixed inset-0 z-200 bg-black/80 backdrop-blur-sm flex items-center justify-center">
       {/* Overlay для закрытия */}
       <div 
         className="absolute inset-0" 
