@@ -375,6 +375,14 @@ export default function ProjectPage() {
     "/images/idiot4_1756479054514.webp",
     "/images/idiot5_1756479169274.webp"
   ];
+
+  // Фотографии для спектакля "Петровы в гриппе и вокруг него" (4 фото)
+  const petrovyPhotos = [
+    "/images/petrovygal1.webp",
+    "/images/petrovygal2.webp", 
+    "/images/petrovygal3.webp",
+    "/images/petrovygal4.webp"
+  ];
   
   const project = projects.find(p => p.id === projectId);
 
@@ -551,7 +559,7 @@ export default function ProjectPage() {
                 >
                   <NeonTitle text="ИДИОТ" />
                   <p className="text-xl font-medium text-gray-300 mt-4 mb-6">
-                    Театр им. Слонова • 2024
+                    Театр драмы им. Слонова • 2024
                   </p>
                 </motion.div>
               )}
@@ -654,8 +662,11 @@ export default function ProjectPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 to-transparent rounded-lg" />
                   </div>)
                 ) : project.id === "petrovy-saratov-drama" ? (
-                  /* Убираем отдельную галерею для Петровых, будем использовать изображения как фон разделов */
-                  (<></>)
+                  /* Галерея фотографий для Петровых */
+                  <div className="relative" style={{zIndex: 50}}>
+                    <PhotoCarousel photos={petrovyPhotos} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent rounded-lg" />
+                  </div>
                 ) : (
                   /* Обычное фото для других проектов */
                   (<>
