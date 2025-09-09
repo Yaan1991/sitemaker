@@ -687,10 +687,10 @@ export default function ProjectPage() {
                   </>
                 )}
                 
-                <p className={`text-xl leading-relaxed ${
+                <p className={`text-xl leading-relaxed relative ${
                   project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" :
                   project.id === "petrovy-saratov-drama" ? "text-gray-300" : "text-gray-300"
-                }`}>
+                }`} style={project.id === "petrovy-saratov-drama" ? {zIndex: 60} : {}}>
                   {project.fullDescription}
                 </p>
               </motion.div>
