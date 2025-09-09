@@ -160,7 +160,7 @@ function initParallaxBackground(canvasId: string) {
     draw() {
       if (!this.isLoaded || !ctx) return;
       
-      ctx.globalAlpha = 0.4; // Тонкий фоновый эффект
+      ctx.globalAlpha = 0.8; // Более яркий эффект для видимости
       
       this.positions.forEach(pos => {
         if (pos.x + pos.width > 0 && pos.x < canvas.width) {
@@ -501,32 +501,18 @@ export default function ProjectPage() {
       
       {/* Canvas фон для Петровых */}
       {project.id === "petrovy-saratov-drama" && (
-        <div>
-          <div style={{
+        <canvas
+          id="petrovy-bg-canvas"
+          style={{
             position: 'fixed',
-            top: '10px',
-            right: '10px',
-            background: 'red',
-            color: 'white',
-            padding: '5px',
-            zIndex: 9999,
-            fontSize: '12px'
-          }}>
-            ТЕСТ: Canvas должен быть виден
-          </div>
-          <canvas
-            id="petrovy-bg-canvas"
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '100vh',
-              zIndex: -1, // Назад за все
-              pointerEvents: 'none'
-            }}
-          />
-        </div>
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            zIndex: 5, // Выше фона, но ниже контента
+            pointerEvents: 'none'
+          }}
+        />
       )}
       
       <div 
@@ -537,8 +523,8 @@ export default function ProjectPage() {
         }`}
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
-          zIndex: 1,  // Контент впереди фона
-          backgroundColor: 'transparent' // УБИРАЕМ черный фон!
+          zIndex: 10,  // Контент выше Canvas
+          backgroundColor: 'rgba(0,0,0,0.6)' // Темный фон для читаемости
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
