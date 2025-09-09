@@ -499,7 +499,7 @@ export default function ProjectPage() {
             left: 0,
             width: '100vw',
             height: '100vh',
-            zIndex: 5, // Выше фона, но ниже контента
+            zIndex: -2, // НАМНОГО ниже всего контента
             pointerEvents: 'none'
           }}
         />
@@ -513,7 +513,7 @@ export default function ProjectPage() {
         }`}
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
-          zIndex: 10,  // Контент выше Canvas
+          zIndex: 1,  // Основной контент впереди Canvas
           backgroundColor: 'rgba(0,0,0,0.85)', // Темный полупрозрачный фон
           backdropFilter: 'blur(2px)' // Размытие для красоты
         } : {}}
@@ -1298,6 +1298,8 @@ export default function ProjectPage() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="max-w-4xl mx-auto mt-12 space-y-6"
             style={project.id === "petrovy-saratov-drama" ? {
+              position: 'relative',
+              zIndex: 2, // Подвал еще выше
               backgroundColor: 'rgba(0,0,0,0.85)',
               backdropFilter: 'blur(2px)',
               borderRadius: '12px',
