@@ -1272,10 +1272,14 @@
 
 /* Контейнер для комиксного проекта */
 .comic-container {
-  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+/* Черный фон только для других проектов, НЕ для Петровых */
+.comic-container:not(.petrovy-animated-bg) {
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
 }
 
 /* Полутоновый паттерн убран по просьбе пользователя */

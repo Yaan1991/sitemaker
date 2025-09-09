@@ -538,7 +538,7 @@ export default function ProjectPage() {
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
           zIndex: 1,  // Контент впереди фона
-          backgroundColor: 'rgba(0,0,0,0.3)' // Легкий фон
+          backgroundColor: 'transparent' // УБИРАЕМ черный фон!
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
