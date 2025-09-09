@@ -52,10 +52,11 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
             >
               {/* Category Header */}
               <div className="text-center">
-                <h3 className="text-3xl md:text-4xl font-russo font-bold text-white mb-2">
+                <h3 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-wider uppercase" 
+                    style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif', letterSpacing: '0.2em' }}>
                   {category.title}
                 </h3>
-                <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+                <div className="w-32 h-1 bg-primary mx-auto rounded-full"></div>
               </div>
 
               {/* Projects List */}
