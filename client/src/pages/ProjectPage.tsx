@@ -51,9 +51,80 @@ function ComicTitle({ title }: { title: string }) {
       <h1 className="comic-title mb-4">
         ПЕТРОВЫ В ГРИППЕ И ВОКРУГ НЕГО
       </h1>
-      <p className="text-xl text-cyan-300 font-semibold">
+      <p className="text-xl font-bold" style={{
+        fontFamily: 'Playpen Sans, cursive',
+        color: 'var(--petrovy-green)',
+        textShadow: '2px 2px 0 var(--petrovy-black)'
+      }}>
         Звуковой комикс • Саратовский театр драмы • 2025
       </p>
+    </div>
+  );
+}
+
+// Компонент полноэкранной страницы комикса
+function ComicPage({ 
+  children, 
+  backgroundImage,
+  className = ""
+}: { 
+  children: React.ReactNode;
+  backgroundImage: string;
+  className?: string;
+}) {
+  return (
+    <div 
+      className={`comic-page ${className}`}
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <div className="comic-page-content">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// Компонент комиксного пузыря
+function ComicBubble({ 
+  children, 
+  className = "" 
+}: { 
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`comic-bubble ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+// Компонент комиксного эквалайзера
+function ComicEqualizer({ isPlaying }: { isPlaying: boolean }) {
+  const [bars, setBars] = useState<number[]>(Array(10).fill(0));
+
+  useEffect(() => {
+    if (!isPlaying) {
+      setBars(Array(10).fill(0));
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setBars(bars => bars.map(() => Math.random() * 100));
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  return (
+    <div className="comic-equalizer">
+      {bars.map((height, index) => (
+        <div
+          key={index}
+          className="comic-eq-bar"
+          style={{ height: `${height}%` }}
+        />
+      ))}
     </div>
   );
 }
@@ -628,92 +699,98 @@ export default function ProjectPage() {
               )}
 
               {/* Case Study for Mayakovsky */}
-              {/* Специальная секция для комиксного проекта "Петровы в гриппе" */}
-              {project.id === "petrovy-saratov-drama" && (
-                <div className="mt-8 space-y-8">
+              {/* Полноэкранные комиксные страницы для "Петровы в гриппе" */}
+              {project.id === "petrovy-saratov-drama" && project.comicImages && (
+                <div className="space-y-0">
                   
-                  {/* Постановочная команда и роль в проекте в стиле комикса */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
-                    <div className="comic-annotation bg-white/10 backdrop-blur-sm border border-cyan-400/30 rounded-lg p-4">
-                      <h4 className="text-cyan-300 font-semibold mb-3 text-lg">Постановочная команда</h4>
-                      <div className="text-cyan-100 space-y-1">
-                        <p>Режиссёр: {project.details?.director || "Семён Шомин"}</p>
-                        <p>Художник-постановщик: [имя]</p>
-                        <p>Звукорежиссёр: [имя]</p>
+                  {/* Страница 1: Обложка */}
+                  <ComicPage backgroundImage={project.comicImages.cover}>
+                    <ComicTitle title={project.title} />
+                    <ComicBubble className="text-center">
+                      <p className="text-lg mb-4">
+                        Постановка по роману Алексея Сальникова — одному из самых «несценичных» текстов современной литературы
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <h4 className="comic-section-title text-lg mb-2">Постановочная команда</h4>
+                          <p>Режиссёр: {project.details?.director}</p>
+                          <p>Художник: Ольга Кузнецова</p>
+                          <p>Свет: Максим Бирюков</p>
+                        </div>
+                        <div>
+                          <h4 className="comic-section-title text-lg mb-2">Роль в проекте</h4>
+                          {project.role.map((role, index) => (
+                            <p key={index}>{role}</p>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    <div className="comic-annotation bg-white/10 backdrop-blur-sm border border-cyan-400/30 rounded-lg p-4">
-                      <h4 className="text-cyan-300 font-semibold mb-3 text-lg">Роль в проекте</h4>
-                      <div className="text-cyan-100 space-y-1">
-                        {project.role.map((role, index) => (
-                          <p key={index} className="font-medium">{role}</p>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 backdrop-blur-sm rounded-xl p-6 border border-cyan-400/20">
+                    </ComicBubble>
+                  </ComicPage>
 
-                    <div className="space-y-6 text-cyan-100 leading-relaxed">
-                      <div>
-                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Концепция звукового комикса</h4>
-                        <p>
-                          По роману Алексея Сальникова. Музыкальное решение построено на синтезе кроссовера 
-                          и нео-джаза с экспериментальными звуковыми эффектами, создавая сюрреалистическую 
-                          атмосферу абсурдистского мира произведения.
-                        </p>
-                      </div>
+                  {/* Страница 2: Концепция */}
+                  <ComicPage backgroundImage={project.comicImages.boy}>
+                    <ComicBubble>
+                      <h2 className="comic-section-title">Концепция</h2>
+                      <p className="mb-4">
+                        Театр как комикс, где пространство одновременно рассказывает историю Петровых 
+                        и размышляет о театре как о пространстве бреда. Постановка балансирует между 
+                        бытовым реализмом и абсурдом.
+                      </p>
+                      <p>
+                        Спектакль решён как комикс и театр о самом себе: действие начинается в закулисье 
+                        с режиссёром-панк-ведьмой и уборщицей со шваброй-знаменем.
+                      </p>
+                    </ComicBubble>
+                  </ComicPage>
 
-                      <div>
-                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Творческая задача</h4>
-                        <p>
-                          Создать звуковую вселенную, которая бы отражала хаотичность и абсурдность повседневности 
-                          из романа. Музыка должна была стать своеобразным "комиксным" сопровождением, 
-                          с яркими музыкальными "пузырями" диалогов и звуковыми эффектами.
-                        </p>
+                  {/* Страница 3: Творческая задача */}
+                  <ComicPage backgroundImage={project.comicImages.tram}>
+                    <ComicBubble>
+                      <h2 className="comic-section-title">Творческая задача</h2>
+                      <p className="mb-4">
+                        Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный 
+                        драматургический пласт, который поможет удержать зрителя в лабиринте абсурдного повествования.
+                      </p>
+                      <div className="space-y-2">
+                        <p><strong style={{color: 'var(--petrovy-green)'}}>Жанровая мозаика:</strong> музыка следует логике спектакля, переключаясь от сентиментального неоклассицизма до тревожных эмбиентов и мультяшной гротескности</p>
+                        <p><strong style={{color: 'var(--petrovy-green)'}}>Лейтмотивная система:</strong> для персонажей и сцен</p>
+                        <p><strong style={{color: 'var(--petrovy-green)'}}>Атмосферные эмбиенты:</strong> и дроун-текстуры</p>
                       </div>
+                    </ComicBubble>
+                  </ComicPage>
 
-                      <div>
-                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Техническая задача</h4>
-                        <p>
-                          Написание оригинальных композиций в стиле кроссовер/нео-джаз, создание библиотеки 
-                          сюрреалистических звуковых эффектов, микширование и сведение в формате спектакля-комикса 
-                          с использованием пространственного звука.
-                        </p>
-                      </div>
+                  {/* Страница 4: ИИ-эксперименты */}
+                  <ComicPage backgroundImage={project.comicImages.phone}>
+                    <ComicBubble>
+                      <h2 className="comic-section-title">ИИ-эксперименты</h2>
+                      <p className="mb-4">
+                        <strong style={{color: 'var(--petrovy-green)'}}>Ироничные ИИ-эксперименты:</strong> оперная обработка песни «Ноль» подчеркнула комиксную природу постановки.
+                      </p>
+                      <p className="mb-4">
+                        <strong style={{color: 'var(--petrovy-green)'}}>Равноправная драматургия:</strong> звук не иллюстрирует, а соучаствует в создании смыслов наравне с актёрской игрой и сценографией.
+                      </p>
+                      <p>
+                        Техническая реализация: QLab автоматизация через MIDI и OSC-протоколы для управления всеми звуковыми элементами спектакля.
+                      </p>
+                    </ComicBubble>
+                  </ComicPage>
 
-                      <div>
-                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Ключевые решения</h4>
-                        <ul className="space-y-2 list-none">
-                          <li className="flex items-start gap-2">
-                            <span className="text-cyan-400 font-bold">→</span>
-                            <span>Использование живых инструментов в сочетании с электронной обработкой</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-cyan-400 font-bold">→</span>
-                            <span>Создание "комиксных" звуковых эффектов (бумс, хлопки, свисты)</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-cyan-400 font-bold">→</span>
-                            <span>Многослойная звуковая драматургия с переходами между реальностью и абстракцией</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-cyan-400 font-bold">→</span>
-                            <span>Интеграция музыки с визуальными эффектами</span>
-                          </li>
-                        </ul>
-                      </div>
+                  {/* Страница 5: Результат */}
+                  <ComicPage backgroundImage={project.comicImages.phone2}>
+                    <ComicBubble>
+                      <h2 className="comic-section-title">Результат</h2>
+                      <p className="mb-4">
+                        <strong style={{color: 'var(--petrovy-green)', fontSize: '1.2em'}}>Гипернасыщенный спектакль,</strong> где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.
+                      </p>
+                      <p className="mb-4">
+                        Зрительские реакции кардинально разные — от недоумения до восторга, но равнодушных нет.
+                      </p>
+                      <p style={{color: 'var(--petrovy-green)', fontWeight: 'bold'}}>
+                        Мой вклад: создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, техническая реализация сложной звуковой архитектуры спектакля.
+                      </p>
+                    </ComicBubble>
+                  </ComicPage>
 
-                      <div>
-                        <h4 className="text-xl font-semibold text-cyan-300 mb-3">Результат</h4>
-                        <p>
-                          Создан уникальный звуковой мир спектакля-комикса, где музыка и эффекты стали 
-                          полноценными персонажами истории. Работа получила признание критиков как 
-                          инновационный подход к театральному звуковому дизайну.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               )}
 
@@ -998,6 +1075,73 @@ export default function ProjectPage() {
                       title="Следующий трек"
                     >
                       <SkipForward className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Music Section for Comic Project "Petrovy" */}
+          {project.id === "petrovy-saratov-drama" && project.tracks && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="max-w-4xl mx-auto mt-12 mb-8"
+            >
+              <div className="comic-player">
+                <h3 className="text-2xl font-bold mb-6 text-center comic-section-title">
+                  Музыка из спектакля
+                </h3>
+                
+                <div className="space-y-4">
+                  {/* Список треков */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    {project.tracks.map((track, index) => (
+                      <div key={track.id} className="text-center">
+                        <button 
+                          type="button"
+                          className="comic-player-button w-full mb-2"
+                          title={`Воспроизвести: ${track.title}`}
+                          data-testid={`button-track-${index}`}
+                        >
+                          {track.title}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Комиксный плеер */}
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <button 
+                        type="button"
+                        className="comic-player-button"
+                        title="Воспроизвести/Пауза"
+                      >
+                        <Play className="w-5 h-5" />
+                      </button>
+                      <button 
+                        type="button"
+                        className="comic-player-button"
+                        title="Стоп"
+                      >
+                        <Square className="w-4 h-4" />
+                      </button>
+                    </div>
+                    
+                    <div className="flex-1 text-center">
+                      <div className="text-sm font-bold mb-2">00:00 / 00:00</div>
+                      <ComicEqualizer isPlaying={false} />
+                    </div>
+                    
+                    <button 
+                      type="button"
+                      className="comic-player-button text-xs"
+                      title="Настройки звука"
+                    >
+                      PWR
                     </button>
                   </div>
                 </div>

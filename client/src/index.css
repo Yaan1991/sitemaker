@@ -1,4 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Oswald:wght@300;400;500;600;700&family=Bad+Script&family=Jost:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Oswald:wght@300;400;500;600;700&family=Bad+Script&family=Jost:wght@300;400;500;600;700&family=Playpen+Sans:wght@400;500;600;700&display=swap');
+
+/* RedOctober шрифт для комиксных заголовков */
+@font-face {
+  font-family: 'RedOctober';
+  src: url('/fonts/redoctober.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -1481,4 +1489,235 @@
   background: var(--comic-white);
   border-color: var(--comic-cyan);
   box-shadow: 0 6px 20px rgba(6, 182, 212, 0.9);
+}
+
+/* =================== ПЕТРОВЫ В ГРИППЕ: КОМИКСНАЯ СТИЛИСТИКА =================== */
+
+/* Цветовая палитра для комикса "Петровы в гриппе" */
+:root {
+  --petrovy-black: #000000;
+  --petrovy-yellow: #FFD700;
+  --petrovy-yellow-bright: #FFF200;
+  --petrovy-green: #00FF00;
+  --petrovy-green-dark: #32CD32;
+  --petrovy-white: #FFFFFF;
+}
+
+/* Контейнер комикса */
+.comic-container {
+  background: var(--petrovy-black);
+  min-height: 100vh;
+  position: relative;
+  font-family: 'Playpen Sans', cursive;
+  color: var(--petrovy-yellow);
+}
+
+/* Основной заголовок комикса */
+.comic-title {
+  font-family: 'RedOctober', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: bold;
+  color: var(--petrovy-yellow);
+  text-shadow: 
+    3px 3px 0 var(--petrovy-black),
+    6px 6px 0 var(--petrovy-green),
+    9px 9px 20px rgba(255, 215, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 0.9;
+  text-align: center;
+}
+
+/* Полноэкранные секции комикса */
+.comic-page {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Фильтр для фоновых изображений */
+.comic-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  z-index: 1;
+}
+
+/* Контент на странице комикса */
+.comic-page-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 2rem;
+}
+
+/* Комиксные пузыри для текста */
+.comic-bubble {
+  background: var(--petrovy-black);
+  border: 4px solid var(--petrovy-yellow);
+  border-radius: 20px;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 
+    0 8px 32px rgba(255, 215, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1);
+  color: var(--petrovy-yellow);
+  font-family: 'Playpen Sans', cursive;
+  line-height: 1.6;
+  margin: 2rem 0;
+  
+  /* Эффект полутонов */
+  background-image: 
+    radial-gradient(circle at 25% 25%, var(--petrovy-green) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, var(--petrovy-yellow) 0.5px, transparent 0.5px);
+  background-size: 20px 20px, 15px 15px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Хвостик для комиксного пузыря */
+.comic-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50px;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid var(--petrovy-yellow);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Комиксные заголовки секций */
+.comic-section-title {
+  font-family: 'RedOctober', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  color: var(--petrovy-green);
+  text-shadow: 
+    2px 2px 0 var(--petrovy-black),
+    4px 4px 0 var(--petrovy-yellow),
+    6px 6px 15px rgba(0, 255, 0, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+/* Зеленый плеер для комикса */
+.comic-player {
+  background: linear-gradient(135deg, var(--petrovy-green) 0%, var(--petrovy-green-dark) 100%);
+  border: 3px solid var(--petrovy-yellow);
+  border-radius: 15px;
+  padding: 1.5rem;
+  color: var(--petrovy-black);
+  font-family: 'Playpen Sans', cursive;
+  box-shadow: 
+    0 8px 32px rgba(0, 255, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+.comic-player-button {
+  background: var(--petrovy-yellow);
+  border: 2px solid var(--petrovy-black);
+  color: var(--petrovy-black);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.comic-player-button:hover {
+  background: var(--petrovy-yellow-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 215, 0, 0.4);
+}
+
+.comic-player-button.active {
+  background: var(--petrovy-black);
+  color: var(--petrovy-yellow);
+  border-color: var(--petrovy-yellow);
+}
+
+/* Эквалайзер в комиксном стиле */
+.comic-equalizer {
+  display: flex;
+  align-items: end;
+  gap: 3px;
+  height: 40px;
+}
+
+.comic-eq-bar {
+  width: 6px;
+  background: linear-gradient(to top, var(--petrovy-yellow) 0%, var(--petrovy-green) 100%);
+  border-radius: 3px;
+  transition: height 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Анимация появления комиксных элементов */
+@keyframes comic-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.comic-bubble,
+.comic-section-title {
+  animation: comic-appear 0.6s ease-out;
+}
+
+/* Эффект комиксных лучей */
+.comic-rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background: 
+    radial-gradient(
+      ellipse at center,
+      transparent 30%,
+      var(--petrovy-yellow) 30.5%,
+      var(--petrovy-yellow) 31%,
+      transparent 31.5%
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      var(--petrovy-green) 40.5%,
+      var(--petrovy-green) 41%,
+      transparent 41.5%
+    );
+  transform: translate(-50%, -50%);
+  animation: comic-rotate 10s linear infinite;
+  pointer-events: none;
+  opacity: 0.1;
+}
+
+@keyframes comic-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
