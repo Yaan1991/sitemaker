@@ -126,6 +126,8 @@ function initParallaxBackground(canvasId: string) {
       this.positions = [];
       let currentX = 0;
       
+      console.log(`📐 Размеры Canvas: ${canvas.width}x${canvas.height}`);
+      
       for (let i = 0; i < this.images.length; i++) {
         const img = this.images[i];
         const scale = canvas.height / img.height;
@@ -137,8 +139,11 @@ function initParallaxBackground(canvasId: string) {
           imageIndex: i
         });
         
+        console.log(`📷 Изображение ${i + 1}: x=${currentX}, width=${width}, scale=${scale}`);
         currentX += width;
       }
+      
+      console.log(`📏 Общая ширина ленты: ${currentX}, позиций: ${this.positions.length}`);
     }
 
     update() {
@@ -164,19 +169,39 @@ function initParallaxBackground(canvasId: string) {
     draw() {
       if (!this.isLoaded) return;
       
-      ctx.globalAlpha = 0.7;
+      ctx.globalAlpha = 1.0; // Сначала сделаем непрозрачными для отладки
       
-      this.positions.forEach(pos => {
+      let drawnCount = 0;
+      this.positions.forEach((pos, index) => {
         if (pos.x + pos.width > 0 && pos.x < canvas.width) {
           const img = this.images[pos.imageIndex];
           const scale = canvas.height / img.height;
           const height = canvas.height;
           
           ctx.drawImage(img, pos.x, 0, pos.width, height);
+          drawnCount++;
+          
+          // Отладка для первого кадра
+          if (index === 0) {
+            console.log(`🖼️ Рисуем изображение:`, {
+              x: pos.x,
+              y: 0,
+              width: pos.width,
+              height: height,
+              canvasWidth: canvas.width,
+              canvasHeight: canvas.height,
+              imgWidth: img.width,
+              imgHeight: img.height,
+              scale: scale
+            });
+          }
         }
       });
       
-      ctx.globalAlpha = 1.0;
+      // Отладим сколько изображений рисуется
+      if (drawnCount === 0) {
+        console.log('⚠️ Ни одно изображение не рисуется! Позиции:', this.positions.map(p => ({x: p.x, width: p.width})));
+      }
     }
   }
 
