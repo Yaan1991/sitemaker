@@ -1220,6 +1220,21 @@
   color: #DC143C; /* Ярко-красный */
 }
 
+/* Адаптивный размер заголовка для всех экранов */
+.adaptive-title {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 1024px) {
+  .adaptive-title {
+    font-size: clamp(4rem, 8vw, 8rem);
+  }
+}
+
 .mayak-heading {
   background: linear-gradient(45deg, #DC143C, #B22222, #8B0000);
   background-size: 200% 200%;
