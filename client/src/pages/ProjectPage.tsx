@@ -44,23 +44,13 @@ function MayakTitle({ text }: { text: string }) {
   );
 }
 
-// Рабочая Canvas анимация из parallax-script.js
+// Canvas анимация параллакс-фона для Петровых
 function initParallaxBackground(canvasId: string) {
-  console.log('🎬 Инициализация параллакс фона для Canvas:', canvasId);
-  
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-  if (!canvas) {
-    console.error('❌ Canvas не найден:', canvasId);
-    return;
-  }
+  if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    console.error('❌ Не удалось получить контекст Canvas');
-    return;
-  }
-  
-  console.log('✅ Canvas найден и готов!');
+  if (!ctx) return;
 
   // Настройки из рабочего скрипта
   const imageUrls = [
@@ -95,30 +85,21 @@ function initParallaxBackground(canvasId: string) {
     }
 
     async loadImages() {
-      console.log('Начинаем загрузку изображений:', imageUrls);
-      
       try {
         this.images = await Promise.all(
-          imageUrls.map((url, index) => {
+          imageUrls.map(url => {
             return new Promise<HTMLImageElement>((resolve, reject) => {
               const img = new Image();
-              img.onload = () => {
-                console.log(`✅ Загружено изображение ${index + 1}/7:`, url);
-                resolve(img);
-              };
-              img.onerror = (e) => {
-                console.error(`❌ Ошибка загрузки изображения ${index + 1}/7:`, url, e);
-                reject(e);
-              };
+              img.onload = () => resolve(img);
+              img.onerror = reject;
               img.src = url;
             });
           })
         );
         this.setupPositions();
         this.isLoaded = true;
-        console.log('🎉 Все изображения загружены! Запускаем анимацию...');
       } catch (error) {
-        console.error('💥 Критическая ошибка загрузки изображений:', error);
+        console.error('Ошибка загрузки изображений фона:', error);
       }
     }
 
@@ -126,8 +107,6 @@ function initParallaxBackground(canvasId: string) {
       this.positions = [];
       // Начинаем справа от экрана
       let currentX = canvas.width;
-      
-      console.log(`📐 Размеры Canvas: ${canvas.width}x${canvas.height}`);
       
       for (let i = 0; i < this.images.length; i++) {
         const img = this.images[i];
@@ -140,11 +119,8 @@ function initParallaxBackground(canvasId: string) {
           imageIndex: i
         });
         
-        console.log(`📷 Изображение ${i + 1}: x=${currentX}, width=${width}, scale=${scale}`);
         currentX += width;
       }
-      
-      console.log(`📏 Общая ширина ленты: ${currentX}, позиций: ${this.positions.length}`);
     }
 
     update() {
@@ -170,7 +146,7 @@ function initParallaxBackground(canvasId: string) {
     draw() {
       if (!this.isLoaded || !ctx) return;
       
-      ctx.globalAlpha = 0.8; // Полупрозрачность для фона
+      ctx.globalAlpha = 0.6; // Тонкий фоновый эффект
       
       this.positions.forEach(pos => {
         if (pos.x + pos.width > 0 && pos.x < canvas.width) {
@@ -187,17 +163,6 @@ function initParallaxBackground(canvasId: string) {
   }
 
   const imageStrip = new ImageStrip();
-  
-  // ТЕСТ: Рисуем яркие квадраты для проверки видимости
-  if (ctx) {
-    ctx.fillStyle = '#ff0000'; // красный
-    ctx.fillRect(50, 50, 200, 200);
-    ctx.fillStyle = '#00ff00'; // зеленый  
-    ctx.fillRect(300, 50, 200, 200);
-    ctx.fillStyle = '#0000ff'; // синий
-    ctx.fillRect(550, 50, 200, 200);
-    console.log('🎨 Нарисованы тестовые квадраты на Canvas');
-  }
 
   function animate() {
     if (!ctx) return;
@@ -513,10 +478,8 @@ export default function ProjectPage() {
             left: 0,
             width: '100vw',
             height: '100vh',
-            zIndex: 1000,  // ВРЕМЕННО высокий z-index для отладки
-            pointerEvents: 'none',
-            background: 'red', // ВРЕМЕННО красный фон для видимости
-            border: '5px solid blue' // ВРЕМЕННО синяя рамка
+            zIndex: -1,
+            pointerEvents: 'none'
           }}
         />
       )}
