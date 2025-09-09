@@ -513,7 +513,7 @@ export default function ProjectPage() {
         }`}
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
-          zIndex: 1  // Основной контент впереди Canvas
+          zIndex: 10  // Основной контент впереди полупрозрачного слоя
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
@@ -538,7 +538,7 @@ export default function ProjectPage() {
           {/* Локальный плеер для проектов с музыкой уже встроен ниже в специальном разделе для Идиота */}
 
           {/* Main Content - Centered */}
-          <div className="max-w-4xl mx-auto space-y-8">
+          <div className="max-w-4xl mx-auto space-y-8 relative z-10">
               
               {/* Заголовок и информация для проекта Идиот */}
               {project.id === "idiot-saratov-drama" && (

@@ -17,7 +17,7 @@ export default function Footer() {
       className="py-12 px-6 border-t border-border"
       style={isPetrovyProject ? {
         position: 'relative',
-        zIndex: 2,
+        zIndex: 10,
         backgroundColor: 'rgba(0,0,0,0.85)',
         backdropFilter: 'blur(2px)'
       } : {}}
