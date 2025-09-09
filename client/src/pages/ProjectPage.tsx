@@ -717,45 +717,45 @@ export default function ProjectPage() {
                 </div>
               )}
 
-              {/* Case Study for Comic Project "Petrovy" */}
+              {/* Case Study for Comic Project "Petrovy" - copied from Idiot structure */}
               {project.id === "petrovy-saratov-drama" && (
-                <div className="mt-8 comic-glitch">
+                <div className="mt-8">
                   
                   {/* Постановочная команда и роль в проекте в две колонки */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
                     <div>
                       <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
                       <div className="text-gray-300 space-y-1">
-                        <p>Режиссёр: {project.details?.director}</p>
+                        <p>Режиссёр, автор инсценировки: Иван Комаров</p>
                         <p>Художник-постановщик: Ольга Кузнецова</p>
                         <p>Художник по свету: Максим Бирюков</p>
                       </div>
                     </div>
                     <div>
                       <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
-                      <div className="petrovy-primary font-semibold text-lg space-y-1">
-                        {project.role.map((role, index) => (
-                          <p key={index}>{role}</p>
-                        ))}
+                      <div className="text-green-400 font-semibold text-lg space-y-1">
+                        <p>Композитор</p>
+                        <p>Саунд-дизайнер</p>
+                        <p>Звукорежиссёр</p>
+                        <p>Промт-инженер</p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="glass-effect rounded-xl p-6 space-y-6">
+                  <div className="petrovy-bg-container rounded-xl p-6 space-y-6">
 
                     <div className="space-y-6 text-gray-300 leading-relaxed">
                       <div>
-                        <h4 className="text-xl font-semibold petrovy-heading mb-3">Концепция</h4>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3 petrovy-title">Концепция</h4>
                         <p>
                           Театр как комикс, где пространство одновременно рассказывает историю Петровых 
                           и размышляет о театре как о пространстве бреда. Постановка балансирует между 
-                          бытовым реализмом и абсурдом. Спектакль решён как комикс и театр о самом себе: 
-                          действие начинается в закулисье с режиссёром-панк-ведьмой и уборщицей со шваброй-знаменем.
+                          бытовым реализмом и абсурдом.
                         </p>
                       </div>
 
                       <div>
-                        <h4 className="text-xl font-semibold petrovy-heading mb-3">Творческая задача</h4>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3 petrovy-title">Творческая задача</h4>
                         <p>
                           Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный 
                           драматургический пласт, который поможет удержать зрителя в лабиринте абсурдного повествования.
@@ -763,8 +763,52 @@ export default function ProjectPage() {
                       </div>
 
                       <div>
-                        <h4 className="text-xl font-semibold petrovy-heading mb-3">Ключевые решения</h4>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3 petrovy-title">Техническая задача</h4>
+                        <p>
+                          Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию 
+                          через MIDI и OSC-протоколы для управления всеми звуковыми элементами спектакля.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3 petrovy-title">Выполненные работы</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">Создание 12 полноценных композиций</strong> разных жанров
+                            </p>
+                          </div>
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">Разработка лейтмотивной системы</strong> для персонажей и сцен
+                            </p>
+                          </div>
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">Создание атмосферных эмбиентов</strong> и дроун-текстур
+                            </p>
+                          </div>
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">Работа с ИИ</strong> для создания оперного кавера
+                            </p>
+                          </div>
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">Программирование и автоматизация</strong> в QLab
+                            </p>
+                          </div>
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">Звукорежиссура</strong> и FOH-инженеринг
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3 petrovy-title">Ключевые решения</h4>
+                        <div className="space-y-4">
                           <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
                             <p>
                               <strong className="text-white">Жанровая мозаика:</strong> музыка следует логике спектакля, 
@@ -773,31 +817,18 @@ export default function ProjectPage() {
                           </div>
                           <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
                             <p>
-                              <strong className="text-white">ИИ-эксперименты:</strong> оперная обработка песни «Ноль» 
+                              <strong className="text-white">Ироничные ИИ-эксперименты:</strong> оперная обработка песни «Ноль» 
                               подчеркнула комиксную природу постановки.
-                            </p>
-                          </div>
-                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
-                            <p>
-                              <strong className="text-white">Лейтмотивная система:</strong> для персонажей и сцен, 
-                              атмосферные эмбиенты и дроун-текстуры.
-                            </p>
-                          </div>
-                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
-                            <p>
-                              <strong className="text-white">Техническая реализация:</strong> QLab автоматизация 
-                              через MIDI и OSC-протоколы для управления всеми звуковыми элементами спектакля.
                             </p>
                           </div>
                         </div>
                       </div>
 
                       <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
-                        <h4 className="text-xl font-semibold petrovy-heading mb-3">Результат</h4>
+                        <h4 className="text-xl font-semibold text-green-400 mb-3 petrovy-title">Результат</h4>
                         <p>
-                          <strong className="text-white">Гипернасыщенный спектакль,</strong> где каждый элемент звуковой партитуры работает на создание 
-                          целостного художественного высказывания. Зрительские реакции кардинально разные — от недоумения до восторга, но равнодушных нет.<br/>
-                          <strong className="petrovy-primary">Мой вклад:</strong> создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, 
+                          Спектакль, где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.<br/>
+                          <strong className="text-green-400">Мой вклад:</strong> создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, 
                           техническая реализация сложной звуковой архитектуры спектакля.
                         </p>
                       </div>
@@ -1095,7 +1126,7 @@ export default function ProjectPage() {
             </motion.div>
           )}
 
-          {/* Music Section for Comic Project "Petrovy" */}
+          {/* Music Section for Comic Project "Petrovy" - copied from Idiot player */}
           {project.id === "petrovy-saratov-drama" && (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -1103,19 +1134,28 @@ export default function ProjectPage() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="max-w-4xl mx-auto mt-12 mb-8"
             >
-              <h3 className="text-3xl font-bold text-white mb-8 text-center petrovy-heading">
+              <h3 className="text-3xl font-bold text-white mb-8 text-center petrovy-title">
                 Музыка из спектакля
               </h3>
               
-              <div className="petrovy-player p-6">
+              <div className="winamp-player p-6" style={{
+                background: 'linear-gradient(145deg, #1a1a1a, #2d2d2d)',
+                border: '2px solid #00ff88',
+                boxShadow: '0 0 20px rgba(0, 255, 136, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+              }}>
                 
-                {/* Winamp-style player interface for Petrovy */}
+                {/* Winamp-style player interface */}
                 <div className="space-y-4">
                   
                   {/* Top row: Display and Equalizer */}
                   <div className="flex justify-between items-stretch gap-4">
                     <div className="w-48 sm:w-64 md:w-80">
-                      <div className="petrovy-display mb-2 h-8 flex items-center">
+                      <div className="winamp-display mb-2 h-8 flex items-center" style={{
+                        background: '#0a1426',
+                        color: '#00ff88',
+                        border: '1px solid #00ff88',
+                        boxShadow: 'inset 0 0 10px rgba(0, 255, 136, 0.2)'
+                      }}>
                         {isProjectPlayerReady ? (
                           <div className="overflow-hidden whitespace-nowrap w-full">
                             <div className={`${
@@ -1131,7 +1171,12 @@ export default function ProjectPage() {
                         )}
                       </div>
                       <div className="flex items-center">
-                        <div className="petrovy-track-info overflow-hidden whitespace-nowrap w-full">
+                        <div className="track-info overflow-hidden whitespace-nowrap w-full" style={{
+                          background: '#1a1a1a',
+                          color: '#00ff88',
+                          border: '1px solid #00ff88',
+                          boxShadow: 'inset 0 0 8px rgba(0, 255, 136, 0.2)'
+                        }}>
                           <span className={`text-xs sm:text-sm ${
                             'Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв'.length > 35 
                               ? 'animate-marquee' 
@@ -1147,15 +1192,30 @@ export default function ProjectPage() {
                             e.stopPropagation();
                             toggleGlobalAudio();
                           }}
-                          className={`petrovy-button text-xs px-2 py-1 ml-2 ${isGlobalAudioEnabled ? 'active' : ''}`}
+                          className={`winamp-button text-xs px-2 py-1 ml-2 ${isGlobalAudioEnabled ? 'active' : ''}`}
                           title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
+                          style={{
+                            background: isGlobalAudioEnabled 
+                              ? 'linear-gradient(145deg, #00ff88, #ffb800)' 
+                              : 'linear-gradient(145deg, #1a1a1a, #0a1426)',
+                            border: '1px solid #00ff88',
+                            color: isGlobalAudioEnabled ? '#1a1a1a' : '#00ff88'
+                          }}
                         >
                           {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
                         </button>
                       </div>
                     </div>
                     <div className="flex flex-col gap-2 w-24 sm:w-28 md:w-32">
-                      <div className="petrovy-time text-xs sm:text-base">
+                      <div className="winamp-time text-xs sm:text-base" style={{
+                        background: '#0a1426',
+                        color: '#00ff88',
+                        border: '1px solid #00ff88',
+                        padding: '4px 8px',
+                        textAlign: 'center',
+                        fontFamily: 'Courier New, monospace',
+                        boxShadow: 'inset 0 0 8px rgba(0, 255, 136, 0.2)'
+                      }}>
                         {formatTime(localCurrentTime)} / {formatTime(localDuration)}
                       </div>
                       <Equalizer isPlaying={localIsPlaying && isGlobalAudioEnabled} />
@@ -1163,10 +1223,27 @@ export default function ProjectPage() {
                   </div>
 
                   {/* Progress bar */}
-                  <div className="petrovy-progress-container">
+                  <div className="progress-bar-container" style={{
+                    background: '#1a1a1a',
+                    border: '1px solid #00ff88',
+                    borderRadius: '10px',
+                    height: '8px',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    boxShadow: 'inset 0 0 8px rgba(0, 255, 136, 0.2)'
+                  }}>
                     <div 
-                      className="petrovy-progress-bar" 
-                      style={{ width: `${localDuration > 0 ? (localCurrentTime / localDuration) * 100 : 0}%` }}
+                      className="progress-bar" 
+                      style={{ 
+                        width: `${localDuration > 0 ? (localCurrentTime / localDuration) * 100 : 0}%`,
+                        height: '100%',
+                        background: 'linear-gradient(90deg, #00ff88, #ffb800)',
+                        borderRadius: '8px',
+                        transition: 'width 0.1s ease',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        boxShadow: '0 0 10px rgba(0, 255, 136, 0.5)'
+                      }}
                     />
                   </div>
 
@@ -1175,9 +1252,18 @@ export default function ProjectPage() {
                     <button 
                       type="button"
                       onClick={handlePrevTrack}
-                      className="petrovy-button"
+                      className="winamp-button"
                       disabled={!isGlobalAudioEnabled}
                       title="Предыдущий трек"
+                      style={{
+                        background: 'linear-gradient(145deg, #1a1a1a, #0a1426)',
+                        border: '1px solid #00ff88',
+                        color: '#00ff88',
+                        padding: '8px 12px',
+                        borderRadius: '4px',
+                        fontFamily: 'Courier New, monospace',
+                        fontWeight: 'bold'
+                      }}
                     >
                       <SkipBack className="w-4 h-4" />
                     </button>
@@ -1198,8 +1284,19 @@ export default function ProjectPage() {
                           handleTogglePlayPause(e);
                         }
                       }}
-                      className={`petrovy-button ${localIsPlaying ? 'active' : ''}`}
+                      className={`winamp-button ${localIsPlaying ? 'active' : ''}`}
                       title={localIsPlaying ? "Пауза" : "Воспроизвести"}
+                      style={{
+                        background: localIsPlaying 
+                          ? 'linear-gradient(145deg, #00ff88, #ffb800)' 
+                          : 'linear-gradient(145deg, #1a1a1a, #0a1426)',
+                        border: '1px solid #00ff88',
+                        color: localIsPlaying ? '#1a1a1a' : '#00ff88',
+                        padding: '8px 12px',
+                        borderRadius: '4px',
+                        fontFamily: 'Courier New, monospace',
+                        fontWeight: 'bold'
+                      }}
                     >
                       {localIsPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                     </button>
@@ -1207,9 +1304,18 @@ export default function ProjectPage() {
                     <button 
                       type="button"
                       onClick={handleStopAudio}
-                      className="petrovy-button"
+                      className="winamp-button"
                       disabled={!isGlobalAudioEnabled}
                       title="Стоп"
+                      style={{
+                        background: 'linear-gradient(145deg, #1a1a1a, #0a1426)',
+                        border: '1px solid #00ff88',
+                        color: '#00ff88',
+                        padding: '8px 12px',
+                        borderRadius: '4px',
+                        fontFamily: 'Courier New, monospace',
+                        fontWeight: 'bold'
+                      }}
                     >
                       <Square className="w-4 h-4" />
                     </button>
@@ -1217,9 +1323,18 @@ export default function ProjectPage() {
                     <button 
                       type="button"
                       onClick={handleNextTrack}
-                      className="petrovy-button"
+                      className="winamp-button"
                       disabled={!isGlobalAudioEnabled}
                       title="Следующий трек"
+                      style={{
+                        background: 'linear-gradient(145deg, #1a1a1a, #0a1426)',
+                        border: '1px solid #00ff88',
+                        color: '#00ff88',
+                        padding: '8px 12px',
+                        borderRadius: '4px',
+                        fontFamily: 'Courier New, monospace',
+                        fontWeight: 'bold'
+                      }}
                     >
                       <SkipForward className="w-4 h-4" />
                     </button>

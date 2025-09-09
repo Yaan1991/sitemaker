@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Oswald:wght@300;400;500;600;700&family=Bad+Script&family=Jost:wght@300;400;500;600;700&family=Playpen+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Oswald:wght@300;400;500;600;700&family=Bad+Script&family=Jost:wght@300;400;500;600;700&family=Playpen+Sans:wght@400;500;600;700&family=Amatic+SC:wght@400;700&display=swap');
 
 /* RedOctober шрифт для комиксных заголовков */
 @font-face {
@@ -1864,4 +1864,109 @@
 @keyframes shine {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
+}
+
+/* Глитчевые заголовки для Петровых с шрифтом Amatic SC */
+.petrovy-title {
+  font-family: 'Amatic SC', cursive;
+  font-weight: 700;
+  color: #00ff88;
+  text-shadow: 
+    2px 0 #ff0080,
+    -2px 0 #00ffff,
+    0 2px #ffff00,
+    0 -2px #ff8000;
+  animation: glitch-text 2s infinite;
+  position: relative;
+}
+
+.petrovy-title::before,
+.petrovy-title::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+
+.petrovy-title::before {
+  color: #ff0080;
+  animation: glitch-1 0.3s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+.petrovy-title::after {
+  color: #00ffff;
+  animation: glitch-2 0.3s infinite;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch-text {
+  0%, 99% { transform: translate(0); }
+  1% { transform: translate(2px, -1px); }
+  2% { transform: translate(-1px, 2px); }
+  3% { transform: translate(1px, 1px); }
+  4% { transform: translate(-2px, -1px); }
+  5% { transform: translate(0); }
+}
+
+@keyframes glitch-1 {
+  0%, 99% { transform: translate(0); }
+  10% { transform: translate(-2px, -1px); }
+  20% { transform: translate(2px, 1px); }
+  30% { transform: translate(-1px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  50% { transform: translate(0); }
+}
+
+@keyframes glitch-2 {
+  0%, 99% { transform: translate(0); }
+  15% { transform: translate(1px, 1px); }
+  25% { transform: translate(-1px, -1px); }
+  35% { transform: translate(1px, -1px); }
+  45% { transform: translate(-1px, 1px); }
+  55% { transform: translate(0); }
+}
+
+/* Контейнер с фоновыми изображениями для Петровых */
+.petrovy-bg-container {
+  background: 
+    linear-gradient(rgba(10, 20, 38, 0.9), rgba(26, 26, 26, 0.9)),
+    url('/images/CoverPetrovy_1757432306008.webp'),
+    url('/images/Boy_1757432306008.webp'),
+    url('/images/boyandtram_1757432306008.webp');
+  background-size: cover, 400px auto, 300px auto, 350px auto;
+  background-position: 
+    center,
+    top right,
+    bottom left, 
+    center left;
+  background-repeat: no-repeat;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 255, 136, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 1px rgba(0, 255, 136, 0.1);
+  position: relative;
+}
+
+.petrovy-bg-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(0, 255, 136, 0.05) 2px, transparent 2px),
+    radial-gradient(circle at 80% 80%, rgba(255, 184, 0, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px, 30px 30px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.petrovy-bg-container > * {
+  position: relative;
+  z-index: 2;
 }
