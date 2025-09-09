@@ -1260,19 +1260,19 @@
 /* КОМИКСНАЯ СТИЛИСТИКА ДЛЯ ПЕТРОВЫХ В ГРИППЕ */
 
 :root {
-  /* Комиксная палитра: сине-зелено-черная */
-  --comic-dark-blue: #0B1426;
-  --comic-bright-blue: #1E3A8A;
-  --comic-cyan: #06B6D4;
-  --comic-green: #059669;
+  /* Комиксная палитра: черно-зеленая */
+  --comic-dark-blue: #000000;
+  --comic-bright-blue: #22c55e;
+  --comic-cyan: #22c55e;
+  --comic-green: #22c55e;
   --comic-white: #F8FAFC;
   --comic-light-gray: #E2E8F0;
-  --comic-accent: #3B82F6;
+  --comic-accent: #22c55e;
 }
 
 /* Контейнер для комиксного проекта */
 .comic-container {
-  background: linear-gradient(135deg, var(--comic-dark-blue) 0%, #0F172A 50%, var(--comic-dark-blue) 100%);
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
@@ -1287,12 +1287,12 @@
   width: 100%;
   height: 100%;
   background-image: 
-    radial-gradient(circle at 25% 25%, var(--comic-bright-blue) 2px, transparent 2px),
-    radial-gradient(circle at 75% 75%, var(--comic-cyan) 1px, transparent 1px),
-    radial-gradient(circle at 50% 50%, var(--comic-green) 1.5px, transparent 1.5px);
+    radial-gradient(circle at 25% 25%, #22c55e 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, #eab308 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, #22c55e 1.5px, transparent 1.5px);
   background-size: 30px 30px, 20px 20px, 40px 40px;
   background-position: 0 0, 10px 10px, 5px 5px;
-  opacity: 0.1;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 1;
   animation: comic-dots-drift 15s linear infinite;
