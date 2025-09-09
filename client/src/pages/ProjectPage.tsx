@@ -46,11 +46,28 @@ function MayakTitle({ text }: { text: string }) {
 
 // Canvas анимация параллакс-фона для Петровых
 function initParallaxBackground(canvasId: string) {
+  console.log('🎨 Начинаем инициализацию Canvas:', canvasId);
+  
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-  if (!canvas) return;
+  if (!canvas) {
+    console.error('❌ Canvas не найден:', canvasId);
+    return;
+  }
+
+  console.log('✅ Canvas найден, размеры:', canvas.offsetWidth, 'x', canvas.offsetHeight);
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) {
+    console.error('❌ Не удалось получить контекст Canvas');
+    return;
+  }
+
+  console.log('✅ Контекст Canvas получен');
+  
+  // Сразу нарисуем тестовый прямоугольник
+  ctx.fillStyle = '#ff0000';
+  ctx.fillRect(100, 100, 300, 200);
+  console.log('🎨 Нарисован тестовый красный прямоугольник');
 
   // Настройки из рабочего скрипта
   const imageUrls = [
@@ -419,12 +436,30 @@ export default function ProjectPage() {
   useEffect(() => {
     if (project?.id !== "petrovy-saratov-drama") return;
 
-    // Небольшая задержка чтобы Canvas успел создаться в DOM
-    const timer = setTimeout(() => {
-      initParallaxBackground('petrovy-bg-canvas');
-    }, 100);
+    console.log('🎬 useEffect запущен для Петровых');
+    
+    // Проверяем что Canvas существует в DOM
+    const checkCanvas = () => {
+      const canvas = document.getElementById('petrovy-bg-canvas');
+      console.log('Canvas в DOM:', canvas);
+      if (canvas) {
+        console.log('Canvas размеры:', canvas.offsetWidth, 'x', canvas.offsetHeight);
+        initParallaxBackground('petrovy-bg-canvas');
+      } else {
+        console.error('❌ Canvas не найден в DOM!');
+      }
+    };
 
-    return () => clearTimeout(timer);
+    // Попробуем несколько раз
+    const timer1 = setTimeout(checkCanvas, 100);
+    const timer2 = setTimeout(checkCanvas, 500);
+    const timer3 = setTimeout(checkCanvas, 1000);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
   }, [project?.id]);
 
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
@@ -468,18 +503,33 @@ export default function ProjectPage() {
       
       {/* Canvas фон для Петровых */}
       {project.id === "petrovy-saratov-drama" && (
-        <canvas
-          id="petrovy-bg-canvas"
-          style={{
+        <div>
+          <div style={{
             position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            zIndex: 0,  // Поднимаем выше
-            pointerEvents: 'none'
-          }}
-        />
+            top: '10px',
+            right: '10px',
+            background: 'red',
+            color: 'white',
+            padding: '5px',
+            zIndex: 9999,
+            fontSize: '12px'
+          }}>
+            ТЕСТ: Canvas должен быть виден
+          </div>
+          <canvas
+            id="petrovy-bg-canvas"
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              zIndex: 0,
+              pointerEvents: 'none',
+              border: '2px solid yellow' // Временная желтая рамка
+            }}
+          />
+        </div>
       )}
       
       <div 
