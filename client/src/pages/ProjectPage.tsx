@@ -50,10 +50,8 @@ function MayakTitle({ text }: { text: string }) {
 
 
 // Компонент автосмены фото
-// Карусель комиксных изображений для Петровых
+// Карусель комиксных изображений для Петровых с плавным движением
 function ComicImageCarousel({ project }: { project: any }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
   // Используем comicImages из проекта
   const images = project.comicImages ? [
     project.comicImages.cover,
@@ -63,27 +61,23 @@ function ComicImageCarousel({ project }: { project: any }) {
     project.comicImages.phone2
   ] : [project.image];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 3000); // Смена каждые 3 секунды для динамичности
-
-    return () => clearInterval(interval);
-  }, [images.length]);
+  // Дублируем изображения для бесконечной прокрутки
+  const duplicatedImages = [...images, ...images];
 
   return (
     <div className="comic-image-carousel">
-      {images.map((image, index) => (
-        <img
-          key={`${image}-${index}`}
-          src={image}
-          alt={`Комикс кадр ${index + 1}`}
-          className={index === currentIndex ? 'active' : ''}
-          data-testid="img-project"
-          onError={(e) => console.log('Ошибка загрузки комикс изображения:', image)}
-          onLoad={() => console.log('Комикс изображение загружено:', image)}
-        />
-      ))}
+      <div className="comic-images-container">
+        {duplicatedImages.map((image, index) => (
+          <img
+            key={`${image}-${index}`}
+            src={image}
+            alt={`Комикс кадр ${(index % images.length) + 1}`}
+            data-testid="img-project"
+            onError={(e) => console.log('Ошибка загрузки комикс изображения:', image)}
+            onLoad={() => console.log('Комикс изображение загружено:', image)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
