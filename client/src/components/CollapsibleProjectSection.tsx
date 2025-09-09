@@ -41,22 +41,34 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
           </p>
         </motion.div>
 
-        <div className="space-y-16">
+        <div className="space-y-20">
           {categories.map((category, categoryIndex) => (
             <motion.div
               key={category.title}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: categoryIndex * 0.2 }}
-              className="space-y-8"
+              className="space-y-8 relative"
             >
+              {/* Визуальный разделитель перед секцией (кроме первой) */}
+              {categoryIndex > 0 && (
+                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
+                  <div className="flex items-center">
+                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+                    <div className="mx-4">
+                      <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                    </div>
+                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+                  </div>
+                </div>
+              )}
               {/* Category Header */}
               <div className="text-center">
-                <h3 className="text-xl md:text-2xl font-medium text-gray-400 mb-3 tracking-wide uppercase" 
+                <h3 className="text-3xl md:text-4xl font-medium text-gray-300 mb-4 tracking-wide uppercase" 
                     style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif', letterSpacing: '0.1em' }}>
                   {category.title}
                 </h3>
-                <div className="w-16 h-0.5 bg-gray-600 mx-auto rounded-full"></div>
+                <div className="w-24 h-0.5 bg-gray-600 mx-auto rounded-full"></div>
               </div>
 
               {/* Projects List */}
