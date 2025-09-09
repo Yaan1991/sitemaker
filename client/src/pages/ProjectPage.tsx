@@ -327,19 +327,33 @@ export default function ProjectPage() {
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
   useEffect(() => {
     if (project?.id === "petrovy-saratov-drama") {
-      // Небольшая задержка чтобы страница загрузилась полностью
+      // Небольшая задержка чтобы страница и глобальный контекст загрузились
       const timer = setTimeout(() => {
         const player = (window as any).projectPlayer;
-        if (player) {
+        if (player && isGlobalAudioEnabled) {
           player.setPlaylist(petrovyTracks);
           player.setCurrentTrack(petrovyTracks[0]); // Автоматически играем первый трек (тема одиночества)
-          player.togglePlayPause();
+          if (!isPlaying) {
+            player.togglePlayPause();
+          }
+        } else if (!isGlobalAudioEnabled) {
+          // Если глобальный звук выключен, включаем его для автозапуска
+          toggleGlobalAudio();
+          // Небольшая задержка после включения глобального аудио
+          setTimeout(() => {
+            const player = (window as any).projectPlayer;
+            if (player) {
+              player.setPlaylist(petrovyTracks);
+              player.setCurrentTrack(petrovyTracks[0]);
+              player.togglePlayPause();
+            }
+          }, 200);
         }
-      }, 1500);
+      }, 2000);
       
       return () => clearTimeout(timer);
     }
-  }, [project?.id]);
+  }, [project?.id, isGlobalAudioEnabled, isPlaying, toggleGlobalAudio]);
   
   const handleStopAudio = (e: React.MouseEvent) => {
     e.preventDefault();

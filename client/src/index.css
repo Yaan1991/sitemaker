@@ -1493,6 +1493,18 @@
   margin-bottom: 0.5rem;
 }
 
+/* Подзаголовок для Петровых */
+.petrovy-subtitle {
+  font-family: 'Amatic SC', cursive;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: #eab308;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  margin-top: 0.5rem;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+
 
 @keyframes glitch-text {
   0%, 99% { transform: translate(0); }
