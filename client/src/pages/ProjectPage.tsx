@@ -576,11 +576,14 @@ export default function ProjectPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="mb-8 w-screen relative left-1/2 transform -translate-x-1/2"
+                  className="mb-8"
                   style={{
                     backgroundColor: 'rgba(0,0,0,0.85)',
                     backdropFilter: 'blur(2px)',
-                    padding: '24px'
+                    padding: '24px',
+                    marginLeft: '-6rem',
+                    marginRight: '-6rem',
+                    width: 'calc(100% + 12rem)'
                   }}
                 >
                   <div className="text-center">
