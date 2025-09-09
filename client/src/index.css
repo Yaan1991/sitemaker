@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Oswald:wght@300;400;500;600;700&family=Bad+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Oswald:wght@300;400;500;600;700&family=Bad+Script&family=Jost:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -808,7 +808,7 @@
   animation: projector-shake-rare 12s infinite, projector-strobe 17s infinite;
 }
 
-/* Дополнительный слой для пленочного зерна (оптимизировано для Safari) */
+/* Дополнительный слой для пленочного зерна (максимально оптимизировано) */
 .projector-container::after {
   content: '';
   position: fixed;
@@ -826,11 +826,16 @@
     80px 80px, 120px 120px, 100px 100px, 60px 60px;
   pointer-events: none;
   z-index: 11;
-  animation: film-grain-simple 3s linear infinite;
-  /* Оптимизация для WebKit/Safari */
+  animation: film-grain-optimized 4s linear infinite;
+  /* GPU оптимизация */
+  will-change: transform, opacity;
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+  /* CSS Containment для изоляции */
+  contain: layout style paint;
+  isolation: isolate;
 }
 
 /* Пленочные эффекты как в референсе */
@@ -857,7 +862,15 @@
     linear-gradient(135deg, transparent 45%, rgba(0, 0, 0, 0.07) 45.1%, transparent 45.3%);
   pointer-events: none;
   z-index: 10;
-  animation: film-scratches-realistic 8s linear infinite, glitch-lines 3s linear infinite;
+  animation: film-effects-optimized 8s linear infinite;
+  /* GPU оптимизация */
+  will-change: transform, opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  /* CSS Containment */
+  contain: layout style paint;
 }
 
 
@@ -927,23 +940,51 @@
   100% { transform: translateY(-100vh); opacity: 1; }
 }
 
-/* Простое движение зерна для Safari */
-@keyframes film-grain-simple {
+/* Оптимизированная анимация зерна с transform */
+@keyframes film-grain-optimized {
   0% { 
-    background-position: 0% 0%, 50% 50%, 100% 0%, 25% 75%;
+    transform: translate(0, 0);
     opacity: 0.9;
   }
-  33% { 
-    background-position: 25% 25%, 75% 25%, 50% 100%, 75% 25%;
+  25% { 
+    transform: translate(1px, -1px);
     opacity: 1;
   }
-  66% { 
-    background-position: 75% 50%, 25% 75%, 0% 50%, 100% 100%;
+  50% { 
+    transform: translate(-1px, 1px);
     opacity: 0.95;
   }
+  75% { 
+    transform: translate(1px, 1px);
+    opacity: 1.05;
+  }
   100% { 
-    background-position: 100% 75%, 0% 100%, 75% 25%, 50% 0%;
+    transform: translate(0, 0);
     opacity: 0.9;
+  }
+}
+
+/* Оптимизированная анимация эффектов */
+@keyframes film-effects-optimized {
+  0% { 
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+  25% { 
+    opacity: 0.7;
+    transform: translateY(-2px);
+  }
+  50% { 
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+  75% { 
+    opacity: 0.6;
+    transform: translateY(-1px);
+  }
+  100% { 
+    opacity: 0.9;
+    transform: translateY(0);
   }
 }
 

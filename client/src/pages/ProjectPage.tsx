@@ -30,7 +30,7 @@ function NeonTitle({ text }: { text: string }) {
 function MayakTitle({ text }: { text: string }) {
   return (
     <div className="inline-block text-center">
-      <h1 className="text-6xl lg:text-8xl mayak-heading font-bold mb-2" style={{fontFamily: 'Fira Sans, sans-serif'}}>
+      <h1 className="text-6xl lg:text-8xl mayak-heading font-bold mb-2" style={{fontFamily: 'Jost, sans-serif'}}>
         МАЯКОВСКИЙ
       </h1>
       <h2 className="text-4xl lg:text-6xl font-bold" style={{
