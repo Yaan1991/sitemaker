@@ -281,27 +281,12 @@ export default function ProjectPage() {
     if (player) player.prevTrack();
   };
   
-  // Автоматический скроллинг изображений фона (не привязанный к тексту)
+  // Устанавливаем изображения для плавного движения фона
   useEffect(() => {
     if (project?.id !== "petrovy-saratov-drama" || !project.comicImages) return;
 
-    const images = [
-      project.comicImages.cover,
-      project.comicImages.boy,
-      project.comicImages.tram,
-      project.comicImages.phone,
-      project.comicImages.phone2 || project.comicImages.phone,
-    ];
-
-    let currentImageIndex = 0;
-    setCurrentBackgroundImage(images[0]);
-
-    const interval = setInterval(() => {
-      currentImageIndex = (currentImageIndex + 1) % images.length;
-      setCurrentBackgroundImage(images[currentImageIndex]);
-    }, 4000); // Смена каждые 4 секунды
-
-    return () => clearInterval(interval);
+    // Устанавливаем первое изображение как основное
+    setCurrentBackgroundImage(project.comicImages.cover);
   }, [project?.id, project?.comicImages]);
 
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
@@ -346,15 +331,9 @@ export default function ProjectPage() {
         className={`min-h-screen pt-24 pb-12 ${
           project.id === "idiot-saratov-drama" ? "vhs-container" : 
           project.id === "mayakovsky-moscow-estrada" ? "projector-container" :
-          project.id === "petrovy-saratov-drama" ? "comic-container" : ""
+          project.id === "petrovy-saratov-drama" ? "comic-container petrovy-animated-bg" : ""
         }`}
-        style={project.id === "petrovy-saratov-drama" && currentBackgroundImage ? {
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${currentBackgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-          transition: 'background-image 0.8s ease-in-out'
-        } : {}}
+        style={project.id === "petrovy-saratov-drama" ? {} : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
           
