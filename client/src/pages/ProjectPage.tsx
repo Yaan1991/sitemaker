@@ -749,6 +749,14 @@ export default function ProjectPage() {
                     </div>
 
                     <div className="p-6">
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">Техническая задача</h4>
+                      <p className="text-lg">
+                        Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
+                        для управления всеми звуковыми элементами спектакля.
+                      </p>
+                    </div>
+
+                    <div className="p-6">
                       <h4 className="text-2xl font-bold text-green-400 mb-4">Творческая задача</h4>
                       <p className="text-lg mb-4">
                         Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, 
@@ -766,14 +774,6 @@ export default function ProjectPage() {
                           <li>• Работа в качестве выпускающего звукорежиссера</li>
                         </ul>
                       </div>
-                    </div>
-
-                    <div className="p-6">
-                      <h4 className="text-2xl font-bold text-green-400 mb-4">Техническая задача</h4>
-                      <p className="text-lg">
-                        Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
-                        для управления всеми звуковыми элементами спектакля.
-                      </p>
                     </div>
 
                     <div className="p-6">
