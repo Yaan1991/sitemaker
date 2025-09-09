@@ -26,6 +26,17 @@ function NeonTitle({ text }: { text: string }) {
   );
 }
 
+// Компонент заголовка для Маяковского с переливающимся красным цветом
+function MayakTitle({ text }: { text: string }) {
+  return (
+    <div className="inline-block">
+      <h1 className="text-6xl lg:text-8xl mayak-heading font-bold mb-2" style={{fontFamily: 'Fira Sans, sans-serif'}}>
+        {text}
+      </h1>
+    </div>
+  );
+}
+
 // Компонент автосмены фото
 function PhotoCarousel({ photos }: { photos: string[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -107,6 +118,25 @@ const idiotTracks = [
     id: 'city',
     title: 'Тема города',
     url: '/audio/city.mp3'
+  }
+];
+
+// Треки для спектакля "Маяковский. Я сам"
+const mayakTracks = [
+  {
+    id: 'letters',
+    title: 'Письма',
+    url: '/audio/mayak_letters.mp3'
+  },
+  {
+    id: 'lilya_theme',
+    title: 'Тема Маяковского и Лили',
+    url: '/audio/mayak_lilya_theme.mp3'
+  },
+  {
+    id: 'gori_gori',
+    title: 'Гори-гори',
+    url: '/audio/mayak_gori_gori.mp3'
   }
 ];
 
@@ -206,7 +236,10 @@ export default function ProjectPage() {
         description={project.fullDescription}
       />
       
-      <div className={`min-h-screen pt-24 pb-12 ${project.id === "idiot-saratov-drama" ? "vhs-container" : ""}`}>
+      <div className={`min-h-screen pt-24 pb-12 ${
+        project.id === "idiot-saratov-drama" ? "vhs-container" : 
+        project.id === "mayakovsky-moscow-estrada" ? "projector-container" : ""
+      }`}>
         <div className="max-w-7xl mx-auto px-6">
           
           {/* Back Button */}
@@ -246,6 +279,21 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
+              {/* Заголовок и информация для проекта Маяковский */}
+              {project.id === "mayakovsky-moscow-estrada" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-8"
+                >
+                  <MayakTitle text="МАЯКОВСКИЙ. Я Сам" />
+                  <p className="text-xl font-medium mt-4 mb-6" style={{color: '#8B4513'}}>
+                    «Артлайф» • 2024
+                  </p>
+                </motion.div>
+              )}
+
               {/* Project Image */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -258,6 +306,17 @@ export default function ProjectPage() {
                   <div className="relative">
                     <PhotoCarousel photos={idiotPhotos} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
+                  </div>
+                ) : project.id === "mayakovsky-moscow-estrada" ? (
+                  /* Фото с эффектом проектора для Маяковского */
+                  <div className="relative">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-auto rounded-lg projector-enhanced"
+                      data-testid="img-project"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 to-transparent rounded-lg" />
                   </div>
                 ) : (
                   /* Обычное фото для других проектов */
@@ -279,7 +338,7 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                {project.id !== "idiot-saratov-drama" && (
+                {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && (
                   <>
                     <div className="text-sm idiot-primary font-medium tracking-wide uppercase mb-2">
                       {categoryNames[project.category]} • {project.year}
@@ -289,7 +348,9 @@ export default function ProjectPage() {
                     </h1>
                   </>
                 )}
-                <p className="text-xl text-gray-300 leading-relaxed">
+                <p className={`text-xl leading-relaxed ${
+                  project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" : "text-gray-300"
+                }`}>
                   {project.fullDescription}
                 </p>
               </motion.div>
@@ -386,8 +447,109 @@ export default function ProjectPage() {
                 </div>
               )}
 
+              {/* Case Study for Mayakovsky */}
+              {project.id === "mayakovsky-moscow-estrada" && (
+                <div className="mt-8 projector-glitch">
+                  
+                  {/* Постановочная команда и роль в проекте в две колонки */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
+                    <div>
+                      <h4 className="mayak-primary font-medium mb-3">Постановочная команда</h4>
+                      <div className="text-gray-800 space-y-1">
+                        <p>Режиссёр, автор инсценировки: Семён Шомин</p>
+                        <p>Художник-постановщик: Татьяна Зарубина</p>
+                        <p>Режиссёр по пластике: Игорь Шаройко</p>
+                        <p>Художник по свету: Максим Бирюков</p>
+                        <p>Художник по видео: Дмитрий Соболев</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="mayak-primary font-medium mb-3">Роль в проекте</h4>
+                      <p className="mayak-primary font-semibold text-lg">
+                        Саунд-дизайнер, композитор, звукорежиссёр, промт-инжинер
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div style={{backgroundColor: 'rgba(245, 222, 179, 0.1)'}} className="rounded-xl p-6 space-y-6 border border-amber-900/20">
+
+                    <div className="space-y-6 text-gray-800 leading-relaxed">
+                      <div>
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">Концепция</h4>
+                        <p>
+                          Спектакль начинается "за секунду до" - перед выстрелом Маяковский вспоминает свою биографию. 
+                          Постановка раскрывает поэта как живого человека со страстями и страданиями, а не просто "продукт времени". 
+                          Минимум декораций и визуальных спецэффектов, акцент на психологизме. Создана трёхслойная звуковая драматургия: 
+                          реальность, поэтический слой и абстракция.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">Творческая задача</h4>
+                        <p>
+                          Создать звуковую партитуру, где зритель интуитивно чувствует переключение между жизнью, 
+                          поэтическим текстом и внутренним монологом героя.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">Техническая задача</h4>
+                        <p>
+                          Обеспечить гибкую архитектуру для антрепризы - спектакль должен стабильно звучать на любых 
+                          площадках с разными консолями и акустическими условиями.
+                        </p>
+                        
+                        <div className="mt-4">
+                          <p className="font-medium mayak-primary mb-2">Выполненные работы:</p>
+                          <ul className="list-none space-y-0 ml-4">
+                            <li>• Создание трёхслойной звуковой концепции</li>
+                            <li>• Написание 6 оригинальных композиций</li>
+                            <li>• Переаранжировка музыкального материала</li>
+                            <li>• Полевые записи актёров и бытовых звуков</li>
+                            <li>• Работа с ИИ-инструментами для спецэффектов</li>
+                            <li>• Проектирование адаптивной технической архитектуры</li>
+                            <li>• Программирование в QLab 5 + OSC-автоматизация</li>
+                            <li>• Подготовка системы под разные площадки</li>
+                            <li>• Работа в качестве выпускающего звукорежиссёра</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">Ключевые решения</h4>
+                        <div className="space-y-4">
+                          <p>
+                            <strong className="mayak-primary">Динамическая трансформация звука:</strong> музыка и голоса в реальном времени 
+                            превращаются из естественных в совершенно иные формы, создавая эффект смены восприятия.
+                          </p>
+                          
+                          <p>
+                            <strong className="mayak-primary">Антрепризная архитектура:</strong> автоматическая адаптация от surround к стерео, 
+                            от Yamaha Rivage к M32/X32 с готовыми шаблонами.
+                          </p>
+                          
+                          <p>
+                            <strong className="mayak-primary">Живые записи:</strong> на Zoom-рекордер записывал актёров и бытовые звуки, 
+                            ставшие частью слоя спектакля.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="bg-red-500/10 border border-red-500/30 p-4 rounded-lg">
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">Результат</h4>
+                        <p>
+                          Насыщенная звуковая партитура с эффектом погружения. Спектакль успешно гастролирует, стабильно звучит на разных площадках.<br/>
+                          Мой вклад: построение трёхслойной звуковой драматургии, создание музыкальных композиций, проектирование гибкой технической системы.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
               {/* Regular Details for other projects */}
-              {project.id !== "idiot-saratov-drama" && project.details && (
+              {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.details && (
                 <div className="glass-effect rounded-xl p-6">
                   <h3 className="text-2xl font-russo font-bold text-white mb-6">Детали проекта</h3>
                   
@@ -563,6 +725,142 @@ export default function ProjectPage() {
                       type="button"
                       onClick={handleNextTrack}
                       className="winamp-button"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Следующий трек"
+                    >
+                      <SkipForward className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Music Section for Mayakovsky Project */}
+          {project.id === "mayakovsky-moscow-estrada" && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="max-w-4xl mx-auto mt-12 mb-8"
+            >
+              <h3 className="text-3xl font-bold mb-8 text-center mayak-heading">
+                Музыка из спектакля
+              </h3>
+              
+              <div style={{backgroundColor: 'rgba(245, 222, 179, 0.1)'}} className="rounded-xl p-6 border border-amber-900/30 projector-chromatic">
+                
+                {/* Winamp-style player interface */}
+                <div className="space-y-4">
+                  
+                  {/* Top row: Display and Equalizer */}
+                  <div className="flex justify-between items-stretch gap-4">
+                    <div className="w-48 sm:w-64 md:w-80">
+                      <div style={{backgroundColor: '#8B4513', color: '#F5DEB3'}} className="mb-2 h-8 flex items-center border-2 border-amber-900/50 rounded font-mono text-sm px-3 shadow-inner">
+                        {isProjectPlayerReady ? (
+                          <div className="overflow-hidden whitespace-nowrap w-full">
+                            <div className={`${
+                              (currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран').length > 25 
+                                ? 'animate-marquee' 
+                                : 'animate-pulse'
+                            }`}>
+                              ♪ {currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран'} ♪
+                            </div>
+                          </div>
+                        ) : (
+                          '*** ЗАГРУЗКА... ***'
+                        )}
+                      </div>
+                      <div className="flex items-center">
+                        <div style={{backgroundColor: '#654321', color: '#F5DEB3'}} className="overflow-hidden whitespace-nowrap w-full border border-amber-900/50 rounded text-xs px-2 py-1 font-mono shadow-inner">
+                          <span className={`${
+                            'Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв'.length > 35 
+                              ? 'animate-marquee' 
+                              : ''
+                          }`}>
+                            Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
+                          </span>
+                        </div>
+                        <button 
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleGlobalAudio();
+                          }}
+                          className={`text-xs px-2 py-1 ml-2 border-2 rounded font-mono font-bold transition-all duration-200 ${
+                            isGlobalAudioEnabled 
+                              ? 'bg-red-600 border-red-500 text-white shadow-lg' 
+                              : 'bg-amber-900 border-amber-800 text-amber-200 hover:bg-amber-800'
+                          }`}
+                          title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
+                        >
+                          {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2 w-24 sm:w-28 md:w-32">
+                      <div style={{backgroundColor: '#8B4513', color: '#F5DEB3'}} className="text-xs sm:text-base border-2 border-amber-900/50 rounded px-2 py-1 text-center font-mono shadow-inner">
+                        {formatTime(localCurrentTime)} / {formatTime(localDuration)}
+                      </div>
+                      <div className="flex items-end gap-1 p-2 border border-amber-900/50 rounded shadow-inner" style={{backgroundColor: '#654321'}}>
+                        {Array(10).fill(0).map((_, index) => (
+                          <div
+                            key={index}
+                            className="w-2 bg-gradient-to-t from-red-600 via-orange-500 to-yellow-400 rounded-sm transition-all duration-100"
+                            style={{ 
+                              height: `${localIsPlaying && isGlobalAudioEnabled ? Math.random() * 100 : 0}%`,
+                              minHeight: '2px'
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div style={{backgroundColor: '#654321'}} className="border border-amber-900/50 rounded p-1 shadow-inner">
+                    <div 
+                      className="h-2 bg-gradient-to-r from-red-600 to-orange-500 rounded transition-all duration-100 relative overflow-hidden"
+                      style={{ width: `${localDuration ? (localCurrentTime / localDuration) * 100 : 0}%` }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
+                    </div>
+                  </div>
+
+                  {/* Control buttons */}
+                  <div className="flex justify-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handlePrevTrack}
+                      className="px-3 py-2 bg-amber-900 border-2 border-amber-800 text-amber-200 rounded font-mono hover:bg-amber-800 transition-colors duration-200 disabled:opacity-50"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Предыдущий трек"
+                    >
+                      <SkipBack className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleTogglePlayPause}
+                      className="px-4 py-2 bg-red-600 border-2 border-red-500 text-white rounded font-mono hover:bg-red-700 transition-colors duration-200 disabled:opacity-50"
+                      disabled={!isGlobalAudioEnabled}
+                      title={localIsPlaying ? "Пауза" : "Воспроизведение"}
+                    >
+                      {localIsPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleStopAudio}
+                      className="px-3 py-2 bg-amber-900 border-2 border-amber-800 text-amber-200 rounded font-mono hover:bg-amber-800 transition-colors duration-200 disabled:opacity-50"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Стоп"
+                    >
+                      <Square className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextTrack}
+                      className="px-3 py-2 bg-amber-900 border-2 border-amber-800 text-amber-200 rounded font-mono hover:bg-amber-800 transition-colors duration-200 disabled:opacity-50"
                       disabled={!isGlobalAudioEnabled}
                       title="Следующий трек"
                     >

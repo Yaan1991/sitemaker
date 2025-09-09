@@ -31,6 +31,23 @@ const projectPlaylistMap: Record<string, Track[]> = {
       title: 'Тема города',
       url: '/audio/city.mp3'
     }
+  ],
+  'mayakovsky-moscow-estrada': [
+    {
+      id: 'letters',
+      title: 'Письма',
+      url: '/audio/mayak_letters.mp3'
+    },
+    {
+      id: 'lilya_theme',
+      title: 'Тема Маяковского и Лили',
+      url: '/audio/mayak_lilya_theme.mp3'
+    },
+    {
+      id: 'gori_gori',
+      title: 'Гори-гори',
+      url: '/audio/mayak_gori_gori.mp3'
+    }
   ]
   // Будущие проекты добавляются сюда
 };
