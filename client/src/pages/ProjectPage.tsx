@@ -46,8 +46,13 @@ function MayakTitle({ text }: { text: string }) {
 
 // Canvas анимация для фона Петровых
 function initCanvasAnimation(canvas: HTMLCanvasElement) {
+  console.log('Инициализация Canvas анимации...');
+  
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) {
+    console.error('Не удалось получить контекст Canvas');
+    return;
+  }
 
   // Настройки
   const imageUrls = [
@@ -67,21 +72,16 @@ function initCanvasAnimation(canvas: HTMLCanvasElement) {
   function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
+    console.log(`Canvas размер: ${canvas.width}x${canvas.height}`);
   }
   
   resizeCanvas();
-  const resizeHandler = () => resizeCanvas();
-  window.addEventListener("resize", resizeHandler);
+  window.addEventListener("resize", resizeCanvas);
   
-  // Удаляем обработчик при очистке
-  const cleanup = () => {
-    window.removeEventListener("resize", resizeHandler);
-  };
-  
-  // Сохраняем cleanup функцию
-  (canvas as any).cleanup = cleanup;
+  // Сначала проверим, что Canvas работает - нарисуем простой прямоугольник
+  ctx.fillStyle = '#ff0000';
+  ctx.fillRect(50, 50, 200, 100);
+  console.log('Нарисован тестовый красный прямоугольник');
 
   // Класс для управления лентой изображений
   class ImageStrip {
@@ -427,43 +427,17 @@ export default function ProjectPage() {
     if (player) player.prevTrack();
   };
   
-  // Canvas анимация для Петровых
+  // Canvas анимация для Петровых  
   useEffect(() => {
     if (project?.id !== "petrovy-saratov-drama") return;
 
-    // Создаем Canvas элемент
-    const canvas = document.createElement('canvas');
-    canvas.id = 'petrovy-bg-canvas';
-    
-    // Стили для фонового Canvas
-    canvas.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -10;
-      pointer-events: none;
-      background: #000;
-    `;
-
-    // Добавляем Canvas в начало body
-    document.body.insertBefore(canvas, document.body.firstChild);
-
-    // Запускаем анимацию
-    initCanvasAnimation(canvas);
-
-    // Очистка при размонтировании
-    return () => {
-      const existingCanvas = document.getElementById('petrovy-bg-canvas');
-      if (existingCanvas) {
-        // Очищаем обработчики событий
-        if ((existingCanvas as any).cleanup) {
-          (existingCanvas as any).cleanup();
-        }
-        document.body.removeChild(existingCanvas);
-      }
-    };
+    const canvas = document.getElementById('petrovy-bg-canvas') as HTMLCanvasElement;
+    if (canvas) {
+      console.log('Запускаем Canvas анимацию для Петровых');
+      initCanvasAnimation(canvas);
+    } else {
+      console.error('Canvas не найден!');
+    }
   }, [project?.id]);
 
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
@@ -504,6 +478,24 @@ export default function ProjectPage() {
         title={`${project.title} — ${project.year} | Ян Кузьмичёв`}
         description={project.fullDescription}
       />
+      
+      {/* Canvas фон для Петровых */}
+      {project.id === "petrovy-saratov-drama" && (
+        <canvas
+          id="petrovy-bg-canvas"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            zIndex: -10,
+            pointerEvents: 'none',
+            background: '#222'
+          }}
+        />
+      )}
+      
       <div 
         className={`min-h-screen pt-24 pb-12 ${
           project.id === "idiot-saratov-drama" ? "vhs-container" : 
