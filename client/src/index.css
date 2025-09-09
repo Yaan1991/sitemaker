@@ -840,7 +840,7 @@
   animation: film-scratches-subtle 12s linear infinite;
 }
 
-/* Слой 2: Тонкий пленочный шум */
+/* Слой 2: Живое пленочное зерно */
 .projector-container::after {
   content: '';
   position: fixed;
@@ -848,16 +848,27 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    /* Редкие мелкие пятна */
-    radial-gradient(ellipse 1px 3px at 15% 20%, rgba(139, 69, 19, 0.12) 60%, transparent 100%),
-    radial-gradient(ellipse 1px 4px at 75% 45%, rgba(160, 82, 45, 0.1) 50%, transparent 100%),
-    radial-gradient(ellipse 2px 2px at 45% 75%, rgba(139, 69, 19, 0.08) 70%, transparent 100%),
-    /* Легкий шум */
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='subtleNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23subtleNoise)' opacity='0.05'/%3E%3C/svg%3E");
+  background-image: 
+    /* Движущееся зерно - слой 1 */
+    radial-gradient(circle at 12% 15%, rgba(139, 69, 19, 0.15) 0.5px, transparent 1px),
+    radial-gradient(circle at 67% 23%, rgba(160, 82, 45, 0.12) 0.5px, transparent 1px),
+    radial-gradient(circle at 89% 34%, rgba(139, 69, 19, 0.1) 0.5px, transparent 1px),
+    radial-gradient(circle at 34% 56%, rgba(160, 82, 45, 0.13) 0.5px, transparent 1px),
+    radial-gradient(circle at 78% 67%, rgba(139, 69, 19, 0.11) 0.5px, transparent 1px),
+    radial-gradient(circle at 45% 78%, rgba(160, 82, 45, 0.14) 0.5px, transparent 1px),
+    radial-gradient(circle at 23% 89%, rgba(139, 69, 19, 0.09) 0.5px, transparent 1px),
+    /* Движущееся зерно - слой 2 */
+    radial-gradient(circle at 56% 12%, rgba(160, 82, 45, 0.08) 0.3px, transparent 0.8px),
+    radial-gradient(circle at 78% 45%, rgba(139, 69, 19, 0.12) 0.3px, transparent 0.8px),
+    radial-gradient(circle at 23% 67%, rgba(160, 82, 45, 0.1) 0.3px, transparent 0.8px),
+    radial-gradient(circle at 89% 78%, rgba(139, 69, 19, 0.07) 0.3px, transparent 0.8px);
+  background-size: 
+    120px 120px, 150px 150px, 110px 110px, 130px 130px,
+    140px 140px, 100px 100px, 160px 160px,
+    90px 90px, 170px 170px, 80px 80px, 180px 180px;
   pointer-events: none;
   z-index: 11;
-  animation: film-dirt-subtle 20s linear infinite, film-noise-subtle 1s infinite;
+  animation: film-grain-dance 3s linear infinite, film-grain-shift 8s linear infinite;
 }
 
 /* Тонкие анимации */
@@ -873,10 +884,57 @@
   100% { transform: translateY(-100vh); opacity: 1; }
 }
 
-@keyframes film-noise-subtle {
-  0%, 80% { opacity: 0.05; }
-  90% { opacity: 0.08; }
-  100% { opacity: 0.05; }
+/* Анимация танцующего зерна */
+@keyframes film-grain-dance {
+  0% { 
+    background-position: 
+      0% 0%, 10% 5%, 20% 10%, 30% 15%, 40% 20%, 50% 25%, 60% 30%,
+      70% 35%, 80% 40%, 90% 45%, 100% 50%;
+    opacity: 0.8;
+  }
+  25% { 
+    background-position: 
+      5% 10%, 15% 15%, 25% 20%, 35% 25%, 45% 30%, 55% 35%, 65% 40%,
+      75% 45%, 85% 50%, 95% 55%, 5% 60%;
+    opacity: 1;
+  }
+  50% { 
+    background-position: 
+      10% 20%, 20% 25%, 30% 30%, 40% 35%, 50% 40%, 60% 45%, 70% 50%,
+      80% 55%, 90% 60%, 0% 65%, 10% 70%;
+    opacity: 0.9;
+  }
+  75% { 
+    background-position: 
+      15% 30%, 25% 35%, 35% 40%, 45% 45%, 55% 50%, 65% 55%, 75% 60%,
+      85% 65%, 95% 70%, 5% 75%, 15% 80%;
+    opacity: 1.1;
+  }
+  100% { 
+    background-position: 
+      20% 40%, 30% 45%, 40% 50%, 50% 55%, 60% 60%, 70% 65%, 80% 70%,
+      90% 75%, 0% 80%, 10% 85%, 20% 90%;
+    opacity: 0.8;
+  }
+}
+
+/* Сдвиг всего зерна */
+@keyframes film-grain-shift {
+  0% { 
+    transform: translate(0px, 0px) scale(1);
+  }
+  25% { 
+    transform: translate(-1px, -2px) scale(1.02);
+  }
+  50% { 
+    transform: translate(1px, -1px) scale(0.98);
+  }
+  75% { 
+    transform: translate(-0.5px, 1px) scale(1.01);
+  }
+  100% { 
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 /* Очень тонкое дрожание */
