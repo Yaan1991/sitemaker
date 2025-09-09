@@ -576,22 +576,24 @@ export default function ProjectPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="text-center mb-8"
+                  className="mb-8 w-screen relative left-1/2 transform -translate-x-1/2"
                   style={{
-                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    backgroundColor: 'rgba(0,0,0,0.85)',
                     backdropFilter: 'blur(2px)',
                     padding: '24px'
                   }}
                 >
-                  <h1 
-                    className="petrovy-title" 
-                    data-text="ПЕТРОВЫ В ГРИППЕ"
-                    data-testid="text-title"
-                  >
-                    ПЕТРОВЫ В ГРИППЕ
-                  </h1>
-                  <div className="petrovy-subtitle">и вокруг него</div>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-6">Театр драмы им. Слонова • 2025</p>
+                  <div className="text-center">
+                    <h1 
+                      className="petrovy-title" 
+                      data-text="ПЕТРОВЫ В ГРИППЕ"
+                      data-testid="text-title"
+                    >
+                      ПЕТРОВЫ В ГРИППЕ
+                    </h1>
+                    <div className="petrovy-subtitle">и вокруг него</div>
+                    <p className="text-xl font-medium text-gray-300 mt-4 mb-6">Театр драмы им. Слонова • 2025</p>
+                  </div>
                 </motion.div>
               )}
 
