@@ -817,16 +817,20 @@
   width: 100%;
   height: 100%;
   background-image: 
-    /* Пленочное зерно */
-    radial-gradient(circle at 15% 25%, rgba(0, 0, 0, 0.15) 0.5px, transparent 1px),
-    radial-gradient(circle at 45% 35%, rgba(0, 0, 0, 0.1) 0.3px, transparent 0.8px),
-    radial-gradient(circle at 75% 15%, rgba(0, 0, 0, 0.12) 0.4px, transparent 0.9px),
-    radial-gradient(circle at 25% 65%, rgba(0, 0, 0, 0.08) 0.6px, transparent 1.1px),
-    radial-gradient(circle at 85% 75%, rgba(0, 0, 0, 0.14) 0.3px, transparent 0.7px),
-    radial-gradient(circle at 55% 85%, rgba(0, 0, 0, 0.09) 0.5px, transparent 1px);
+    /* Пленочное зерно более явное */
+    radial-gradient(circle at 15% 25%, rgba(0, 0, 0, 0.22) 0.7px, transparent 1.4px),
+    radial-gradient(circle at 45% 35%, rgba(0, 0, 0, 0.16) 0.5px, transparent 1.2px),
+    radial-gradient(circle at 75% 15%, rgba(0, 0, 0, 0.19) 0.6px, transparent 1.3px),
+    radial-gradient(circle at 25% 65%, rgba(0, 0, 0, 0.14) 0.8px, transparent 1.6px),
+    radial-gradient(circle at 85% 75%, rgba(0, 0, 0, 0.21) 0.4px, transparent 1px),
+    radial-gradient(circle at 55% 85%, rgba(0, 0, 0, 0.17) 0.7px, transparent 1.5px),
+    /* Дополнительное мелкое зерно */
+    radial-gradient(circle at 35% 45%, rgba(0, 0, 0, 0.12) 0.3px, transparent 0.8px),
+    radial-gradient(circle at 65% 25%, rgba(0, 0, 0, 0.15) 0.4px, transparent 0.9px);
   background-size: 
-    80px 80px, 120px 120px, 60px 60px, 
-    100px 100px, 90px 90px, 140px 140px;
+    70px 70px, 110px 110px, 50px 50px, 
+    90px 90px, 80px 80px, 130px 130px,
+    40px 40px, 60px 60px;
   pointer-events: none;
   z-index: 11;
   animation: film-grain-chaos 1.5s linear infinite, film-grain-shift 4s linear infinite;
