@@ -281,12 +281,27 @@ export default function ProjectPage() {
     if (player) player.prevTrack();
   };
   
-  // Устанавливаем изображения для плавного движения фона
+  // Плавная смена фоновых изображений для Петровых
   useEffect(() => {
     if (project?.id !== "petrovy-saratov-drama" || !project.comicImages) return;
 
-    // Устанавливаем первое изображение как основное
-    setCurrentBackgroundImage(project.comicImages.cover);
+    const images = [
+      project.comicImages.cover,
+      project.comicImages.boy,
+      project.comicImages.tram,
+      project.comicImages.phone,
+      project.comicImages.phone2,
+    ];
+
+    let currentImageIndex = 0;
+    setCurrentBackgroundImage(images[0]);
+
+    const interval = setInterval(() => {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      setCurrentBackgroundImage(images[currentImageIndex]);
+    }, 6000); // Плавная смена каждые 6 секунд
+
+    return () => clearInterval(interval);
   }, [project?.id, project?.comicImages]);
 
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
@@ -333,7 +348,9 @@ export default function ProjectPage() {
           project.id === "mayakovsky-moscow-estrada" ? "projector-container" :
           project.id === "petrovy-saratov-drama" ? "comic-container petrovy-animated-bg" : ""
         }`}
-        style={project.id === "petrovy-saratov-drama" ? {} : {}}
+        style={project.id === "petrovy-saratov-drama" && currentBackgroundImage ? {
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${currentBackgroundImage})`,
+        } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
           
