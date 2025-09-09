@@ -1,26 +1,18 @@
 // ========== НАСТРОЙКИ ==========
-// Списки изображений для разных слоёв (можно заменить на свои URL)
+// Один слой со всеми изображениями
 const layers = [
     {
-        // Дальний слой (медленный)
         images: [
             '/images/petrovy1.webp',
             '/images/petrovy2.webp',
-            '/images/petrovy3.webp'
-        ],
-        speed: 0.3, // множитель скорости (медленнее)
-        opacity: 0.4 // полупрозрачный
-    },
-    {
-        // Ближний слой (быстрый)
-        images: [
+            '/images/petrovy3.webp',
             '/images/petrovy4.webp',
             '/images/petrovy5.webp',
             '/images/petrovy6.webp',
             '/images/petrovy7.webp'
         ],
-        speed: 1.0, // базовая скорость
-        opacity: 0.8 // более непрозрачный
+        speed: 0.5, // плавная скорость
+        opacity: 1.0 // полная непрозрачность
     }
 ];
 
