@@ -7,6 +7,10 @@ interface Project {
   year: string;
   description: string;
   image: string;
+  director?: string;
+  role: string;
+  theater?: string;
+  city?: string;
 }
 
 interface ProjectCategory {
@@ -56,52 +60,74 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
 
               {/* Projects List */}
               <div className="space-y-12">
-                {category.projects.map((project, projectIndex) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: categoryIndex * 0.2 + projectIndex * 0.1 }}
-                    className="flex flex-col md:flex-row gap-8 group"
-                  >
-                    {/* Project Image */}
-                    <div className="w-full md:w-96 h-56 md:h-64 rounded-lg overflow-hidden flex-shrink-0">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
+                {category.projects.map((project, projectIndex) => {
+                  const isImageLeft = projectIndex % 2 === 0; // четные слева, нечетные справа
+                  
+                  return (
+                    <motion.div
+                      key={project.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: categoryIndex * 0.2 + projectIndex * 0.1 }}
+                      className={`flex flex-col md:flex-row gap-8 group ${
+                        !isImageLeft ? 'md:flex-row-reverse' : ''
+                      }`}
+                    >
+                      {/* Project Image */}
+                      <div className="w-full md:w-96 h-56 md:h-64 rounded-lg overflow-hidden flex-shrink-0">
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
 
-                    {/* Project Info */}
-                    <div className="flex-1 flex flex-col justify-center">
-                      <div className="space-y-4">
-                        <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
-                          <h4 className="text-2xl md:text-3xl font-russo font-bold text-white leading-tight">
-                            {project.title}
-                          </h4>
-                          <span className="text-primary font-medium text-xl">
-                            {project.year}
-                          </span>
-                        </div>
-                        
-                        <p className="text-gray-300 text-lg leading-relaxed">
-                          {project.description}
-                        </p>
-                        
-                        <div className="pt-2">
-                          <Link
-                            href={`/project/${project.id}`}
-                            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 font-semibold text-lg group-hover:translate-x-1 transition-transform"
-                            data-testid={`link-project-${project.id}`}
-                          >
-                            Подробнее →
-                          </Link>
+                      {/* Project Info */}
+                      <div className="flex-1 flex flex-col justify-center">
+                        <div className="space-y-4">
+                          <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
+                            <h4 className="text-2xl md:text-3xl font-russo font-bold text-white leading-tight">
+                              {project.title}
+                            </h4>
+                            <span className="text-primary font-medium text-xl">
+                              {project.year}
+                            </span>
+                          </div>
+                          
+                          {project.director && (
+                            <p className="text-gray-400 text-base">
+                              <span className="text-gray-500">Режиссёр:</span> {project.director}
+                            </p>
+                          )}
+                          
+                          <p className="text-gray-300 text-base font-medium">
+                            {project.role}
+                          </p>
+                          
+                          {project.theater && project.city && (
+                            <p className="text-gray-400 text-base">
+                              {project.theater}, {project.city}
+                            </p>
+                          )}
+                          
+                          <p className="text-gray-300 text-lg leading-relaxed">
+                            {project.description}
+                          </p>
+                          
+                          <div className="pt-2">
+                            <Link
+                              href={`/project/${project.id}`}
+                              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 font-semibold text-lg group-hover:translate-x-1 transition-transform"
+                              data-testid={`link-project-${project.id}`}
+                            >
+                              Подробнее →
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
           ))}

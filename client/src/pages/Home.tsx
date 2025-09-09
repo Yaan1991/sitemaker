@@ -13,21 +13,33 @@ const projectCategories = [
         title: "Идиот",
         year: "2024",
         description: "Уникальное сочетание театра и кино: нуар-джаз + полевые записи + ИИ-технологии.",
-        image: "/images/idiot_main.webp"
+        image: "/images/idiot_main.webp",
+        director: "Юрий Муравицкий",
+        role: "Композитор, саунд-дизайнер: Ян Кузьмичёв",
+        theater: "Театр драмы им. Слонова",
+        city: "г. Саратов"
       },
       {
         id: "mayakovsky-moscow-estrada", 
         title: "Маяковский. Я сам",
         year: "2024",
         description: "6 композиций, трёхуровневая звуковая концепция.",
-        image: "/images/mayakovsky_main.webp"
+        image: "/images/mayakovsky_main.webp",
+        director: "Максим Диденко",
+        role: "Композитор, саунд-дизайнер: Ян Кузьмичёв",
+        theater: "Московский театр эстрады",
+        city: "г. Москва"
       },
       {
         id: "petrovy-saratov-drama",
         title: "Петровы в гриппе и вокруг него", 
         year: "2025",
         description: "Кроссовер/нео-джаз + сюрреалистические эффекты.",
-        image: "/images/petrovy_main.webp"
+        image: "/images/petrovy_main.webp",
+        director: "Юрий Муравицкий",
+        role: "Композитор, саунд-дизайнер: Ян Кузьмичёв",
+        theater: "Театр драмы им. Слонова", 
+        city: "г. Саратов"
       }
     ]
   },
@@ -39,21 +51,27 @@ const projectCategories = [
         title: "Homo Homini",
         year: "2025", 
         description: "13 композиций + полный пост.",
-        image: "/images/homohomini_main.webp"
+        image: "/images/homohomini_main.webp",
+        director: "Богдан Мирошниченко",
+        role: "Композитор, саунд-дизайнер: Ян Кузьмичёв"
       },
       {
         id: "ma-short-film",
         title: "Ма",
         year: "2023",
         description: "Сведение, шумы, амбиенты.",
-        image: "/images/ma_film_main.webp"
+        image: "/images/ma_film_main.webp",
+        director: "Елизавета Стишова",
+        role: "Звукорежиссёр: Ян Кузьмичёв"
       },
       {
         id: "life-in-art-short",
         title: "Жизнь в искусстве",
         year: "2019",
         description: "Полная переозвучка шумов и амбиентов.",
-        image: "/images/life_in_art_main.webp"
+        image: "/images/life_in_art_main.webp",
+        director: "Мария Грачёва",
+        role: "Звукорежиссёр: Ян Кузьмичёв"
       }
     ]
   },
@@ -65,14 +83,18 @@ const projectCategories = [
         title: "Сон о Хлебе",
         year: "2024",
         description: "Оригинальная музыка, пространственный звук.",
-        image: "/images/son_o_hlebe_main.webp"
+        image: "/images/son_o_hlebe_main.webp",
+        director: "Михаил Зотов",
+        role: "Композитор, саунд-дизайнер: Ян Кузьмичёв"
       },
       {
         id: "pogruzhenie-promenad",
         title: "Погружение. Променад",
         year: "2023",
         description: "Иммерсивный аудиоспектакль с бинауральным звуком.",
-        image: "/images/pogruzhenie_main.webp"
+        image: "/images/pogruzhenie_main.webp",
+        director: "Коллектив «Променад»",
+        role: "Композитор, саунд-дизайнер: Ян Кузьмичёв"
       }
     ]
   }
