@@ -862,7 +862,7 @@
     linear-gradient(135deg, transparent 45%, rgba(0, 0, 0, 0.07) 45.1%, transparent 45.3%);
   pointer-events: none;
   z-index: 10;
-  animation: film-effects-optimized 8s linear infinite;
+  animation: film-effects-optimized 8s linear infinite, glitch-lines 3s linear infinite;
   /* GPU оптимизация */
   will-change: transform, opacity;
   -webkit-backface-visibility: hidden;
