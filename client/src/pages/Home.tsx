@@ -14,7 +14,7 @@ const projectCategories = [
         year: "2024",
         description: "Уникальное сочетание театра и кино: нуар-джаз + полевые записи + ИИ-технологии.",
         image: "/images/idiot_main.webp",
-        director: "Юрий Муравицкий",
+        director: "Иван Комаров",
         role: "Композитор, саунд-дизайнер: Ян Кузьмичёв",
         theater: "Театр драмы им. Слонова",
         city: "г. Саратов"
@@ -25,7 +25,7 @@ const projectCategories = [
         year: "2024",
         description: "6 композиций, трёхуровневая звуковая концепция.",
         image: "/images/mayakovsky_main.webp",
-        director: "Максим Диденко",
+        director: "Семён Шомин",
         role: "Композитор, саунд-дизайнер: Ян Кузьмичёв",
         theater: "Московский театр эстрады",
         city: "г. Москва"
@@ -36,7 +36,7 @@ const projectCategories = [
         year: "2025",
         description: "Кроссовер/нео-джаз + сюрреалистические эффекты.",
         image: "/images/petrovy_main.webp",
-        director: "Юрий Муравицкий",
+        director: "Иван Комаров",
         role: "Композитор, саунд-дизайнер: Ян Кузьмичёв",
         theater: "Театр драмы им. Слонова", 
         city: "г. Саратов"
@@ -52,7 +52,7 @@ const projectCategories = [
         year: "2025", 
         description: "13 композиций + полный пост.",
         image: "/images/homohomini_main.webp",
-        director: "Богдан Мирошниченко",
+        director: "Иван Комаров",
         role: "Композитор, саунд-дизайнер: Ян Кузьмичёв"
       },
       {
@@ -61,7 +61,7 @@ const projectCategories = [
         year: "2023",
         description: "Сведение, шумы, амбиенты.",
         image: "/images/ma_film_main.webp",
-        director: "Елизавета Стишова",
+        director: "Валентина Бесолова",
         role: "Звукорежиссёр: Ян Кузьмичёв"
       },
       {
@@ -70,7 +70,7 @@ const projectCategories = [
         year: "2019",
         description: "Полная переозвучка шумов и амбиентов.",
         image: "/images/life_in_art_main.webp",
-        director: "Мария Грачёва",
+        director: "Степан Азарян",
         role: "Звукорежиссёр: Ян Кузьмичёв"
       }
     ]
@@ -84,7 +84,7 @@ const projectCategories = [
         year: "2024",
         description: "Оригинальная музыка, пространственный звук.",
         image: "/images/son_o_hlebe_main.webp",
-        director: "Михаил Зотов",
+        director: "Тимур Шарафутдинов",
         role: "Композитор, саунд-дизайнер: Ян Кузьмичёв"
       },
       {
@@ -93,7 +93,7 @@ const projectCategories = [
         year: "2023",
         description: "Иммерсивный аудиоспектакль с бинауральным звуком.",
         image: "/images/pogruzhenie_main.webp",
-        director: "Коллектив «Променад»",
+        director: "Иван Комаров",
         role: "Композитор, саунд-дизайнер: Ян Кузьмичёв"
       }
     ]
