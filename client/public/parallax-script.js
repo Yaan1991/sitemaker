@@ -10,8 +10,8 @@ const imageUrls = [
     '/images/petrovy7.webp'  // 6
 ];
 
-// Последовательность показа: 0; 2; 4; 1; 5; 3; 6
-const sequence = [0, 2, 4, 1, 5, 3, 6];
+// Последовательность показа: 1; 0; 4; 2; 5; 3; 6
+const sequence = [1, 0, 4, 2, 5, 3, 6];
 
 const layers = [
     {
