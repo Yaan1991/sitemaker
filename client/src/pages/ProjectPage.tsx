@@ -321,17 +321,8 @@ export default function ProjectPage() {
           if (!isPlaying) {
             player.playTrack(0); // Запускаем первый трек
           }
-        } else if (!isGlobalAudioEnabled) {
-          // Если глобальный звук выключен, включаем его для автозапуска
-          toggleGlobalAudio();
-          // Небольшая задержка после включения глобального аудио
-          setTimeout(() => {
-            const player = (window as any).projectPlayer;
-            if (player) {
-              player.playTrack(0); // Запускаем первый трек
-            }
-          }, 200);
         }
+        // Убрана принудительная логика включения звука
       }, 2000);
       
       return () => clearTimeout(timer);
