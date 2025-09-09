@@ -890,10 +890,10 @@ export default function ProjectPage() {
 
               {/* Case Study for Petrovy */}
               {project.id === "petrovy-saratov-drama" && (
-                <div className="mt-8">
+                <div className="mt-8 relative" style={{zIndex: 30}}>
                   
                   {/* Постановочная команда и роль в проекте в две колонки */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm relative" style={{zIndex: 30}}>
                     <div>
                       <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
                       <div className="text-gray-300 space-y-1">
@@ -910,7 +910,7 @@ export default function ProjectPage() {
                     </div>
                   </div>
                   
-                  <div className="space-y-8 text-gray-300 leading-relaxed">
+                  <div className="space-y-8 text-gray-300 leading-relaxed relative" style={{zIndex: 30}}>
                     <div className="p-6">
                       <h4 className="text-2xl font-bold text-green-400 mb-4">Концепция</h4>
                       <p className="text-lg">
@@ -982,13 +982,14 @@ export default function ProjectPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="max-w-4xl mx-auto mt-12 mb-8"
+                  className="max-w-4xl mx-auto mt-12 mb-8 relative"
+                  style={{zIndex: 30}}
                 >
                   <h3 className="text-3xl font-bold text-white mb-8 text-center" style={{color: '#22c55e'}}>
                     Музыка из спектакля
                   </h3>
                   
-                  <div className="winamp-player p-6">
+                  <div className="winamp-player p-6 relative" style={{zIndex: 30}}>
                     
                     {/* Winamp-style player interface */}
                     <div className="space-y-4">
