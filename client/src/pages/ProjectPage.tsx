@@ -44,25 +44,22 @@ function MayakTitle({ text }: { text: string }) {
   );
 }
 
+// Глобальный флаг для предотвращения множественной инициализации
+let isCanvasInitialized = false;
+
 // Canvas анимация параллакс-фона для Петровых
 function initParallaxBackground(canvasId: string) {
-  console.log('🎨 Начинаем инициализацию Canvas:', canvasId);
+  // Предотвращаем повторную инициализацию
+  if (isCanvasInitialized) return;
   
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-  if (!canvas) {
-    console.error('❌ Canvas не найден:', canvasId);
-    return;
-  }
-
-  console.log('✅ Canvas найден, размеры:', canvas.offsetWidth, 'x', canvas.offsetHeight);
+  if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    console.error('❌ Не удалось получить контекст Canvas');
-    return;
-  }
+  if (!ctx) return;
 
-  console.log('✅ Контекст Canvas получен');
+  // Помечаем как инициализированный
+  isCanvasInitialized = true;
   
   // Убираем тестовый прямоугольник - он больше не нужен
 
@@ -430,34 +427,22 @@ export default function ProjectPage() {
     if (player) player.prevTrack();
   };
   
-  // Canvas анимация для Петровых  
+  // Canvas анимация для Петровых - НЕЗАВИСИМО от аудио
   useEffect(() => {
     if (project?.id !== "petrovy-saratov-drama") return;
 
-    console.log('🎬 useEffect запущен для Петровых');
-    
-    // Проверяем что Canvas существует в DOM
-    const checkCanvas = () => {
+    // Одноразовая инициализация Canvas
+    const initCanvas = () => {
       const canvas = document.getElementById('petrovy-bg-canvas');
-      console.log('Canvas в DOM:', canvas);
       if (canvas) {
-        console.log('Canvas размеры:', canvas.offsetWidth, 'x', canvas.offsetHeight);
         initParallaxBackground('petrovy-bg-canvas');
-      } else {
-        console.error('❌ Canvas не найден в DOM!');
       }
     };
 
-    // Попробуем несколько раз
-    const timer1 = setTimeout(checkCanvas, 100);
-    const timer2 = setTimeout(checkCanvas, 500);
-    const timer3 = setTimeout(checkCanvas, 1000);
+    // Запускаем один раз после небольшой задержки
+    const timer = setTimeout(initCanvas, 200);
 
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-    };
+    return () => clearTimeout(timer);
   }, [project?.id]);
 
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
