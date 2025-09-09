@@ -524,7 +524,7 @@ export default function ProjectPage() {
               left: 0,
               width: '100vw',
               height: '100vh',
-              zIndex: 0,
+              zIndex: 1000, // НАМНОГО выше
               pointerEvents: 'none',
               border: '2px solid yellow' // Временная желтая рамка
             }}
@@ -540,8 +540,8 @@ export default function ProjectPage() {
         }`}
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
-          zIndex: 10,  // Контент выше Canvas
-          backgroundColor: 'rgba(0,0,0,0.1)' // Легкий фон для видимости
+          zIndex: 2000,  // Контент еще выше
+          backgroundColor: 'rgba(0,0,0,0.7)' // Темный фон для читаемости
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
