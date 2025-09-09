@@ -984,7 +984,7 @@ export default function ProjectPage() {
                     Музыка из спектакля
                   </h3>
                   
-                  <div className="winamp-player p-6 relative" style={{zIndex: 30}}>
+                  <div className="winamp-player p-6 relative" style={{zIndex: 60}}>
                     
                     {/* Winamp-style player interface */}
                     <div className="space-y-4">
@@ -1025,6 +1025,7 @@ export default function ProjectPage() {
                                 toggleGlobalAudio();
                               }}
                               className={`winamp-button text-xs px-2 py-1 ml-2 ${isGlobalAudioEnabled ? 'active' : ''}`}
+                              style={{zIndex: 60}}
                               title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
                             >
                               {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
@@ -1223,6 +1224,7 @@ export default function ProjectPage() {
                               ? 'bg-red-600 border-red-500 text-white shadow-lg' 
                               : 'bg-amber-900 border-amber-800 text-amber-200 hover:bg-amber-800'
                           }`}
+                          style={{zIndex: 60}}
                           title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
                         >
                           {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
