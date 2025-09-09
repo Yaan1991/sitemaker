@@ -812,7 +812,7 @@ export default function ProjectPage() {
                   transition={{ duration: 0.6, delay: 0.5 }}
                   className="max-w-4xl mx-auto mt-12 mb-8"
                 >
-                  <h3 className="text-3xl font-bold text-white mb-8 text-center petrovy-title" style={{color: '#22c55e'}}>
+                  <h3 className="text-3xl font-bold text-white mb-8 text-center" style={{color: '#22c55e'}}>
                     Музыка из спектакля
                   </h3>
                   
