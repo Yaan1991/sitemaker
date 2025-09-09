@@ -1311,20 +1311,6 @@ export default function ProjectPage() {
               </div>
             </motion.div>
           )}
-
-          {/* Music Section for Petrovy Project */}
-          {project.id === "petrovy-saratov-drama" && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="max-w-4xl mx-auto mt-12 mb-8"
-            >
-              <h3 className="text-3xl font-bold mb-8 text-center text-green-400">
-                Музыка из спектакля
-              </h3>
-              
-              <div className="bg-black/90 rounded-xl p-6 border border-green-500/30">
                 
                 {/* Comic-style player interface */}
                 <div className="space-y-4">
