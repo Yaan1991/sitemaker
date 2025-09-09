@@ -168,7 +168,7 @@ function initParallaxBackground(canvasId: string) {
     }
 
     draw() {
-      if (!this.isLoaded) return;
+      if (!this.isLoaded || !ctx) return;
       
       ctx.globalAlpha = 0.8; // Полупрозрачность для фона
       
@@ -187,8 +187,21 @@ function initParallaxBackground(canvasId: string) {
   }
 
   const imageStrip = new ImageStrip();
+  
+  // ТЕСТ: Рисуем яркие квадраты для проверки видимости
+  if (ctx) {
+    ctx.fillStyle = '#ff0000'; // красный
+    ctx.fillRect(50, 50, 200, 200);
+    ctx.fillStyle = '#00ff00'; // зеленый  
+    ctx.fillRect(300, 50, 200, 200);
+    ctx.fillStyle = '#0000ff'; // синий
+    ctx.fillRect(550, 50, 200, 200);
+    console.log('🎨 Нарисованы тестовые квадраты на Canvas');
+  }
 
   function animate() {
+    if (!ctx) return;
+    
     // Возвращаем черный фон
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -498,10 +511,12 @@ export default function ProjectPage() {
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: -1,
-            pointerEvents: 'none'
+            width: '100vw',
+            height: '100vh',
+            zIndex: 1000,  // ВРЕМЕННО высокий z-index для отладки
+            pointerEvents: 'none',
+            background: 'red', // ВРЕМЕННО красный фон для видимости
+            border: '5px solid blue' // ВРЕМЕННО синяя рамка
           }}
         />
       )}
