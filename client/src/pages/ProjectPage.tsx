@@ -577,6 +577,11 @@ export default function ProjectPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
                   className="text-center mb-8"
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    backdropFilter: 'blur(2px)',
+                    padding: '24px'
+                  }}
                 >
                   <h1 
                     className="petrovy-title" 
@@ -597,6 +602,11 @@ export default function ProjectPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="relative max-w-3xl mx-auto mb-12"
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    backdropFilter: 'blur(2px)',
+                    padding: '24px'
+                  }}
                 >
                   <div className="relative overflow-hidden rounded-lg">
                     <img 
@@ -657,12 +667,6 @@ export default function ProjectPage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                style={project.id === "petrovy-saratov-drama" ? {
-                  backgroundColor: 'rgba(0,0,0,0.75)',
-                  backdropFilter: 'blur(2px)',
-                  borderRadius: '12px',
-                  padding: '24px'
-                } : {}}
               >
                 {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && (
                   <>
@@ -878,12 +882,7 @@ export default function ProjectPage() {
 
               {/* Case Study for Petrovy */}
               {project.id === "petrovy-saratov-drama" && (
-                <div className="mt-8" style={{
-                  backgroundColor: 'rgba(0,0,0,0.75)',
-                  backdropFilter: 'blur(2px)',
-                  borderRadius: '12px',
-                  padding: '24px'
-                }}>
+                <div className="mt-8">
                   
                   {/* Постановочная команда и роль в проекте в две колонки */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
@@ -976,12 +975,6 @@ export default function ProjectPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
                   className="max-w-4xl mx-auto mt-12 mb-8"
-                  style={{
-                    backgroundColor: 'rgba(0,0,0,0.75)',
-                    backdropFilter: 'blur(2px)',
-                    borderRadius: '12px',
-                    padding: '24px'
-                  }}
                 >
                   <h3 className="text-3xl font-bold text-white mb-8 text-center" style={{color: '#22c55e'}}>
                     Музыка из спектакля
