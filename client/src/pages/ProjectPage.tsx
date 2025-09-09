@@ -559,9 +559,10 @@ export default function ProjectPage() {
                   className="text-center mb-8"
                 >
                   <NeonTitle text="ИДИОТ" />
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-6">
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">
                     Театр драмы им. Слонова • 2024
                   </p>
+                  <p className="text-sm text-gray-400 mb-6">г. Саратов</p>
                 </motion.div>
               )}
 
@@ -574,9 +575,10 @@ export default function ProjectPage() {
                   className="text-center mb-8"
                 >
                   <MayakTitle text="" />
-                  <p className="text-xl font-medium mt-4 mb-6" style={{color: '#8B4513'}}>
+                  <p className="text-xl font-medium mt-4 mb-2" style={{color: '#8B4513'}}>
                     «Артлайф» • 2024
                   </p>
+                  <p className="text-sm mb-6" style={{color: '#8B4513', opacity: 0.7}}>г. Москва</p>
                 </motion.div>
               )}
 
@@ -597,7 +599,8 @@ export default function ProjectPage() {
                     ПЕТРОВЫ В ГРИППЕ
                   </h1>
                   <div className="petrovy-subtitle">и вокруг него</div>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-6">Театр драмы им. Слонова • 2025</p>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Театр драмы им. Слонова • 2025</p>
+                  <p className="text-sm text-gray-400 mb-6">г. Саратов</p>
                 </motion.div>
               )}
 
