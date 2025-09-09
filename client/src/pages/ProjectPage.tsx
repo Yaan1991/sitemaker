@@ -287,41 +287,27 @@ export default function ProjectPage() {
     if (player) player.prevTrack();
   };
   
-  // Intersection Observer для смены фона при скроллинге (только для Петровых)
+  // Автоматический скроллинг изображений фона (не привязанный к тексту)
   useEffect(() => {
     if (project?.id !== "petrovy-saratov-drama" || !project.comicImages) return;
 
-    const sections = document.querySelectorAll('[data-section]');
-    const imageMapping: { [key: string]: string } = {
-      'concept': project.comicImages.cover,
-      'creative-task': project.comicImages.boy,
-      'technical-task': project.comicImages.phone,
-      'key-solutions': project.comicImages.tram,
-      'result': project.comicImages.phone2 || project.comicImages.phone,
-    };
+    const images = [
+      project.comicImages.cover,
+      project.comicImages.boy,
+      project.comicImages.tram,
+      project.comicImages.phone,
+      project.comicImages.phone2 || project.comicImages.phone,
+    ];
 
-    // Устанавливаем начальное изображение
-    setCurrentBackgroundImage(project.comicImages.cover);
+    let currentImageIndex = 0;
+    setCurrentBackgroundImage(images[0]);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const sectionName = entry.target.getAttribute('data-section');
-            if (sectionName && imageMapping[sectionName]) {
-              setCurrentBackgroundImage(imageMapping[sectionName]);
-            }
-          }
-        });
-      },
-      { threshold: 0.3 } // Изображение меняется когда секция на 30% видна
-    );
+    const interval = setInterval(() => {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      setCurrentBackgroundImage(images[currentImageIndex]);
+    }, 4000); // Смена каждые 4 секунды
 
-    sections.forEach((section) => observer.observe(section));
-
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-    };
+    return () => clearInterval(interval);
   }, [project?.id, project?.comicImages]);
 
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
@@ -748,7 +734,7 @@ export default function ProjectPage() {
                   </div>
                   
                   <div className="space-y-6 text-gray-300 leading-relaxed">
-                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg border border-green-500/30" data-section="concept">
+                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Концепция</h4>
                       <p>
                         Театр как комикс, где пространство одновременно рассказывает историю Петровых и размышляет о театре как о пространстве бреда. 
@@ -756,7 +742,7 @@ export default function ProjectPage() {
                       </p>
                     </div>
 
-                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg border border-green-500/30" data-section="creative-task">
+                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Творческая задача</h4>
                       <p>
                         Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, 
@@ -776,7 +762,7 @@ export default function ProjectPage() {
                       </div>
                     </div>
 
-                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg border border-green-500/30" data-section="technical-task">
+                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Техническая задача</h4>
                       <p>
                         Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
@@ -784,7 +770,7 @@ export default function ProjectPage() {
                       </p>
                     </div>
 
-                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg border border-green-500/30" data-section="key-solutions">
+                    <div className="bg-black/60 backdrop-blur-sm p-6 rounded-lg">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Ключевые решения</h4>
                       
                       <div className="space-y-4">
@@ -800,7 +786,7 @@ export default function ProjectPage() {
                       </div>
                     </div>
 
-                    <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg" data-section="result">
+                    <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
                       <h4 className="text-xl font-semibold text-green-400 mb-3">Результат</h4>
                       <p>
                         Спектакль, где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.<br/>
