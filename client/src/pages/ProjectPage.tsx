@@ -44,22 +44,31 @@ function MayakTitle({ text }: { text: string }) {
   );
 }
 
-// Глобальный флаг для предотвращения множественной инициализации
-let isCanvasInitialized = false;
-
 // Canvas анимация параллакс-фона для Петровых
 function initParallaxBackground(canvasId: string) {
-  // Предотвращаем повторную инициализацию
-  if (isCanvasInitialized) return;
+  // Проверяем глобальный флаг
+  if ((window as any).isCanvasInitialized) {
+    console.log('Canvas уже инициализирован, пропускаем');
+    return;
+  }
+  
+  console.log('🎨 Инициализация Canvas:', canvasId);
   
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-  if (!canvas) return;
+  if (!canvas) {
+    console.error('Canvas не найден:', canvasId);
+    return;
+  }
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) {
+    console.error('Не удалось получить контекст Canvas');
+    return;
+  }
 
   // Помечаем как инициализированный
-  isCanvasInitialized = true;
+  (window as any).isCanvasInitialized = true;
+  console.log('✅ Canvas успешно инициализирован!');
   
   // Убираем тестовый прямоугольник - он больше не нужен
 
@@ -431,18 +440,31 @@ export default function ProjectPage() {
   useEffect(() => {
     if (project?.id !== "petrovy-saratov-drama") return;
 
+    console.log('🎬 Старт Canvas анимации');
+    
+    // Сброс флага на случай если он заблокирован
+    (window as any).isCanvasInitialized = false;
+
     // Одноразовая инициализация Canvas
     const initCanvas = () => {
       const canvas = document.getElementById('petrovy-bg-canvas');
+      console.log('Canvas найден:', !!canvas);
       if (canvas) {
+        console.log('Запускаем initParallaxBackground');
         initParallaxBackground('petrovy-bg-canvas');
+      } else {
+        console.error('Canvas не найден в DOM!');
       }
     };
 
     // Запускаем один раз после небольшой задержки
     const timer = setTimeout(initCanvas, 200);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      // Сбрасываем флаг при размонтировании
+      (window as any).isCanvasInitialized = false;
+    };
   }, [project?.id]);
 
   // Автоматическое воспроизведение для Петровых в гриппе при заходе на страницу
