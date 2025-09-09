@@ -590,13 +590,13 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
-              {/* Полупрозрачный фон на всю ширину для заголовка и фото */}
+              {/* Полупрозрачный фон на всю ширину для заголовка */}
               {project.id === "petrovy-saratov-drama" && (
                 <div 
                   className="fixed left-0 w-screen"
                   style={{
                     top: '0px', // Начинается от самого верха
-                    height: '700px', // Покрывает хедер + заголовок + фото
+                    height: '350px', // Покрывает только хедер + заголовок (до начала фото)
                     backgroundColor: 'rgba(0,0,0,0.75)',
                     backdropFilter: 'blur(2px)',
                     zIndex: 1,
