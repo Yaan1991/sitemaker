@@ -330,6 +330,25 @@ const mayakTracks = [
   }
 ];
 
+// Треки для спектакля "Петровы в гриппе и вокруг него"
+const petrovyTracks = [
+  {
+    id: 'loneliness',
+    title: 'Тема одиночества',
+    url: '/audio/petrovy_loneliness.mp3'
+  },
+  {
+    id: 'visitors',
+    title: 'Приехали в гости',
+    url: '/audio/petrovy_visitors.mp3'
+  },
+  {
+    id: 'illness',
+    title: 'Болезнь Петрова младшего',
+    url: '/audio/petrovy_illness.mp3'
+  }
+];
+
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
@@ -698,98 +717,92 @@ export default function ProjectPage() {
                 </div>
               )}
 
-              {/* Case Study for Mayakovsky */}
-              {/* Полноэкранные комиксные страницы для "Петровы в гриппе" */}
-              {project.id === "petrovy-saratov-drama" && project.comicImages && (
-                <div className="space-y-0">
+              {/* Case Study for Comic Project "Petrovy" */}
+              {project.id === "petrovy-saratov-drama" && (
+                <div className="mt-8 comic-glitch">
                   
-                  {/* Страница 1: Обложка */}
-                  <ComicPage backgroundImage={project.comicImages.cover}>
-                    <ComicTitle title={project.title} />
-                    <ComicBubble className="text-center">
-                      <p className="text-lg mb-4">
-                        Постановка по роману Алексея Сальникова — одному из самых «несценичных» текстов современной литературы
-                      </p>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <h4 className="comic-section-title text-lg mb-2">Постановочная команда</h4>
-                          <p>Режиссёр: {project.details?.director}</p>
-                          <p>Художник: Ольга Кузнецова</p>
-                          <p>Свет: Максим Бирюков</p>
-                        </div>
-                        <div>
-                          <h4 className="comic-section-title text-lg mb-2">Роль в проекте</h4>
-                          {project.role.map((role, index) => (
-                            <p key={index}>{role}</p>
-                          ))}
+                  {/* Постановочная команда и роль в проекте в две колонки */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
+                    <div>
+                      <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
+                      <div className="text-gray-300 space-y-1">
+                        <p>Режиссёр: {project.details?.director}</p>
+                        <p>Художник-постановщик: Ольга Кузнецова</p>
+                        <p>Художник по свету: Максим Бирюков</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                      <div className="petrovy-primary font-semibold text-lg space-y-1">
+                        {project.role.map((role, index) => (
+                          <p key={index}>{role}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="glass-effect rounded-xl p-6 space-y-6">
+
+                    <div className="space-y-6 text-gray-300 leading-relaxed">
+                      <div>
+                        <h4 className="text-xl font-semibold petrovy-heading mb-3">Концепция</h4>
+                        <p>
+                          Театр как комикс, где пространство одновременно рассказывает историю Петровых 
+                          и размышляет о театре как о пространстве бреда. Постановка балансирует между 
+                          бытовым реализмом и абсурдом. Спектакль решён как комикс и театр о самом себе: 
+                          действие начинается в закулисье с режиссёром-панк-ведьмой и уборщицей со шваброй-знаменем.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold petrovy-heading mb-3">Творческая задача</h4>
+                        <p>
+                          Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный 
+                          драматургический пласт, который поможет удержать зрителя в лабиринте абсурдного повествования.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xl font-semibold petrovy-heading mb-3">Ключевые решения</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">Жанровая мозаика:</strong> музыка следует логике спектакля, 
+                              переключаясь от сентиментального неоклассицизма до тревожных эмбиентов и мультяшной гротескности.
+                            </p>
+                          </div>
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">ИИ-эксперименты:</strong> оперная обработка песни «Ноль» 
+                              подчеркнула комиксную природу постановки.
+                            </p>
+                          </div>
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">Лейтмотивная система:</strong> для персонажей и сцен, 
+                              атмосферные эмбиенты и дроун-текстуры.
+                            </p>
+                          </div>
+                          <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                            <p>
+                              <strong className="text-white">Техническая реализация:</strong> QLab автоматизация 
+                              через MIDI и OSC-протоколы для управления всеми звуковыми элементами спектакля.
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </ComicBubble>
-                  </ComicPage>
 
-                  {/* Страница 2: Концепция */}
-                  <ComicPage backgroundImage={project.comicImages.boy}>
-                    <ComicBubble>
-                      <h2 className="comic-section-title">Концепция</h2>
-                      <p className="mb-4">
-                        Театр как комикс, где пространство одновременно рассказывает историю Петровых 
-                        и размышляет о театре как о пространстве бреда. Постановка балансирует между 
-                        бытовым реализмом и абсурдом.
-                      </p>
-                      <p>
-                        Спектакль решён как комикс и театр о самом себе: действие начинается в закулисье 
-                        с режиссёром-панк-ведьмой и уборщицей со шваброй-знаменем.
-                      </p>
-                    </ComicBubble>
-                  </ComicPage>
-
-                  {/* Страница 3: Творческая задача */}
-                  <ComicPage backgroundImage={project.comicImages.tram}>
-                    <ComicBubble>
-                      <h2 className="comic-section-title">Творческая задача</h2>
-                      <p className="mb-4">
-                        Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный 
-                        драматургический пласт, который поможет удержать зрителя в лабиринте абсурдного повествования.
-                      </p>
-                      <div className="space-y-2">
-                        <p><strong style={{color: 'var(--petrovy-green)'}}>Жанровая мозаика:</strong> музыка следует логике спектакля, переключаясь от сентиментального неоклассицизма до тревожных эмбиентов и мультяшной гротескности</p>
-                        <p><strong style={{color: 'var(--petrovy-green)'}}>Лейтмотивная система:</strong> для персонажей и сцен</p>
-                        <p><strong style={{color: 'var(--petrovy-green)'}}>Атмосферные эмбиенты:</strong> и дроун-текстуры</p>
+                      <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-lg">
+                        <h4 className="text-xl font-semibold petrovy-heading mb-3">Результат</h4>
+                        <p>
+                          <strong className="text-white">Гипернасыщенный спектакль,</strong> где каждый элемент звуковой партитуры работает на создание 
+                          целостного художественного высказывания. Зрительские реакции кардинально разные — от недоумения до восторга, но равнодушных нет.<br/>
+                          <strong className="petrovy-primary">Мой вклад:</strong> создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, 
+                          техническая реализация сложной звуковой архитектуры спектакля.
+                        </p>
                       </div>
-                    </ComicBubble>
-                  </ComicPage>
-
-                  {/* Страница 4: ИИ-эксперименты */}
-                  <ComicPage backgroundImage={project.comicImages.phone}>
-                    <ComicBubble>
-                      <h2 className="comic-section-title">ИИ-эксперименты</h2>
-                      <p className="mb-4">
-                        <strong style={{color: 'var(--petrovy-green)'}}>Ироничные ИИ-эксперименты:</strong> оперная обработка песни «Ноль» подчеркнула комиксную природу постановки.
-                      </p>
-                      <p className="mb-4">
-                        <strong style={{color: 'var(--petrovy-green)'}}>Равноправная драматургия:</strong> звук не иллюстрирует, а соучаствует в создании смыслов наравне с актёрской игрой и сценографией.
-                      </p>
-                      <p>
-                        Техническая реализация: QLab автоматизация через MIDI и OSC-протоколы для управления всеми звуковыми элементами спектакля.
-                      </p>
-                    </ComicBubble>
-                  </ComicPage>
-
-                  {/* Страница 5: Результат */}
-                  <ComicPage backgroundImage={project.comicImages.phone2}>
-                    <ComicBubble>
-                      <h2 className="comic-section-title">Результат</h2>
-                      <p className="mb-4">
-                        <strong style={{color: 'var(--petrovy-green)', fontSize: '1.2em'}}>Гипернасыщенный спектакль,</strong> где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.
-                      </p>
-                      <p className="mb-4">
-                        Зрительские реакции кардинально разные — от недоумения до восторга, но равнодушных нет.
-                      </p>
-                      <p style={{color: 'var(--petrovy-green)', fontWeight: 'bold'}}>
-                        Мой вклад: создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, техническая реализация сложной звуковой архитектуры спектакля.
-                      </p>
-                    </ComicBubble>
-                  </ComicPage>
+                    </div>
+                  </div>
 
                 </div>
               )}
@@ -1083,65 +1096,132 @@ export default function ProjectPage() {
           )}
 
           {/* Music Section for Comic Project "Petrovy" */}
-          {project.id === "petrovy-saratov-drama" && project.tracks && (
+          {project.id === "petrovy-saratov-drama" && (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
               className="max-w-4xl mx-auto mt-12 mb-8"
             >
-              <div className="comic-player">
-                <h3 className="text-2xl font-bold mb-6 text-center comic-section-title">
-                  Музыка из спектакля
-                </h3>
+              <h3 className="text-3xl font-bold text-white mb-8 text-center petrovy-heading">
+                Музыка из спектакля
+              </h3>
+              
+              <div className="petrovy-player p-6">
                 
+                {/* Winamp-style player interface for Petrovy */}
                 <div className="space-y-4">
-                  {/* Список треков */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    {project.tracks.map((track, index) => (
-                      <div key={track.id} className="text-center">
+                  
+                  {/* Top row: Display and Equalizer */}
+                  <div className="flex justify-between items-stretch gap-4">
+                    <div className="w-48 sm:w-64 md:w-80">
+                      <div className="petrovy-display mb-2 h-8 flex items-center">
+                        {isProjectPlayerReady ? (
+                          <div className="overflow-hidden whitespace-nowrap w-full">
+                            <div className={`${
+                              (currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран').length > 25 
+                                ? 'animate-marquee' 
+                                : 'animate-pulse'
+                            }`}>
+                              ♪ {currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран'} ♪
+                            </div>
+                          </div>
+                        ) : (
+                          '*** ЗАГРУЗКА... ***'
+                        )}
+                      </div>
+                      <div className="flex items-center">
+                        <div className="petrovy-track-info overflow-hidden whitespace-nowrap w-full">
+                          <span className={`text-xs sm:text-sm ${
+                            'Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв'.length > 35 
+                              ? 'animate-marquee' 
+                              : ''
+                          }`}>
+                            Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
+                          </span>
+                        </div>
                         <button 
                           type="button"
-                          className="comic-player-button w-full mb-2"
-                          title={`Воспроизвести: ${track.title}`}
-                          data-testid={`button-track-${index}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleGlobalAudio();
+                          }}
+                          className={`petrovy-button text-xs px-2 py-1 ml-2 ${isGlobalAudioEnabled ? 'active' : ''}`}
+                          title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
                         >
-                          {track.title}
+                          {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
                         </button>
                       </div>
-                    ))}
+                    </div>
+                    <div className="flex flex-col gap-2 w-24 sm:w-28 md:w-32">
+                      <div className="petrovy-time text-xs sm:text-base">
+                        {formatTime(localCurrentTime)} / {formatTime(localDuration)}
+                      </div>
+                      <Equalizer isPlaying={localIsPlaying && isGlobalAudioEnabled} />
+                    </div>
                   </div>
 
-                  {/* Комиксный плеер */}
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                      <button 
-                        type="button"
-                        className="comic-player-button"
-                        title="Воспроизвести/Пауза"
-                      >
-                        <Play className="w-5 h-5" />
-                      </button>
-                      <button 
-                        type="button"
-                        className="comic-player-button"
-                        title="Стоп"
-                      >
-                        <Square className="w-4 h-4" />
-                      </button>
-                    </div>
-                    
-                    <div className="flex-1 text-center">
-                      <div className="text-sm font-bold mb-2">00:00 / 00:00</div>
-                      <ComicEqualizer isPlaying={false} />
-                    </div>
+                  {/* Progress bar */}
+                  <div className="petrovy-progress-container">
+                    <div 
+                      className="petrovy-progress-bar" 
+                      style={{ width: `${localDuration > 0 ? (localCurrentTime / localDuration) * 100 : 0}%` }}
+                    />
+                  </div>
+
+                  {/* Control buttons */}
+                  <div className="flex items-center justify-center gap-2">
+                    <button 
+                      type="button"
+                      onClick={handlePrevTrack}
+                      className="petrovy-button"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Предыдущий трек"
+                    >
+                      <SkipBack className="w-4 h-4" />
+                    </button>
                     
                     <button 
                       type="button"
-                      className="comic-player-button text-xs"
-                      title="Настройки звука"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!isGlobalAudioEnabled) {
+                          toggleGlobalAudio();
+                          // Запускаем трек через небольшую задержку после включения звука
+                          setTimeout(() => {
+                            const player = (window as any).projectPlayer;
+                            if (player) player.playTrack(0);
+                          }, 200);
+                        } else {
+                          handleTogglePlayPause(e);
+                        }
+                      }}
+                      className={`petrovy-button ${localIsPlaying ? 'active' : ''}`}
+                      title={localIsPlaying ? "Пауза" : "Воспроизвести"}
                     >
-                      PWR
+                      {localIsPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                    </button>
+
+                    <button 
+                      type="button"
+                      onClick={handleStopAudio}
+                      className="petrovy-button"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Стоп"
+                    >
+                      <Square className="w-4 h-4" />
+                    </button>
+
+                    <button 
+                      type="button"
+                      onClick={handleNextTrack}
+                      className="petrovy-button"
+                      disabled={!isGlobalAudioEnabled}
+                      title="Следующий трек"
+                    >
+                      <SkipForward className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
