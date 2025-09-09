@@ -19,6 +19,9 @@ export function TypewriterText({
   const [isVisible, setIsVisible] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
+  
+  // Проверяем что text существует и это строка
+  const safeText = text || "";
 
   // Intersection Observer для отслеживания видимости
   useEffect(() => {
@@ -54,8 +57,8 @@ export function TypewriterText({
     const startTyping = () => {
       let index = 0;
       const typeNextChar = () => {
-        if (index < text.length) {
-          setDisplayedText(prev => prev + text[index]);
+        if (index < safeText.length) {
+          setDisplayedText(prev => prev + safeText[index]);
           index++;
           setTimeout(typeNextChar, speed);
         }
@@ -68,7 +71,7 @@ export function TypewriterText({
     } else {
       startTyping();
     }
-  }, [isVisible, text, speed, delay, hasStarted]);
+  }, [isVisible, safeText, speed, delay, hasStarted]);
 
   return (
     <div
@@ -78,6 +81,7 @@ export function TypewriterText({
         fontFamily: '"Courier New", "American Typewriter", monospace',
         letterSpacing: '0.5px',
         lineHeight: '1.6',
+        minHeight: `${Math.ceil(safeText.length / 80) * 1.6}em`, // Резервируем пространство заранее
         ...style
       }}
     >

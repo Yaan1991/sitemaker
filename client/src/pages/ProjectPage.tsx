@@ -361,9 +361,12 @@ export default function ProjectPage() {
                     text={project.fullDescription}
                     speed={45}
                     delay={800}
-                    className="text-xl leading-relaxed text-gray-800"
+                    className="text-xl leading-relaxed"
                     style={{
-                      fontWeight: '500'
+                      color: '#4a5568',
+                      fontWeight: '500',
+                      padding: '0',
+                      margin: '0'
                     }}
                   />
                 ) : (
@@ -498,7 +501,12 @@ export default function ProjectPage() {
                           text="Спектакль начинается «за секунду до» - перед выстрелом Маяковский вспоминает свою биографию. Постановка раскрывает поэта как живого человека со страстями и страданиями, а не просто «продукт времени». Минимум декораций и визуальных спецэффектов, акцент на психологизме. Создана трёхслойная звуковая драматургия: реальность, поэтический слой и абстракция."
                           speed={35}
                           delay={200}
-                          className="text-gray-800"
+                          className=""
+                          style={{
+                            color: '#4a5568',
+                            padding: '0',
+                            margin: '0'
+                          }}
                         />
                       </div>
 
@@ -508,7 +516,12 @@ export default function ProjectPage() {
                           text="Создать звуковую партитуру, где зритель интуитивно чувствует переключение между жизнью, поэтическим текстом и внутренним монологом героя."
                           speed={40}
                           delay={400}
-                          className="text-gray-800"
+                          className=""
+                          style={{
+                            color: '#4a5568',
+                            padding: '0',
+                            margin: '0'
+                          }}
                         />
                       </div>
 
@@ -518,7 +531,12 @@ export default function ProjectPage() {
                           text="Обеспечить гибкую архитектуру для антрепризы - спектакль должен стабильно звучать на любых площадках с разными консолями и акустическими условиями."
                           speed={40}
                           delay={600}
-                          className="text-gray-800"
+                          className=""
+                          style={{
+                            color: '#4a5568',
+                            padding: '0',
+                            margin: '0'
+                          }}
                         />
                         
                         <div className="mt-4">
@@ -546,7 +564,13 @@ export default function ProjectPage() {
                               text=" музыка и голоса в реальном времени превращаются из естественных в совершенно иные формы, создавая эффект смены восприятия."
                               speed={35}
                               delay={800}
-                              className="text-gray-800 inline"
+                              className=""
+                              style={{
+                                color: '#4a5568',
+                                display: 'inline',
+                                padding: '0',
+                                margin: '0'
+                              }}
                             />
                           </div>
                           
@@ -556,7 +580,13 @@ export default function ProjectPage() {
                               text=" автоматическая адаптация от surround к стерео, от Yamaha Rivage к M32/X32 с готовыми шаблонами."
                               speed={35}
                               delay={1000}
-                              className="text-gray-800 inline"
+                              className=""
+                              style={{
+                                color: '#4a5568',
+                                display: 'inline',
+                                padding: '0',
+                                margin: '0'
+                              }}
                             />
                           </div>
                           
@@ -566,7 +596,13 @@ export default function ProjectPage() {
                               text=" на Zoom-рекордер записывал актёров и бытовые звуки, ставшие частью слоя спектакля."
                               speed={35}
                               delay={1200}
-                              className="text-gray-800 inline"
+                              className=""
+                              style={{
+                                color: '#4a5568',
+                                display: 'inline',
+                                padding: '0',
+                                margin: '0'
+                              }}
                             />
                           </div>
                         </div>
