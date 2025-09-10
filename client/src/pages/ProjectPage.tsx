@@ -403,9 +403,9 @@ export default function ProjectPage() {
   
   const project = projects.find(p => p.id === projectId);
 
-  // Автозапуск музыки для Homo Homini
+  // Автозапуск музыки для Homo Homini (только если глобальный звук включен)
   useEffect(() => {
-    if (project?.id === "homo-homini-short" && project.autoPlayAudio && autoPlayAudioRef.current) {
+    if (project?.id === "homo-homini-short" && project.autoPlayAudio && autoPlayAudioRef.current && isGlobalAudioEnabled) {
       const audio = autoPlayAudioRef.current;
       const tryPlay = () => {
         audio.play().catch(err => {
@@ -418,7 +418,9 @@ export default function ProjectPage() {
       
       // Также запускаем при клике по странице
       const handleUserInteraction = () => {
-        tryPlay();
+        if (isGlobalAudioEnabled) {
+          tryPlay();
+        }
         document.removeEventListener('click', handleUserInteraction);
       };
       document.addEventListener('click', handleUserInteraction);
@@ -427,7 +429,17 @@ export default function ProjectPage() {
         document.removeEventListener('click', handleUserInteraction);
       };
     }
-  }, [project]);
+  }, [project, isGlobalAudioEnabled]);
+
+  // Останавливаем музыку если звук выключен
+  useEffect(() => {
+    if (autoPlayAudioRef.current) {
+      const audio = autoPlayAudioRef.current;
+      if (!isGlobalAudioEnabled) {
+        audio.pause();
+      }
+    }
+  }, [isGlobalAudioEnabled]);
 
   if (!project) {
     return (
