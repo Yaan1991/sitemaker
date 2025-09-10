@@ -26,7 +26,7 @@ export default function SectionNavigation() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.6 }}
-      className="py-16 px-6"
+      className="py-20 px-6"
     >
       <div className="container mx-auto max-w-4xl">
         <nav className="flex items-center justify-center">

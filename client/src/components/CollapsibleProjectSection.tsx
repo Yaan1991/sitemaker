@@ -25,7 +25,7 @@ interface ProjectSectionProps {
 export default function ProjectSection({ categories }: ProjectSectionProps) {
 
   return (
-    <section className="py-20 px-6">
+    <section className="pt-0 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
