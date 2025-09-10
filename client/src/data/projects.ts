@@ -193,11 +193,6 @@ export const projects: Project[] = [
     ],
     links: [
       {
-        label: "Кинофестиваль «Короче» (Калининград)",
-        url: "#",
-        external: false,
-      },
-      {
         label: "Кинопоиск",
         url: "https://www.kinopoisk.ru/film/9017614/",
         external: true,
