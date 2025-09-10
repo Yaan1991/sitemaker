@@ -567,8 +567,8 @@ export default function ProjectPage() {
               width: '100vw',
               height: '100vh',
               objectFit: 'cover',
-              zIndex: 1,
-              filter: 'brightness(0.3) contrast(1.2)',
+              zIndex: -2,
+              filter: 'brightness(0.6) contrast(1.1)',
               pointerEvents: 'none'
             }}
           >
@@ -581,8 +581,8 @@ export default function ProjectPage() {
               left: 0,
               width: '100vw',
               height: '100vh',
-              backgroundColor: 'rgba(0,0,0,0.6)',
-              zIndex: 2,
+              backgroundColor: 'rgba(0,0,0,0.3)',
+              zIndex: -1,
               pointerEvents: 'none'
             }}
           />
