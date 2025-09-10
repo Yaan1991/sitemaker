@@ -60,13 +60,6 @@ export default function About() {
               </div>
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <Link
-                  href="/main-works"
-                  className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-white transition-all duration-300 text-center"
-                  data-testid="button-main-works"
-                >
-                  Основные работы
-                </Link>
-                <Link
                   href="/"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold glass-effect text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"
                   data-testid="button-back-home"

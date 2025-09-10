@@ -301,18 +301,6 @@ export default function Header() {
                 >
                   На главную
                 </Link>
-                <Link
-                  href="/main-works"
-                  className={`block px-4 py-3 transition-colors duration-200 ${
-                    isActive('/main-works')
-                      ? "text-primary bg-primary/10"
-                      : "text-gray-300 hover:text-primary hover:bg-white/5"
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  data-testid="mobile-link-main-works"
-                >
-                  Основные работы
-                </Link>
                 {mainNavigation.map((item) => (
                   <Link
                     key={item.href}
