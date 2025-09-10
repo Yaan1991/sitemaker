@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Volume2, VolumeX, SkipBack, SkipForward } from "lucide-react";
+import { Menu, X, Volume2, VolumeX, SkipBack, SkipForward, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
 import { useAudio } from "@/contexts/AudioContext";
@@ -8,6 +8,7 @@ import { useAudio } from "@/contexts/AudioContext";
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isWorksDropdownOpen, setIsWorksDropdownOpen] = useState(false);
   const [location] = useLocation();
   const { 
     isGlobalAudioEnabled, 
@@ -41,6 +42,12 @@ export default function Header() {
     theatre: projects.filter(p => p.category === 'theatre'),
     film: projects.filter(p => p.category === 'film'),
     audio: projects.filter(p => p.category === 'audio'),
+  };
+
+  const categoryLabels = {
+    theatre: "ТЕАТР",
+    film: "КИНО", 
+    audio: "АУДИО"
   };
 
   const socialLinks = [
@@ -139,6 +146,60 @@ export default function Header() {
               </div>
             )}
             
+            {/* Works Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsWorksDropdownOpen(true)}
+              onMouseLeave={() => setIsWorksDropdownOpen(false)}
+            >
+              <button
+                className="flex items-center gap-1 text-white hover:text-primary focus:outline-none transition-colors duration-300"
+                data-testid="button-works-dropdown"
+              >
+                Работы
+                <ChevronDown 
+                  className={`w-4 h-4 transition-transform duration-200 ${
+                    isWorksDropdownOpen ? 'rotate-180' : ''
+                  }`} 
+                />
+              </button>
+
+              {/* Works Dropdown Menu */}
+              <AnimatePresence>
+                {isWorksDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 top-full mt-2 w-80 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-50"
+                  >
+                    <div className="py-2">
+                      {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
+                        <div key={category} className="mb-4 last:mb-0">
+                          <div className="px-4 py-2 text-primary font-medium text-sm uppercase tracking-wider border-b border-border/30">
+                            {categoryLabels[category as keyof typeof categoryLabels]}
+                          </div>
+                          {categoryProjects.map((project) => (
+                            <Link
+                              key={project.id}
+                              href={`/project/${project.id}`}
+                              className="block px-4 py-2 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200"
+                              onClick={() => setIsWorksDropdownOpen(false)}
+                              data-testid={`link-project-${project.id}`}
+                            >
+                              <div className="font-medium">{project.title}</div>
+                              <div className="text-xs text-muted-foreground mt-1">{project.year}</div>
+                            </Link>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {/* Menu Button */}
             <button
               className="text-white hover:text-primary focus:outline-none transition-colors duration-300"
@@ -202,6 +263,32 @@ export default function Header() {
                     >
                       Все проекты
                     </Link>
+                    
+                    {/* Mobile Works Section */}
+                    <div className="border-t border-border/30 mt-2 pt-2">
+                      <div className="px-4 py-2 text-primary font-medium text-sm uppercase tracking-wider">
+                        Работы по категориям
+                      </div>
+                      {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
+                        <div key={category} className="mb-3">
+                          <div className="px-4 py-1 text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                            {categoryLabels[category as keyof typeof categoryLabels]}
+                          </div>
+                          {categoryProjects.map((project) => (
+                            <Link
+                              key={project.id}
+                              href={`/project/${project.id}`}
+                              className="block px-6 py-2 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200"
+                              onClick={() => setIsMenuOpen(false)}
+                              data-testid={`link-mobile-project-${project.id}`}
+                            >
+                              <div className="text-sm">{project.title}</div>
+                              <div className="text-xs text-muted-foreground">{project.year}</div>
+                            </Link>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               )}
