@@ -41,7 +41,6 @@ export interface Project {
     title: string;
     url: string;
   }>;
-  autoPlayAudio?: string;
   details?: {
     duration?: string;
     genre?: string;
@@ -192,7 +191,6 @@ export const projects: Project[] = [
       "/images/homo-homini-4.webp",
       "/images/homo-homini-5.webp"
     ],
-    autoPlayAudio: "/audio/hhmusicreel.mp3",
     links: [
       {
         label: "Кинофестиваль «Короче» (Калининград)",

@@ -351,7 +351,6 @@ export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
   const [currentBackgroundImage, setCurrentBackgroundImage] = useState('');
-  const autoPlayAudioRef = useRef<HTMLAudioElement>(null);
   
   const { 
     isGlobalAudioEnabled, 
@@ -403,49 +402,25 @@ export default function ProjectPage() {
   
   const project = projects.find(p => p.id === projectId);
 
-  // Автозапуск музыки для Homo Homini (только если глобальный звук включен)
+  // Автоматическое воспроизведение для Homo Homini ТОЛЬКО при первом заходе на страницу
   useEffect(() => {
-    if (project?.id === "homo-homini-short" && project.autoPlayAudio && autoPlayAudioRef.current && isGlobalAudioEnabled) {
-      const audio = autoPlayAudioRef.current;
-      const tryPlay = () => {
-        audio.play().catch(err => {
-          console.log('Автозапуск заблокирован браузером:', err);
-        });
-      };
+    if (project?.id === "homo-homini-short") {
+      // Флаг для предотвращения повторного автозапуска
+      const hasAutoStarted = sessionStorage.getItem('homo-homini-auto-started');
       
-      // Пробуем запустить после небольшой задержки
-      setTimeout(tryPlay, 500);
-      
-      // Также запускаем при клике по странице
-      const handleUserInteraction = () => {
-        if (isGlobalAudioEnabled) {
-          tryPlay();
-        }
-        document.removeEventListener('click', handleUserInteraction);
-      };
-      document.addEventListener('click', handleUserInteraction);
-      
-      return () => {
-        document.removeEventListener('click', handleUserInteraction);
-      };
-    }
-  }, [project, isGlobalAudioEnabled]);
-
-  // Управляем музыкой в зависимости от состояния звука
-  useEffect(() => {
-    if (project?.id === "homo-homini-short" && project.autoPlayAudio && autoPlayAudioRef.current) {
-      const audio = autoPlayAudioRef.current;
-      if (isGlobalAudioEnabled) {
-        // Запускаем музыку если звук включен
-        audio.play().catch(err => {
-          console.log('Автозапуск заблокирован браузером:', err);
-        });
-      } else {
-        // Останавливаем музыку если звук выключен
-        audio.pause();
+      if (!hasAutoStarted) {
+        const timer = setTimeout(() => {
+          const player = (window as any).projectPlayer;
+          if (player && isGlobalAudioEnabled && !isPlaying) {
+            player.playTrack(0); // Запускаем первый трек
+            sessionStorage.setItem('homo-homini-auto-started', 'true');
+          }
+        }, 2000);
+        
+        return () => clearTimeout(timer);
       }
     }
-  }, [isGlobalAudioEnabled, project]);
+  }, [project?.id, isGlobalAudioEnabled]);
 
   if (!project) {
     return (
@@ -1772,15 +1747,6 @@ export default function ProjectPage() {
         </div>
       </div>
       
-      {/* Скрытый аудиоэлемент для автозапуска музыки в Homo Homini */}
-      {project.autoPlayAudio && (
-        <audio
-          ref={autoPlayAudioRef}
-          src={project.autoPlayAudio}
-          loop
-          style={{ display: 'none' }}
-        />
-      )}
     </>
   );
 }

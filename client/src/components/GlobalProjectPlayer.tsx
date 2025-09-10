@@ -65,6 +65,13 @@ const projectPlaylistMap: Record<string, Track[]> = {
       title: 'Болезнь Петрова младшего',
       url: '/audio/Petrovy_theme_of_sick.mp3'
     }
+  ],
+  'homo-homini-short': [
+    {
+      id: 'hhmusicreel',
+      title: 'Homo Homini Music Reel',
+      url: '/audio/hhmusicreel.mp3'
+    }
   ]
   // Будущие проекты добавляются сюда
 };
