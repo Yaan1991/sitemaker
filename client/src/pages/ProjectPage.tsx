@@ -7,6 +7,7 @@ import { Link } from "wouter";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { useAudio } from "@/contexts/AudioContext";
 import { useState, useEffect, useRef } from "react";
+import hhBackgroundVideo from "@assets/hhbgrndvideo.mp4";
 
 // Компонент неонового текста с мигающей "О"
 function NeonTitle({ text }: { text: string }) {
@@ -549,6 +550,43 @@ export default function ProjectPage() {
             pointerEvents: 'none'
           }}
         />
+      )}
+      
+      {/* Видео-фон для Homo Homini */}
+      {project.id === "homo-homini-short" && (
+        <>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              objectFit: 'cover',
+              zIndex: 1,
+              filter: 'brightness(0.3) contrast(1.2)',
+              pointerEvents: 'none'
+            }}
+          >
+            <source src={hhBackgroundVideo} type="video/mp4" />
+          </video>
+          <div 
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              backgroundColor: 'rgba(0,0,0,0.6)',
+              zIndex: 2,
+              pointerEvents: 'none'
+            }}
+          />
+        </>
       )}
       
       <div 
