@@ -368,14 +368,13 @@ export default function ProjectPage() {
   const localCurrentTime = currentTime;
   const localDuration = duration;
   
-  // Фотографии для спектакля "Идиот" (5 фото)
+  // Фотографии для спектакля "Идиот" (5 фото для автосмены)
   const idiotPhotos = [
-    "/images/idiot.webp",
-    "/images/idiot3_1756479054514.webp",
-    "/images/idiot4_1756479054514.webp",
-    "/images/idiot5_1756479169274.webp",
-    "/images/idiot6.webp",
-    "/images/idiot7.webp"
+    "/images/idiot3_1756479054514.webp",  // idiot1 (спальня)
+    "/images/idiot4_1756479054514.webp",  // idiot2 (девушка)  
+    "/images/idiot5_1756479169274.webp",  // idiot3 (трамвай/экраны)
+    "/images/idiot6.webp",                // idiot4 (комната с ТВ)
+    "/images/idiot7.webp"                 // idiot5 (сцена с дымом)
   ];
 
   // Фотографии для спектакля "Петровы в гриппе и вокруг него" (5 фото)
