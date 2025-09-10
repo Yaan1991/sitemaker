@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Hero from "@/components/Hero";
 import SEOHead from "@/components/SEOHead";
 import ProjectSection from "@/components/CollapsibleProjectSection";
+import SectionNavigation from "@/components/SectionNavigation";
 
 // Project categories data
 const projectCategories = [
@@ -110,6 +111,9 @@ export default function Home() {
       <SEOHead />
       <div className="min-h-screen">
         <Hero />
+        
+        {/* Section Navigation */}
+        <SectionNavigation />
         
         {/* Main Projects Section */}
         <ProjectSection categories={projectCategories} />
