@@ -615,7 +615,7 @@ export default function ProjectPage() {
               height: '100vh',
               objectFit: 'cover',
               zIndex: 1,
-              filter: 'brightness(0.3) contrast(1.2)',
+              filter: 'brightness(0.4) contrast(1.1)',
               pointerEvents: 'none'
             }}
           >

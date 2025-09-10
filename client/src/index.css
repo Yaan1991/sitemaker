@@ -80,7 +80,7 @@
 @layer utilities {
   .glass-effect {
     backdrop-filter: blur(10px);
-    background: rgba(18, 18, 18, 0.85);
+    background: rgba(18, 18, 18, 0.6);
   }
 
   .neon-glow {
