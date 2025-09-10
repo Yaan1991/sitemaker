@@ -653,7 +653,7 @@ export default function ProjectPage() {
                     HOMO HOMINI
                   </h1>
                   <p className="text-lg text-gray-400 mb-6" style={{letterSpacing: '0.1em'}}>
-                    Человек человеку другим
+                    человек человеку
                   </p>
                   <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Короткометражный фильм • 2025</p>
                   <p className="text-sm text-gray-400 mb-6">Режиссёр: Иван Комаров</p>
