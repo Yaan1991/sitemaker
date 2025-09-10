@@ -12,6 +12,7 @@ export default function Footer() {
   const [location] = useLocation();
   const isPetrovyProject = location === "/project/petrovy-saratov-drama";
   const isHomoHominiProject = location === "/project/homo-homini-short";
+  const isMaProject = location === "/project/ma-short-film";
   
   return (
     <footer 
@@ -25,6 +26,11 @@ export default function Footer() {
         position: 'relative',
         zIndex: 15,
         backgroundColor: 'rgba(0,0,0,0.8)',
+        backdropFilter: 'blur(2px)'
+      } : isMaProject ? {
+        position: 'relative',
+        zIndex: 15,
+        backgroundColor: 'rgba(0,0,0,0.7)',
         backdropFilter: 'blur(2px)'
       } : {}}
     >
