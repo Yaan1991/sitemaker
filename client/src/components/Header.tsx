@@ -354,8 +354,16 @@ export default function Header() {
             {/* Mobile Works Dropdown */}
             <div className="relative">
               <button
-                className="flex items-center gap-1 text-white hover:text-primary focus:outline-none transition-colors duration-300"
+                className={`flex items-center gap-1 focus:outline-none transition-colors duration-300 ${
+                  isMobileWorksOpen 
+                    ? 'text-primary' 
+                    : 'text-white hover:text-primary'
+                }`}
                 onClick={() => setIsMobileWorksOpen(!isMobileWorksOpen)}
+                onBlur={() => {
+                  // Небольшая задержка для корректной работы с выпадающим меню
+                  setTimeout(() => setIsMobileWorksOpen(false), 150);
+                }}
                 data-testid="button-mobile-works"
               >
                 Работы
