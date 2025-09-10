@@ -417,8 +417,15 @@
     position: relative;
     overflow: hidden;
     width: 100%;
-    aspect-ratio: 16/9;
-    min-height: 400px;
+    height: 300px; /* Мобильная высота */
+    aspect-ratio: auto;
+  }
+
+  @media (min-width: 768px) {
+    .photo-carousel {
+      height: 400px; /* Десктопная высота */
+      aspect-ratio: 16/9;
+    }
   }
 
   .photo-carousel img {
