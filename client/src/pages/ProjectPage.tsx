@@ -1314,7 +1314,7 @@ export default function ProjectPage() {
               )}
 
               {/* Regular Details for other projects */}
-              {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && project.details && (
+              {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && project.id !== "homo-homini-short" && project.details && (
                 <div className="glass-effect rounded-xl p-6">
                   <h3 className="text-2xl font-russo font-bold text-white mb-6">Детали проекта</h3>
                   
@@ -1556,6 +1556,171 @@ export default function ProjectPage() {
                 </ul>
               </div>
             )}
+
+            {/* Case Study for Homo Homini */}
+            {project.id === "homo-homini-short" && (
+              <div className="mt-8">
+                
+                {/* Описание проекта */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>Описание</h3>
+                    <p className="text-gray-300 text-lg leading-relaxed">
+                      Короткометражная драма с элементами чёрной комедии. Создано 13 оригинальных композиций и проведен полный пост-продакшн звука включая финальный микс в 5.1. Саунд-дизайн балансирует между реализмом и стилизацией под азиатские боевики.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Контекст */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>Контекст</h3>
+                    <p className="text-gray-300 text-lg leading-relaxed">
+                      История робкого Саввы, увлечённого японской культурой. После смерти собаки и предательства девушки, обокравшей его, герой превращается в персонажа азиатского боевика — надевает кимоно, маску демона-они и отправляется мстить с молотком. Премьера состоялась на кинофестивале «Короче» в Калининграде.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Съёмочная группа и роль в проекте в две колонки */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>Съёмочная группа</h4>
+                    <div className="text-gray-300 space-y-2">
+                      <p><strong>Режиссёр, сценарист:</strong> Иван Комаров</p>
+                      <p><strong>Продюсеры:</strong> Элеонора Клементьева, Иван Комаров, Елена Ербакова</p>
+                      <p><strong>Оператор:</strong> Лотос Суни Парк</p>
+                      <p><strong>Художники:</strong> Галина Процанова, Анна Хрусталева</p>
+                    </div>
+                    <div className="mt-4">
+                      <p className="text-sm text-gray-400 font-medium mb-2">В главных ролях:</p>
+                      <p className="text-gray-300 text-sm">Семён Штейнберг, Елена Ербакова, Антон Кузнецов, Алёна Бабенко, Александр Панов, Батраз Засеев, Ефим Белосорочка</p>
+                    </div>
+                  </div>
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>Роль в проекте</h4>
+                    <p className="text-yellow-400 font-semibold text-lg mb-3">
+                      Композитор, саунд-дизайнер, звукорежиссёр пост-продакшена, сонграйтер, промт-инженер
+                    </p>
+                    <div className="space-y-3">
+                      <div>
+                        <h5 className="text-white font-medium mb-2">Концепция</h5>
+                        <p className="text-gray-300 text-sm">Фильм о человеке, превращающем свою жизнь в кинематографическую цитату. Герой находит в чужой культуре силу для мести, балансируя между подлинностью и условностью.</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Творческие и технические задачи */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>Творческая задача</h4>
+                    <p className="text-gray-300">
+                      Написать 13 композиций как эмоциональную партитуру героя, создать двухуровневый саунд-дизайн (реализм + стилизация), сделать звук второй драматургией фильма.
+                    </p>
+                  </div>
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>Техническая задача</h4>
+                    <p className="text-gray-300">
+                      Провести полный цикл пост-продакшна звука: от монтажа до финального микса в стерео и 5.1, обеспечить техническое качество для кинофестивального показа.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Выполненные работы */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>Выполненные работы</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <ul className="space-y-2 text-gray-300">
+                        <li>• Написание 13 оригинальных композиций</li>
+                        <li>• Сонграйтинг</li>
+                        <li>• Создание японской песни 70-х с помощью ИИ</li>
+                        <li>• Полевые записи бытовых звуков и локаций</li>
+                      </ul>
+                      <ul className="space-y-2 text-gray-300">
+                        <li>• Создание стилизованного саунд-дизайна для боевых сцен</li>
+                        <li>• Монтаж, сведение и мастеринг звука</li>
+                        <li>• Подготовка финальных миксов в стерео и 5.1</li>
+                      </ul>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Ключевые решения */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6 space-y-6">
+                    <h3 className="text-2xl font-bold" style={{color: '#FFD700'}}>Ключевые решения</h3>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-white font-medium mb-2">Эмоциональная партитура</h4>
+                        <p className="text-gray-300">Музыка следует за внутренними состояниями Саввы — от комичности до драмы и экшена, становясь его «вторым голосом».</p>
+                      </div>
+                      
+                      <div>
+                        <h4 className="text-white font-medium mb-2">Коллаборативная японская песня</h4>
+                        <p className="text-gray-300">Режиссёр написал текст, который был переведён на японский и с помощью ИИ превращён в аутентичную композицию в стиле японского шансона 70-х с женским вокалом.</p>
+                      </div>
+                      
+                      <div>
+                        <h4 className="text-white font-medium mb-2">Двухуровневый саунд-дизайн</h4>
+                        <p className="text-gray-300">Реалистичные бытовые сцены контрастируют со стилизованными под азиатские боевики эпизодами мести.</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Результат */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.9 }}
+                  className="mb-8"
+                >
+                  <div className="bg-yellow-500/10 border border-yellow-500/30 p-6 rounded-xl">
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>Результат</h3>
+                    <p className="text-lg text-gray-300 leading-relaxed">
+                      Фильм получил цельный звуковой образ с выразительной драматургией. Премьера состоялась на кинофестивале «Короче» в Калининграде. Это кинопроект, где я взял на себя весь пласт звукового производства.
+                    </p>
+                    <p className="text-yellow-400 font-semibold mt-4">
+                      <strong>Мой вклад:</strong> создание полной звуковой партитуры фильма, инновационное использование ИИ для генерации аутентичной японской песни, полный цикл пост-продакшна звука.
+                    </p>
+                  </div>
+                </motion.div>
+
+              </div>
+            )}
+            
           </motion.div>
         </div>
       </div>
