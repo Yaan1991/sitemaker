@@ -346,39 +346,12 @@ const petrovyTracks = [
   }
 ];
 
-// Треки для фильма "Homo Homini"
-const homoHominiTracks = [
-  {
-    id: 'savva_theme',
-    title: 'Тема Саввы',
-    url: '/audio/homo_homini_savva_theme.mp3'
-  },
-  {
-    id: 'japanese_song',
-    title: 'Японская песня 70-х (ИИ)',
-    url: '/audio/homo_homini_japanese_song.mp3'
-  },
-  {
-    id: 'revenge_theme',
-    title: 'Тема мести',
-    url: '/audio/homo_homini_revenge_theme.mp3'
-  },
-  {
-    id: 'oni_mask',
-    title: 'Маска Демона-Они',
-    url: '/audio/homo_homini_oni_mask.mp3'
-  },
-  {
-    id: 'action_sequence',
-    title: 'Экшн-последовательность',
-    url: '/audio/homo_homini_action.mp3'
-  }
-];
 
 export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
   const [currentBackgroundImage, setCurrentBackgroundImage] = useState('');
+  const autoPlayAudioRef = useRef<HTMLAudioElement>(null);
   
   const { 
     isGlobalAudioEnabled, 
@@ -429,6 +402,32 @@ export default function ProjectPage() {
   ];
   
   const project = projects.find(p => p.id === projectId);
+
+  // Автозапуск музыки для Homo Homini
+  useEffect(() => {
+    if (project?.id === "homo-homini-short" && project.autoPlayAudio && autoPlayAudioRef.current) {
+      const audio = autoPlayAudioRef.current;
+      const tryPlay = () => {
+        audio.play().catch(err => {
+          console.log('Автозапуск заблокирован браузером:', err);
+        });
+      };
+      
+      // Пробуем запустить после небольшой задержки
+      setTimeout(tryPlay, 500);
+      
+      // Также запускаем при клике по странице
+      const handleUserInteraction = () => {
+        tryPlay();
+        document.removeEventListener('click', handleUserInteraction);
+      };
+      document.addEventListener('click', handleUserInteraction);
+      
+      return () => {
+        document.removeEventListener('click', handleUserInteraction);
+      };
+    }
+  }, [project]);
 
   if (!project) {
     return (
@@ -1754,6 +1753,16 @@ export default function ProjectPage() {
           </motion.div>
         </div>
       </div>
+      
+      {/* Скрытый аудиоэлемент для автозапуска музыки в Homo Homini */}
+      {project.autoPlayAudio && (
+        <audio
+          ref={autoPlayAudioRef}
+          src={project.autoPlayAudio}
+          loop
+          style={{ display: 'none' }}
+        />
+      )}
     </>
   );
 }
