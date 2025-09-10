@@ -427,10 +427,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     opacity: 0;
     transition: opacity 1.5s ease-in-out;
     border-radius: 0.5rem;
+    background: #000;
   }
 
   .photo-carousel img.active {
@@ -1558,7 +1559,7 @@
 .comic-image-carousel img {
   flex: 0 0 20%; /* Каждое изображение занимает 20% ширины контейнера */
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   filter: 
     contrast(1.2) 
     saturate(1.3)
