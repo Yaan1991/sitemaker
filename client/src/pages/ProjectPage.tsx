@@ -1909,6 +1909,8 @@ export default function ProjectPage() {
                           ? "text-green-400 hover:text-green-300 bg-green-500/10 border-green-500/30"
                           : project.id === "homo-homini-short"
                           ? "text-yellow-400 hover:text-yellow-300 bg-yellow-500/10 border-yellow-500/30"
+                          : project.id === "ma-short-film"
+                          ? "text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 border-cyan-500/30"
                           : "idiot-primary hover:text-pink-400 bg-pink-500/10 border-pink-500/30"
                       }`}
                       data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
