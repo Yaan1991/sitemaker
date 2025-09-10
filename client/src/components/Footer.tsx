@@ -11,6 +11,7 @@ const bandlinkIcon = "/icons/icon_bandlink.png";
 export default function Footer() {
   const [location] = useLocation();
   const isPetrovyProject = location === "/project/petrovy-saratov-drama";
+  const isHomoHominiProject = location === "/project/homo-homini-short";
   
   return (
     <footer 
@@ -19,6 +20,11 @@ export default function Footer() {
         position: 'relative',
         zIndex: 50,
         backgroundColor: 'rgba(0,0,0,0.85)',
+        backdropFilter: 'blur(2px)'
+      } : isHomoHominiProject ? {
+        position: 'relative',
+        zIndex: 15,
+        backgroundColor: 'rgba(0,0,0,0.8)',
         backdropFilter: 'blur(2px)'
       } : {}}
     >
