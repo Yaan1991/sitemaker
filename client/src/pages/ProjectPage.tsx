@@ -388,6 +388,16 @@ export default function ProjectPage() {
     "/images/petrovygal3.webp",
     "/images/petrovygal4.webp"
   ];
+
+  // Фотографии для фильма "Homo Homini" (6 кадров из фильма)
+  const homoHominiPhotos = [
+    "/images/homo-homini-cover.webp",  // обложка (два персонажа)
+    "/images/homo-homini-1.webp",      // блондинка с грустным лицом
+    "/images/homo-homini-2.webp",      // маска демона-они с молотком
+    "/images/homo-homini-3.webp",      // мужчина в интерьере
+    "/images/homo-homini-4.webp",      // экшн-сцена с неоновыми мечами
+    "/images/homo-homini-5.webp"       // сцена на кухне
+  ];
   
   const project = projects.find(p => p.id === projectId);
 
@@ -657,6 +667,12 @@ export default function ProjectPage() {
                     <PhotoCarousel photos={petrovyPhotos} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent rounded-lg" />
                   </div>
+                ) : project.id === "homo-homini-short" ? (
+                  /* Галерея фотографий для Homo Homini */
+                  <div className="relative">
+                    <PhotoCarousel photos={homoHominiPhotos} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
+                  </div>
                 ) : (
                   /* Обычное фото для других проектов */
                   (<>
@@ -671,13 +687,32 @@ export default function ProjectPage() {
                 )}
               </motion.div>
 
+              {/* Заголовок и информация для проекта Homo Homini */}
+              {project.id === "homo-homini-short" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-8"
+                >
+                  <h1 className="text-6xl lg:text-7xl font-bold mb-4" style={{color: '#FFD700', textShadow: '0 0 20px rgba(255, 215, 0, 0.5)'}}>
+                    HOMO HOMINI
+                  </h1>
+                  <p className="text-lg text-gray-400 mb-6" style={{letterSpacing: '0.1em'}}>
+                    Человек человеку другим
+                  </p>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Короткометражный фильм • 2024</p>
+                  <p className="text-sm text-gray-400 mb-6">Режиссёр: Иван Комаров</p>
+                </motion.div>
+              )}
+
               {/* Header */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && (
+                {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && project.id !== "homo-homini-short" && (
                   <>
                     <div className="text-sm idiot-primary font-medium tracking-wide uppercase mb-2">
                       {categoryNames[project.category]} • {project.year}
@@ -688,12 +723,14 @@ export default function ProjectPage() {
                   </>
                 )}
                 
-                <p className={`text-xl leading-relaxed relative ${
-                  project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" :
-                  project.id === "petrovy-saratov-drama" ? "text-gray-300" : "text-gray-300"
-                }`} style={project.id === "petrovy-saratov-drama" ? {zIndex: 60} : {}}>
-                  {project.fullDescription}
-                </p>
+                {project.id !== "homo-homini-short" && (
+                  <p className={`text-xl leading-relaxed relative ${
+                    project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" :
+                    project.id === "petrovy-saratov-drama" ? "text-gray-300" : "text-gray-300"
+                  }`} style={project.id === "petrovy-saratov-drama" ? {zIndex: 60} : {}}>
+                    {project.fullDescription}
+                  </p>
+                )}
               </motion.div>
 
               {/* Case Study for Idiot */}
