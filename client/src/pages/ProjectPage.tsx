@@ -1532,7 +1532,7 @@ export default function ProjectPage() {
           {project.id === "homo-homini-short" && (
             <div className="mt-8">
               
-              {/* Описание проекта */}
+              {/* Описание без заголовка */}
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -1540,24 +1540,8 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>Описание</h3>
                     <p className="text-gray-300 text-lg leading-relaxed">
-                      Короткометражная драма с элементами чёрной комедии. Создано 13 оригинальных композиций и проведен полный пост-продакшн звука включая финальный микс в 5.1. Саунд-дизайн балансирует между реализмом и стилизацией под азиатские боевики.
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Контекст */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="mb-8"
-                >
-                  <div className="glass-effect rounded-xl p-6">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>Контекст</h3>
-                    <p className="text-gray-300 text-lg leading-relaxed">
-                      История робкого Саввы, увлечённого японской культурой. После смерти собаки и предательства девушки, обокравшей его, герой превращается в персонажа азиатского боевика — надевает кимоно, маску демона-они и отправляется мстить с молотком. Премьера состоялась на кинофестивале «Короче» в Калининграде.
+                      Короткометражная драма с элементами чёрной комедии. Создано 13 оригинальных композиций и проведен полный пост-продакшн звука включая финальный микс в 5.1. Саунд-дизайн балансирует между реализмом и стилизацией под азиатские боевики. Премьера состоялась на кинофестивале «Короче» в Калининграде.
                     </p>
                   </div>
                 </motion.div>
