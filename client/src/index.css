@@ -423,7 +423,21 @@
 
   @media (min-width: 768px) {
     .photo-carousel {
-      height: 400px; /* Десктопная высота */
+      height: 400px; /* Планшетная высота */
+      aspect-ratio: 16/9;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .photo-carousel {
+      height: clamp(450px, 40vh, 650px); /* Адаптивная высота с ограничениями */
+      aspect-ratio: 16/9;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .photo-carousel {
+      height: clamp(500px, 45vh, 700px); /* Больше для крупных мониторов */
       aspect-ratio: 16/9;
     }
   }
