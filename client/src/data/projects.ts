@@ -197,6 +197,11 @@ export const projects: Project[] = [
         url: "#",
         external: false,
       },
+      {
+        label: "Кинопоиск",
+        url: "https://www.kinopoisk.ru/film/9017614/",
+        external: true,
+      },
     ],
     details: {
       duration: "Короткометражный",
