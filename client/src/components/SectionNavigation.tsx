@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const navigationItems = [
   { label: "Театр", href: "#theatre" },
   { label: "Кино", href: "#cinema" },
-  { label: "Аудиоспектакли", href: "#audioplays" }
+  { label: "Аудио", href: "#audioplays" }
 ];
 
 export default function SectionNavigation() {
