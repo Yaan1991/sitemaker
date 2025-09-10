@@ -1447,58 +1447,6 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
-              {/* Regular Details for other projects */}
-              {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && project.id !== "homo-homini-short" && project.details && (
-                <div className="glass-effect rounded-xl p-6">
-                  <h3 className="text-2xl font-russo font-bold text-white mb-6">Детали проекта</h3>
-                  
-                  <div className="space-y-4">
-                    {project.details.director && (
-                      <div>
-                        <span className="text-sm text-primary font-medium">Режиссёр:</span>
-                        <span className="text-gray-300 ml-2">{project.details.director}</span>
-                      </div>
-                    )}
-                    
-                    {project.details.genre && (
-                      <div>
-                        <span className="text-sm text-primary font-medium">Жанр:</span>
-                        <span className="text-gray-300 ml-2">{project.details.genre}</span>
-                      </div>
-                    )}
-                    
-                    {project.details.duration && (
-                      <div>
-                        <span className="text-sm text-primary font-medium">Продолжительность:</span>
-                        <span className="text-gray-300 ml-2">{project.details.duration}</span>
-                      </div>
-                    )}
-
-                    {project.details.technical && project.details.technical.length > 0 && (
-                      <div>
-                        <span className="text-sm text-primary font-medium block mb-2">Технические решения:</span>
-                        <div className="flex flex-wrap gap-2">
-                          {project.details.technical.map((tech, index) => (
-                            <span
-                              key={index}
-                              className="px-2 py-1 bg-pink-500/20 idiot-primary text-sm rounded"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {project.details.cast && project.details.cast.length > 0 && (
-                      <div>
-                        <span className="text-sm text-primary font-medium">В ролях:</span>
-                        <span className="text-gray-300 ml-2">{project.details.cast.join(", ")}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
           </div>
 
 
