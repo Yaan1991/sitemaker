@@ -368,9 +368,7 @@ export default function ProjectPage() {
   const localCurrentTime = currentTime;
   const localDuration = duration;
   
-  // Локальные состояния для Winamp плеера
-  const [isVolumeOpen, setIsVolumeOpen] = useState(false);
-  const [localVolume, setLocalVolume] = useState(1.0);
+  // Убираем неиспользуемые локальные состояния
   
   // Фотографии для спектакля "Идиот" (6 фото, начиная с обложки)
   const idiotPhotos = [
@@ -439,32 +437,7 @@ export default function ProjectPage() {
     if (player) player.prevTrack();
   };
   
-  // Дополнительные функции для Winamp плеера
-  const handlePlayPause = () => {
-    const player = (window as any).projectPlayer;
-    if (player) player.togglePlayPause();
-  };
-  
-  const handleStop = () => {
-    const player = (window as any).projectPlayer;
-    if (player) player.stop();
-  };
-  
-  const playProjectPlaylist = (projectId: string) => {
-    const player = (window as any).projectPlayer;
-    if (player) player.loadPlaylist(projectId);
-  };
-  
-  const setCurrentProjectTrack = (trackIndex: number) => {
-    const player = (window as any).projectPlayer;
-    if (player) player.playTrack(trackIndex);
-  };
-  
-  const setIsPlaying = (playing: boolean) => {
-    const player = (window as any).projectPlayer;
-    if (player && playing) player.play();
-    else if (player) player.pause();
-  };
+  // Убираем проблемные функции - используем существующие
   
   // Canvas анимация для Петровых - НЕЗАВИСИМО от аудио
   useEffect(() => {
@@ -1013,18 +986,24 @@ export default function ProjectPage() {
                             e.stopPropagation();
                             if (!isGlobalAudioEnabled) {
                               toggleGlobalAudio();
+                              // Запускаем плейлист Идиота через небольшую задержку после включения звука
                               setTimeout(() => {
-                                playProjectPlaylist('idiot-saratov-drama');
-                              }, 100);
+                                const player = (window as any).projectPlayer;
+                                if (player) {
+                                  player.setPlaylist(idiotTracks);
+                                  player.setCurrentTrack(idiotTracks[0]);
+                                  player.togglePlayPause();
+                                }
+                              }, 200);
                             } else {
-                              handlePlayPause();
+                              handleTogglePlayPause(e);
                             }
                           }}
-                          className={`winamp-play-button ${localIsPlaying && isGlobalAudioEnabled ? 'playing' : ''}`}
+                          className={`winamp-button ${localIsPlaying ? 'active' : ''}`}
                           style={{zIndex: 60}}
-                          title={localIsPlaying ? "Пауза" : "Воспроизведение"}
+                          title={localIsPlaying ? "Пауза" : "Воспроизвести"}
                         >
-                          {localIsPlaying && isGlobalAudioEnabled ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-1" />}
+                          {localIsPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                         </button>
                         
                         <button 
@@ -1040,80 +1019,25 @@ export default function ProjectPage() {
                         
                         <button 
                           type="button"
-                          onClick={handleStop}
+                          onClick={handleStopAudio}
                           className="winamp-button"
                           style={{zIndex: 60}}
                           disabled={!isGlobalAudioEnabled}
-                          title="Остановить"
+                          title="Стоп"
                         >
                           <Square className="w-4 h-4" />
                         </button>
-                        
+
                         <button 
                           type="button"
-                          onClick={() => setIsVolumeOpen(!isVolumeOpen)}
+                          onClick={handleNextTrack}
                           className="winamp-button"
                           style={{zIndex: 60}}
                           disabled={!isGlobalAudioEnabled}
-                          title="Громкость"
+                          title="Следующий трек"
                         >
-                          <Volume2 className="w-4 h-4" />
+                          <SkipForward className="w-4 h-4" />
                         </button>
-                      </div>
-
-                      {/* Volume Slider */}
-                      {isVolumeOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          className="bg-black/50 p-3 rounded"
-                        >
-                          <div className="flex items-center gap-3">
-                            <span className="text-xs text-gray-400 w-12">VOL:</span>
-                            <input
-                              type="range"
-                              min="0"
-                              max="1"
-                              step="0.1"
-                              value={localVolume}
-                              onChange={(e) => setLocalVolume(Number(e.target.value))}
-                              className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                            />
-                            <span className="text-xs text-gray-400 w-8">{Math.round(localVolume * 100)}</span>
-                          </div>
-                        </motion.div>
-                      )}
-
-                      {/* Track List */}
-                      <div className="bg-black/30 rounded p-3">
-                        <div className="text-xs text-gray-400 mb-2 font-mono">PLAYLIST • {currentProjectPlaylist?.length || 0} tracks</div>
-                        <div className="space-y-1 max-h-32 overflow-y-auto">
-                          {currentProjectPlaylist?.map((track, index) => (
-                            <button
-                              key={track.id}
-                              type="button"
-                              onClick={() => {
-                                if (isGlobalAudioEnabled) {
-                                  setCurrentProjectTrack(index);
-                                  setIsPlaying(true);
-                                }
-                              }}
-                              className={`w-full text-left text-xs px-2 py-1 rounded transition-colors ${
-                                index === currentProjectTrack && isGlobalAudioEnabled
-                                  ? 'bg-blue-600/50 text-white' 
-                                  : 'text-gray-300 hover:bg-white/10'
-                              }`}
-                              style={{zIndex: 60}}
-                              disabled={!isGlobalAudioEnabled}
-                            >
-                              <span className="font-mono text-gray-500 mr-2">
-                                {(index + 1).toString().padStart(2, '0')}.
-                              </span>
-                              {track.title}
-                            </button>
-                          )) || []}
-                        </div>
                       </div>
                     </div>
                   </div>
