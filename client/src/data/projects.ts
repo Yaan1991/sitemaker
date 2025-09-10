@@ -41,6 +41,7 @@ export interface Project {
     title: string;
     url: string;
   }>;
+  autoPlayAudio?: string;
   details?: {
     duration?: string;
     genre?: string;
@@ -191,33 +192,7 @@ export const projects: Project[] = [
       "/images/homo-homini-4.webp",
       "/images/homo-homini-5.webp"
     ],
-    tracks: [
-      {
-        id: "savva_theme",
-        title: "Тема Саввы",
-        url: "/audio/homo_homini_savva_theme.mp3"
-      },
-      {
-        id: "japanese_song",
-        title: "Японская песня 70-х (ИИ)",
-        url: "/audio/homo_homini_japanese_song.mp3"
-      },
-      {
-        id: "revenge_theme",
-        title: "Тема мести",
-        url: "/audio/homo_homini_revenge_theme.mp3"
-      },
-      {
-        id: "oni_mask",
-        title: "Маска Демона-Они",
-        url: "/audio/homo_homini_oni_mask.mp3"
-      },
-      {
-        id: "action_sequence",
-        title: "Экшн-последовательность",
-        url: "/audio/homo_homini_action.mp3"
-      }
-    ],
+    autoPlayAudio: "/audio/hhmusicreel.mp3",
     links: [
       {
         label: "Кинофестиваль «Короче» (Калининград)",
