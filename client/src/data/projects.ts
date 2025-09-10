@@ -6,7 +6,7 @@ import petrovyBoyImage from "@assets/Boy_1757437253646.webp";
 import petrovyTramImage from "@assets/boyandtram_1757437253647.webp";
 import petrovyPhoneImage from "@assets/Phone_1757437253647.webp";
 import petrovyPhone2Image from "@assets/Phone2_1757437253647.webp";
-const homoHominiImage = "/images/homohomini.webp";
+const homoHominiImage = "/images/homo-homini-cover.webp";
 const maFilmImage = "/images/ma_film.webp";
 const lifeInArtImage = "/images/life_in_art.webp";
 const sonOHlebeImage = "/images/son_o_hlebe.webp";
@@ -177,23 +177,35 @@ export const projects: Project[] = [
   {
     id: "homo-homini-short",
     title: "Homo Homini",
-    year: "2025",
-    description: "13 композиций + полный пост.",
-    fullDescription: "Короткометражный фильм с полным циклом звукового пост-продакшна. Создано 13 оригинальных композиций, выполнены сведение диалогов, создание шумов и атмосфер. Музыкальное решение строится на контрасте лирических и драматических моментов, подчеркивая философскую глубину повествования.",
+    year: "2024",
+    description: "Короткометражная драма с элементами чёрной комедии. 13 оригинальных композиций + полный пост-продакшн в 5.1.",
+    fullDescription: "История робкого Саввы, увлечённого японской культурой. После смерти собаки и предательства девушки, обокравшей его, герой превращается в персонажа азиатского боевика - надевает кимоно, маску демона-они и отправляется мстить с молотком. Фильм о человеке, превращающем свою жизнь в кинематографическую цитату, где герой находит в чужой культуре силу для мести, балансируя между подлинностью и условностью. Саунд-дизайн балансирует между реализмом и стилизацией под азиатские боевики.",
     image: homoHominiImage,
     category: "film",
-    role: ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"],
+    role: ["Композитор", "Саунд-дизайнер", "Звукорежиссёр пост-продакшена", "Сонграйтер", "Промт-инженер"],
+    photos: [
+      "/images/homo-homini-cover.webp",
+      "/images/homo-homini-1.webp",
+      "/images/homo-homini-2.webp",
+      "/images/homo-homini-3.webp",
+      "/images/homo-homini-4.webp",
+      "/images/homo-homini-5.webp"
+    ],
     links: [
       {
-        label: "Kino.Mail.ru",
-        url: "https://kino.mail.ru/cinema/movies/950068_homo_homini_chelovek_cheloveku/",
-        external: true,
+        label: "Кинофестиваль «Короче» (Калининград)",
+        url: "#",
+        external: false,
       },
     ],
     details: {
-      duration: "15 минут",
-      genre: "Драма",
-      technical: ["13 композиций", "Полный постпродакшн", "Сведение", "Шумы"],
+      duration: "Короткометражный",
+      genre: "Драма с элементами чёрной комедии",
+      director: "Иван Комаров",
+      producer: "Элеонора Клементьева, Иван Комаров, Елена Ербакова",
+      cast: ["Семён Штейнберг", "Елена Ербакова", "Антон Кузнецов", "Алёна Бабенко", "Александр Панов", "Батраз Засеев", "Ефим Белосорочка"],
+      technical: ["13 оригинальных композиций", "Японская песня 70-х с ИИ", "Полевые записи", "Стилизованный саунд-дизайн", "Финальный микс в стерео и 5.1"],
+      premiere: "Кинофестиваль «Короче», Калининград"
     },
   },
   {
