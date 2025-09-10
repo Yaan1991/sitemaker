@@ -1554,7 +1554,7 @@ export default function ProjectPage() {
                   className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>Съёмочная группа</h4>
+                    <h4 className="text-white font-medium mb-3">Съёмочная группа</h4>
                     <div className="text-gray-300 space-y-2">
                       <p><strong>Режиссёр, сценарист:</strong> Иван Комаров</p>
                       <p><strong>Продюсеры:</strong> Элеонора Клементьева, Иван Комаров, Елена Ербакова</p>
@@ -1567,7 +1567,7 @@ export default function ProjectPage() {
                     </div>
                   </div>
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>Роль в проекте</h4>
+                    <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
                     <p className="text-yellow-400 font-semibold text-lg mb-3">
                       Композитор, саунд-дизайнер, звукорежиссёр пост-продакшена, сонграйтер, промт-инженер
                     </p>
