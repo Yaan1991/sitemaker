@@ -26,19 +26,8 @@ export default function SectionNavigation() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.6 }}
-      className="py-32 px-6 relative"
+      className="pt-32 pb-32 px-6 relative"
     >
-      {/* Верхний разделитель */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
-        <div className="flex items-center">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
-          <div className="mx-4">
-            <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
-          </div>
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
-        </div>
-      </div>
-
       <div className="container mx-auto max-w-4xl">
         <nav className="flex items-center justify-center">
           <div className="flex items-center gap-8 md:gap-12">
