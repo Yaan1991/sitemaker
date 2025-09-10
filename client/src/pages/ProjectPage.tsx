@@ -368,6 +368,10 @@ export default function ProjectPage() {
   const localCurrentTime = currentTime;
   const localDuration = duration;
   
+  // Локальные состояния для Winamp плеера
+  const [isVolumeOpen, setIsVolumeOpen] = useState(false);
+  const [localVolume, setLocalVolume] = useState(1.0);
+  
   // Фотографии для спектакля "Идиот" (6 фото, начиная с обложки)
   const idiotPhotos = [
     "/images/idiot.webp",                 // обложка (круг света) - ПЕРВАЯ
@@ -433,6 +437,33 @@ export default function ProjectPage() {
     e.stopPropagation();
     const player = (window as any).projectPlayer;
     if (player) player.prevTrack();
+  };
+  
+  // Дополнительные функции для Winamp плеера
+  const handlePlayPause = () => {
+    const player = (window as any).projectPlayer;
+    if (player) player.togglePlayPause();
+  };
+  
+  const handleStop = () => {
+    const player = (window as any).projectPlayer;
+    if (player) player.stop();
+  };
+  
+  const playProjectPlaylist = (projectId: string) => {
+    const player = (window as any).projectPlayer;
+    if (player) player.loadPlaylist(projectId);
+  };
+  
+  const setCurrentProjectTrack = (trackIndex: number) => {
+    const player = (window as any).projectPlayer;
+    if (player) player.playTrack(trackIndex);
+  };
+  
+  const setIsPlaying = (playing: boolean) => {
+    const player = (window as any).projectPlayer;
+    if (player && playing) player.play();
+    else if (player) player.pause();
   };
   
   // Canvas анимация для Петровых - НЕЗАВИСИМО от аудио
@@ -883,6 +914,210 @@ export default function ProjectPage() {
                   </div>
 
                 </div>
+              )}
+
+              {/* Music Section for Idiot Project */}
+              {project.id === "idiot-saratov-drama" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="max-w-4xl mx-auto mt-12 mb-8 relative"
+                  style={{zIndex: 50}}
+                >
+                  <h3 className="text-3xl font-bold text-white mb-8 text-center idiot-primary">
+                    Музыка из спектакля
+                  </h3>
+                  
+                  <div className="winamp-player p-6 relative" style={{zIndex: 60}}>
+                    
+                    {/* Winamp-style player interface */}
+                    <div className="space-y-4">
+                      
+                      {/* Top row: Display and Equalizer */}
+                      <div className="flex justify-between items-stretch gap-4">
+                        <div className="w-48 sm:w-64 md:w-80">
+                          <div className="winamp-display mb-2 h-8 flex items-center">
+                            {isProjectPlayerReady ? (
+                              <div className="overflow-hidden whitespace-nowrap w-full">
+                                <div className={`${
+                                  (currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран').length > 25 
+                                    ? 'animate-marquee' 
+                                    : 'animate-pulse'
+                                }`}>
+                                  ♪ {currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран'} ♪
+                                </div>
+                              </div>
+                            ) : (
+                              '*** ЗАГРУЗКА... ***'
+                            )}
+                          </div>
+                          <div className="flex items-center">
+                            <div className="track-info overflow-hidden whitespace-nowrap w-full">
+                              <span className={`text-xs sm:text-sm ${
+                                'Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв'.length > 35 
+                                  ? 'animate-marquee' 
+                                  : ''
+                              }`}>
+                                Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
+                              </span>
+                            </div>
+                            <button 
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleGlobalAudio();
+                              }}
+                              className={`winamp-button text-xs px-2 py-1 ml-2 ${isGlobalAudioEnabled ? 'active' : ''}`}
+                              style={{zIndex: 60}}
+                              title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
+                            >
+                              {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
+                            </button>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-2 w-24 sm:w-28 md:w-32">
+                          <div className="winamp-time text-xs sm:text-base">
+                            {formatTime(localCurrentTime)} / {formatTime(localDuration)}
+                          </div>
+                          <Equalizer isPlaying={localIsPlaying && isGlobalAudioEnabled} />
+                        </div>
+                      </div>
+
+                      {/* Progress bar */}
+                      <div className="progress-bar-container">
+                        <div 
+                          className="progress-bar" 
+                          style={{ width: `${localDuration > 0 ? (localCurrentTime / localDuration) * 100 : 0}%` }}
+                        />
+                      </div>
+
+                      {/* Control buttons */}
+                      <div className="flex items-center justify-center gap-2">
+                        <button 
+                          type="button"
+                          onClick={handlePrevTrack}
+                          className="winamp-button"
+                          style={{zIndex: 60}}
+                          disabled={!isGlobalAudioEnabled}
+                          title="Предыдущий трек"
+                        >
+                          <SkipBack className="w-4 h-4" />
+                        </button>
+                        
+                        <button 
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (!isGlobalAudioEnabled) {
+                              toggleGlobalAudio();
+                              setTimeout(() => {
+                                playProjectPlaylist('idiot-saratov-drama');
+                              }, 100);
+                            } else {
+                              handlePlayPause();
+                            }
+                          }}
+                          className={`winamp-play-button ${localIsPlaying && isGlobalAudioEnabled ? 'playing' : ''}`}
+                          style={{zIndex: 60}}
+                          title={localIsPlaying ? "Пауза" : "Воспроизведение"}
+                        >
+                          {localIsPlaying && isGlobalAudioEnabled ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-1" />}
+                        </button>
+                        
+                        <button 
+                          type="button"
+                          onClick={handleNextTrack}
+                          className="winamp-button"
+                          style={{zIndex: 60}}
+                          disabled={!isGlobalAudioEnabled}
+                          title="Следующий трек"
+                        >
+                          <SkipForward className="w-4 h-4" />
+                        </button>
+                        
+                        <button 
+                          type="button"
+                          onClick={handleStop}
+                          className="winamp-button"
+                          style={{zIndex: 60}}
+                          disabled={!isGlobalAudioEnabled}
+                          title="Остановить"
+                        >
+                          <Square className="w-4 h-4" />
+                        </button>
+                        
+                        <button 
+                          type="button"
+                          onClick={() => setIsVolumeOpen(!isVolumeOpen)}
+                          className="winamp-button"
+                          style={{zIndex: 60}}
+                          disabled={!isGlobalAudioEnabled}
+                          title="Громкость"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      {/* Volume Slider */}
+                      {isVolumeOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="bg-black/50 p-3 rounded"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs text-gray-400 w-12">VOL:</span>
+                            <input
+                              type="range"
+                              min="0"
+                              max="1"
+                              step="0.1"
+                              value={localVolume}
+                              onChange={(e) => setLocalVolume(Number(e.target.value))}
+                              className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                            />
+                            <span className="text-xs text-gray-400 w-8">{Math.round(localVolume * 100)}</span>
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* Track List */}
+                      <div className="bg-black/30 rounded p-3">
+                        <div className="text-xs text-gray-400 mb-2 font-mono">PLAYLIST • {currentProjectPlaylist?.length || 0} tracks</div>
+                        <div className="space-y-1 max-h-32 overflow-y-auto">
+                          {currentProjectPlaylist?.map((track, index) => (
+                            <button
+                              key={track.id}
+                              type="button"
+                              onClick={() => {
+                                if (isGlobalAudioEnabled) {
+                                  setCurrentProjectTrack(index);
+                                  setIsPlaying(true);
+                                }
+                              }}
+                              className={`w-full text-left text-xs px-2 py-1 rounded transition-colors ${
+                                index === currentProjectTrack && isGlobalAudioEnabled
+                                  ? 'bg-blue-600/50 text-white' 
+                                  : 'text-gray-300 hover:bg-white/10'
+                              }`}
+                              style={{zIndex: 60}}
+                              disabled={!isGlobalAudioEnabled}
+                            >
+                              <span className="font-mono text-gray-500 mr-2">
+                                {(index + 1).toString().padStart(2, '0')}.
+                              </span>
+                              {track.title}
+                            </button>
+                          )) || []}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               )}
 
               {/* Case Study for Petrovy */}
