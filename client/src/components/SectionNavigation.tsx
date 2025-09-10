@@ -35,7 +35,7 @@ export default function SectionNavigation() {
               <div key={item.href} className="flex items-center">
                 <button
                   onClick={() => handleClick(item.href)}
-                  className="text-lg md:text-xl text-yellow-400 hover:text-yellow-300 transition-colors duration-300 font-medium tracking-wide uppercase"
+                  className="text-lg md:text-xl text-yellow-400 hover:text-yellow-300 hover:scale-110 transition-all duration-300 font-medium tracking-wide uppercase"
                   data-testid={`nav-${item.label.toLowerCase()}`}
                 >
                   {item.label}
