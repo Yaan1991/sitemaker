@@ -70,9 +70,9 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="block" data-testid="link-home">
-            <div className="text-xl font-russo font-bold">
+            <div className="text-xl md:text-xl font-russo font-bold">
               <div className="text-white">Ян Кузьмичёв</div>
-              <div className="text-sm text-muted-foreground font-normal">
+              <div className="text-xs md:text-sm text-muted-foreground font-normal hidden sm:block">
                 Композитор • Саунд‑дизайнер • Звукорежиссёр
               </div>
             </div>
