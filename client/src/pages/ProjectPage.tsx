@@ -1568,15 +1568,24 @@ export default function ProjectPage() {
                   </div>
                   <div className="glass-effect rounded-xl p-6">
                     <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
-                    <p className="text-yellow-400 font-semibold text-lg mb-3">
+                    <p className="text-yellow-400 font-semibold text-lg">
                       Композитор, саунд-дизайнер, звукорежиссёр пост-продакшена, сонграйтер, промт-инженер
                     </p>
-                    <div className="space-y-3">
-                      <div>
-                        <h5 className="text-white font-medium mb-2">Концепция</h5>
-                        <p className="text-gray-300 text-sm">Фильм о человеке, превращающем свою жизнь в кинематографическую цитату. Герой находит в чужой культуре силу для мести, балансируя между подлинностью и условностью.</p>
-                      </div>
-                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Концепция */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-xl font-semibold mb-3" style={{color: '#FFD700'}}>Концепция</h4>
+                    <p className="text-gray-300 leading-relaxed">
+                      Фильм о человеке, превращающем свою жизнь в кинематографическую цитату. Герой находит в чужой культуре силу для мести, балансируя между подлинностью и условностью.
+                    </p>
                   </div>
                 </motion.div>
 
