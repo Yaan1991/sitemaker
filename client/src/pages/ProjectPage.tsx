@@ -567,7 +567,7 @@ export default function ProjectPage() {
               width: '100vw',
               height: '100vh',
               objectFit: 'cover',
-              zIndex: -2,
+              zIndex: 1,
               filter: 'brightness(0.6) contrast(1.1)',
               pointerEvents: 'none'
             }}
@@ -582,7 +582,7 @@ export default function ProjectPage() {
               width: '100vw',
               height: '100vh',
               backgroundColor: 'rgba(0,0,0,0.3)',
-              zIndex: -1,
+              zIndex: 2,
               pointerEvents: 'none'
             }}
           />
@@ -598,6 +598,9 @@ export default function ProjectPage() {
         style={project.id === "petrovy-saratov-drama" ? {
           position: 'relative',
           zIndex: 50  // Основной контент впереди полупрозрачного слоя
+        } : project.id === "homo-homini-short" ? {
+          position: 'relative',
+          zIndex: 10  // Контент поверх видео-фона
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
