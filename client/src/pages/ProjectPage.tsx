@@ -620,6 +620,25 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
+              {/* Заголовок и информация для проекта Homo Homini */}
+              {project.id === "homo-homini-short" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-8"
+                >
+                  <h1 className="text-6xl lg:text-7xl font-bold mb-4" style={{color: '#FFD700', textShadow: '0 0 20px rgba(255, 215, 0, 0.5)'}}>
+                    HOMO HOMINI
+                  </h1>
+                  <p className="text-lg text-gray-400 mb-6" style={{letterSpacing: '0.1em'}}>
+                    Человек человеку другим
+                  </p>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Короткометражный фильм • 2025</p>
+                  <p className="text-sm text-gray-400 mb-6">Режиссёр: Иван Комаров</p>
+                </motion.div>
+              )}
+
               {/* Полупрозрачный фон на всю ширину для заголовка и фото */}
               {project.id === "petrovy-saratov-drama" && (
                 <div 
@@ -686,25 +705,6 @@ export default function ProjectPage() {
                   </>)
                 )}
               </motion.div>
-
-              {/* Заголовок и информация для проекта Homo Homini */}
-              {project.id === "homo-homini-short" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="text-center mb-8"
-                >
-                  <h1 className="text-6xl lg:text-7xl font-bold mb-4" style={{color: '#FFD700', textShadow: '0 0 20px rgba(255, 215, 0, 0.5)'}}>
-                    HOMO HOMINI
-                  </h1>
-                  <p className="text-lg text-gray-400 mb-6" style={{letterSpacing: '0.1em'}}>
-                    Человек человеку другим
-                  </p>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Короткометражный фильм • 2024</p>
-                  <p className="text-sm text-gray-400 mb-6">Режиссёр: Иван Комаров</p>
-                </motion.div>
-              )}
 
               {/* Header */}
               <motion.div
