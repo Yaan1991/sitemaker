@@ -25,7 +25,7 @@ interface ProjectSectionProps {
 export default function ProjectSection({ categories }: ProjectSectionProps) {
 
   return (
-    <section className="pt-0 pb-20 px-6">
+    <section className="pt-0 pb-32 px-6">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -41,7 +41,7 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
           </p>
         </motion.div>
 
-        <div className="space-y-20">
+        <div className="space-y-32">
           {categories.map((category, categoryIndex) => {
             const anchorId = category.title === "Театр" ? "theatre" : 
                            category.title === "Кино" ? "cinema" : "audioplays";
@@ -53,11 +53,11 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: categoryIndex * 0.2 }}
-                className="space-y-8 relative"
+                className="space-y-12 relative"
               >
                 {/* Визуальный разделитель перед секцией (кроме первой) */}
                 {categoryIndex > 0 && (
-                  <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
+                  <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
                     <div className="flex items-center">
                       <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
                       <div className="mx-4">

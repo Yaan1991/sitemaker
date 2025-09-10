@@ -119,7 +119,17 @@ export default function Home() {
         <ProjectSection categories={projectCategories} />
         
         {/* About Section - после основных работ */}
-        <section className="py-20 px-6">
+        <section className="py-32 px-6 relative">
+          {/* Разделитель перед About секцией */}
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
+            <div className="flex items-center">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+              <div className="mx-4">
+                <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+              </div>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+            </div>
+          </div>
           <div className="container mx-auto max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
