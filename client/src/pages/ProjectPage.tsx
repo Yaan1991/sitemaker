@@ -1507,61 +1507,11 @@ export default function ProjectPage() {
           )}
 
 
-          {/* Links and Awards - Centered at bottom */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="max-w-4xl mx-auto mt-12 space-y-6 relative"
-            style={{zIndex: 50}}
-          >
-            {/* Links */}
-            {project.links && project.links.length > 0 && (
-              <div className="glass-effect rounded-xl p-6 text-center">
-                <h3 className="text-lg font-semibold text-white mb-4">Ссылки</h3>
-                <div className="flex flex-wrap justify-center gap-4">
-                  {project.links.map((link, index) => (
-                    <a
-                      key={index}
-                      href={link.url}
-                      target={link.external ? "_blank" : "_self"}
-                      rel={link.external ? "noopener noreferrer" : undefined}
-                      className={`inline-flex items-center gap-2 transition-colors duration-200 px-4 py-2 rounded-lg border ${
-                        project.id === "mayakovsky-moscow-estrada" 
-                          ? "text-red-600 hover:text-red-400 bg-red-500/10 border-red-500/30" 
-                          : project.id === "petrovy-saratov-drama"
-                          ? "text-green-400 hover:text-green-300 bg-green-500/10 border-green-500/30"
-                          : "idiot-primary hover:text-pink-400 bg-pink-500/10 border-pink-500/30"
-                      }`}
-                      data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-                    >
-                      {link.label}
-                      {link.external && <ExternalLink className="w-4 h-4" />}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Awards */}
-            {project.awards && project.awards.length > 0 && (
-              <div className="glass-effect rounded-xl p-6 text-center">
-                <h3 className="text-lg font-semibold text-white mb-4">Награды</h3>
-                <ul className="space-y-2">
-                  {project.awards.map((award, index) => (
-                    <li key={index} className="text-gray-300">
-                      • {award}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Case Study for Homo Homini */}
-            {project.id === "homo-homini-short" && (
-              <div className="mt-8">
-                
-                {/* Описание проекта */}
+          {/* Case Study for Homo Homini */}
+          {project.id === "homo-homini-short" && (
+            <div className="mt-8">
+              
+              {/* Описание проекта */}
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -1720,7 +1670,58 @@ export default function ProjectPage() {
 
               </div>
             )}
-            
+
+          {/* Links and Awards - Centered at bottom */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="max-w-4xl mx-auto mt-12 space-y-6 relative"
+            style={{zIndex: 50}}
+          >
+            {/* Links */}
+            {project.links && project.links.length > 0 && (
+              <div className="glass-effect rounded-xl p-6 text-center">
+                <h3 className="text-lg font-semibold text-white mb-4">Ссылки</h3>
+                <div className="flex flex-wrap justify-center gap-4">
+                  {project.links.map((link, index) => (
+                    <a
+                      key={index}
+                      href={link.url}
+                      target={link.external ? "_blank" : "_self"}
+                      rel={link.external ? "noopener noreferrer" : undefined}
+                      className={`inline-flex items-center gap-2 transition-colors duration-200 px-4 py-2 rounded-lg border ${
+                        project.id === "mayakovsky-moscow-estrada" 
+                          ? "text-red-600 hover:text-red-400 bg-red-500/10 border-red-500/30" 
+                          : project.id === "petrovy-saratov-drama"
+                          ? "text-green-400 hover:text-green-300 bg-green-500/10 border-green-500/30"
+                          : project.id === "homo-homini-short"
+                          ? "text-yellow-400 hover:text-yellow-300 bg-yellow-500/10 border-yellow-500/30"
+                          : "idiot-primary hover:text-pink-400 bg-pink-500/10 border-pink-500/30"
+                      }`}
+                      data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      {link.label}
+                      {link.external && <ExternalLink className="w-4 h-4" />}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Awards */}
+            {project.awards && project.awards.length > 0 && (
+              <div className="glass-effect rounded-xl p-6 text-center">
+                <h3 className="text-lg font-semibold text-white mb-4">Награды</h3>
+                <ul className="space-y-2">
+                  {project.awards.map((award, index) => (
+                    <li key={index} className="text-gray-300">
+                      • {award}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </motion.div>
         </div>
       </div>
