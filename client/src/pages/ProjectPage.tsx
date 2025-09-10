@@ -401,6 +401,16 @@ export default function ProjectPage() {
     "/images/homo-homini-4.webp",      // экшн-сцена с неоновыми мечами
     "/images/homo-homini-5.webp"       // сцена на кухне
   ];
+
+  // Фотографии для фильма "Ма" (6 кадров из фильма)
+  const maPhotos = [
+    "/images/ma-cover.webp",  // обложка 
+    "/images/ma-1.webp",      // девушка в машине
+    "/images/ma-2.webp",      // интерьер с окнами
+    "/images/ma-3.webp",      // вид из машины
+    "/images/ma-4.webp",      // собака
+    "/images/ma-5.webp"       // лицо в темноте
+  ];
   
   const project = projects.find(p => p.id === projectId);
 
@@ -638,7 +648,7 @@ export default function ProjectPage() {
         } : project.id === "homo-homini-short" ? {
           position: 'relative',
           zIndex: 10  // Контент поверх видео-фона
-        } : project.id === "ma-short-film" ? {
+        } : (project.id === "ma-short-film" || project.id === "homo-homini-short") ? {
           position: 'relative',
           zIndex: 10  // Контент поверх видео-фона
         } : {}}
@@ -741,6 +751,22 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
+              {/* Заголовок и информация для проекта Ма */}
+              {project.id === "ma-short-film" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-8"
+                >
+                  <h1 className="text-6xl lg:text-7xl font-bold mb-4" style={{color: '#E0E0E0', textShadow: '0 0 15px rgba(224, 224, 224, 0.3)'}}>
+                    МА
+                  </h1>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Короткометражный фильм • 2023</p>
+                  <p className="text-sm text-gray-400 mb-6">Режиссёр: Валентина Бесолова</p>
+                </motion.div>
+              )}
+
               {/* Полупрозрачный фон на всю ширину для заголовка и фото */}
               {project.id === "petrovy-saratov-drama" && (
                 <div 
@@ -794,6 +820,12 @@ export default function ProjectPage() {
                     <PhotoCarousel photos={homoHominiPhotos} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
                   </div>
+                ) : project.id === "ma-short-film" ? (
+                  /* Галерея фотографий для Ма */
+                  <div className="relative">
+                    <PhotoCarousel photos={maPhotos} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
+                  </div>
                 ) : (
                   /* Обычное фото для других проектов */
                   (<>
@@ -814,7 +846,7 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && project.id !== "homo-homini-short" && (
+                {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && project.id !== "homo-homini-short" && project.id !== "ma-short-film" && (
                   <>
                     <div className="text-sm idiot-primary font-medium tracking-wide uppercase mb-2">
                       {categoryNames[project.category]} • {project.year}
@@ -825,7 +857,7 @@ export default function ProjectPage() {
                   </>
                 )}
                 
-                {project.id !== "homo-homini-short" && (
+                {project.id !== "homo-homini-short" && project.id !== "ma-short-film" && (
                   <p className={`text-xl leading-relaxed relative ${
                     project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" :
                     project.id === "petrovy-saratov-drama" ? "text-gray-300" : "text-gray-300"
@@ -1759,6 +1791,143 @@ export default function ProjectPage() {
                     </p>
                     <p className="text-yellow-400 font-semibold mt-4">
                       <strong>Мой вклад:</strong> создание полной звуковой партитуры фильма, инновационное использование ИИ для генерации аутентичной японской песни, полный цикл пост-продакшна звука.
+                    </p>
+                  </div>
+                </motion.div>
+
+              </div>
+            )}
+
+          {/* Case Study for Ma */}
+          {project.id === "ma-short-film" && (
+            <div className="mt-8">
+              
+              {/* Описание без заголовка */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <p className="text-gray-300 text-lg leading-relaxed">
+                      Короткометражная драма о матери и дочери, переживающих утрату. Кино почти без диалогов, где пейзаж и быт говорят вместо слов. Действие происходит в Северной Осетии, в селе Даргавс. Проведена реставрация звукового материала, переозвучена часть сцен без предзаписанного звука.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Съёмочная группа и роль в проекте в две колонки */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-white font-medium mb-3">Съёмочная группа</h4>
+                    <div className="text-gray-300 space-y-2">
+                      <p><strong>Режиссёр:</strong> Валентина Бесолова</p>
+                      <p><strong>Оператор:</strong> Владимир Дыдыкин</p>
+                      <p><strong>Художник-постановщик:</strong> Карина Дзабиева</p>
+                      <p><strong>Монтаж:</strong> Антон Переведенцев, Валентина Бесолова</p>
+                    </div>
+                    <div className="mt-4">
+                      <p className="text-sm text-gray-400 font-medium mb-2">В ролях:</p>
+                      <p className="text-gray-300 text-sm">Зита Лацоева (Зарема), Милана Кониева (Сабина), Алан Албегов (Алик)</p>
+                    </div>
+                  </div>
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                    <p className="text-gray-200 font-semibold text-lg">
+                      Звукорежиссёр пост-продакшна
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Концепция */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-xl font-semibold mb-3" style={{color: '#E0E0E0'}}>Концепция</h4>
+                    <p className="text-gray-300 leading-relaxed">
+                      Фильм построен вокруг отношений матери и дочери, оставшихся вдвоём после смерти сына и брата. В культуре Кавказа не принято говорить о чувствах вслух, поэтому героини проживают боль через молчание, через ритуалы и быт. Это камерная драма о переживании утраты, где тишина становится главным выразительным средством.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Творческие и технические задачи */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#E0E0E0'}}>Творческая задача</h4>
+                    <p className="text-gray-300">
+                      Создать звуковой мир, где тишина и бытовые звуки работают вместо музыки. Построить драматургию через микродинамику среды и пространственные переходы.
+                    </p>
+                  </div>
+                  <div className="glass-effect rounded-xl p-6">
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#E0E0E0'}}>Техническая задача</h4>
+                    <p className="text-gray-300">
+                      Провести полную реставрацию звукового материала, создать фоли для сцен без записанного на площадке звука, обеспечить точную синхронизацию звука с планами камеры.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Выполненные работы */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#E0E0E0'}}>Выполненные работы</h3>
+                    <div className="space-y-2 text-gray-300">
+                      <p>• Реставрация исходного материала в iZotope RX</p>
+                      <p>• Создание полного foley (шаги, одежда, предметы)</p>
+                      <p>• Создание атмосферных слоев среды</p>
+                      <p>• Пространственная обработка под планы камеры</p>
+                      <p>• Финальное сведение и мастеринг в стерео</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Ключевые решения */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#E0E0E0'}}>Ключевые решения</h3>
+                    <p className="text-gray-300 leading-relaxed">
+                      <strong>Звуковой реализм:</strong> звук меняется в зависимости от расположения камеры. Каждый план имеет свою звуковую глубину и пространственность, что создаёт эффект присутствия и помогает зрителю погрузиться в атмосферу Северного Кавказа.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Результат */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.9 }}
+                  className="mb-8"
+                >
+                  <div className="bg-gray-500/10 border border-gray-500/30 p-6 rounded-xl">
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#E0E0E0'}}>Результат</h3>
+                    <p className="text-lg text-gray-300 leading-relaxed">
+                      Создан живой, достоверный звуковой слой без перегрузки. В отсутствие музыки именно звук ведёт зрителя, помогая прочитать желания героев и ощутить пространство Северного Кавказа.
+                    </p>
+                    <p className="text-gray-200 font-semibold mt-4">
+                      <strong>Мой вклад:</strong> полный пост-продакшн звука от реставрации до стерео-мастера, создание звуковой драматургии на основе естественных звуков без музыкального сопровождения.
                     </p>
                   </div>
                 </motion.div>
