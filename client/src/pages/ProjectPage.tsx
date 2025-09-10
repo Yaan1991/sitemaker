@@ -431,15 +431,21 @@ export default function ProjectPage() {
     }
   }, [project, isGlobalAudioEnabled]);
 
-  // Останавливаем музыку если звук выключен
+  // Управляем музыкой в зависимости от состояния звука
   useEffect(() => {
-    if (autoPlayAudioRef.current) {
+    if (project?.id === "homo-homini-short" && project.autoPlayAudio && autoPlayAudioRef.current) {
       const audio = autoPlayAudioRef.current;
-      if (!isGlobalAudioEnabled) {
+      if (isGlobalAudioEnabled) {
+        // Запускаем музыку если звук включен
+        audio.play().catch(err => {
+          console.log('Автозапуск заблокирован браузером:', err);
+        });
+      } else {
+        // Останавливаем музыку если звук выключен
         audio.pause();
       }
     }
-  }, [isGlobalAudioEnabled]);
+  }, [isGlobalAudioEnabled, project]);
 
   if (!project) {
     return (
