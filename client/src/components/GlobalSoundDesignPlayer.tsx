@@ -18,9 +18,9 @@ export function GlobalSoundDesignPlayer() {
     if (location.startsWith('/project/mayakovsky-moscow-estrada')) {
       return '/audio/mayak_showreel.mp3';
     }
-    if (location.startsWith('/project/ma-short-film')) {
-      return '/audio/masounds.m4a';
-    }
+    // if (location.startsWith('/project/ma-short-film')) {
+    //   return '/audio/masounds.m4a'; // TODO: конвертировать в MP3
+    // }
     // Для главной и всех остальных страниц
     return '/audio/vinyl.mp3';
   };

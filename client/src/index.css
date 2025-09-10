@@ -437,7 +437,14 @@
 
   @media (min-width: 1440px) {
     .photo-carousel {
-      height: clamp(500px, 45vh, 700px); /* Больше для крупных мониторов */
+      height: clamp(550px, 50vh, 800px); /* Больше для крупных мониторов */
+      aspect-ratio: 16/9;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .photo-carousel {
+      height: clamp(600px, 55vh, 900px); /* Максимум для больших экранов */
       aspect-ratio: 16/9;
     }
   }
