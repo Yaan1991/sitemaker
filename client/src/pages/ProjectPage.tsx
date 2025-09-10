@@ -762,7 +762,7 @@ export default function ProjectPage() {
                   <h1 className="text-6xl lg:text-7xl font-bold mb-4" style={{color: '#E0E0E0', textShadow: '0 0 15px rgba(224, 224, 224, 0.3)'}}>
                     МА
                   </h1>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Короткометражный фильм • 2023</p>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Короткометражный фильм • 2024</p>
                   <p className="text-sm text-gray-400 mb-6">Режиссёр: Валентина Бесолова</p>
                 </motion.div>
               )}
