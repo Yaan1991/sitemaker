@@ -6,6 +6,7 @@ import { ExternalLink, ArrowLeft, VolumeX, Volume2, Play, Pause, SkipBack, SkipF
 import { Link } from "wouter";
 // import { AudioPlayer } from "@/components/AudioPlayer"; // ОТКЛЮЧЕНО: заменено на HowlerAudioEngine
 import { useAudio } from "@/contexts/AudioContext";
+import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import { useState, useEffect, useRef } from "react";
 import hhBackgroundVideo from "@assets/hhbgrndvideo.mp4";
 import maBackgroundVideo from "@assets/mabgrndvideo.mp4";
@@ -557,6 +558,8 @@ export default function ProjectPage() {
         description={project.fullDescription}
       />
       
+      {/* Хлебные крошки перенесены внутрь контейнера */}
+      
       {/* Canvas фон для Петровых */}
       {project.id === "petrovy-saratov-drama" && (
         <canvas
@@ -664,6 +667,9 @@ export default function ProjectPage() {
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6">
+          
+          {/* 🍞 Навигация по сайту (хлебные крошки) */}
+          <SiteBreadcrumbs currentProject={projectId} />
           
           {/* Back Button */}
           <motion.div
