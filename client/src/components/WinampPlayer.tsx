@@ -132,7 +132,7 @@ export function WinampPlayer({ projectId, className = '', title = "Музыка 
       className={`max-w-4xl mx-auto mt-12 mb-8 relative ${className}`}
       style={{ zIndex: 50 }}
     >
-      <h3 className="text-3xl font-bold text-white mb-8 text-center idiot-primary">
+      <h3 className="text-3xl font-bold text-white mb-8 text-center">
         {title}
       </h3>
       
