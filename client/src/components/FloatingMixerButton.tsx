@@ -2,11 +2,15 @@ import { Sliders } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
 
 export function FloatingMixerButton() {
-  const { setIsMixerOpen } = useAudio();
+  const { isMixerOpen, setIsMixerOpen } = useAudio();
+
+  const toggleMixer = () => {
+    setIsMixerOpen(!isMixerOpen);
+  };
 
   return (
     <button
-      onClick={() => setIsMixerOpen(true)}
+      onClick={toggleMixer}
       className="group fixed bottom-5 left-1/2 transform -translate-x-1/2
                  w-12 h-12 bg-gray-900/80 hover:bg-gray-800/90 
                  border border-gray-600 hover:border-yellow-400 
@@ -14,7 +18,7 @@ export function FloatingMixerButton() {
                  backdrop-blur-sm transition-all duration-200 
                  flex items-center justify-center"
       style={{zIndex: 200}}
-      title="Открыть аудио микшер"
+      title={isMixerOpen ? "Закрыть аудио микшер" : "Открыть аудио микшер"}
       data-testid="floating-mixer-button"
     >
       <Sliders 
