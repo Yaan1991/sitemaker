@@ -336,17 +336,17 @@ const petrovyTracks = [
   {
     id: 'petrovy_lonely_theme',
     title: 'Тема одиночества',
-    url: '/audio/petrovy_lonely_theme.mp3'
+    url: '/audio/Petrovy_lonely_theme.mp3'
   },
   {
     id: 'petrovy_mad_theme', 
     title: 'Приехали в гости',
-    url: '/audio/petrovy_mad_theme.mp3'
+    url: '/audio/Petrovy_mad_theme.mp3'
   },
   {
     id: 'petrovy_theme_of_sick',
     title: 'Болезнь Петрова младшего',
-    url: '/audio/petrovy_theme_of_sick.mp3'
+    url: '/audio/Petrovy_theme_of_sick.mp3'
   }
 ];
 
@@ -362,6 +362,9 @@ export default function ProjectPage() {
     currentProjectPlaylist,
     currentProjectTrack,
     isProjectPlayerReady,
+    setCurrentProjectPlaylist,
+    setCurrentProjectTrack,
+    setIsProjectPlayerReady,
     // Добавляем недостающие состояния из глобального плеера
     isPlaying,
     currentTime,
@@ -425,6 +428,32 @@ export default function ProjectPage() {
   ];
   
   const project = projects.find(p => p.id === projectId);
+
+  // 🎵 Установка плейлиста для проектов с музыкой
+  useEffect(() => {
+    if (!projectId) return;
+    
+    // Устанавливаем плейлист в зависимости от проекта
+    if (projectId === "idiot-saratov-drama") {
+      setCurrentProjectPlaylist(idiotTracks);
+      setCurrentProjectTrack(0);
+      setIsProjectPlayerReady(true);
+    } else if (projectId === "petrovy-saratov-drama") {
+      setCurrentProjectPlaylist(petrovyTracks);
+      setCurrentProjectTrack(0);
+      setIsProjectPlayerReady(true);
+    } else {
+      // Сбрасываем плейлист для проектов без музыки
+      setCurrentProjectPlaylist(null);
+      setIsProjectPlayerReady(false);
+    }
+
+    // Очистка при размонтировании
+    return () => {
+      setCurrentProjectPlaylist(null);
+      setIsProjectPlayerReady(false);
+    };
+  }, [projectId, setCurrentProjectPlaylist, setCurrentProjectTrack, setIsProjectPlayerReady]);
 
   // Автоматическое воспроизведение для Homo Homini ТОЛЬКО при первом заходе на страницу
   useEffect(() => {
