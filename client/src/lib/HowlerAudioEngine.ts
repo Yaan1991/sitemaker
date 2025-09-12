@@ -419,6 +419,14 @@ export class HowlerAudioEngine {
     }
   }
 
+  public stopMusic(): void {
+    if (this.musicBus) {
+      this.musicBus.stop();
+      this.stopTimeTracking();
+      this.onPlaybackStateChange?.(false);
+    }
+  }
+
   public resumeMusic(): void {
     if (this.musicBus && !this.musicBus.playing()) {
       this.musicBus.play();

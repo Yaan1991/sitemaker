@@ -115,7 +115,7 @@ export function WinampPlayer({ projectId, className = '', title = "Музыка 
   const handleStopAudio = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    audioEngine.stopAll();
+    audioEngine.stopMusic();
   };
 
   const formatTime = (seconds: number) => {
