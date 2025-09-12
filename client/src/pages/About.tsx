@@ -30,6 +30,8 @@ export default function About() {
 
       <section className="relative z-10 py-20 px-6 min-h-screen">
         <div className="container mx-auto max-w-4xl">
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/40 rounded-xl -z-10" />
           {/* Breadcrumbs */}
           <SiteBreadcrumbs pageType="about" />
 
@@ -46,10 +48,10 @@ export default function About() {
             />
 
             {/* Main Content */}
-            <div className="max-w-3xl mx-auto">
-              <h1 className="text-4xl font-bold mb-8 text-center">Обо мне</h1>
+            <div className="max-w-3xl mx-auto relative z-10 bg-black/50 rounded-xl p-8">
+              <h1 className="text-4xl font-bold mb-8 text-center text-white">Обо мне</h1>
               
-              <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+              <div className="space-y-6 text-lg text-gray-200 leading-relaxed">
                 <p>
                   Меня зовут Ян Кузьмичёв, я композитор, саунд-дизайнер и звукорежиссёр. С 2011 года я создаю звук для театра, кино, аудиоспектаклей и бренд-проектов. Для меня работа со звуком - это не просто ремесло, а способ оживить историю и погрузить зрителя в нужную атмосферу.
                 </p>
