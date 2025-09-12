@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import { audioEngine } from '@/lib/HowlerAudioEngine';
 
 interface Track {
   id: string;
@@ -47,6 +48,7 @@ interface AudioContextType {
   fadeOutCurrentAudio: () => Promise<void>;
   currentPage: string;
   setCurrentPage: (page: string) => void;
+  changeRoute: (route: string) => void;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -75,7 +77,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [currentPage, setCurrentPage] = useState('/');
   const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Восстанавливаем состояние звука из localStorage
+  // Восстанавливаем состояние звука из localStorage и настраиваем Howler Engine
   useEffect(() => {
     const savedGlobal = localStorage.getItem('global-audio-enabled');
     if (savedGlobal) {
@@ -94,95 +96,121 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     // Восстанавливаем настройки микшера
     const savedMusicVolume = localStorage.getItem('mixer-music-volume');
     if (savedMusicVolume) {
-      setMusicVolume(parseFloat(savedMusicVolume));
+      const volume = parseFloat(savedMusicVolume);
+      setMusicVolume(volume);
+      audioEngine.setMusicVolume(volume);
     }
 
     const savedSfxVolume = localStorage.getItem('mixer-sfx-volume');
     if (savedSfxVolume) {
-      setSfxVolume(parseFloat(savedSfxVolume));
+      const volume = parseFloat(savedSfxVolume);
+      setSfxVolume(volume);
+      audioEngine.setSfxVolume(volume);
     }
 
     const savedMasterVolume = localStorage.getItem('mixer-master-volume');
     if (savedMasterVolume) {
-      setMasterVolume(parseFloat(savedMasterVolume));
+      const volume = parseFloat(savedMasterVolume);
+      setMasterVolume(volume);
+      audioEngine.setMasterVolume(volume);
     }
+
+    // Настройка колбэков для отслеживания времени
+    audioEngine.setTimeUpdateCallback((time, duration) => {
+      setCurrentTime(time);
+      setDuration(duration);
+    });
+
+    audioEngine.setTrackEndCallback(() => {
+      // Обновляем состояние при окончании трека
+      const newPlaylist = audioEngine.getCurrentPlaylist();
+      const newIndex = audioEngine.getCurrentTrackIndex();
+      if (newPlaylist) {
+        setCurrentPlaylist(newPlaylist);
+        setCurrentTrackIndex(newIndex);
+      }
+    });
+
+    // 🔧 КРИТИЧНО: Синхронизация настроек включения с движком
+    // Читаем напрямую из localStorage чтобы избежать race condition
+    const savedMusicEnabled = localStorage.getItem('global-audio-enabled') !== 'false';
+    const savedSfxEnabled = localStorage.getItem('sound-design-enabled') !== 'false';
+    audioEngine.setMusicEnabled(savedMusicEnabled);
+    audioEngine.setSfxEnabled(savedSfxEnabled);
+
+    return () => {
+      // Cleanup при размонтировании
+      audioEngine.destroy();
+    };
   }, []);
 
   const toggleGlobalAudio = () => {
     const newValue = !isGlobalAudioEnabled;
     setIsGlobalAudioEnabled(newValue);
     localStorage.setItem('global-audio-enabled', newValue.toString());
+    
+    // Управляем музыкальной шиной через Howler
+    audioEngine.setMusicEnabled(newValue);
+    
+    // КРИТИЧНО: Возобновляем воспроизведение при включении
+    if (newValue) {
+      audioEngine.changeRoute(currentPage);
+    }
   };
 
   const toggleSoundDesign = () => {
     const newValue = !isSoundDesignEnabled;
     setIsSoundDesignEnabled(newValue);
     localStorage.setItem('sound-design-enabled', newValue.toString());
+    
+    // Управляем шиной звукового дизайна через Howler
+    audioEngine.setSfxEnabled(newValue);
+    
+    // КРИТИЧНО: Возобновляем воспроизведение при включении
+    if (newValue) {
+      audioEngine.changeRoute(currentPage);
+    }
   };
 
-  // Функции управления громкостью с сохранением в localStorage
+  // Функции управления громкостью с сохранением в localStorage и обновлением Howler
   const handleSetMusicVolume = (volume: number) => {
     setMusicVolume(volume);
     localStorage.setItem('mixer-music-volume', volume.toString());
+    audioEngine.setMusicVolume(volume);
   };
 
   const handleSetSfxVolume = (volume: number) => {
     setSfxVolume(volume);
     localStorage.setItem('mixer-sfx-volume', volume.toString());
+    audioEngine.setSfxVolume(volume);
   };
 
   const handleSetMasterVolume = (volume: number) => {
     setMasterVolume(volume);
     localStorage.setItem('mixer-master-volume', volume.toString());
+    audioEngine.setMasterVolume(volume);
   };
 
-  // Функция плавного затухания текущего аудио
+  // Функция плавного затухания через HowlerAudioEngine
   const fadeOutCurrentAudio = (): Promise<void> => {
-    return new Promise((resolve) => {
-      // Находим все активные аудио элементы и затухаем их
-      const audioElements = document.querySelectorAll('audio');
-      let fadePromises: Promise<void>[] = [];
-
-      audioElements.forEach(audio => {
-        if (!audio.paused && audio.volume > 0) {
-          const fadePromise = new Promise<void>((fadeResolve) => {
-            let currentVolume = audio.volume;
-            const fadeOut = setInterval(() => {
-              currentVolume -= 0.003; // 4 секунды затухания
-              if (currentVolume <= 0) {
-                currentVolume = 0;
-                audio.volume = 0;
-                audio.pause();
-                clearInterval(fadeOut);
-                fadeResolve();
-              } else {
-                audio.volume = currentVolume;
-              }
-            }, 50);
-          });
-          fadePromises.push(fadePromise);
-        }
-      });
-
-      if (fadePromises.length === 0) {
-        resolve();
-      } else {
-        Promise.all(fadePromises).then(() => resolve());
-      }
-    });
+    return audioEngine.stopAll();
   };
 
 
   const nextTrack = () => {
-    if (currentPlaylist && currentTrackIndex < currentPlaylist.length - 1) {
-      setCurrentTrackIndex(currentTrackIndex + 1);
-    }
+    audioEngine.nextMusicTrack();
+    // Состояние обновится через колбэк
   };
 
   const prevTrack = () => {
-    if (currentPlaylist && currentTrackIndex > 0) {
-      setCurrentTrackIndex(currentTrackIndex - 1);
-    }
+    audioEngine.prevMusicTrack();
+    // Состояние обновится через колбэк
+  };
+
+  // Новая функция для смены маршрута (для использования в компонентах)
+  const changeRoute = (route: string) => {
+    setCurrentPage(route);
+    audioEngine.changeRoute(route);
   };
 
   return (
@@ -226,7 +254,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       // Общие функции
       fadeOutCurrentAudio,
       currentPage,
-      setCurrentPage
+      setCurrentPage,
+      changeRoute
     }}>
       {children}
     </AudioContext.Provider>

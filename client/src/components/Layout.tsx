@@ -3,9 +3,6 @@ import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { GlobalBackgroundAudio } from "./GlobalBackgroundAudio";
-import { GlobalProjectPlayer } from "./GlobalProjectPlayer";
-import { GlobalSoundDesignPlayer } from "./GlobalSoundDesignPlayer";
 import { AudioMixer } from "./AudioMixer";
 import { FloatingMixerButton } from "./FloatingMixerButton";
 import { useAudio } from "@/contexts/AudioContext";
@@ -16,33 +13,24 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
-  const { fadeOutCurrentAudio } = useAudio();
+  const { changeRoute } = useAudio();
   const [previousLocation, setPreviousLocation] = useState<string>('');
 
-  // Управление переходами между страницами с фейдами
+  // Профессиональное управление переходами через HowlerAudioEngine
   useEffect(() => {
-    // Скроллим вверх ТОЛЬКО при реальной смене страниц, а не при обновлениях состояния
+    // Скроллим вверх ТОЛЬКО при реальной смене страниц
     if (previousLocation !== location && previousLocation !== '') {
       window.scrollTo(0, 0);
     }
     
-    // Если переходим СО страницы проекта НА другую страницу - делаем кроссфейд
-    const isLeavingProject = previousLocation.startsWith('/project/') && !location.startsWith('/project/');
-    
-    if (isLeavingProject) {
-      // Запускаем специфичное затухание проектного плеера (4 секунды)
-      const projectPlayer = (window as any).projectPlayer;
-      if (projectPlayer && projectPlayer.fadeOutProjectPlayer) {
-        projectPlayer.fadeOutProjectPlayer();
-      } else {
-        // Fallback: общее затухание всех аудио элементов
-        fadeOutCurrentAudio();
-      }
+    // Обновляем аудио через Howler при смене маршрута
+    if (location !== previousLocation) {
+      changeRoute(location);
     }
     
     // Обновляем предыдущую локацию
     setPreviousLocation(location);
-  }, [location, fadeOutCurrentAudio, previousLocation]);
+  }, [location, changeRoute, previousLocation]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -56,9 +44,7 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </motion.main>
       <Footer />
-      <GlobalBackgroundAudio />
-      <GlobalProjectPlayer />
-      <GlobalSoundDesignPlayer />
+      {/* Профессиональная аудиосистема через HowlerAudioEngine */}
       <AudioMixer />
       <FloatingMixerButton />
     </div>

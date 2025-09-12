@@ -2,7 +2,14 @@ import { useRef, useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useAudio } from '@/contexts/AudioContext';
 
+// 🚀 ОТКЛЮЧЕНО: Заменено на HowlerAudioEngine
 export function GlobalBackgroundAudio() {
+  // Компонент отключён - аудио управляется HowlerAudioEngine
+  return null;
+}
+
+// 🗑️ Старая реализация (HTML5 - ОТКЛЮЧЕНО)
+function GlobalBackgroundAudio_DISABLED() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [location] = useLocation();
   const { isGlobalAudioEnabled, musicVolume, masterVolume } = useAudio();

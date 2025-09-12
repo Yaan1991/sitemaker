@@ -76,7 +76,14 @@ const projectPlaylistMap: Record<string, Track[]> = {
   // Будущие проекты добавляются сюда
 };
 
+// 🚀 ОТКЛЮЧЕНО: Заменено на HowlerAudioEngine
 export function GlobalProjectPlayer() {
+  // Компонент отключён - аудио управляется HowlerAudioEngine
+  return null;
+}
+
+// 🗑️ Старая реализация (HTML5 - ОТКЛЮЧЕНО)
+function GlobalProjectPlayer_DISABLED() {
   const [location] = useLocation();
   const { 
     isGlobalAudioEnabled, 

@@ -4,7 +4,7 @@ import { projects } from "@/data/projects";
 import SEOHead from "@/components/SEOHead";
 import { ExternalLink, ArrowLeft, VolumeX, Volume2, Play, Pause, SkipBack, SkipForward, Square } from "lucide-react";
 import { Link } from "wouter";
-import { AudioPlayer } from "@/components/AudioPlayer";
+// import { AudioPlayer } from "@/components/AudioPlayer"; // ОТКЛЮЧЕНО: заменено на HowlerAudioEngine
 import { useAudio } from "@/contexts/AudioContext";
 import { useState, useEffect, useRef } from "react";
 import hhBackgroundVideo from "@assets/hhbgrndvideo.mp4";
