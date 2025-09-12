@@ -455,8 +455,8 @@
   
   /* Заголовок для Маяковского */
   .mayak-themed h3 {
-    color: #F5DEB3 !important;
-    text-shadow: 0 0 8px #F5DEB3;
+    color: #DC143C !important;
+    text-shadow: 0 0 8px #DC143C, 0 0 15px rgba(220, 20, 60, 0.5);
   }
 
   /* 🟢 Тема Петровых - комиксный зеленый */
