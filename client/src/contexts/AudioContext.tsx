@@ -157,6 +157,17 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       }
     });
 
+    // 🎵 New callbacks for project player
+    audioEngine.setPlaybackStateCallback((isPlaying) => {
+      setIsPlaying(isPlaying);
+    });
+
+    audioEngine.setTrackChangeCallback((trackIndex, playlist) => {
+      setCurrentProjectTrack(trackIndex);
+      setCurrentProjectPlaylist(playlist);
+      setIsProjectPlayerReady(true);
+    });
+
     // 🔧 КРИТИЧНО: Начальная синхронизация с движком
     // Определяем что должно быть включено
     const shouldMusicBeEnabled = (localStorage.getItem('global-audio-enabled') !== 'false') && 

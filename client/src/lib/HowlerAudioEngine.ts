@@ -41,6 +41,8 @@ export class HowlerAudioEngine {
   // Event Callbacks
   private onTimeUpdate?: (time: number, duration: number) => void;
   private onTrackEnd?: () => void;
+  private onPlaybackStateChange?: (isPlaying: boolean) => void;
+  private onTrackChange?: (trackIndex: number, playlist: Track[]) => void;
   
   // Time tracking
   private timeTrackingInterval?: NodeJS.Timeout;
@@ -190,7 +192,21 @@ export class HowlerAudioEngine {
         // Fade in when loaded
         this.fadeMusicBus(0, effectiveVolume, 2000);
       },
+      onplay: () => {
+        this.startTimeTracking();
+        this.onPlaybackStateChange?.(true);
+      },
+      onpause: () => {
+        this.stopTimeTracking();
+        this.onPlaybackStateChange?.(false);
+      },
+      onstop: () => {
+        this.stopTimeTracking();
+        this.onPlaybackStateChange?.(false);
+      },
       onend: () => {
+        this.stopTimeTracking();
+        this.onPlaybackStateChange?.(false);
         if (this.currentMusicPlaylist && this.currentMusicPlaylist.length > 1) {
           this.nextMusicTrack();
         }
@@ -200,8 +216,8 @@ export class HowlerAudioEngine {
 
     this.musicBus.play();
     
-    // Start time tracking for this track
-    this.startTimeTracking();
+    // Notify about track change (playback state will be handled by onplay event)
+    this.onTrackChange?.(this.currentMusicTrackIndex, this.currentMusicPlaylist!);
   }
 
   /**
@@ -386,6 +402,33 @@ export class HowlerAudioEngine {
     return (this.musicBus?.playing() || false) || (this.soundDesignBus?.playing() || false);
   }
 
+  /**
+   * 🎵 Управление воспроизведением музыки
+   */
+  public pauseMusic(): void {
+    if (this.musicBus?.playing()) {
+      this.musicBus.pause();
+      this.stopTimeTracking();
+      this.onPlaybackStateChange?.(false);
+    }
+  }
+
+  public resumeMusic(): void {
+    if (this.musicBus && !this.musicBus.playing()) {
+      this.musicBus.play();
+      this.startTimeTracking();
+      this.onPlaybackStateChange?.(true);
+    }
+  }
+
+  public toggleMusicPause(): void {
+    if (this.musicBus?.playing()) {
+      this.pauseMusic();
+    } else {
+      this.resumeMusic();
+    }
+  }
+
   public getCurrentTime(): number {
     return this.musicBus?.seek() as number || 0;
   }
@@ -427,6 +470,14 @@ export class HowlerAudioEngine {
 
   public setTrackEndCallback(callback: () => void): void {
     this.onTrackEnd = callback;
+  }
+
+  public setPlaybackStateCallback(callback: (isPlaying: boolean) => void): void {
+    this.onPlaybackStateChange = callback;
+  }
+
+  public setTrackChangeCallback(callback: (trackIndex: number, playlist: Track[]) => void): void {
+    this.onTrackChange = callback;
   }
 
   /**

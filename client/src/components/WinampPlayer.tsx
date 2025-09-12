@@ -76,15 +76,13 @@ export function WinampPlayer({ projectId, className = '', title = "Музыка 
     e.preventDefault();
     e.stopPropagation();
     
-    // Имитируем toggle используя доступные методы
-    if (localIsPlaying) {
-      audioEngine.stopAll();
-    } else {
-      // Воспроизводим текущий трек
-      if (currentProjectPlaylist && currentProjectPlaylist.length > 0) {
-        audioEngine.playMusicTrack(currentProjectTrack);
-      }
+    // Используем новый метод toggle pause вместо stopAll/play
+    if (!isGlobalAudioEnabled) {
+      toggleGlobalAudio();
+      return;
     }
+    
+    audioEngine.toggleMusicPause();
   };
   
   const handleNextTrack = (e: React.MouseEvent) => {
