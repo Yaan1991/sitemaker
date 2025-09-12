@@ -100,6 +100,7 @@ export default function Contact() {
 
       <section className="py-20 px-6 min-h-screen">
         <div className="container mx-auto max-w-4xl">
+          <SiteBreadcrumbs pageType="contact" />
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

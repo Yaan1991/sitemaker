@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { useRoute, Link } from "wouter";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { useRoute } from "wouter";
+import { ExternalLink } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
+import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import { getProjectById } from "@/data/projects";
 import NotFound from "./not-found";
 
@@ -37,22 +38,8 @@ export default function ProjectDetail() {
 
       <section className="py-20 px-6 min-h-screen">
         <div className="container mx-auto max-w-4xl">
-          {/* Back Link */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <Link
-              href={`/projects/${project.category}`}
-              className="inline-flex items-center text-primary hover:text-white transition-colors duration-300"
-              data-testid="link-back-to-projects"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Назад к проектам
-            </Link>
-          </motion.div>
+          {/* Breadcrumbs */}
+          <SiteBreadcrumbs currentProject={project.id} />
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
+import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import about from "@assets/about.jpg";
 const aboutImage = "/images/about.jpg";
 const studio01Image = "/images/studio_01.jpg";
@@ -17,6 +18,7 @@ export default function About() {
       />
       <section className="py-20 px-6 min-h-screen">
         <div className="container mx-auto max-w-6xl">
+          <SiteBreadcrumbs pageType="about" />
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

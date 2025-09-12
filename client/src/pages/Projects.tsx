@@ -66,6 +66,7 @@ export default function Projects() {
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/70 pointer-events-none" />
         <div className="container mx-auto max-w-6xl relative z-10">
+          <SiteBreadcrumbs pageType="projects" />
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
