@@ -1,21 +1,13 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
 import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
-import { useAudio } from "@/contexts/AudioContext";
 import portraitImage from "@assets/me3_1757711551642.webp";
 import backgroundImage from "@assets/aboutmebg_1757711551642.webp";
 
 export default function About() {
-  const { changeRoute, isGlobalAudioEnabled } = useAudio();
-
-  useEffect(() => {
-    console.log('About page: Setting route to /about, audio enabled:', isGlobalAudioEnabled);
-    // Устанавливаем аудио для страницы About
-    changeRoute('/about');
-  }, [changeRoute, isGlobalAudioEnabled]);
+  // Layout.tsx уже управляет сменой аудио при переходах между страницами
 
   return (
     <>
