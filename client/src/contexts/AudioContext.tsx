@@ -335,7 +335,46 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 export function useAudio() {
   const context = useContext(AudioContext);
   if (context === undefined) {
-    throw new Error('useAudio must be used within an AudioProvider');
+    console.warn('useAudio called outside AudioProvider - this might be due to HMR');
+    // Возвращаем заглушку вместо ошибки для HMR
+    return {
+      // Audio Engine
+      engine: null,
+      isGlobalAudioEnabled: false,
+      toggleGlobalAudio: () => {},
+      changeRoute: () => {},
+      // Music плеер
+      isMusicEnabled: false,
+      toggleMusicEnabled: () => {},
+      currentMusicTrack: null,
+      isMusicPlaying: false,
+      playMusic: () => {},
+      pauseMusic: () => {},
+      nextMusicTrack: () => {},
+      previousMusicTrack: () => {},
+      // Прогресс и время
+      currentMusicTime: 0,
+      duration: 0,
+      setCurrentMusicTime: () => {},
+      setDuration: () => {},
+      // Sound Design плеер
+      isSoundDesignEnabled: false,
+      currentSoundDesign: null,
+      setCurrentSoundDesign: () => {},
+      // Микшер
+      musicVolume: 0.8,
+      sfxVolume: 0.8,
+      masterVolume: 0.8,
+      setMusicVolume: () => {},
+      setSfxVolume: () => {},
+      setMasterVolume: () => {},
+      isMixerOpen: false,
+      setIsMixerOpen: () => {},
+      // Общие функции
+      fadeOutCurrentAudio: () => {},
+      currentPage: '/',
+      setCurrentPage: () => {}
+    };
   }
   return context;
 }
