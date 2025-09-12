@@ -217,65 +217,6 @@ export default function Header() {
             </button>
 
             
-            {/* Mobile Works Dropdown */}
-            <div className="relative">
-              <button
-                className={`flex items-center gap-1 focus:outline-none transition-colors duration-300 ${
-                  isMobileWorksOpen 
-                    ? 'text-primary' 
-                    : 'text-white hover:text-primary'
-                }`}
-                onClick={() => setIsMobileWorksOpen(!isMobileWorksOpen)}
-                onBlur={() => {
-                  // Небольшая задержка для корректной работы с выпадающим меню
-                  setTimeout(() => setIsMobileWorksOpen(false), 150);
-                }}
-                data-testid="button-mobile-works"
-              >
-                Работы
-                <ChevronDown 
-                  className={`w-3 h-3 transition-transform duration-200 ${
-                    isMobileWorksOpen ? 'rotate-180' : ''
-                  }`} 
-                />
-              </button>
-
-              {/* Mobile Works Dropdown Menu */}
-              <AnimatePresence>
-                {isMobileWorksOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 top-full mt-2 w-72 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-50"
-                  >
-                    <div className="py-2 max-h-[70vh] overflow-y-auto">
-                      {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
-                        <div key={category} className="mb-3 last:mb-0">
-                          <div className="px-4 py-2 text-primary font-medium text-sm uppercase tracking-wider border-b border-border/30">
-                            {categoryLabels[category as keyof typeof categoryLabels]}
-                          </div>
-                          {categoryProjects.map((project) => (
-                            <Link
-                              key={project.id}
-                              href={`/project/${project.id}`}
-                              className="block px-4 py-2 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200"
-                              onClick={() => setIsMobileWorksOpen(false)}
-                              data-testid={`link-mobile-works-${project.id}`}
-                            >
-                              <div className="font-medium text-sm">{project.title}</div>
-                              <div className="text-xs text-muted-foreground mt-1">{project.year}</div>
-                            </Link>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            
             {/* Mobile Menu Button */}
             <button
               className="text-white focus:outline-none"
@@ -315,19 +256,56 @@ export default function Header() {
                   На главную
                 </Link>
                 {mainNavigation.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`block px-4 py-3 transition-colors duration-200 ${
-                      isActive(item.href)
-                        ? "text-primary bg-primary/10"
-                        : "text-gray-300 hover:text-primary hover:bg-white/5"
-                    }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    data-testid={`mobile-link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    {item.name}
-                  </Link>
+                  item.hasSubmenu ? (
+                    <div key={item.name}>
+                      <div
+                        className="block px-4 py-3 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                        onClick={() => setIsMobileWorksOpen(!isMobileWorksOpen)}
+                        data-testid={`mobile-menu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                      >
+                        {item.name}
+                      </div>
+                      {isMobileWorksOpen && (
+                        <div className="pl-4 pb-2">
+                          {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
+                            <div key={category} className="mb-3 last:mb-0">
+                              <div className="px-4 py-1 text-primary font-medium text-xs uppercase tracking-wider">
+                                {categoryLabels[category as keyof typeof categoryLabels]}
+                              </div>
+                              {categoryProjects.map((project) => (
+                                <Link
+                                  key={project.id}
+                                  href={`/project/${project.id}`}
+                                  className="block px-4 py-1 text-gray-400 hover:text-primary transition-colors duration-200"
+                                  onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    setIsMobileWorksOpen(false);
+                                  }}
+                                  data-testid={`mobile-submenu-project-${project.id}`}
+                                >
+                                  <div className="text-sm">{project.title}</div>
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      key={item.href}
+                      href={item.href!}
+                      className={`block px-4 py-3 transition-colors duration-200 ${
+                        isActive(item.href!)
+                          ? "text-primary bg-primary/10"
+                          : "text-gray-300 hover:text-primary hover:bg-white/5"
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      data-testid={`mobile-link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      {item.name}
+                    </Link>
+                  )
                 ))}
                 <Link
                   href="/projects"
