@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import Hero from "@/components/Hero";
 import SEOHead from "@/components/SEOHead";
 import ProjectSection from "@/components/CollapsibleProjectSection";
@@ -170,7 +170,19 @@ export default function Home() {
                 Композитор • Саунд‑дизайнер • Звукорежиссёр
               </h2>
               <p className="text-xl text-gray-300 leading-relaxed mb-8">Я соединяю музыку, звук и технологии, чтобы создавать проекты, которые работают безупречно — от идеи до воплощения.</p>
-              <p className="text-lg text-gray-400 leading-relaxed">Работаю в широком спектре жанров . Помимо театральных и кинопроектов, создаю джинглы и саунд-дизайн для брендов, разрабатываю аудиопрограммы и автоматизацию в для проектов, совмещая творчество и технологии. Активно использую нейросети и ИИ-инструменты для генерации, анализа и обработки звука, расширяя границы традиционного саунд-дизайна.</p>
+              <p className="text-lg text-gray-400 leading-relaxed mb-8">Работаю в широком спектре жанров . Помимо театральных и кинопроектов, создаю джинглы и саунд-дизайн для брендов, разрабатываю аудиопрограммы и автоматизацию в для проектов, совмещая творчество и технологии. Активно использую нейросети и ИИ-инструменты для генерации, анализа и обработки звука, расширяя границы традиционного саунд-дизайна.</p>
+              
+              <div className="text-center">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 
+                             text-black font-bold rounded-lg text-lg shadow-lg hover:shadow-xl
+                             transition-all duration-300 transform hover:scale-105"
+                  data-testid="button-contact-home"
+                >
+                  Связаться
+                </Link>
+              </div>
             </motion.div>
           </div>
         </section>
