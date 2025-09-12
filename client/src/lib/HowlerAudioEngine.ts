@@ -156,18 +156,39 @@ export class HowlerAudioEngine {
     // Проверяем есть ли специфичная музыка для маршрута
     let musicData = this.routeMapping.music[route as keyof typeof this.routeMapping.music];
     
-    // Если нет специфичной музыки, используем музыку главной страницы как фоновую
+    // Для проектных страниц без специфичной музыки - останавливаем музыку
+    if (!musicData && route.startsWith('/project')) {
+      if (this.musicBus) {
+        this.fadeMusicBus(this.musicBus.volume(), 0, 1000, () => {
+          this.musicBus?.stop();
+          this.musicBus?.unload();
+          this.musicBus = null;
+        });
+      }
+      return;
+    }
+    
+    // Если нет специфичной музыки для обычных страниц, используем музыку главной страницы как фоновую
     if (!musicData) {
       musicData = this.routeMapping.music['/'];
     }
     
     if (!musicData) return;
 
+    // Получаем целевой трек
+    const targetTrack = Array.isArray(musicData) ? musicData[Math.min(trackIndex, musicData.length - 1)] : musicData;
+    
+    // Если уже играет тот же трек, не перезапускаем
+    if (this.musicBus && this.getCurrentMusicTrack()?.url === targetTrack?.url) {
+      return;
+    }
+
     // Stop current music with fade-out
     if (this.musicBus) {
       this.fadeMusicBus(this.musicBus.volume(), 0, 1000, () => {
         this.musicBus?.stop();
         this.musicBus?.unload();
+        this.musicBus = null;
         this.startNewMusic(musicData, trackIndex);
       });
     } else {
@@ -254,6 +275,7 @@ export class HowlerAudioEngine {
       this.fadeSfxBus(this.soundDesignBus.volume(), 0, 1500, () => {
         this.soundDesignBus?.stop();
         this.soundDesignBus?.unload();
+        this.soundDesignBus = null;
         this.startNewSoundDesign(sfxUrl);
       });
     } else {
