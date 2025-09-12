@@ -156,8 +156,8 @@ export class HowlerAudioEngine {
     // Проверяем есть ли специфичная музыка для маршрута
     let musicData = this.routeMapping.music[route as keyof typeof this.routeMapping.music];
     
-    // Для проектных страниц без специфичной музыки - останавливаем музыку
-    if (!musicData && route.startsWith('/project')) {
+    // Для проектных страниц (не путать с /projects) без специфичной музыки - останавливаем музыку
+    if (!musicData && route.startsWith('/project/')) {
       if (this.musicBus) {
         this.fadeMusicBus(this.musicBus.volume(), 0, 1000, () => {
           this.musicBus?.stop();
