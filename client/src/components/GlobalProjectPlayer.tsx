@@ -159,7 +159,7 @@ function GlobalProjectPlayer_DISABLED() {
 
   // Обновляем громкость при изменении настроек микшера
   useEffect(() => {
-    if (!isPlaying || !audioElements.length) return;
+    if (!isPlaying || !audioElements.length || currentProjectTrack >= audioElements.length) return;
 
     const currentAudio = audioElements[currentProjectTrack];
     if (currentAudio) {
@@ -213,6 +213,10 @@ function GlobalProjectPlayer_DISABLED() {
   // Плавное затухание проектного плеера при уходе со страницы
   const fadeOutProjectPlayer = (): Promise<void> => {
     return new Promise((resolve) => {
+      if (currentProjectTrack >= audioElements.length) {
+        resolve();
+        return;
+      }
       const audio = audioElements[currentProjectTrack];
       if (!audio || audio.paused) {
         resolve();
@@ -262,6 +266,7 @@ function GlobalProjectPlayer_DISABLED() {
   }, [location]);
 
   const togglePlayPause = () => {
+    if (currentProjectTrack >= audioElements.length) return;
     const audio = audioElements[currentProjectTrack];
     if (!audio) return;
     
@@ -291,6 +296,7 @@ function GlobalProjectPlayer_DISABLED() {
   };
 
   const stopAudio = () => {
+    if (currentProjectTrack >= audioElements.length) return;
     const audio = audioElements[currentProjectTrack];
     if (audio) {
       audio.pause();
