@@ -8,7 +8,7 @@ import { useAudio } from "@/contexts/AudioContext";
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isWorksDropdownOpen, setIsWorksDropdownOpen] = useState(false);
+  const [isWorksSubmenuOpen, setIsWorksSubmenuOpen] = useState(false);
   const [isMobileWorksOpen, setIsMobileWorksOpen] = useState(false);
   const [location] = useLocation();
   const { 
@@ -18,6 +18,8 @@ export default function Header() {
 
 
   const mainNavigation = [
+    { name: "Работы", href: null, hasSubmenu: true },
+    { name: "Все проекты", href: "/projects" },
     { name: "Обо мне", href: "/about" },
     { name: "Контакты", href: "/contact" },
   ];
@@ -82,60 +84,6 @@ export default function Header() {
               {isGlobalAudioEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
             </button>
 
-            
-            {/* Works Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setIsWorksDropdownOpen(true)}
-              onMouseLeave={() => setIsWorksDropdownOpen(false)}
-            >
-              <button
-                className="flex items-center gap-1 text-white hover:text-primary focus:outline-none transition-colors duration-300"
-                data-testid="button-works-dropdown"
-              >
-                Работы
-                <ChevronDown 
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    isWorksDropdownOpen ? 'rotate-180' : ''
-                  }`} 
-                />
-              </button>
-
-              {/* Works Dropdown Menu */}
-              <AnimatePresence>
-                {isWorksDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 top-full mt-2 w-80 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-50"
-                  >
-                    <div className="py-2">
-                      {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
-                        <div key={category} className="mb-4 last:mb-0">
-                          <div className="px-4 py-2 text-primary font-medium text-sm uppercase tracking-wider border-b border-border/30">
-                            {categoryLabels[category as keyof typeof categoryLabels]}
-                          </div>
-                          {categoryProjects.map((project) => (
-                            <Link
-                              key={project.id}
-                              href={`/project/${project.id}`}
-                              className="block px-4 py-2 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200"
-                              onClick={() => setIsWorksDropdownOpen(false)}
-                              data-testid={`link-project-${project.id}`}
-                            >
-                              <div className="font-medium">{project.title}</div>
-                              <div className="text-xs text-muted-foreground mt-1">{project.year}</div>
-                            </Link>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
 
             {/* Menu Button */}
             <button
@@ -174,32 +122,74 @@ export default function Header() {
                       На главную
                     </Link>
                     {mainNavigation.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`block px-4 py-3 transition-colors duration-200 ${
-                          isActive(item.href)
-                            ? "text-primary bg-primary/10"
-                            : "text-gray-300 hover:text-primary hover:bg-white/5"
-                        }`}
-                        onClick={() => setIsMenuOpen(false)}
-                        data-testid={`link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-                      >
-                        {item.name}
-                      </Link>
+                      item.hasSubmenu ? (
+                        <div 
+                          key={item.name}
+                          className="relative"
+                          onMouseEnter={() => setIsWorksSubmenuOpen(true)}
+                          onMouseLeave={() => setIsWorksSubmenuOpen(false)}
+                        >
+                          <div
+                            className="block px-4 py-3 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                            data-testid={`menu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                          >
+                            {item.name}
+                          </div>
+                          
+                          {/* Side submenu for Works */}
+                          <AnimatePresence>
+                            {isWorksSubmenuOpen && (
+                              <motion.div
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute left-full top-0 ml-2 w-80 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-50"
+                              >
+                                <div className="py-2">
+                                  {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
+                                    <div key={category} className="mb-4 last:mb-0">
+                                      <div className="px-4 py-2 text-primary font-medium text-sm uppercase tracking-wider border-b border-border/30">
+                                        {categoryLabels[category as keyof typeof categoryLabels]}
+                                      </div>
+                                      {categoryProjects.map((project) => (
+                                        <Link
+                                          key={project.id}
+                                          href={`/project/${project.id}`}
+                                          className="block px-4 py-2 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200"
+                                          onClick={() => {
+                                            setIsMenuOpen(false);
+                                            setIsWorksSubmenuOpen(false);
+                                          }}
+                                          data-testid={`submenu-project-${project.id}`}
+                                        >
+                                          <div className="font-medium">{project.title}</div>
+                                          <div className="text-xs text-muted-foreground mt-1">{project.year}</div>
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  ))}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      ) : (
+                        <Link
+                          key={item.href}
+                          href={item.href!}
+                          className={`block px-4 py-3 transition-colors duration-200 ${
+                            isActive(item.href!)
+                              ? "text-primary bg-primary/10"
+                              : "text-gray-300 hover:text-primary hover:bg-white/5"
+                          }`}
+                          onClick={() => setIsMenuOpen(false)}
+                          data-testid={`link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                        >
+                          {item.name}
+                        </Link>
+                      )
                     ))}
-                    <Link
-                      href="/projects"
-                      className={`block px-4 py-3 transition-colors duration-200 ${
-                        isActive('/projects')
-                          ? "text-primary bg-primary/10"
-                          : "text-gray-300 hover:text-primary hover:bg-white/5"
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                      data-testid="link-projects"
-                    >
-                      Все проекты
-                    </Link>
                   </div>
                 </motion.div>
               )}
