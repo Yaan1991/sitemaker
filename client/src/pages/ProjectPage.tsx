@@ -442,6 +442,10 @@ export default function ProjectPage() {
       setCurrentProjectPlaylist(petrovyTracks);
       setCurrentProjectTrack(0);
       setIsProjectPlayerReady(true);
+    } else if (projectId === "mayakovsky-moscow-estrada") {
+      setCurrentProjectPlaylist(mayakTracks);
+      setCurrentProjectTrack(0);
+      setIsProjectPlayerReady(true);
     } else {
       // Сбрасываем плейлист для проектов без музыки
       setCurrentProjectPlaylist(null);
@@ -1212,139 +1216,11 @@ export default function ProjectPage() {
 
           {/* Music Section for Mayakovsky Project */}
           {project.id === "mayakovsky-moscow-estrada" && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="max-w-4xl mx-auto mt-12 mb-8"
-            >
-              <h3 className="text-3xl font-bold mb-8 text-center mayak-heading">
-                Музыка из спектакля
-              </h3>
-              
-              <div style={{backgroundColor: 'rgba(245, 222, 179, 0.1)'}} className="rounded-xl p-6 border border-amber-900/30 projector-chromatic">
-                
-                {/* Winamp-style player interface */}
-                <div className="space-y-4">
-                  
-                  {/* Top row: Display and Equalizer */}
-                  <div className="flex justify-between items-stretch gap-4">
-                    <div className="w-48 sm:w-64 md:w-80">
-                      <div style={{backgroundColor: '#8B4513', color: '#F5DEB3'}} className="mb-2 h-8 flex items-center border-2 border-amber-900/50 rounded font-mono text-sm px-3 shadow-inner">
-                        {isProjectPlayerReady ? (
-                          <div className="overflow-hidden whitespace-nowrap w-full">
-                            <div className={`${
-                              (currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран').length > 25 
-                                ? 'animate-marquee' 
-                                : 'animate-pulse'
-                            }`}>
-                              ♪ {currentProjectPlaylist?.[currentProjectTrack]?.title || 'Не выбран'} ♪
-                            </div>
-                          </div>
-                        ) : (
-                          '*** ЗАГРУЗКА... ***'
-                        )}
-                      </div>
-                      <div className="flex items-center">
-                        <div style={{backgroundColor: '#654321', color: '#F5DEB3'}} className="overflow-hidden whitespace-nowrap w-full border border-amber-900/50 rounded text-xs px-2 py-1 font-mono shadow-inner">
-                          <span className={`${
-                            'Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв'.length > 35 
-                              ? 'animate-marquee' 
-                              : ''
-                          }`}>
-                            Битрейт: 128 kbps • 44 kHz • Stereo • Композитор: Ян Кузьмичёв
-                          </span>
-                        </div>
-                        <button 
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            toggleGlobalAudio();
-                          }}
-                          className={`text-xs px-2 py-1 ml-2 border-2 rounded font-mono font-bold transition-all duration-200 ${
-                            isGlobalAudioEnabled 
-                              ? 'bg-red-600 border-red-500 text-white shadow-lg' 
-                              : 'bg-amber-900 border-amber-800 text-amber-200 hover:bg-amber-800'
-                          }`}
-                          style={{zIndex: 60}}
-                          title={isGlobalAudioEnabled ? "Выключить плеер" : "Включить плеер"}
-                        >
-                          {isGlobalAudioEnabled ? 'PWR' : 'OFF'}
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-2 w-24 sm:w-28 md:w-32">
-                      <div style={{backgroundColor: '#8B4513', color: '#F5DEB3'}} className="text-xs sm:text-base border-2 border-amber-900/50 rounded px-2 py-1 text-center font-mono shadow-inner">
-                        {formatTime(localCurrentTime)} / {formatTime(localDuration)}
-                      </div>
-                      <div className="flex items-end gap-1 p-2 border border-amber-900/50 rounded shadow-inner" style={{backgroundColor: '#654321'}}>
-                        {Array(10).fill(0).map((_, index) => (
-                          <div
-                            key={index}
-                            className="w-2 bg-gradient-to-t from-red-600 via-orange-500 to-yellow-400 rounded-sm transition-all duration-100"
-                            style={{ 
-                              height: `${localIsPlaying && isGlobalAudioEnabled ? Math.random() * 100 : 0}%`,
-                              minHeight: '2px'
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div style={{backgroundColor: '#654321'}} className="border border-amber-900/50 rounded p-1 shadow-inner">
-                    <div 
-                      className="h-2 bg-gradient-to-r from-red-600 to-orange-500 rounded transition-all duration-100 relative overflow-hidden"
-                      style={{ width: `${localDuration ? (localCurrentTime / localDuration) * 100 : 0}%` }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
-                    </div>
-                  </div>
-
-                  {/* Control buttons */}
-                  <div className="flex justify-center gap-2">
-                    <button
-                      type="button"
-                      onClick={handlePrevTrack}
-                      className="px-3 py-2 bg-amber-900 border-2 border-amber-800 text-amber-200 rounded font-mono hover:bg-amber-800 transition-colors duration-200 disabled:opacity-50"
-                      disabled={!isGlobalAudioEnabled}
-                      title="Предыдущий трек"
-                    >
-                      <SkipBack className="w-4 h-4" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleTogglePlayPause}
-                      className="px-4 py-2 bg-red-600 border-2 border-red-500 text-white rounded font-mono hover:bg-red-700 transition-colors duration-200 disabled:opacity-50"
-                      disabled={!isGlobalAudioEnabled}
-                      title={localIsPlaying ? "Пауза" : "Воспроизведение"}
-                    >
-                      {localIsPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleStopAudio}
-                      className="px-3 py-2 bg-amber-900 border-2 border-amber-800 text-amber-200 rounded font-mono hover:bg-amber-800 transition-colors duration-200 disabled:opacity-50"
-                      disabled={!isGlobalAudioEnabled}
-                      title="Стоп"
-                    >
-                      <Square className="w-4 h-4" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleNextTrack}
-                      className="px-3 py-2 bg-amber-900 border-2 border-amber-800 text-amber-200 rounded font-mono hover:bg-amber-800 transition-colors duration-200 disabled:opacity-50"
-                      disabled={!isGlobalAudioEnabled}
-                      title="Следующий трек"
-                    >
-                      <SkipForward className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            <WinampPlayer 
+              projectId={project.id} 
+              title="Музыка из спектакля" 
+              className="mayak-themed"
+            />
           )}
 
 
