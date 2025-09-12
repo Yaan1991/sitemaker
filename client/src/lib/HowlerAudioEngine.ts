@@ -180,10 +180,8 @@ export class HowlerAudioEngine {
     
     // Если уже играет тот же трек, не перезапускаем
     const currentTrack = this.getCurrentMusicTrack();
-    console.log(`🎵 [AudioEngine] Current track: ${currentTrack?.url}, Target track: ${targetTrack?.url}`);
     
     if (this.musicBus && currentTrack?.url === targetTrack?.url) {
-      console.log(`🎵 [AudioEngine] Same track already playing, skipping restart`);
       return;
     }
 

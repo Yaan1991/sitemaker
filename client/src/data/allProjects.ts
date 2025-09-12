@@ -294,7 +294,8 @@ export const allProjects: AllProject[] = [
     director: "Степан Азарян",
     role: "Звукорежиссёр переозвучивания (foley, ambiences), саунд-дизайнер",
     category: "film",
-    type: "К/м фильм"
+    type: "К/м фильм",
+    link: "/project/life-in-art-short"
   },
   {
     id: "illyuzii",
@@ -391,7 +392,7 @@ export const allProjects: AllProject[] = [
     theater: "Центр театрального мастерства (Нижний Новгород)",
     director: "Иван Комаров",
     role: "Композитор и саунд-дизайнер",
-    link: "https://ctm-nn.ru/pogruzhenie-promenad/",
+    link: "/project/pogruzhenie-promenad-telegram",
     category: "immersive",
     type: "Иммерсив/спектакль в наушниках"
   },
@@ -542,7 +543,8 @@ export const allProjects: AllProject[] = [
     director: "Валентина Бесолова",
     role: "Звукорежиссёр пост-продакшена",
     category: "film",
-    type: "К/м фильм"
+    type: "К/м фильм",
+    link: "/project/ma-short-film"
   },
   {
     id: "idiot",
@@ -551,7 +553,7 @@ export const allProjects: AllProject[] = [
     theater: "Саратовский театр драмы им. Слонова",
     director: "Иван Комаров",
     role: "Композитор, Саунд-дизайнер, Звукорежиссёр",
-    link: "https://www.saratovdrama.com/repertoire/idiot/",
+    link: "/project/idiot-saratov-drama",
     category: "theatre",
     type: "Спектакль"
   },
@@ -583,7 +585,7 @@ export const allProjects: AllProject[] = [
     theater: "Московский театр Эстрады",
     director: "Семён Шомин",
     role: "Композитор, Саунд-дизайнер, ИИ-креативный-продюсер",
-    link: "https://afisha.yandex.ru/moscow/theatre_show/maiakovskii-ia-sam-teatr-estrady",
+    link: "/project/mayakovsky-moscow-estrada",
     category: "theatre",
     type: "Спектакль"
   },
@@ -627,7 +629,7 @@ export const allProjects: AllProject[] = [
     theater: "Центр Зотов (Москва)",
     director: "Тимур Шарафутдинов",
     role: "Композитор, звукорежиссёр постпродакшена, ИИ-креативный-продюсер",
-    link: "https://centrezotov.ru/events/noch-v-muzee-2024/audiospektakl-son-o-hlebe/",
+    link: "/project/son-o-hlebe-zotov",
     category: "audio",
     type: "Аудиоспектакль"
   },
@@ -660,7 +662,7 @@ export const allProjects: AllProject[] = [
     theater: "Саратовский театр драмы им. Слонова",
     director: "Иван Комаров",
     role: "Композитор, саунд-дизайнер, ИИ-креативный-продюсер",
-    link: "https://www.saratovdrama.com/repertoire/petrovy-v-grippe-i-vokrug-nego/",
+    link: "/project/petrovy-saratov-drama",
     category: "theatre",
     type: "Спектакль"
   },
@@ -704,7 +706,6 @@ export const allProjects: AllProject[] = [
     theater: "Самарканд, Panasonic Convention",
     director: "Ярослав Максименко",
     role: "Композитор, саунд-дизайнер, аудиопрограммист, ИИ-креативный-продюсер",
-    link: "https://www.instagram.com/p/DI8eaDzMySK/",
     category: "immersive",
     type: "Иммерсив/спектакль в наушниках"
   },
@@ -716,6 +717,7 @@ export const allProjects: AllProject[] = [
     director: "Иван Комаров",
     role: "Композитор, саунд-дизайнер, звукорежиссер пост-продакшена, ИИ-креативный-продюсер",
     category: "film",
-    type: "К/м фильм"
+    type: "К/м фильм",
+    link: "/project/homo-homini-short"
   }
 ];

@@ -4,7 +4,7 @@ import { allProjects } from "@/data/allProjects";
 import SEOHead from "@/components/SEOHead";
 import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import { ExternalLink, Newspaper } from "lucide-react";
-import backgroundImage from "@assets/backgroundworks_1756395075457.webp";
+import backgroundImage from "@assets/allprojetsbg_1757713205646.webp";
 
 const categories = {
   all: "Все",
@@ -267,36 +267,6 @@ export default function Projects() {
             </motion.div>
           )}
 
-          {/* Stats */}
-          {selectedCategory === "all" && selectedYear === "all" && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="mt-16 pt-12 border-t border-border"
-            >
-              <div className="grid md:grid-cols-3 gap-8 text-center">
-                <div>
-                  <div className="text-4xl font-bold text-primary mb-2">
-                    {allProjects.filter(p => p.category === 'theatre').length}
-                  </div>
-                  <div className="text-gray-300">Театральных проектов</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-primary mb-2">
-                    {years.length}
-                  </div>
-                  <div className="text-gray-300">Лет работы</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-primary mb-2">
-                    {allProjects.filter(p => p.link).length}
-                  </div>
-                  <div className="text-gray-300">Проектов со ссылками</div>
-                </div>
-              </div>
-            </motion.div>
-          )}
         </div>
       </div>
     </>
