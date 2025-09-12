@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   DbScaleConfig,
   DEFAULT_DB_CONFIG,
+  MIXER_DB_CONFIG,
   gainToPosition,
   positionToGain,
   gainToDb,
@@ -9,7 +10,9 @@ import {
   calculateDbTicks,
   formatDb,
   snapToZeroDb,
-  safeGain
+  safeGain,
+  dbToMixerGain,
+  mixerGainToDb
 } from '@/lib/audioUtils';
 
 interface VerticalFaderProps {
@@ -20,6 +23,7 @@ interface VerticalFaderProps {
   dbConfig?: DbScaleConfig;
   showMobileLabels?: boolean; // For responsive design
   allowHeadroom?: boolean; // Allow gain values >1 for headroom, default: false
+  useMixerScale?: boolean; // Use mixer scale where 0dB = 0.9 gain, default: false
 }
 
 export function VerticalFader({ 
@@ -29,7 +33,8 @@ export function VerticalFader({
   isMaster = false,
   dbConfig = DEFAULT_DB_CONFIG,
   showMobileLabels = false,
-  allowHeadroom = false
+  allowHeadroom = false,
+  useMixerScale = false
 }: VerticalFaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isTouching, setIsTouching] = useState(false);
@@ -41,15 +46,29 @@ export function VerticalFader({
 
   // Convert gain to fader position and vice versa using dB scale
   const valueToPosition = useCallback((gain: number) => {
-    const position = gainToPosition(gain, dbConfig);
-    return (1 - position) * 100; // Invert for visual representation (0 at bottom)
-  }, [dbConfig]);
+    if (useMixerScale) {
+      // Convert mixer gain to dB, then to position
+      const db = mixerGainToDb(gain);
+      const position = dbToPosition(db, dbConfig);
+      return (1 - position) * 100;
+    } else {
+      const position = gainToPosition(gain, dbConfig);
+      return (1 - position) * 100; // Invert for visual representation (0 at bottom)
+    }
+  }, [dbConfig, useMixerScale]);
 
   const positionToValue = useCallback((posPercent: number) => {
     const normalizedPos = Math.max(0, Math.min(100, posPercent));
     const position = 1 - (normalizedPos / 100); // Invert back
-    return positionToGain(position, dbConfig);
-  }, [dbConfig]);
+    
+    if (useMixerScale) {
+      // Convert position to dB, then to mixer gain
+      const db = positionToDb(position, dbConfig);
+      return dbToMixerGain(db);
+    } else {
+      return positionToGain(position, dbConfig);
+    }
+  }, [dbConfig, useMixerScale]);
 
   // Smooth volume update with throttling and dB snapping
   const smoothOnChange = useCallback((newValue: number) => {
@@ -97,7 +116,7 @@ export function VerticalFader({
   }, [onChange]);
 
   const currentPosition = valueToPosition(value);
-  const currentDb = gainToDb(value);
+  const currentDb = useMixerScale ? mixerGainToDb(value) : gainToDb(value);
   const dbTicks = calculateDbTicks(dbConfig);
   
   // Calculate 0 dB position safely

@@ -15,6 +15,13 @@ export const DEFAULT_DB_CONFIG: DbScaleConfig = {
   labels: [10, 0, -5, -10, -20, -30, -40, -50, '∞']
 };
 
+// Custom config for audio mixer where 0dB = 90% volume, +10dB = 100% volume
+export const MIXER_DB_CONFIG: DbScaleConfig = {
+  minDb: -60,
+  maxDb: 10,
+  labels: [10, 0, -5, -10, -20, -30, -40, -50, '∞']
+};
+
 /**
  * Convert decibels to linear gain value
  * @param db Decibel value
@@ -179,6 +186,57 @@ export function clampGain01(gain: number): number {
 export function safeGain(db: number, clamp01: boolean = false): number {
   const gain = dbToGain(db);
   return clamp01 ? clampGain01(gain) : gain;
+}
+
+/**
+ * Convert dB to mixer gain where 0dB = 0.9 gain, +10dB = 1.0 gain
+ * @param db Decibel value
+ * @returns Mixer gain (0.9 at 0dB, 1.0 at +10dB)
+ */
+export function dbToMixerGain(db: number): number {
+  if (db === -Infinity) {
+    return 0;
+  }
+  
+  // Standard dB to gain conversion
+  const standardGain = Math.pow(10, db / 20);
+  
+  // Scale so that 0dB = 0.9, +10dB = 1.0
+  // At 0dB: gain = 1.0, we want 0.9
+  // At +10dB: gain ≈ 3.16, we want 1.0
+  // Linear scaling: mixerGain = 0.9 + (standardGain - 1.0) * 0.1 / (3.16 - 1.0)
+  if (standardGain <= 1.0) {
+    // Below or at 0dB: scale linearly from 0 to 0.9
+    return standardGain * 0.9;
+  } else {
+    // Above 0dB: scale from 0.9 to 1.0
+    const headroomGain = Math.pow(10, 10 / 20); // Gain at +10dB ≈ 3.16
+    const scaleFactor = 0.1 / (headroomGain - 1.0); // 0.1 / (3.16 - 1.0)
+    return 0.9 + (standardGain - 1.0) * scaleFactor;
+  }
+}
+
+/**
+ * Convert mixer gain back to dB (inverse of dbToMixerGain)
+ * @param mixerGain Mixer gain value
+ * @returns dB value
+ */
+export function mixerGainToDb(mixerGain: number): number {
+  if (mixerGain <= 0) {
+    return -Infinity;
+  }
+  
+  if (mixerGain <= 0.9) {
+    // Below or at 0dB range
+    const standardGain = mixerGain / 0.9;
+    return 20 * Math.log10(standardGain);
+  } else {
+    // Above 0dB range
+    const headroomGain = Math.pow(10, 10 / 20); // ≈ 3.16
+    const scaleFactor = 0.1 / (headroomGain - 1.0);
+    const standardGain = 1.0 + (mixerGain - 0.9) / scaleFactor;
+    return 20 * Math.log10(standardGain);
+  }
 }
 
 /**
