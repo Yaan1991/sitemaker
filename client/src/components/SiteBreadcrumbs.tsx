@@ -43,7 +43,7 @@ export default function SiteBreadcrumbs({ currentProject }: BreadcrumbsProps) {
 
   return (
     <nav 
-      className="flex items-center space-x-2 text-sm text-muted-foreground relative z-10 mb-6"
+      className="flex items-center space-x-2 text-sm text-muted-foreground relative z-50 mb-6"
       aria-label="Навигация по сайту"
       data-testid="breadcrumbs-nav"
     >
