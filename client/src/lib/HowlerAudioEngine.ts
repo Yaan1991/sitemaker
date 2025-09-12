@@ -157,10 +157,18 @@ export class HowlerAudioEngine {
    * Music Bus Management
    */
   public async playMusic(route: string, trackIndex = 0): Promise<void> {
-    if (!this.isMusicEnabled) return;
+    console.log(`🎵 [AudioEngine] playMusic called for route: ${route}, enabled: ${this.isMusicEnabled}`);
+    if (!this.isMusicEnabled) {
+      console.log(`🎵 [AudioEngine] Music is disabled, returning`);
+      return;
+    }
 
     const musicData = this.routeMapping.music[route as keyof typeof this.routeMapping.music];
-    if (!musicData) return;
+    console.log(`🎵 [AudioEngine] Music data for ${route}:`, musicData);
+    if (!musicData) {
+      console.log(`🎵 [AudioEngine] No music data found for route: ${route}`);
+      return;
+    }
 
     // Stop current music with fade-out
     if (this.musicBus) {
@@ -236,10 +244,18 @@ export class HowlerAudioEngine {
    * Sound Design Bus Management
    */
   public async playSoundDesign(route: string): Promise<void> {
-    if (!this.isSfxEnabled) return;
+    console.log(`🔊 [AudioEngine] playSoundDesign called for route: ${route}, enabled: ${this.isSfxEnabled}`);
+    if (!this.isSfxEnabled) {
+      console.log(`🔊 [AudioEngine] SFX is disabled, returning`);
+      return;
+    }
 
     const sfxUrl = this.routeMapping.soundDesign[route as keyof typeof this.routeMapping.soundDesign];
-    if (!sfxUrl || sfxUrl === this.currentSfxTrack) return;
+    console.log(`🔊 [AudioEngine] SFX URL for ${route}: ${sfxUrl}, current: ${this.currentSfxTrack}`);
+    if (!sfxUrl || sfxUrl === this.currentSfxTrack) {
+      console.log(`🔊 [AudioEngine] No SFX URL or same as current, returning`);
+      return;
+    }
 
     // Stop current SFX with fade-out
     if (this.soundDesignBus) {
@@ -275,6 +291,9 @@ export class HowlerAudioEngine {
    * Route Change - updates both buses
    */
   public async changeRoute(route: string): Promise<void> {
+    console.log(`🎵 [AudioEngine] changeRoute called for: ${route}`);
+    console.log(`🎵 [AudioEngine] Music enabled: ${this.isMusicEnabled}, SFX enabled: ${this.isSfxEnabled}`);
+    
     // Update both buses for new route
     await Promise.all([
       this.playMusic(route),
