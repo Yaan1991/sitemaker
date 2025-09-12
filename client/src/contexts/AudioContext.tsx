@@ -8,8 +8,16 @@ interface Track {
 }
 
 interface AudioContextType {
+  // 🎛️ Главный контроль звука
   isGlobalAudioEnabled: boolean;
-  toggleGlobalAudio: () => void;
+  toggleGlobalAudio: () => void; // Главный переключатель всего звука
+  
+  // 🎵 Индивидуальные контролы шин
+  musicEnabledState: boolean;
+  sfxEnabledState: boolean;
+  toggleMusic: () => void; // Переключатель только музыки
+  toggleSoundDesign: () => void; // Переключатель только эффектов
+  
   // Фоновый плеер (домашняя страница и обычные страницы)
   currentPlaylist: Track[] | null;
   currentTrackIndex: number;
@@ -32,7 +40,6 @@ interface AudioContextType {
   setDuration: (duration: number) => void;
   // Sound Design плеер (шумы и эмбиент)
   isSoundDesignEnabled: boolean;
-  toggleSoundDesign: () => void;
   currentSoundDesign: string | null;
   setCurrentSoundDesign: (sound: string | null) => void;
   // Микшер (управление громкостью)
@@ -55,6 +62,11 @@ const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(true); // Включен по умолчанию
+  
+  // 🎛️ Индивидуальные настройки шин (запоминаем что было включено)
+  const [musicEnabledState, setMusicEnabledState] = useState(true); // Музыка включена отдельно
+  const [sfxEnabledState, setSfxEnabledState] = useState(true); // Эффекты включены отдельно
+  
   // Фоновый плеер
   const [currentPlaylist, setCurrentPlaylist] = useState<Track[] | null>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -65,7 +77,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  // Sound Design плеер
+  // Sound Design плеер (теперь синхронизировано с sfxEnabledState)
   const [isSoundDesignEnabled, setIsSoundDesignEnabled] = useState(true); // По умолчанию включен
   const [currentSoundDesign, setCurrentSoundDesign] = useState<string | null>(null);
   // Микшер
@@ -79,18 +91,32 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   // Восстанавливаем состояние звука из localStorage и настраиваем Howler Engine
   useEffect(() => {
+    // 🎛️ Главный переключатель звука
     const savedGlobal = localStorage.getItem('global-audio-enabled');
     if (savedGlobal) {
       setIsGlobalAudioEnabled(savedGlobal === 'true');
     } else {
-      // Если нет сохраненного состояния, устанавливаем true и сохраняем
       setIsGlobalAudioEnabled(true);
       localStorage.setItem('global-audio-enabled', 'true');
     }
     
-    const savedSoundDesign = localStorage.getItem('sound-design-enabled');
-    if (savedSoundDesign) {
-      setIsSoundDesignEnabled(savedSoundDesign === 'true');
+    // 🎵 Индивидуальные настройки шин
+    const savedMusicEnabled = localStorage.getItem('music-enabled-state');
+    if (savedMusicEnabled) {
+      setMusicEnabledState(savedMusicEnabled === 'true');
+    } else {
+      setMusicEnabledState(true);
+      localStorage.setItem('music-enabled-state', 'true');
+    }
+    
+    const savedSfxEnabled = localStorage.getItem('sfx-enabled-state');
+    if (savedSfxEnabled) {
+      setSfxEnabledState(savedSfxEnabled === 'true');
+      setIsSoundDesignEnabled(savedSfxEnabled === 'true'); // Синхронизируем
+    } else {
+      setSfxEnabledState(true);
+      setIsSoundDesignEnabled(true);
+      localStorage.setItem('sfx-enabled-state', 'true');
     }
 
     // Восстанавливаем настройки микшера
@@ -131,12 +157,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       }
     });
 
-    // 🔧 КРИТИЧНО: Синхронизация настроек включения с движком
-    // Читаем напрямую из localStorage чтобы избежать race condition
-    const savedMusicEnabled = localStorage.getItem('global-audio-enabled') !== 'false';
-    const savedSfxEnabled = localStorage.getItem('sound-design-enabled') !== 'false';
-    audioEngine.setMusicEnabled(savedMusicEnabled);
-    audioEngine.setSfxEnabled(savedSfxEnabled);
+    // 🔧 КРИТИЧНО: Начальная синхронизация с движком
+    // Определяем что должно быть включено
+    const shouldMusicBeEnabled = (localStorage.getItem('global-audio-enabled') !== 'false') && 
+                                (localStorage.getItem('music-enabled-state') !== 'false');
+    const shouldSfxBeEnabled = (localStorage.getItem('global-audio-enabled') !== 'false') && 
+                              (localStorage.getItem('sfx-enabled-state') !== 'false');
+    
+    audioEngine.setMusicEnabled(shouldMusicBeEnabled);
+    audioEngine.setSfxEnabled(shouldSfxBeEnabled);
 
     return () => {
       // Cleanup при размонтировании
@@ -144,31 +173,54 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // 🎵 Главный переключатель всего звука (музыка + эффекты)
   const toggleGlobalAudio = () => {
     const newValue = !isGlobalAudioEnabled;
     setIsGlobalAudioEnabled(newValue);
     localStorage.setItem('global-audio-enabled', newValue.toString());
     
-    // Управляем музыкальной шиной через Howler
-    audioEngine.setMusicEnabled(newValue);
-    
-    // КРИТИЧНО: Возобновляем воспроизведение при включении
     if (newValue) {
-      audioEngine.changeRoute(currentPage);
+      // 🔊 Включаем: восстанавливаем индивидуальные настройки
+      audioEngine.setMusicEnabled(musicEnabledState);
+      audioEngine.setSfxEnabled(sfxEnabledState);
+      audioEngine.changeRoute(currentPage); // Возобновляем воспроизведение
+    } else {
+      // 🔇 Выключаем: глушим всё, но запоминаем состояния
+      audioEngine.setMusicEnabled(false);
+      audioEngine.setSfxEnabled(false);
     }
   };
 
+  // 🌊 Переключатель звуковых эффектов (индивидуально)
   const toggleSoundDesign = () => {
-    const newValue = !isSoundDesignEnabled;
-    setIsSoundDesignEnabled(newValue);
-    localStorage.setItem('sound-design-enabled', newValue.toString());
+    // Обновляем индивидуальное состояние SFX
+    const newValue = !sfxEnabledState;
+    setSfxEnabledState(newValue);
+    setIsSoundDesignEnabled(newValue); // Синхронизируем
+    localStorage.setItem('sfx-enabled-state', newValue.toString());
     
-    // Управляем шиной звукового дизайна через Howler
-    audioEngine.setSfxEnabled(newValue);
+    // Применяем только если глобальный звук включен
+    if (isGlobalAudioEnabled) {
+      audioEngine.setSfxEnabled(newValue);
+      if (newValue) {
+        audioEngine.changeRoute(currentPage); // Возобновляем воспроизведение
+      }
+    }
+  };
+
+  // 🎼 Переключатель музыки (индивидуально)
+  const toggleMusic = () => {
+    // Обновляем индивидуальное состояние музыки
+    const newValue = !musicEnabledState;
+    setMusicEnabledState(newValue);
+    localStorage.setItem('music-enabled-state', newValue.toString());
     
-    // КРИТИЧНО: Возобновляем воспроизведение при включении
-    if (newValue) {
-      audioEngine.changeRoute(currentPage);
+    // Применяем только если глобальный звук включен
+    if (isGlobalAudioEnabled) {
+      audioEngine.setMusicEnabled(newValue);
+      if (newValue) {
+        audioEngine.changeRoute(currentPage); // Возобновляем воспроизведение
+      }
     }
   };
 
@@ -215,8 +267,16 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AudioContext.Provider value={{
+      // 🎛️ Главный контроль звука
       isGlobalAudioEnabled,
       toggleGlobalAudio,
+      
+      // 🎵 Индивидуальные контролы шин
+      musicEnabledState,
+      sfxEnabledState,
+      toggleMusic,
+      toggleSoundDesign,
+      
       // Фоновый плеер
       currentPlaylist,
       currentTrackIndex,
@@ -239,7 +299,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setDuration,
       // Sound Design плеер
       isSoundDesignEnabled,
-      toggleSoundDesign,
       currentSoundDesign,
       setCurrentSoundDesign,
       // Микшер
