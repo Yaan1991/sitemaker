@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { allProjects } from "@/data/allProjects";
 import SEOHead from "@/components/SEOHead";
+import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import { ExternalLink, Newspaper } from "lucide-react";
 import backgroundImage from "@assets/backgroundworks_1756395075457.webp";
 

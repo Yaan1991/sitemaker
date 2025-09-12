@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Mail, Phone, Send, CheckCircle, AlertCircle } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
+import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
