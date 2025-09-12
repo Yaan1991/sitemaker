@@ -1110,6 +1110,7 @@ export default function ProjectPage() {
                 <WinampPlayer 
                   projectId={project.id}
                   title="Музыка из спектакля" 
+                  className="idiot-themed"
                 />
               )}
 
@@ -1206,7 +1207,7 @@ export default function ProjectPage() {
                 <WinampPlayer 
                   projectId={project.id}
                   title="Музыка из спектакля" 
-                  className="text-green-400"
+                  className="petrovy-themed"
                 />
               )}
 

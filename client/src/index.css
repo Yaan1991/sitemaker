@@ -349,6 +349,95 @@
     50% { transform: translateX(100%); }
   }
 
+  /* 🎨 Тематические варианты Winamp плеера */
+  
+  /* 🟢 Тема Идиота - неоновый зеленый (по умолчанию) */
+  .idiot-themed .winamp-display {
+    color: #22c55e;
+    text-shadow: 0 0 8px #22c55e;
+    border-color: #22c55e;
+  }
+  
+  .idiot-themed .winamp-button.active {
+    background: linear-gradient(145deg, #22c55e 0%, #16a34a 100%);
+    border-color: #22c55e;
+    color: #000;
+  }
+
+  /* 🔴 Тема Маяковского - красно-коричневая */
+  .mayak-themed .winamp-display {
+    color: #F5DEB3 !important;
+    background: #8B4513 !important;
+    text-shadow: 0 0 8px #F5DEB3;
+    border-color: #D2691E !important;
+  }
+  
+  .mayak-themed .track-info {
+    background: #654321 !important;
+    color: #F5DEB3 !important;
+    border-color: #D2691E !important;
+  }
+  
+  .mayak-themed .winamp-time {
+    background: #8B4513 !important;
+    color: #F5DEB3 !important;
+    border-color: #D2691E !important;
+  }
+  
+  .mayak-themed .winamp-button {
+    background: linear-gradient(145deg, #8B4513 0%, #654321 100%) !important;
+    border-color: #D2691E !important;
+    color: #F5DEB3 !important;
+  }
+  
+  .mayak-themed .winamp-button:hover {
+    background: linear-gradient(145deg, #A0522D 0%, #8B4513 100%) !important;
+  }
+  
+  .mayak-themed .winamp-button.active {
+    background: linear-gradient(145deg, #DC143C 0%, #B22222 100%) !important;
+    border-color: #DC143C !important;
+    color: #FFF !important;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  }
+  
+  .mayak-themed .equalizer {
+    background: #654321 !important;
+    border-color: #D2691E !important;
+  }
+  
+  .mayak-themed .eq-bar {
+    background: linear-gradient(to top, #DC143C 0%, #FF4500 50%, #FFD700 100%) !important;
+    box-shadow: 0 0 4px #DC143C;
+  }
+  
+  .mayak-themed .progress-bar-container {
+    background: #654321 !important;
+    border-color: #D2691E !important;
+  }
+  
+  .mayak-themed .progress-bar {
+    background: linear-gradient(to right, #DC143C, #FF4500) !important;
+  }
+
+  /* 🟢 Тема Петровых - комиксный зеленый */
+  .petrovy-themed .winamp-display {
+    color: #00ff41;
+    text-shadow: 0 0 8px #00ff41;
+    border-color: #00ff41;
+  }
+  
+  .petrovy-themed .winamp-button.active {
+    background: linear-gradient(145deg, #00ff41 0%, #00cc33 100%);
+    border-color: #00ff41;
+    color: #000;
+  }
+  
+  .petrovy-themed .eq-bar {
+    background: linear-gradient(to top, #00ff41 0%, #00cc33 50%, #66ff99 100%) !important;
+    box-shadow: 0 0 4px #00ff41;
+  }
+
   .track-info {
     background: #000;
     border: 1px inset #333;
