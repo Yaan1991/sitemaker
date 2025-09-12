@@ -55,6 +55,11 @@ export class HowlerAudioEngine {
         title: 'Фоновая музыка',
         url: '/audio/homepage.mp3'
       },
+      '/about': {
+        id: 'about',
+        title: 'О композиторе',
+        url: '/audio/homepage.mp3'
+      },
       '/project/idiot-saratov-drama': [
         { id: 'nastasya', title: 'Тема Настасьи Филипповны', url: '/audio/nastasya.mp3' },
         { id: 'myshkin', title: 'Тема Мышкина', url: '/audio/myshkin.mp3' },
@@ -78,6 +83,7 @@ export class HowlerAudioEngine {
     },
     soundDesign: {
       '/': '/audio/vinyl.mp3', // Default vinyl sound
+      '/about': '/audio/vinyl.mp3', // Sound design for About page
       '/project/idiot-saratov-drama': '/audio/idiot_showreel.mp3',
       '/project/mayakovsky-moscow-estrada': '/audio/mayak_showreel.mp3',
       '/project/ma-short-film': '/audio/masounds.mp3',
