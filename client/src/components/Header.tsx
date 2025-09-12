@@ -18,11 +18,13 @@ export default function Header() {
 
 
   const mainNavigation = [
-    { name: "Работы", href: null, hasSubmenu: true },
-    { name: "Все проекты", href: "/projects" },
-    { name: "Обо мне", href: "/about" },
-    { name: "Контакты", href: "/contact" },
+    { name: "Работы", href: null as string | null, hasSubmenu: true },
+    { name: "Все проекты", href: "/projects", hasSubmenu: false },
+    { name: "Обо мне", href: "/about", hasSubmenu: false },
+    { name: "Контакты", href: "/contact", hasSubmenu: false },
   ];
+  
+  console.log('Main navigation config:', mainNavigation);
 
   const projectsByCategory = {
     theatre: projects.filter(p => p.category === 'theatre'),
@@ -121,8 +123,9 @@ export default function Header() {
                     >
                       На главную
                     </Link>
-                    {mainNavigation.map((item) => (
-                      item.hasSubmenu ? (
+                    {mainNavigation.map((item) => {
+                      console.log('Rendering item:', item.name, 'hasSubmenu:', item.hasSubmenu);
+                      return item.hasSubmenu ? (
                         <div 
                           key={item.name}
                           className="relative"
@@ -194,8 +197,8 @@ export default function Header() {
                         >
                           {item.name}
                         </Link>
-                      )
-                    ))}
+                      );
+                    })}
                   </div>
                 </motion.div>
               )}
