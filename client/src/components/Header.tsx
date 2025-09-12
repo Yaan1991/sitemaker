@@ -126,8 +126,14 @@ export default function Header() {
                         <div 
                           key={item.name}
                           className="relative"
-                          onMouseEnter={() => setIsWorksSubmenuOpen(true)}
-                          onMouseLeave={() => setIsWorksSubmenuOpen(false)}
+                          onMouseEnter={() => {
+                            console.log('Mouse entered Works menu');
+                            setIsWorksSubmenuOpen(true);
+                          }}
+                          onMouseLeave={() => {
+                            console.log('Mouse left Works menu');
+                            setIsWorksSubmenuOpen(false);
+                          }}
                         >
                           <div
                             className="block px-4 py-3 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer"
