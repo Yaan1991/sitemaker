@@ -142,7 +142,7 @@ export default function Header() {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute left-full top-0 ml-2 w-80 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-[100]"
+                            className="absolute right-full top-0 mr-2 w-80 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-[100]"
                           >
                             <div className="py-2">
                               {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
@@ -255,7 +255,7 @@ export default function Header() {
                   На главную
                 </Link>
                 {mainNavigation.map((item) => (
-                  item.hasSubmenu ? (
+                  item.name === "Работы" ? (
                     <div key={item.name}>
                       <div
                         className="block px-4 py-3 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer"
