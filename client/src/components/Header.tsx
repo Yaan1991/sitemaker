@@ -106,7 +106,7 @@ export default function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-0 top-full mt-2 w-48 glass-effect rounded-lg border border-border shadow-lg overflow-hidden"
+                  className="absolute right-0 top-full mt-2 w-48 glass-effect rounded-lg border border-border shadow-lg overflow-visible"
                 >
                   <div className="py-2">
                     <Link
@@ -144,7 +144,7 @@ export default function Header() {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
                                 transition={{ duration: 0.2 }}
-                                className="absolute left-full top-0 ml-2 w-80 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-50"
+                                className="absolute left-full top-0 ml-2 w-80 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-[100]"
                               >
                                 <div className="py-2">
                                   {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
