@@ -411,6 +411,16 @@ export default function ProjectPage() {
     "/images/ma-4.webp",      // собака
     "/images/ma-5.webp"       // лицо в темноте
   ];
+
+  // Фотографии для спектакля "Маяковский. Я сам" (6 кадров из спектакля)
+  const mayakPhotos = [
+    "/images/mayakcover.webp",  // обложка (актер в желтом на сцене)
+    "/images/mayakgal1.webp",   // актер в белой рубашке с галстуком
+    "/images/mayakgal2.webp",   // сцена с газетой и красным занавесом
+    "/images/mayakgal3.webp",   // актер в желтом с проекцией на фоне
+    "/images/mayakgal4.webp",   // сцена с двумя персонажами у кровати
+    "/images/mayakgal5.webp"    // два актера на кровати в интимной сцене
+  ];
   
   const project = projects.find(p => p.id === projectId);
 
@@ -798,16 +808,11 @@ export default function ProjectPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
                   </div>
                 ) : project.id === "mayakovsky-moscow-estrada" ? (
-                  /* Фото с эффектом проектора для Маяковского */
-                  (<div className="relative">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-auto rounded-lg projector-enhanced"
-                      data-testid="img-project"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 to-transparent rounded-lg" />
-                  </div>)
+                  /* Галерея фотографий для Маяковского с красной тематикой */
+                  <div className="relative">
+                    <PhotoCarousel photos={mayakPhotos} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-red-900/20 to-transparent rounded-lg" />
+                  </div>
                 ) : project.id === "petrovy-saratov-drama" ? (
                   /* Галерея фотографий для Петровых */
                   <div className="relative" style={{zIndex: 50}}>
