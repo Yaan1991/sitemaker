@@ -142,7 +142,7 @@ export default function Header() {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute right-full top-0 mr-2 w-80 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-[100]"
+                            className="absolute right-full top-0 w-80 glass-effect rounded-lg border border-border shadow-lg overflow-hidden z-[100]"
                           >
                             <div className="py-2">
                               {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
@@ -254,70 +254,59 @@ export default function Header() {
                 >
                   На главную
                 </Link>
-                {mainNavigation.map((item) => (
-                  item.name === "Работы" ? (
-                    <div key={item.name}>
-                      <div
-                        className="block px-4 py-3 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer"
-                        onClick={() => setIsMobileWorksOpen(!isMobileWorksOpen)}
-                        data-testid={`mobile-menu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-                      >
-                        {item.name}
-                      </div>
-                      {isMobileWorksOpen && (
-                        <div className="pl-4 pb-2">
-                          {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
-                            <div key={category} className="mb-3 last:mb-0">
-                              <div className="px-4 py-1 text-primary font-medium text-xs uppercase tracking-wider">
-                                {categoryLabels[category as keyof typeof categoryLabels]}
-                              </div>
-                              {categoryProjects.map((project) => (
-                                <Link
-                                  key={project.id}
-                                  href={`/project/${project.id}`}
-                                  className="block px-4 py-1 text-gray-400 hover:text-primary transition-colors duration-200"
-                                  onClick={() => {
-                                    setIsMobileMenuOpen(false);
-                                    setIsMobileWorksOpen(false);
-                                  }}
-                                  data-testid={`mobile-submenu-project-${project.id}`}
-                                >
-                                  <div className="text-sm">{project.title}</div>
-                                </Link>
-                              ))}
-                            </div>
+                
+                {/* Mobile Works submenu */}
+                <div>
+                  <div
+                    className="block px-4 py-3 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                    onClick={() => setIsMobileWorksOpen(!isMobileWorksOpen)}
+                    data-testid="mobile-menu-works"
+                  >
+                    Работы
+                  </div>
+                  {isMobileWorksOpen && (
+                    <div className="pl-4 pb-2">
+                      {Object.entries(projectsByCategory).map(([category, categoryProjects]) => (
+                        <div key={category} className="mb-3 last:mb-0">
+                          <div className="px-4 py-1 text-primary font-medium text-xs uppercase tracking-wider">
+                            {categoryLabels[category as keyof typeof categoryLabels]}
+                          </div>
+                          {categoryProjects.map((project) => (
+                            <Link
+                              key={project.id}
+                              href={`/project/${project.id}`}
+                              className="block px-4 py-1 text-gray-400 hover:text-primary transition-colors duration-200"
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setIsMobileWorksOpen(false);
+                              }}
+                              data-testid={`mobile-submenu-project-${project.id}`}
+                            >
+                              <div className="text-sm">{project.title}</div>
+                            </Link>
                           ))}
                         </div>
-                      )}
+                      ))}
                     </div>
-                  ) : (
-                    <Link
-                      key={item.href}
-                      href={item.href!}
-                      className={`block px-4 py-3 transition-colors duration-200 ${
-                        isActive(item.href!)
-                          ? "text-primary bg-primary/10"
-                          : "text-gray-300 hover:text-primary hover:bg-white/5"
-                      }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      data-testid={`mobile-link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    >
-                      {item.name}
-                    </Link>
-                  )
+                  )}
+                </div>
+
+                {/* Other mobile navigation items */}
+                {mainNavigation.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`block px-4 py-3 transition-colors duration-200 ${
+                      isActive(item.href)
+                        ? "text-primary bg-primary/10"
+                        : "text-gray-300 hover:text-primary hover:bg-white/5"
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    data-testid={`mobile-link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  >
+                    {item.name}
+                  </Link>
                 ))}
-                <Link
-                  href="/projects"
-                  className={`block px-4 py-3 transition-colors duration-200 ${
-                    isActive('/projects')
-                      ? "text-primary bg-primary/10"
-                      : "text-gray-300 hover:text-primary hover:bg-white/5"
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  data-testid="mobile-link-projects"
-                >
-                  Все проекты
-                </Link>
               </div>
             </motion.div>
           )}
