@@ -49,24 +49,24 @@ export default function SiteBreadcrumbs({ currentProject }: BreadcrumbsProps) {
       <ChevronRight className="w-4 h-4" />
 
       {/* Работы */}
-      <Link 
+      <a 
         href="/#works" 
         className="hover:text-foreground transition-colors"
         data-testid="breadcrumb-works"
       >
         Работы
-      </Link>
+      </a>
 
       <ChevronRight className="w-4 h-4" />
 
       {/* Категория */}
-      <Link 
+      <a 
         href={categoryInfo.path} 
         className="hover:text-foreground transition-colors"
         data-testid={`breadcrumb-category-${project.category}`}
       >
         {categoryInfo.name}
-      </Link>
+      </a>
 
       <ChevronRight className="w-4 h-4" />
 
