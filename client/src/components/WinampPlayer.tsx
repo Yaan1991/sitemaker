@@ -10,24 +10,39 @@ interface Track {
   url: string;
 }
 
-// Equalizer компонент для анимации
+// Equalizer компонент для анимации в стиле Winamp
 function Equalizer({ isPlaying }: { isPlaying: boolean }) {
-  const bars = Array.from({ length: 12 }, (_, i) => (
+  const [barHeights, setBarHeights] = useState<number[]>(Array(20).fill(2));
+
+  useEffect(() => {
+    if (!isPlaying) {
+      setBarHeights(Array(20).fill(2));
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setBarHeights(prev => prev.map(() => Math.floor(Math.random() * 28) + 2)); // 2-30px высота
+    }, 150);
+
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  const bars = Array.from({ length: 20 }, (_, i) => (
     <div
       key={i}
-      className={`equalizer-bar bg-green-400 w-1 mx-0.5 ${
-        isPlaying ? 'animate-pulse' : ''
-      }`}
+      className="bg-green-400 border-r border-green-600"
       style={{
-        height: isPlaying ? `${20 + Math.random() * 30}px` : '8px',
-        animationDelay: `${i * 0.1}s`,
-        transition: 'height 0.3s ease'
+        width: '2px',
+        height: `${barHeights[i]}px`,
+        marginRight: '1px',
+        transition: 'height 0.1s ease-out',
+        boxShadow: isPlaying ? '0 0 2px #00ff00' : 'none'
       }}
     />
   ));
 
   return (
-    <div className="equalizer flex items-end justify-center h-10 px-2 bg-black rounded border border-gray-500">
+    <div className="equalizer flex items-end justify-center h-8 px-1 bg-black rounded border border-gray-600 overflow-hidden">
       {bars}
     </div>
   );
