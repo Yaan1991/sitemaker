@@ -1,86 +1,113 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import {
+  DbScaleConfig,
+  DEFAULT_DB_CONFIG,
+  gainToPosition,
+  positionToGain,
+  gainToDb,
+  dbToPosition,
+  calculateDbTicks,
+  formatDb,
+  snapToZeroDb,
+  safeGain
+} from '@/lib/audioUtils';
 
 interface VerticalFaderProps {
-  value: number; // 0.0 - 1.0
+  value: number; // Linear gain value (0.0 - 1.0+)
   onChange: (value: number) => void;
   label: string;
   isMaster?: boolean;
+  dbConfig?: DbScaleConfig;
+  showMobileLabels?: boolean; // For responsive design
+  allowHeadroom?: boolean; // Allow gain values >1 for headroom, default: false
 }
 
-// dB шкала для конвертации линейного значения в dB
-const dbScale = [
-  { db: '+10', position: 0, value: 1.1 },
-  { db: '+5', position: 12, value: 1.05 },
-  { db: '0', position: 30, value: 1.0 },
-  { db: '-5', position: 45, value: 0.95 },
-  { db: '-10', position: 60, value: 0.9 },
-  { db: '-20', position: 80, value: 0.8 },
-  { db: '-30', position: 95, value: 0.7 },
-  { db: '∞', position: 100, value: 0.0 }
-];
-
-export function VerticalFader({ value, onChange, label, isMaster = false }: VerticalFaderProps) {
+export function VerticalFader({ 
+  value, 
+  onChange, 
+  label, 
+  isMaster = false,
+  dbConfig = DEFAULT_DB_CONFIG,
+  showMobileLabels = false,
+  allowHeadroom = false
+}: VerticalFaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isTouching, setIsTouching] = useState(false);
   const faderRef = useRef<HTMLDivElement>(null);
-  const trackHeight = 200; // высота трека фейдера
+  const trackHeight = 280; // Increased height for better precision
   const lastUpdateRef = useRef<number>(0);
   const pendingUpdateRef = useRef<number | null>(null);
-  const latestValueRef = useRef<number>(value); // 🎯 Последнее значение
+  const latestValueRef = useRef<number>(value);
 
-  // 🎵 Плавное обновление громкости с throttling
+  // Convert gain to fader position and vice versa using dB scale
+  const valueToPosition = useCallback((gain: number) => {
+    const position = gainToPosition(gain, dbConfig);
+    return (1 - position) * 100; // Invert for visual representation (0 at bottom)
+  }, [dbConfig]);
+
+  const positionToValue = useCallback((posPercent: number) => {
+    const normalizedPos = Math.max(0, Math.min(100, posPercent));
+    const position = 1 - (normalizedPos / 100); // Invert back
+    return positionToGain(position, dbConfig);
+  }, [dbConfig]);
+
+  // Smooth volume update with throttling and dB snapping
   const smoothOnChange = useCallback((newValue: number) => {
-    const clampedValue = Math.max(0, Math.min(1.1, newValue));
-    latestValueRef.current = clampedValue; // 🎯 Сохраняем последнее значение
+    const clampedValue = Math.max(0, newValue);
+    
+    // Apply dB snapping for 0 dB detent
+    const currentDb = gainToDb(clampedValue);
+    const snappedDb = snapToZeroDb(currentDb, 0.5);
+    const rawFinalValue = snappedDb === currentDb ? clampedValue : safeGain(snappedDb);
+    
+    // Apply headroom clamping if disabled
+    const finalValue = allowHeadroom ? rawFinalValue : safeGain(snappedDb, true);
+    
+    latestValueRef.current = finalValue;
     
     const now = Date.now();
     const timeSinceLastUpdate = now - lastUpdateRef.current;
     
-    // Ограничиваем частоту обновлений до 60 FPS (16ms)
+    // Limit updates to 60 FPS (16ms)
     if (timeSinceLastUpdate >= 16) {
-      onChange(clampedValue);
+      onChange(finalValue);
       lastUpdateRef.current = now;
       
-      // Очищаем pending update
       if (pendingUpdateRef.current) {
         cancelAnimationFrame(pendingUpdateRef.current);
         pendingUpdateRef.current = null;
       }
     } else {
-      // Отладываем обновление на следующий кадр
       if (!pendingUpdateRef.current) {
         pendingUpdateRef.current = requestAnimationFrame(() => {
-          onChange(latestValueRef.current); // 🎯 Используем последнее значение
+          onChange(latestValueRef.current);
           lastUpdateRef.current = Date.now();
           pendingUpdateRef.current = null;
         });
       }
     }
-  }, [onChange]);
+  }, [onChange, allowHeadroom]);
 
-  // 🎯 Применяем финальное значение при завершении
   const flushPendingUpdate = useCallback(() => {
     if (pendingUpdateRef.current) {
       cancelAnimationFrame(pendingUpdateRef.current);
       pendingUpdateRef.current = null;
-      onChange(latestValueRef.current); // Применяем последнее значение
+      onChange(latestValueRef.current);
     }
   }, [onChange]);
 
-  // Конвертируем значение 0-1 в позицию пикселей 
-  const valueToPosition = (val: number) => {
-    // Инвертируем значение (0 внизу, 1 вверху)
-    const invertedValue = 1 - val;
-    return Math.max(0, Math.min(100, invertedValue * 100));
-  };
-
-  // Конвертируем позицию пикселей в значение 0-1
-  const positionToValue = (pos: number) => {
-    const normalizedPos = Math.max(0, Math.min(100, pos));
-    return 1 - (normalizedPos / 100);
-  };
-
   const currentPosition = valueToPosition(value);
+  const currentDb = gainToDb(value);
+  const dbTicks = calculateDbTicks(dbConfig);
+  
+  // Calculate 0 dB position safely
+  const zeroDbPosition = dbToPosition(0, dbConfig);
+  const zeroDbTick = dbTicks.find(t => t.isZeroDb);
+
+  // Filter ticks for mobile view
+  const visibleTicks = showMobileLabels 
+    ? dbTicks.filter(tick => [10, 0, -10, -Infinity].includes(tick.value))
+    : dbTicks;
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -95,12 +122,11 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
     const percentage = (y / trackHeight) * 100;
     const newValue = positionToValue(percentage);
     
-    smoothOnChange(newValue); // 🎵 Плавное обновление
+    smoothOnChange(newValue);
   };
 
-  // Touch-события для мобильных устройств
   const handleTouchStart = (e: React.TouchEvent) => {
-    e.preventDefault(); // Предотвращаем скролл страницы
+    e.preventDefault();
     setIsTouching(true);
     handleTouchMove(e);
   };
@@ -114,8 +140,14 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
     const percentage = (y / trackHeight) * 100;
     const newValue = positionToValue(percentage);
     
-    smoothOnChange(newValue); // 🎵 Плавное обновление
+    smoothOnChange(newValue);
   };
+
+  // Double-click to mute/unmute
+  const handleDoubleClick = useCallback(() => {
+    const newValue = value === 0 ? safeGain(0) : 0; // Toggle mute
+    onChange(newValue);
+  }, [value, onChange]);
 
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
@@ -126,19 +158,19 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
 
     const handleMouseUp = () => {
       setIsDragging(false);
-      flushPendingUpdate(); // 🎯 Сохраняем последнее значение
+      flushPendingUpdate();
     };
 
     const handleGlobalTouchMove = (e: TouchEvent) => {
       if (isTouching) {
-        e.preventDefault(); // Предотвращаем скролл страницы
+        e.preventDefault();
         handleTouchMove(e);
       }
     };
 
     const handleTouchEnd = () => {
       setIsTouching(false);
-      flushPendingUpdate(); // 🎯 Сохраняем последнее значение
+      flushPendingUpdate();
     };
 
     if (isDragging) {
@@ -157,7 +189,6 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
       document.removeEventListener('touchmove', handleGlobalTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
       
-      // 🎵 Очищаем pending animation frame
       if (pendingUpdateRef.current) {
         cancelAnimationFrame(pendingUpdateRef.current);
         pendingUpdateRef.current = null;
@@ -165,53 +196,82 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
     };
   }, [isDragging, isTouching]);
 
-  // Получаем ближайшее значение dB для отображения
-  const getDbValue = (val: number) => {
-    const closest = dbScale.reduce((prev, current) => 
-      Math.abs(current.value - val) < Math.abs(prev.value - val) ? current : prev
-    );
-    return closest.db;
-  };
-
   return (
-    <div className="flex flex-col items-center space-y-3 p-4">
-      {/* Заголовок канала */}
-      <div className="text-xs font-bold text-white bg-black/50 px-2 py-1 rounded">
+    <div className="flex flex-col items-center space-y-3 p-4" data-testid={`fader-${label.toLowerCase()}`}>
+      {/* Channel Label */}
+      <div className={`text-xs font-bold text-white bg-black/50 px-2 py-1 rounded ${
+        isMaster ? 'bg-red-900/50 border border-red-500/30' : ''
+      }`}>
         {label}
       </div>
 
-      {/* Фейдер-контейнер */}
+      {/* Fader Container */}
       <div className="relative flex items-center">
-        {/* dB шкала слева */}
-        <div className="relative h-50 w-8 mr-2">
-          {dbScale.map((mark, index) => (
+        {/* dB Scale Ruler */}
+        <div className="relative mr-3" style={{ height: `${trackHeight}px` }}>
+          {visibleTicks.map((tick, index) => (
             <div
               key={index}
-              className="absolute text-[10px] text-gray-300 right-0"
+              className="absolute flex items-center"
               style={{ 
-                top: `${mark.position}%`, 
-                transform: 'translateY(-50%)' 
+                top: `${(1 - tick.position / 100) * 100}%`, 
+                transform: 'translateY(-50%)',
+                right: '0'
               }}
             >
-              {mark.db}
+              {/* Tick Mark */}
+              <div className={`h-px bg-gray-400 ${
+                tick.isZeroDb ? 'w-3 bg-yellow-400' : 
+                tick.isInfinity ? 'w-2 bg-red-400' : 
+                'w-2'
+              }`}></div>
+              
+              {/* Label */}
+              <div className={`text-[10px] ml-1 select-none ${
+                tick.isZeroDb ? 'text-yellow-400 font-bold' : 
+                tick.isInfinity ? 'text-red-400' : 
+                'text-gray-300'
+              }`}>
+                {tick.label}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Трек фейдера */}
+        {/* Fader Track */}
         <div 
           ref={faderRef}
           className="relative w-8 bg-gray-800 border border-gray-600 cursor-pointer select-none touch-none"
           style={{ height: `${trackHeight}px` }}
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
+          onDoubleClick={handleDoubleClick}
+          data-testid={`fader-track-${label.toLowerCase()}`}
         >
-          {/* Фон трека */}
+          {/* Track Background */}
           <div className="absolute inset-0 bg-gradient-to-b from-gray-700 to-gray-900"></div>
           
-          {/* Ручка фейдера */}
+          {/* Headroom Zone (above 0dB) */}
+          <div 
+            className="absolute left-0 w-full bg-gradient-to-b from-red-500/20 to-transparent"
+            style={{
+              top: '0%',
+              height: `${(1 - zeroDbPosition) * 100}%`
+            }}
+          ></div>
+
+          {/* 0 dB Line */}
           <div
-            className={`absolute w-full h-4 rounded-sm border-2 transition-all duration-100 ${
+            className="absolute left-0 w-full h-px bg-yellow-400 shadow-yellow-400/50"
+            style={{ 
+              top: `${(1 - zeroDbPosition) * 100}%`,
+              boxShadow: '0 0 2px currentColor'
+            }}
+          ></div>
+          
+          {/* Fader Handle */}
+          <div
+            className={`absolute w-full h-5 rounded-sm border-2 transition-all duration-100 ${
               isMaster 
                 ? 'bg-red-500 border-red-400 shadow-red-500/50' 
                 : 'bg-gray-200 border-gray-300 shadow-gray-400/50'
@@ -220,35 +280,52 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
               top: `${currentPosition}%`,
               transform: 'translateY(-50%)',
               boxShadow: (isDragging || isTouching)
-                ? `0 0 10px ${isMaster ? '#ef4444' : '#9ca3af'}` 
-                : `0 2px 4px ${isMaster ? '#dc2626' : '#6b7280'}`
+                ? `0 0 12px ${isMaster ? '#ef4444' : '#9ca3af'}` 
+                : `0 2px 6px ${isMaster ? '#dc2626' : '#6b7280'}`
             }}
+            data-testid={`fader-handle-${label.toLowerCase()}`}
           >
-            {/* Линии на ручке для реализма */}
-            <div className="absolute inset-x-1 top-1/2 transform -translate-y-1/2">
-              <div className="h-0.5 bg-black/20 mb-0.5"></div>
+            {/* Handle grip lines */}
+            <div className="absolute inset-x-1 top-1/2 transform -translate-y-1/2 space-y-0.5">
               <div className="h-0.5 bg-black/20"></div>
+              <div className="h-0.5 bg-black/20"></div>
+              <div className="h-0.5 bg-black/20"></div>
+            </div>
+
+            {/* Live dB Readout on Handle */}
+            <div className={`absolute -top-6 left-1/2 transform -translate-x-1/2 text-[9px] font-mono px-1 py-0.5 rounded text-white ${
+              isMaster ? 'bg-red-600' : 'bg-gray-700'
+            } ${(isDragging || isTouching) ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}>
+              {formatDb(currentDb, 1)}
             </div>
           </div>
 
-          {/* Отметки на треке */}
-          {dbScale.map((mark, index) => (
+          {/* Tick marks on track */}
+          {visibleTicks.map((tick, index) => (
             <div
               key={index}
-              className="absolute left-0 w-full h-px bg-gray-600"
-              style={{ top: `${mark.position}%` }}
+              className={`absolute left-0 w-full h-px ${
+                tick.isZeroDb ? 'bg-yellow-400' : 
+                tick.isInfinity ? 'bg-red-400' : 
+                'bg-gray-600'
+              }`}
+              style={{ top: `${(1 - tick.position / 100) * 100}%` }}
             ></div>
           ))}
         </div>
       </div>
 
-      {/* Текущее значение в dB */}
-      <div className="text-[10px] text-yellow-400 font-mono bg-black/70 px-2 py-1 rounded">
-        {getDbValue(value)}
+      {/* Current dB Value Display */}
+      <div className={`text-[11px] font-mono px-2 py-1 rounded border ${
+        isMaster 
+          ? 'text-red-400 bg-red-900/30 border-red-500/30' 
+          : 'text-yellow-400 bg-yellow-900/30 border-yellow-500/30'
+      }`} data-testid={`fader-value-${label.toLowerCase()}`}>
+        {formatDb(currentDb, 1)}
       </div>
 
-      {/* Процент громкости */}
-      <div className="text-[10px] text-gray-400 font-mono">
+      {/* Gain percentage for reference */}
+      <div className="text-[10px] text-gray-500 font-mono">
         {Math.round(value * 100)}%
       </div>
     </div>

@@ -47,6 +47,7 @@ export function AudioMixer() {
               value={musicVolume}
               onChange={setMusicVolume}
               label="MUSIC"
+              allowHeadroom={false}
             />
           </div>
 
@@ -56,6 +57,7 @@ export function AudioMixer() {
               value={sfxVolume}
               onChange={setSfxVolume}
               label="SFX"
+              allowHeadroom={false}
             />
           </div>
 
@@ -66,6 +68,7 @@ export function AudioMixer() {
               onChange={setMasterVolume}
               label="MASTER"
               isMaster={true}
+              allowHeadroom={false}
             />
           </div>
         </div>
