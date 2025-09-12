@@ -34,10 +34,10 @@ export function FloatingControlsGroup() {
         </button>
       </Link>
 
-      {/* Кнопка микшера (центральная, больше) */}
+      {/* Кнопка микшера (центральная) */}
       <button
         onClick={toggleMixer}
-        className="group w-12 h-12 bg-gray-900/80 hover:bg-gray-800/90 
+        className="group w-10 h-10 bg-gray-900/80 hover:bg-gray-800/90 
                    border border-gray-600 hover:border-yellow-400 
                    rounded-full shadow-lg hover:shadow-xl
                    backdrop-blur-sm transition-all duration-200 
@@ -46,7 +46,7 @@ export function FloatingControlsGroup() {
         data-testid="floating-mixer-button"
       >
         <Sliders 
-          size={18} 
+          size={16} 
           className="text-gray-400 group-hover:text-yellow-400 transition-colors" 
         />
         
