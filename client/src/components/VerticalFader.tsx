@@ -7,6 +7,7 @@ import {
   positionToGain,
   gainToDb,
   dbToPosition,
+  positionToDb,
   calculateDbTicks,
   formatDb,
   snapToZeroDb,
