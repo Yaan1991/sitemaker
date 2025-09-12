@@ -28,6 +28,7 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
     <section className="pt-0 pb-32 px-6">
       <div className="container mx-auto max-w-6xl">
         <motion.div
+          id="works"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}

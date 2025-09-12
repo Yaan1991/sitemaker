@@ -18,13 +18,13 @@ export default function SiteBreadcrumbs({ currentProject }: BreadcrumbsProps) {
   const getCategoryInfo = (category: string) => {
     switch (category) {
       case 'theatre':
-        return { name: 'Театр', path: '/works#theatre' };
+        return { name: 'Театр', path: '/#theatre' };
       case 'film': 
-        return { name: 'Кино', path: '/works#film' };
+        return { name: 'Кино', path: '/#cinema' };
       case 'audio':
-        return { name: 'Аудиоспектакли', path: '/works#audio' };
+        return { name: 'Аудиоспектакли', path: '/#audioplays' };
       default:
-        return { name: 'Работы', path: '/works' };
+        return { name: 'Работы', path: '/#works' };
     }
   };
 
@@ -50,7 +50,7 @@ export default function SiteBreadcrumbs({ currentProject }: BreadcrumbsProps) {
 
       {/* Работы */}
       <Link 
-        href="/works" 
+        href="/#works" 
         className="hover:text-foreground transition-colors"
         data-testid="breadcrumb-works"
       >
