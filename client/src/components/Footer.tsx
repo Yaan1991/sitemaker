@@ -1,12 +1,4 @@
-import { Mail, Phone } from "lucide-react";
 import { useLocation } from "wouter";
-import telegram from "@assets/telegram.png";
-import email from "@assets/email.png";
-import bandlink from "@assets/bandlink.png";
-const telegramIcon = "/icons/icon_telegram.png";
-const emailIcon = "/icons/icon_email.png";
-const phoneIcon = "/icons/icon_phone.png";
-const bandlinkIcon = "/icons/icon_bandlink.png";
 
 export default function Footer() {
   const [location] = useLocation();
@@ -40,34 +32,6 @@ export default function Footer() {
           <p className="text-muted-foreground">Композитор • Саунд‑дизайнер • Звукорежиссёр</p>
         </div>
 
-        <div className="flex justify-center space-x-6 mb-6">
-          <a
-            href="mailto:kuzmichevyan@gmail.com"
-            className="text-muted-foreground hover:text-primary transition-colors duration-300"
-            data-testid="link-footer-email"
-          >
-            <img src={email} alt="Email" className="w-6 h-6 invert" />
-          </a>
-          <a
-            href="https://t.me/iankzmcv"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-primary transition-colors duration-300"
-            data-testid="link-footer-telegram"
-          >
-            <img src={telegram} alt="Telegram" className="w-6 h-6 invert" />
-          </a>
-          <a
-            href="https://band.link/zDZyK"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-primary transition-colors duration-300"
-            data-testid="link-footer-bandlink"
-          >
-            <img src={bandlink} alt="Bandlink" className="w-6 h-6 invert" />
-          </a>
-
-        </div>
 
         <p className="text-muted-foreground text-sm">
           © 2025 Ян Кузьмичёв. Все права защищены.

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { AudioMixer } from "./AudioMixer";
-import { FloatingMixerButton } from "./FloatingMixerButton";
+import { FloatingControlsGroup } from "./FloatingControlsGroup";
 import { useAudio } from "@/contexts/AudioContext";
 
 interface LayoutProps {
@@ -46,7 +46,7 @@ export default function Layout({ children }: LayoutProps) {
       <Footer />
       {/* Профессиональная аудиосистема через HowlerAudioEngine */}
       <AudioMixer />
-      <FloatingMixerButton />
+      <FloatingControlsGroup />
     </div>
   );
 }
