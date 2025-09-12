@@ -181,6 +181,12 @@ export class HowlerAudioEngine {
       currentTrack = musicData;
     }
 
+    // Check if currentTrack exists and has a valid URL
+    if (!currentTrack || !currentTrack.url) {
+      console.warn('No valid track data found, skipping music initialization');
+      return;
+    }
+
     const effectiveVolume = this.calculateEffectiveVolume(this.musicVolume);
     
     this.musicBus = new Howl({
