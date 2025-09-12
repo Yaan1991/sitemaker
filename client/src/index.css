@@ -351,17 +351,50 @@
 
   /* 🎨 Тематические варианты Winamp плеера */
   
-  /* 🟢 Тема Идиота - неоновый зеленый (по умолчанию) */
+  /* 🌸 Тема Идиота - розово-фиолетовый */
   .idiot-themed .winamp-display {
-    color: #22c55e;
-    text-shadow: 0 0 8px #22c55e;
-    border-color: #22c55e;
+    color: #ec4899 !important;
+    text-shadow: 0 0 8px #ec4899;
+    border-color: #ec4899 !important;
+  }
+  
+  .idiot-themed .track-info {
+    background: #1a0d14 !important;
+    color: #ec4899 !important;
+    border-color: #ec4899 !important;
+    text-shadow: 0 0 4px #ec4899;
+  }
+  
+  .idiot-themed .winamp-button {
+    background: linear-gradient(145deg, #3d1a2a 0%, #2a1420 100%) !important;
+    border-color: #ec4899 !important;
+    color: #ec4899 !important;
+  }
+  
+  .idiot-themed .winamp-button:hover {
+    background: linear-gradient(145deg, #4a1f32 0%, #3d1a2a 100%) !important;
   }
   
   .idiot-themed .winamp-button.active {
-    background: linear-gradient(145deg, #22c55e 0%, #16a34a 100%);
-    border-color: #22c55e;
-    color: #000;
+    background: linear-gradient(145deg, #ec4899 0%, #db2777 100%) !important;
+    border-color: #ec4899 !important;
+    color: #fff !important;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  }
+  
+  .idiot-themed .eq-bar {
+    background: linear-gradient(to top, #ec4899 0%, #f472b6 50%, #fbbf24 100%) !important;
+    box-shadow: 0 0 4px #ec4899;
+  }
+  
+  .idiot-themed .progress-bar {
+    background: linear-gradient(to right, #ec4899, #f472b6) !important;
+  }
+  
+  /* Заголовок для Идиота */
+  .idiot-themed h3 {
+    color: #ec4899 !important;
+    text-shadow: 0 0 8px #ec4899;
   }
 
   /* 🔴 Тема Маяковского - красно-коричневая */
@@ -419,23 +452,45 @@
   .mayak-themed .progress-bar {
     background: linear-gradient(to right, #DC143C, #FF4500) !important;
   }
+  
+  /* Заголовок для Маяковского */
+  .mayak-themed h3 {
+    color: #F5DEB3 !important;
+    text-shadow: 0 0 8px #F5DEB3;
+  }
 
   /* 🟢 Тема Петровых - комиксный зеленый */
   .petrovy-themed .winamp-display {
-    color: #00ff41;
+    color: #00ff41 !important;
     text-shadow: 0 0 8px #00ff41;
-    border-color: #00ff41;
+    border-color: #00ff41 !important;
+  }
+  
+  .petrovy-themed .track-info {
+    color: #00ff41 !important;
+    border-color: #00ff41 !important;
+    text-shadow: 0 0 4px #00ff41;
   }
   
   .petrovy-themed .winamp-button.active {
-    background: linear-gradient(145deg, #00ff41 0%, #00cc33 100%);
-    border-color: #00ff41;
-    color: #000;
+    background: linear-gradient(145deg, #00ff41 0%, #00cc33 100%) !important;
+    border-color: #00ff41 !important;
+    color: #000 !important;
   }
   
   .petrovy-themed .eq-bar {
     background: linear-gradient(to top, #00ff41 0%, #00cc33 50%, #66ff99 100%) !important;
     box-shadow: 0 0 4px #00ff41;
+  }
+  
+  .petrovy-themed .progress-bar {
+    background: linear-gradient(to right, #00ff41, #00cc33) !important;
+  }
+  
+  /* Заголовок для Петровых */
+  .petrovy-themed h3 {
+    color: #00ff41 !important;
+    text-shadow: 0 0 8px #00ff41;
   }
 
   .track-info {
