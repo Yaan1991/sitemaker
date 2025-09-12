@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Volume2, VolumeX, SkipBack, SkipForward, ChevronDown } from "lucide-react";
+import { Menu, X, Volume2, VolumeX, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
 import { useAudio } from "@/contexts/AudioContext";
@@ -13,26 +13,9 @@ export default function Header() {
   const [location] = useLocation();
   const { 
     isGlobalAudioEnabled, 
-    toggleGlobalAudio,
-    currentPlaylist,
-    currentTrackIndex,
-    nextTrack,
-    prevTrack
+    toggleGlobalAudio
   } = useAudio();
 
-  const currentTrack = currentPlaylist ? currentPlaylist[currentTrackIndex] : null;
-  const hasPlaylist = currentPlaylist && currentPlaylist.length > 1;
-  const [needsMarquee, setNeedsMarquee] = useState(false);
-  const titleRef = useRef<HTMLDivElement>(null);
-
-  // Проверяем, нужна ли бегущая строка
-  useEffect(() => {
-    if (titleRef.current && currentTrack?.title) {
-      const containerWidth = 120; // фиксированная ширина контейнера
-      const textWidth = titleRef.current.scrollWidth;
-      setNeedsMarquee(textWidth > containerWidth);
-    }
-  }, [currentTrack?.title]);
 
   const mainNavigation = [
     { name: "Обо мне", href: "/about" },
@@ -99,53 +82,6 @@ export default function Header() {
               {isGlobalAudioEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
             </button>
 
-            {/* Playlist Controls */}
-            {hasPlaylist && isGlobalAudioEnabled && (
-              <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-lg border border-primary/20">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    prevTrack();
-                  }}
-                  disabled={currentTrackIndex === 0}
-                  className="p-1 rounded hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  title="Предыдущий трек"
-                >
-                  <SkipBack size={16} className="text-primary" />
-                </button>
-                
-                <div className="px-2 text-sm w-[120px]">
-                  <div className="text-primary font-medium text-xs">Плеер</div>
-                  <div className="track-title-container w-full h-5 relative overflow-hidden">
-                    <div 
-                      ref={titleRef}
-                      className={`text-white whitespace-nowrap absolute ${
-                        needsMarquee ? 'track-title-marquee' : ''
-                      }`}
-                      title={currentTrack?.title}
-                    >
-                      {currentTrack?.title}
-                    </div>
-                  </div>
-                </div>
-                
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    nextTrack();
-                  }}
-                  disabled={currentTrackIndex === currentPlaylist.length - 1}
-                  className="p-1 rounded hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  title="Следующий трек"
-                >
-                  <SkipForward size={16} className="text-primary" />
-                </button>
-              </div>
-            )}
             
             {/* Works Dropdown */}
             <div 
@@ -290,40 +226,6 @@ export default function Header() {
               {isGlobalAudioEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
             </button>
 
-            {/* Mobile Playlist Controls */}
-            {hasPlaylist && isGlobalAudioEnabled && (
-              <div className="flex items-center gap-1 px-2 py-1 bg-primary/10 rounded border border-primary/20">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    prevTrack();
-                  }}
-                  disabled={currentTrackIndex === 0}
-                  className="p-1 rounded disabled:opacity-50"
-                >
-                  <SkipBack size={14} className="text-primary" />
-                </button>
-                
-                <div className="text-xs text-primary font-medium min-w-[40px] text-center">
-                  {currentTrackIndex + 1}/{currentPlaylist.length}
-                </div>
-                
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    nextTrack();
-                  }}
-                  disabled={currentTrackIndex === currentPlaylist.length - 1}
-                  className="p-1 rounded disabled:opacity-50"
-                >
-                  <SkipForward size={14} className="text-primary" />
-                </button>
-              </div>
-            )}
             
             {/* Mobile Works Dropdown */}
             <div className="relative">

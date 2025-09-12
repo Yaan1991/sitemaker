@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface VerticalFaderProps {
   value: number; // 0.0 - 1.0
@@ -24,6 +24,48 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
   const [isTouching, setIsTouching] = useState(false);
   const faderRef = useRef<HTMLDivElement>(null);
   const trackHeight = 200; // высота трека фейдера
+  const lastUpdateRef = useRef<number>(0);
+  const pendingUpdateRef = useRef<number | null>(null);
+  const latestValueRef = useRef<number>(value); // 🎯 Последнее значение
+
+  // 🎵 Плавное обновление громкости с throttling
+  const smoothOnChange = useCallback((newValue: number) => {
+    const clampedValue = Math.max(0, Math.min(1.1, newValue));
+    latestValueRef.current = clampedValue; // 🎯 Сохраняем последнее значение
+    
+    const now = Date.now();
+    const timeSinceLastUpdate = now - lastUpdateRef.current;
+    
+    // Ограничиваем частоту обновлений до 60 FPS (16ms)
+    if (timeSinceLastUpdate >= 16) {
+      onChange(clampedValue);
+      lastUpdateRef.current = now;
+      
+      // Очищаем pending update
+      if (pendingUpdateRef.current) {
+        cancelAnimationFrame(pendingUpdateRef.current);
+        pendingUpdateRef.current = null;
+      }
+    } else {
+      // Отладываем обновление на следующий кадр
+      if (!pendingUpdateRef.current) {
+        pendingUpdateRef.current = requestAnimationFrame(() => {
+          onChange(latestValueRef.current); // 🎯 Используем последнее значение
+          lastUpdateRef.current = Date.now();
+          pendingUpdateRef.current = null;
+        });
+      }
+    }
+  }, [onChange]);
+
+  // 🎯 Применяем финальное значение при завершении
+  const flushPendingUpdate = useCallback(() => {
+    if (pendingUpdateRef.current) {
+      cancelAnimationFrame(pendingUpdateRef.current);
+      pendingUpdateRef.current = null;
+      onChange(latestValueRef.current); // Применяем последнее значение
+    }
+  }, [onChange]);
 
   // Конвертируем значение 0-1 в позицию пикселей 
   const valueToPosition = (val: number) => {
@@ -53,7 +95,7 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
     const percentage = (y / trackHeight) * 100;
     const newValue = positionToValue(percentage);
     
-    onChange(Math.max(0, Math.min(1.1, newValue))); // Разрешаем до 110% (+10dB)
+    smoothOnChange(newValue); // 🎵 Плавное обновление
   };
 
   // Touch-события для мобильных устройств
@@ -72,7 +114,7 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
     const percentage = (y / trackHeight) * 100;
     const newValue = positionToValue(percentage);
     
-    onChange(Math.max(0, Math.min(1.1, newValue))); // Разрешаем до 110% (+10dB)
+    smoothOnChange(newValue); // 🎵 Плавное обновление
   };
 
   useEffect(() => {
@@ -84,6 +126,7 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
 
     const handleMouseUp = () => {
       setIsDragging(false);
+      flushPendingUpdate(); // 🎯 Сохраняем последнее значение
     };
 
     const handleGlobalTouchMove = (e: TouchEvent) => {
@@ -95,6 +138,7 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
 
     const handleTouchEnd = () => {
       setIsTouching(false);
+      flushPendingUpdate(); // 🎯 Сохраняем последнее значение
     };
 
     if (isDragging) {
@@ -112,6 +156,12 @@ export function VerticalFader({ value, onChange, label, isMaster = false }: Vert
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('touchmove', handleGlobalTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
+      
+      // 🎵 Очищаем pending animation frame
+      if (pendingUpdateRef.current) {
+        cancelAnimationFrame(pendingUpdateRef.current);
+        pendingUpdateRef.current = null;
+      }
     };
   }, [isDragging, isTouching]);
 
