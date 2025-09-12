@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { ChevronRight, Home } from "lucide-react";
 import { projects } from "@/data/projects";
 
@@ -7,6 +7,8 @@ interface BreadcrumbsProps {
 }
 
 export default function SiteBreadcrumbs({ currentProject }: BreadcrumbsProps) {
+  const [, setLocation] = useLocation();
+  
   // Если нет проекта, не показываем хлебные крошки
   if (!currentProject) return null;
 
@@ -30,6 +32,15 @@ export default function SiteBreadcrumbs({ currentProject }: BreadcrumbsProps) {
 
   const categoryInfo = getCategoryInfo(project.category);
 
+  // Функция для навигации с якорем
+  const navigateToAnchor = (anchor: string) => {
+    // Сначала переходим на главную страницу, затем устанавливаем хеш
+    setLocation("/");
+    setTimeout(() => {
+      window.location.hash = anchor;
+    }, 100);
+  };
+
   return (
     <nav 
       className="flex items-center space-x-2 text-sm text-muted-foreground relative z-10 mb-6"
@@ -49,24 +60,24 @@ export default function SiteBreadcrumbs({ currentProject }: BreadcrumbsProps) {
       <ChevronRight className="w-4 h-4" />
 
       {/* Работы */}
-      <Link 
-        href="/#works" 
-        className="hover:text-foreground transition-colors"
+      <button 
+        onClick={() => navigateToAnchor("works")}
+        className="hover:text-foreground transition-colors cursor-pointer"
         data-testid="breadcrumb-works"
       >
         Работы
-      </Link>
+      </button>
 
       <ChevronRight className="w-4 h-4" />
 
       {/* Категория */}
-      <Link 
-        href={`/#${project.category === 'film' ? 'cinema' : project.category}`}
-        className="hover:text-foreground transition-colors"
+      <button 
+        onClick={() => navigateToAnchor(project.category === 'film' ? 'cinema' : project.category)}
+        className="hover:text-foreground transition-colors cursor-pointer"
         data-testid={`breadcrumb-category-${project.category}`}
       >
         {categoryInfo.name}
-      </Link>
+      </button>
 
       <ChevronRight className="w-4 h-4" />
 
