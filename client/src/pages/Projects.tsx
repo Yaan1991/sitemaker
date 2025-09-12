@@ -4,6 +4,7 @@ import { allProjects } from "@/data/allProjects";
 import SEOHead from "@/components/SEOHead";
 import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import { ExternalLink, Newspaper } from "lucide-react";
+import { Link } from "wouter";
 import backgroundImage from "@assets/allprojetsbg_1757713205646.webp";
 
 const categories = {
@@ -184,16 +185,26 @@ export default function Projects() {
                         <div className="flex-grow space-y-2">
                           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                             {project.link ? (
-                              <a
-                                href={project.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-xl md:text-2xl font-bold text-primary hover:text-primary/80 transition-colors duration-200 flex items-center gap-2 group"
-                                data-testid={`link-project-${project.id}`}
-                              >
-                                {project.title}
-                                <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200" />
-                              </a>
+                              project.link.startsWith('/project/') ? (
+                                <Link
+                                  href={project.link}
+                                  className="text-xl md:text-2xl font-bold text-primary hover:text-primary/80 transition-colors duration-200 flex items-center gap-2 group"
+                                  data-testid={`link-project-${project.id}`}
+                                >
+                                  {project.title}
+                                </Link>
+                              ) : (
+                                <a
+                                  href={project.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-xl md:text-2xl font-bold text-primary hover:text-primary/80 transition-colors duration-200 flex items-center gap-2 group"
+                                  data-testid={`link-project-${project.id}`}
+                                >
+                                  {project.title}
+                                  <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200" />
+                                </a>
+                              )
                             ) : (
                               <h3 className="text-xl md:text-2xl font-bold text-white" data-testid={`text-project-title-${project.id}`}>
                                 {project.title}
