@@ -23,7 +23,7 @@ export class HowlerAudioEngine {
   
   // Playback State
   private isInitialized = false;
-  private musicVolume = 0.5;
+  private musicVolume = 0.3; // Reduced by ~5dB from 0.5
   private sfxVolume = 0.7;
   private masterVolume = 0.7;
   private isMusicEnabled = true;
