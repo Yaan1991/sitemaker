@@ -15,7 +15,7 @@ export function FloatingControlsGroup() {
       <Link href="/contact">
         <button
           className="group w-10 h-10 bg-gray-900/80 hover:bg-gray-800/90 
-                     border border-gray-600 hover:border-white 
+                     border border-gray-600 hover:border-yellow-400 
                      rounded-full shadow-lg hover:shadow-xl
                      backdrop-blur-sm transition-all duration-200 
                      flex items-center justify-center"
@@ -24,12 +24,12 @@ export function FloatingControlsGroup() {
         >
           <Mail 
             size={16} 
-            className="text-gray-400 group-hover:text-white transition-colors" 
+            className="text-gray-400 group-hover:text-yellow-400 transition-colors" 
           />
           
           {/* Пульсирующее кольцо при hover */}
-          <div className="absolute inset-0 rounded-full border-2 border-white/0 
-                          group-hover:border-white/20 transition-all duration-300
+          <div className="absolute inset-0 rounded-full border-2 border-yellow-400/0 
+                          group-hover:border-yellow-400/20 transition-all duration-300
                           group-hover:scale-110"></div>
         </button>
       </Link>
@@ -64,7 +64,7 @@ export function FloatingControlsGroup() {
       >
         <button
           className="group w-10 h-10 bg-gray-900/80 hover:bg-gray-800/90 
-                     border border-gray-600 hover:border-white 
+                     border border-gray-600 hover:border-yellow-400 
                      rounded-full shadow-lg hover:shadow-xl
                      backdrop-blur-sm transition-all duration-200 
                      flex items-center justify-center"
@@ -73,12 +73,12 @@ export function FloatingControlsGroup() {
         >
           <Music 
             size={16} 
-            className="text-gray-400 group-hover:text-white transition-colors" 
+            className="text-gray-400 group-hover:text-yellow-400 transition-colors" 
           />
           
           {/* Пульсирующее кольцо при hover */}
-          <div className="absolute inset-0 rounded-full border-2 border-white/0 
-                          group-hover:border-white/20 transition-all duration-300
+          <div className="absolute inset-0 rounded-full border-2 border-yellow-400/0 
+                          group-hover:border-yellow-400/20 transition-all duration-300
                           group-hover:scale-110"></div>
         </button>
       </a>
