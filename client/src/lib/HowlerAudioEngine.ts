@@ -55,11 +55,6 @@ export class HowlerAudioEngine {
         title: 'Фоновая музыка',
         url: '/audio/homepage.mp3'
       },
-      '/about': {
-        id: 'about',
-        title: 'О композиторе',
-        url: '/audio/homepage.mp3'
-      },
       '/project/idiot-saratov-drama': [
         { id: 'nastasya', title: 'Тема Настасьи Филипповны', url: '/audio/nastasya.mp3' },
         { id: 'myshkin', title: 'Тема Мышкина', url: '/audio/myshkin.mp3' },
@@ -83,7 +78,6 @@ export class HowlerAudioEngine {
     },
     soundDesign: {
       '/': '/audio/vinyl.mp3', // Default vinyl sound
-      '/about': '/audio/vinyl.mp3', // Sound design for About page
       '/project/idiot-saratov-drama': '/audio/idiot_showreel.mp3',
       '/project/mayakovsky-moscow-estrada': '/audio/mayak_showreel.mp3',
       '/project/ma-short-film': '/audio/masounds.mp3',
@@ -159,7 +153,14 @@ export class HowlerAudioEngine {
   public async playMusic(route: string, trackIndex = 0): Promise<void> {
     if (!this.isMusicEnabled) return;
 
-    const musicData = this.routeMapping.music[route as keyof typeof this.routeMapping.music];
+    // Проверяем есть ли специфичная музыка для маршрута
+    let musicData = this.routeMapping.music[route as keyof typeof this.routeMapping.music];
+    
+    // Если нет специфичной музыки, используем музыку главной страницы как фоновую
+    if (!musicData) {
+      musicData = this.routeMapping.music['/'];
+    }
+    
     if (!musicData) return;
 
     // Stop current music with fade-out
@@ -238,7 +239,14 @@ export class HowlerAudioEngine {
   public async playSoundDesign(route: string): Promise<void> {
     if (!this.isSfxEnabled) return;
 
-    const sfxUrl = this.routeMapping.soundDesign[route as keyof typeof this.routeMapping.soundDesign];
+    // Проверяем есть ли специфичный звуковой дизайн для маршрута
+    let sfxUrl = this.routeMapping.soundDesign[route as keyof typeof this.routeMapping.soundDesign];
+    
+    // Если нет специфичного звука, используем звук главной страницы как фоновый
+    if (!sfxUrl) {
+      sfxUrl = this.routeMapping.soundDesign['/'];
+    }
+    
     if (!sfxUrl || sfxUrl === this.currentSfxTrack) return;
 
     // Stop current SFX with fade-out
