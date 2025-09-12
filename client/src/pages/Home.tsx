@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { useLocation } from "wouter";
 import Hero from "@/components/Hero";
 import SEOHead from "@/components/SEOHead";
 import ProjectSection from "@/components/CollapsibleProjectSection";
@@ -106,6 +108,33 @@ const projectCategories = [
 ];
 
 export default function Home() {
+  const [location] = useLocation();
+
+  // Hash-based scroll handler with bounded retries and cleanup
+  useEffect(() => {
+    const hash = (location.split('#')[1] || '').trim();
+    if (!hash) return;
+    
+    let attempts = 0;
+    let timeoutId: number | undefined;
+    
+    const tryScroll = () => {
+      const el = document.getElementById(hash);
+      if (el) { 
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+        return; 
+      }
+      if (attempts++ < 20) {
+        timeoutId = window.setTimeout(tryScroll, 50);
+      }
+    };
+    
+    timeoutId = window.setTimeout(tryScroll, 0);
+    return () => { 
+      if (timeoutId) clearTimeout(timeoutId); 
+    };
+  }, [location]);
+
   return (
     <>
       <SEOHead />

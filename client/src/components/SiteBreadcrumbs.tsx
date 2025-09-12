@@ -18,13 +18,13 @@ export default function SiteBreadcrumbs({ currentProject }: BreadcrumbsProps) {
   const getCategoryInfo = (category: string) => {
     switch (category) {
       case 'theatre':
-        return { name: 'Театр', path: '/#theatre' };
+        return { name: 'Театр' };
       case 'film': 
-        return { name: 'Кино', path: '/#cinema' };
+        return { name: 'Кино' };
       case 'audio':
-        return { name: 'Аудиоспектакли', path: '/#audioplays' };
+        return { name: 'Аудиоспектакли' };
       default:
-        return { name: 'Работы', path: '/#works' };
+        return { name: 'Работы' };
     }
   };
 
@@ -49,24 +49,24 @@ export default function SiteBreadcrumbs({ currentProject }: BreadcrumbsProps) {
       <ChevronRight className="w-4 h-4" />
 
       {/* Работы */}
-      <a 
+      <Link 
         href="/#works" 
         className="hover:text-foreground transition-colors"
         data-testid="breadcrumb-works"
       >
         Работы
-      </a>
+      </Link>
 
       <ChevronRight className="w-4 h-4" />
 
       {/* Категория */}
-      <a 
-        href={categoryInfo.path} 
+      <Link 
+        href={`/#${project.category === 'film' ? 'cinema' : project.category}`}
         className="hover:text-foreground transition-colors"
         data-testid={`breadcrumb-category-${project.category}`}
       >
         {categoryInfo.name}
-      </a>
+      </Link>
 
       <ChevronRight className="w-4 h-4" />
 
