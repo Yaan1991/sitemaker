@@ -175,12 +175,7 @@ export default function Home() {
               <div className="text-center">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-bold text-lg
-                             glass-effect text-primary hover:text-black hover:bg-primary/90 
-                             border border-primary/30 hover:border-primary
-                             shadow-lg hover:shadow-xl hover:shadow-primary/25
-                             transition-all duration-300 transform hover:scale-105
-                             backdrop-blur-sm"
+                  className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon"
                   data-testid="button-contact-home"
                 >
                   Связаться
