@@ -201,8 +201,24 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     if (newValue) {
       // 🔊 Включаем: предзагружаем критичные файлы и восстанавливаем настройки
       audioEngine.preloadCritical();
-      audioEngine.setMusicEnabled(musicEnabledState);
-      audioEngine.setSfxEnabled(sfxEnabledState);
+      
+      // При первом включении автоматически активируем обе шины
+      let musicShouldBeEnabled = musicEnabledState;
+      let sfxShouldBeEnabled = sfxEnabledState;
+      
+      // Если обе шины выключены (первый запуск), включаем их автоматически
+      if (!musicEnabledState && !sfxEnabledState) {
+        musicShouldBeEnabled = true;
+        sfxShouldBeEnabled = true;
+        setMusicEnabledState(true);
+        setSfxEnabledState(true);
+        setIsSoundDesignEnabled(true);
+        localStorage.setItem('music-enabled-state', 'true');
+        localStorage.setItem('sfx-enabled-state', 'true');
+      }
+      
+      audioEngine.setMusicEnabled(musicShouldBeEnabled);
+      audioEngine.setSfxEnabled(sfxShouldBeEnabled);
       audioEngine.changeRoute(currentPage); // Возобновляем воспроизведение
     } else {
       // 🔇 Выключаем: глушим всё, но запоминаем состояния
