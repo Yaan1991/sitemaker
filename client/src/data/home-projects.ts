@@ -85,11 +85,11 @@ const audioProjects: HomeProject[] = [
     alt: "Аудиоспектакль «Сон о Хлебе» — Зотов Центр"
   },
   {
-    slug: "pogruzhenie-promenad",
+    slug: "pogruzhenie-promenad-telegram",
     title: "Погружение. Променад — аудиоспектакль, 2021",
     subtitle: "Музыка, маршруты и пространственный звук. Город оживает в наушниках.",
     thumb: "/images/pogruzhenie.webp",
-    url: "/projects/pogruzhenie-promenad",
+    url: "/project/pogruzhenie-promenad-telegram",
     press: "https://news.rambler.ru/moscow_city/47024657-v-nizhnem-novgorode-startovali-audiospektakli-progulki-pogruzhenie-promenad/",
     alt: "Аудиоспектакль «Погружение. Променад»"
   }
