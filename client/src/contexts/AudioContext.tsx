@@ -272,6 +272,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   // Новая функция для смены маршрута (для использования в компонентах)
   const changeRoute = (route: string) => {
+    // ВСЕГДА обновляем currentPage, независимо от того включен ли звук
     setCurrentPage(route);
     // Загружаем звук только если пользователь включил audio (opt-in)
     if (isGlobalAudioEnabled) {
