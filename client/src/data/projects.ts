@@ -65,7 +65,7 @@ export const projects: Project[] = [
     image: tabakovRadostImage,
     category: "theatre",
     role: ["Саунд-дизайнер", "Звукорежиссёр"],
-    venue: "Московский Художественный театр",
+    venue: "МХТ им. Чехова",
     links: [
       {
         label: "Афиша МХТ",
@@ -79,7 +79,7 @@ export const projects: Project[] = [
       },
     ],
     details: {
-      director: "Художественный руководитель постановки: Константин Хабенский",
+      director: "Константин Хабенский",
       genre: "Документальный спектакль",
     },
   },

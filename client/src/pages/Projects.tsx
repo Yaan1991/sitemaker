@@ -225,7 +225,11 @@ export default function Projects() {
                             <p className="font-medium">{project.theater}</p>
                             {project.director && (
                               <p className="text-sm text-gray-400">
-                                <span className="font-medium">Режиссёр:</span> {project.director}
+                                <span className="font-medium">
+                                  {project.id === 'tabakov-radost-mxat' 
+                                    ? 'Художественный руководитель постановки:' 
+                                    : 'Режиссёр:'}
+                                </span> {project.director}
                               </p>
                             )}
                             <p className="text-sm text-gray-400">
