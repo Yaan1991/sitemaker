@@ -84,10 +84,10 @@ const projectCategories: ProjectCategory[] = [
         image: "/images/son_o_hlebe_main.webp"
       },
       {
-        id: "pogruzhenie-promenad",
+        id: "pogruzhenie-promenad-telegram",
         title: "Погружение. Променад",
-        year: "2023",
-        description: "Иммерсивный аудиоспектакль с бинауральным звуком.",
+        year: "2021",
+        description: "Сайт-специфик аудиоспектакль",
         image: "/images/pogruzhenie_main.webp"
       }
     ]

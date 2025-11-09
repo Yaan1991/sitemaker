@@ -84,10 +84,10 @@ const projectCategories = [
         city: "г. Москва"
       },
       {
-        id: "pogruzhenie-promenad",
+        id: "pogruzhenie-promenad-telegram",
         title: "Погружение. Променад",
-        year: "2023",
-        description: "Иммерсивный аудиоспектакль с бинауральным звуком.",
+        year: "2021",
+        description: "Сайт-специфик аудиоспектакль",
         image: "/images/pogruzhenie_main.webp",
         director: "Иван Комаров",
         role: "Композитор, саунд-дизайнер: Ян Кузьмичёв",
