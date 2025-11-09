@@ -19,12 +19,12 @@ export default function Contact() {
       label: "Телефон",
       value: "+7 (919) 764-37-45",
       href: "tel:+79197643745",
-      collapsible: true,
+      collapsibleDesktop: true,
     },
     {
       icon: <SiTelegram className="w-8 h-8" />,
       label: "Telegram",
-      value: "@iankzmcv",
+      value: "Написать в Telegram",
       href: "https://t.me/iankzmcv",
       external: true,
     },
@@ -65,38 +65,59 @@ export default function Contact() {
           >
             {contacts.map((contact, index) => (
               <div key={index}>
-                {contact.collapsible ? (
-                  <Collapsible
-                    open={isPhoneOpen}
-                    onOpenChange={setIsPhoneOpen}
-                    className="glass-effect rounded-xl border border-border overflow-hidden"
-                  >
-                    <CollapsibleTrigger className="w-full p-6 flex items-center justify-between hover:bg-white/5 transition-colors duration-300">
-                      <div className="flex items-center gap-4">
-                        <div className="text-primary">
-                          {contact.icon}
-                        </div>
-                        <div className="text-left">
-                          <p className="text-muted-foreground text-sm">{contact.label}</p>
-                          <p className="text-foreground font-medium">Нажмите, чтобы показать</p>
-                        </div>
-                      </div>
-                      <ChevronDown 
-                        className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${
-                          isPhoneOpen ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="px-6 pb-6">
-                      <a
-                        href={contact.href}
-                        className="text-primary hover:text-white transition-colors duration-300 text-lg font-medium"
-                        data-testid={`contact-${contact.label.toLowerCase()}`}
+                {contact.collapsibleDesktop ? (
+                  <>
+                    {/* Desktop: Collapsible phone */}
+                    <div className="hidden md:block">
+                      <Collapsible
+                        open={isPhoneOpen}
+                        onOpenChange={setIsPhoneOpen}
+                        className="glass-effect rounded-xl border border-border overflow-hidden"
                       >
-                        {contact.value}
-                      </a>
-                    </CollapsibleContent>
-                  </Collapsible>
+                        <CollapsibleTrigger className="w-full p-6 flex items-center justify-between hover:bg-white/5 transition-colors duration-300">
+                          <div className="flex items-center gap-4">
+                            <div className="text-primary">
+                              {contact.icon}
+                            </div>
+                            <div className="text-left">
+                              <p className="text-muted-foreground text-sm">{contact.label}</p>
+                              <p className="text-foreground font-medium">Нажмите, чтобы показать</p>
+                            </div>
+                          </div>
+                          <ChevronDown 
+                            className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${
+                              isPhoneOpen ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="px-6 pb-6">
+                          <a
+                            href={contact.href}
+                            className="text-primary hover:text-white transition-colors duration-300 text-lg font-medium"
+                            data-testid={`contact-${contact.label.toLowerCase()}`}
+                          >
+                            {contact.value}
+                          </a>
+                        </CollapsibleContent>
+                      </Collapsible>
+                    </div>
+                    {/* Mobile: Direct link */}
+                    <a
+                      href={contact.href}
+                      className="md:hidden glass-effect rounded-xl p-6 border border-border flex items-center gap-4 hover:bg-white/5 transition-all duration-300 group"
+                      data-testid={`contact-${contact.label.toLowerCase()}-mobile`}
+                    >
+                      <div className="text-primary group-hover:text-white transition-colors duration-300">
+                        {contact.icon}
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground text-sm">{contact.label}</p>
+                        <p className="text-foreground group-hover:text-primary transition-colors duration-300 font-medium">
+                          {contact.value}
+                        </p>
+                      </div>
+                    </a>
+                  </>
                 ) : (
                   <a
                     href={contact.href}
