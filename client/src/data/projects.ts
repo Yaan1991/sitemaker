@@ -284,6 +284,13 @@ export const projects: Project[] = [
         "Финальный постпродакшен"
       ],
     },
+    links: [
+      {
+        label: "Страница проекта на centrezotov.ru",
+        url: "https://centrezotov.ru/events/audiospektakl-son-o-hlebe-vtb/?ysclid=mhrk30w24q990177300",
+        external: true,
+      },
+    ],
   },
   {
     id: "pogruzhenie-promenad-telegram",
