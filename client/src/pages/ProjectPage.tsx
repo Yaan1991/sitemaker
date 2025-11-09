@@ -825,7 +825,7 @@ export default function ProjectPage() {
                   transition={{ duration: 0.6 }}
                   className="text-center mb-8"
                 >
-                  <h1 className="text-5xl lg:text-7xl font-bold mb-4" style={{color: '#DAA520', textShadow: '0 0 20px rgba(218, 165, 32, 0.4)'}}>
+                  <h1 className="text-5xl lg:text-7xl font-bold mb-4" style={{color: '#4A90E2', textShadow: '0 0 20px rgba(74, 144, 226, 0.4)'}}>
                     СОН О ХЛЕБЕ
                   </h1>
                   <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Центр «Зотов» • 2024</p>
@@ -1576,7 +1576,7 @@ export default function ProjectPage() {
                 </div>
                 <div className="glass-effect rounded-xl p-6">
                   <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
-                  <p className="text-yellow-400 font-semibold text-lg">
+                  <p className="text-blue-400 font-semibold text-lg">
                     {project.role.join(', ')}
                   </p>
                 </div>
@@ -1591,7 +1591,7 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#DAA520'}}>Моя работа</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#4A90E2'}}>Моя работа</h3>
                     <div className="space-y-2 text-gray-300">
                       {project.details.technical.map((item, index) => (
                         <p key={index}>• {item}</p>
@@ -1632,6 +1632,8 @@ export default function ProjectPage() {
                           ? "text-yellow-400 hover:text-yellow-300 bg-yellow-500/10 border-yellow-500/30"
                           : project.id === "ma-short-film"
                           ? "text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 border-cyan-500/30"
+                          : project.id === "son-o-hlebe-zotov"
+                          ? "text-blue-400 hover:text-blue-300 bg-blue-500/10 border-blue-500/30"
                           : "idiot-primary hover:text-pink-400 bg-pink-500/10 border-pink-500/30"
                       }`}
                       data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
