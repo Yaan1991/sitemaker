@@ -29,24 +29,42 @@ export default function Footer() {
       <div className="container mx-auto text-center">
         <div className="flex flex-col items-center gap-6">
           {/* Иконки социальных сетей вверху */}
-          <div className="flex gap-4">
+          <div className="flex gap-4 items-center">
             <a
               href="https://t.me/dj_antifun"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="opacity-70 hover:opacity-100 transition-opacity"
               aria-label="Telegram"
+              data-testid="footer-telegram"
             >
-              <img src="/icons/tg.png" alt="Telegram" className="w-6 h-6" />
+              <img src="/icons/icon_telegram.png" alt="Telegram" className="w-6 h-6" />
             </a>
             <a
-              href="https://vk.com/antifunmaster"
+              href="mailto:kuzmich.music@gmail.com"
+              className="opacity-70 hover:opacity-100 transition-opacity"
+              aria-label="Email"
+              data-testid="footer-email"
+            >
+              <img src="/icons/icon_email.png" alt="Email" className="w-6 h-6" />
+            </a>
+            <a
+              href="tel:+79112694546"
+              className="opacity-70 hover:opacity-100 transition-opacity"
+              aria-label="Телефон"
+              data-testid="footer-phone"
+            >
+              <img src="/icons/icon_phone.png" alt="Телефон" className="w-6 h-6" />
+            </a>
+            <a
+              href="https://band.link/zDZyK"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="VK"
+              className="opacity-70 hover:opacity-100 transition-opacity"
+              aria-label="Bandlink"
+              data-testid="footer-bandlink"
             >
-              <img src="/icons/vk.png" alt="VK" className="w-6 h-6" />
+              <img src="/icons/icon_bandlink.png" alt="Bandlink" className="w-6 h-6" />
             </a>
           </div>
           

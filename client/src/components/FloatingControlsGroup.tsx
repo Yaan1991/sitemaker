@@ -10,11 +10,15 @@ export function FloatingControlsGroup() {
   };
 
   return (
-    <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 flex items-center gap-3" style={{zIndex: 200}}>
+    <div 
+      className="fixed left-1/2 transform -translate-x-1/2 flex items-center gap-3
+                 bottom-20 md:bottom-5"
+      style={{zIndex: 200}}
+    >
       {/* Кнопка Контакты */}
       <Link href="/contact">
         <button
-          className="group w-10 h-10 bg-gray-900/80 hover:bg-gray-800/90 
+          className="group w-12 h-12 md:w-10 md:h-10 bg-gray-900/80 hover:bg-gray-800/90 
                      border border-gray-600 hover:border-yellow-400 
                      rounded-full shadow-lg hover:shadow-xl
                      backdrop-blur-sm transition-all duration-200 
@@ -23,8 +27,8 @@ export function FloatingControlsGroup() {
           data-testid="floating-contact-button"
         >
           <Mail 
-            size={16} 
-            className="text-gray-400 group-hover:text-yellow-400 transition-colors" 
+            size={18} 
+            className="text-gray-400 group-hover:text-yellow-400 transition-colors md:w-4 md:h-4" 
           />
           
           {/* Пульсирующее кольцо при hover */}
@@ -37,7 +41,7 @@ export function FloatingControlsGroup() {
       {/* Кнопка микшера (центральная) */}
       <button
         onClick={toggleMixer}
-        className="group w-10 h-10 bg-gray-900/80 hover:bg-gray-800/90 
+        className="group w-12 h-12 md:w-10 md:h-10 bg-gray-900/80 hover:bg-gray-800/90 
                    border border-gray-600 hover:border-yellow-400 
                    rounded-full shadow-lg hover:shadow-xl
                    backdrop-blur-sm transition-all duration-200 
@@ -46,8 +50,8 @@ export function FloatingControlsGroup() {
         data-testid="floating-mixer-button"
       >
         <Sliders 
-          size={16} 
-          className="text-gray-400 group-hover:text-yellow-400 transition-colors" 
+          size={18} 
+          className="text-gray-400 group-hover:text-yellow-400 transition-colors md:w-4 md:h-4" 
         />
         
         {/* Пульсирующее кольцо при hover */}
@@ -63,7 +67,7 @@ export function FloatingControlsGroup() {
         rel="noopener noreferrer"
       >
         <button
-          className="group w-10 h-10 bg-gray-900/80 hover:bg-gray-800/90 
+          className="group w-12 h-12 md:w-10 md:h-10 bg-gray-900/80 hover:bg-gray-800/90 
                      border border-gray-600 hover:border-yellow-400 
                      rounded-full shadow-lg hover:shadow-xl
                      backdrop-blur-sm transition-all duration-200 
@@ -72,8 +76,8 @@ export function FloatingControlsGroup() {
           data-testid="floating-bandlink-button"
         >
           <Music 
-            size={16} 
-            className="text-gray-400 group-hover:text-yellow-400 transition-colors" 
+            size={18} 
+            className="text-gray-400 group-hover:text-yellow-400 transition-colors md:w-4 md:h-4" 
           />
           
           {/* Пульсирующее кольцо при hover */}
