@@ -94,13 +94,17 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
                         }`}
                       >
                         {/* Project Image */}
-                        <div className="w-full md:w-96 h-56 md:h-64 rounded-lg overflow-hidden flex-shrink-0">
+                        <Link
+                          href={`/project/${project.id}`}
+                          className="w-full md:w-96 h-56 md:h-64 rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
+                          data-testid={`image-project-${project.id}`}
+                        >
                           <img
                             src={project.image}
                             alt={project.title}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
-                        </div>
+                        </Link>
 
                         {/* Project Info */}
                         <div className="flex-1 flex flex-col justify-center">
