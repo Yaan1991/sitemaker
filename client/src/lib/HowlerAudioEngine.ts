@@ -526,7 +526,8 @@ export class HowlerAudioEngine {
     
     if (!enabled && this.musicBus) {
       this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
-        this.musicBus?.stop();
+        // Используем pause() вместо stop() чтобы сохранить состояние для кэша
+        this.musicBus?.pause();
       });
     }
   }
@@ -536,7 +537,8 @@ export class HowlerAudioEngine {
     
     if (!enabled && this.soundDesignBus) {
       this.fadeSfxBus(this.soundDesignBus.volume(), 0, 300, () => {
-        this.soundDesignBus?.stop();
+        // Используем pause() вместо stop() чтобы сохранить состояние для кэша
+        this.soundDesignBus?.pause();
       });
     }
   }
@@ -550,7 +552,8 @@ export class HowlerAudioEngine {
     if (this.musicBus) {
       promises.push(new Promise<void>(resolve => {
         this.fadeMusicBus(this.musicBus!.volume(), 0, 300, () => {
-          this.musicBus?.stop();
+          // Используем pause() вместо stop() чтобы сохранить состояние для кэша
+          this.musicBus?.pause();
           resolve();
         });
       }));
@@ -559,7 +562,8 @@ export class HowlerAudioEngine {
     if (this.soundDesignBus) {
       promises.push(new Promise<void>(resolve => {
         this.fadeSfxBus(this.soundDesignBus!.volume(), 0, 300, () => {
-          this.soundDesignBus?.stop();
+          // Используем pause() вместо stop() чтобы сохранить состояние для кэша
+          this.soundDesignBus?.pause();
           resolve();
         });
       }));
