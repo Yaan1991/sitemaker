@@ -21,6 +21,11 @@ export class HowlerAudioEngine {
   private musicBus: Howl | null = null;
   private soundDesignBus: Howl | null = null;
   
+  // 🚀 Кэш предзагруженных Howl-ов для мгновенного переключения
+  private musicCache: Map<string, Howl> = new Map();
+  private sfxCache: Map<string, Howl> = new Map();
+  private isPreloaded = false;
+  
   // Playback State
   private isInitialized = false;
   private musicVolume = 0.3; // Reduced by ~5dB from 0.5
@@ -100,6 +105,45 @@ export class HowlerAudioEngine {
   }
 
   /**
+   * 🚀 Умная предзагрузка: только критичные файлы (главная страница)
+   * Остальные загружаются по требованию с html5: true для экономии памяти
+   */
+  public preloadCritical(): void {
+    if (this.isPreloaded) return;
+    
+    console.log('🎵 Предзагрузка критичных аудиофайлов...');
+    
+    // Предзагружаем только главную страницу для мгновенного старта
+    const homeMusic = this.routeMapping.music['/'];
+    if (homeMusic && 'url' in homeMusic) {
+      const howl = new Howl({
+        src: [homeMusic.url],
+        preload: true,
+        html5: true, // Для экономии памяти
+        volume: 0
+      });
+      howl.load();
+      this.musicCache.set(homeMusic.url, howl);
+    }
+    
+    const homeSfx = this.routeMapping.soundDesign['/'];
+    if (homeSfx) {
+      const howl = new Howl({
+        src: [homeSfx],
+        preload: true,
+        html5: true, // Для экономии памяти на больших лупах
+        loop: true,
+        volume: 0
+      });
+      howl.load();
+      this.sfxCache.set(homeSfx, howl);
+    }
+    
+    this.isPreloaded = true;
+    console.log('✅ Предзагрузка критичных файлов завершена');
+  }
+
+  /**
    * Calculate effective volume: master * busVolume
    */
   private calculateEffectiveVolume(busVolume: number): number {
@@ -161,8 +205,7 @@ export class HowlerAudioEngine {
     if (!musicData && route.startsWith('/project/')) {
       if (this.musicBus) {
         this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
-          this.musicBus?.stop();
-          this.musicBus?.unload();
+          this.musicBus?.stop(); // НЕ unload - сохраняем кэш!
           this.musicBus = null;
         });
       }
@@ -189,8 +232,7 @@ export class HowlerAudioEngine {
     // Stop current music with fast fade-out (300ms instead of 1000ms for game-like responsiveness)
     if (this.musicBus) {
       this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
-        this.musicBus?.stop();
-        this.musicBus?.unload();
+        this.musicBus?.stop(); // НЕ unload - сохраняем кэш!
         this.musicBus = null;
         this.startNewMusic(musicData, trackIndex);
       });
@@ -219,39 +261,85 @@ export class HowlerAudioEngine {
     }
 
     const effectiveVolume = this.calculateEffectiveVolume(this.musicVolume);
+    const isLooping = !this.currentMusicPlaylist || this.currentMusicPlaylist.length === 1;
     
-    this.musicBus = new Howl({
-      src: [currentTrack.url],
-      loop: !this.currentMusicPlaylist || this.currentMusicPlaylist.length === 1,
-      volume: 0, // Start at 0 for fade-in
-      preload: true,
-      onload: () => {
-        // Fast fade-in (500ms instead of 2000ms for game-like responsiveness)
-        this.fadeMusicBus(0, effectiveVolume, 500);
-      },
-      onplay: () => {
+    // 🚀 Проверяем кэш для мгновенного старта
+    const cached = this.musicCache.get(currentTrack.url);
+    if (cached) {
+      console.log('⚡ Используем закэшированный трек:', currentTrack.title);
+      // Переиспользуем закэшированный Howl
+      this.musicBus = cached;
+      
+      // Сбрасываем состояние
+      this.musicBus.off(); // Удаляем старые listeners
+      this.musicBus.seek(0); // Сброс позиции
+      this.musicBus.loop(isLooping);
+      this.musicBus.volume(0); // Начинаем с 0 для fade-in
+      
+      // Устанавливаем новые listeners
+      this.musicBus.on('play', () => {
         this.startTimeTracking();
         this.onPlaybackStateChange?.(true);
-      },
-      onpause: () => {
+      });
+      this.musicBus.on('pause', () => {
         this.stopTimeTracking();
         this.onPlaybackStateChange?.(false);
-      },
-      onstop: () => {
+      });
+      this.musicBus.on('stop', () => {
         this.stopTimeTracking();
         this.onPlaybackStateChange?.(false);
-      },
-      onend: () => {
+      });
+      this.musicBus.on('end', () => {
         this.stopTimeTracking();
         this.onPlaybackStateChange?.(false);
         if (this.currentMusicPlaylist && this.currentMusicPlaylist.length > 1) {
           this.nextMusicTrack();
         }
         this.onTrackEnd?.();
-      }
-    });
-
-    this.musicBus.play();
+      });
+      
+      // Мгновенный старт с fade-in
+      this.musicBus.play();
+      this.fadeMusicBus(0, effectiveVolume, 500);
+    } else {
+      // Создаем новый Howl с html5 для быстрой загрузки
+      console.log('📥 Загружаем новый трек:', currentTrack.title);
+      this.musicBus = new Howl({
+        src: [currentTrack.url],
+        loop: isLooping,
+        volume: 0, // Start at 0 for fade-in
+        html5: true, // Стриминг для быстрой загрузки
+        preload: true,
+        onload: () => {
+          console.log('✅ Трек загружен:', currentTrack.title);
+          this.fadeMusicBus(0, effectiveVolume, 500);
+        },
+        onplay: () => {
+          this.startTimeTracking();
+          this.onPlaybackStateChange?.(true);
+        },
+        onpause: () => {
+          this.stopTimeTracking();
+          this.onPlaybackStateChange?.(false);
+        },
+        onstop: () => {
+          this.stopTimeTracking();
+          this.onPlaybackStateChange?.(false);
+        },
+        onend: () => {
+          this.stopTimeTracking();
+          this.onPlaybackStateChange?.(false);
+          if (this.currentMusicPlaylist && this.currentMusicPlaylist.length > 1) {
+            this.nextMusicTrack();
+          }
+          this.onTrackEnd?.();
+        }
+      });
+      
+      // Кэшируем для следующего использования
+      this.musicCache.set(currentTrack.url, this.musicBus);
+      this.musicBus.play();
+    }
     
     // Notify about track change (playback state will be handled by onplay event)
     this.onTrackChange?.(this.currentMusicTrackIndex, this.currentMusicPlaylist!);
@@ -276,8 +364,7 @@ export class HowlerAudioEngine {
     // Stop current SFX with fast fade-out (300ms for game-like responsiveness)
     if (this.soundDesignBus) {
       this.fadeSfxBus(this.soundDesignBus.volume(), 0, 300, () => {
-        this.soundDesignBus?.stop();
-        this.soundDesignBus?.unload();
+        this.soundDesignBus?.stop(); // НЕ unload - сохраняем кэш!
         this.soundDesignBus = null;
         this.startNewSoundDesign(sfxUrl);
       });
@@ -290,18 +377,41 @@ export class HowlerAudioEngine {
     this.currentSfxTrack = sfxUrl;
     const effectiveVolume = this.calculateEffectiveVolume(this.sfxVolume) * 0.15; // Lower base volume for ambients
 
-    this.soundDesignBus = new Howl({
-      src: [sfxUrl],
-      loop: true,
-      volume: 0, // Start at 0 for fade-in
-      preload: true,
-      onload: () => {
-        // Fast fade-in (500ms for game-like responsiveness)
-        this.fadeSfxBus(0, effectiveVolume, 500);
-      }
-    });
-
-    this.soundDesignBus.play();
+    // 🚀 Проверяем кэш для мгновенного старта
+    const cached = this.sfxCache.get(sfxUrl);
+    if (cached) {
+      console.log('⚡ Используем закэшированный SFX:', sfxUrl);
+      // Переиспользуем закэшированный Howl
+      this.soundDesignBus = cached;
+      
+      // Сбрасываем состояние
+      this.soundDesignBus.off(); // Удаляем старые listeners
+      this.soundDesignBus.seek(0); // Сброс позиции
+      this.soundDesignBus.loop(true);
+      this.soundDesignBus.volume(0); // Начинаем с 0 для fade-in
+      
+      // Мгновенный старт с fade-in
+      this.soundDesignBus.play();
+      this.fadeSfxBus(0, effectiveVolume, 500);
+    } else {
+      // Создаем новый Howl с html5 для быстрой загрузки
+      console.log('📥 Загружаем новый SFX:', sfxUrl);
+      this.soundDesignBus = new Howl({
+        src: [sfxUrl],
+        loop: true,
+        volume: 0, // Start at 0 for fade-in
+        html5: true, // Стриминг для быстрой загрузки
+        preload: true,
+        onload: () => {
+          console.log('✅ SFX загружен:', sfxUrl);
+          this.fadeSfxBus(0, effectiveVolume, 500);
+        }
+      });
+      
+      // Кэшируем для следующего использования
+      this.sfxCache.set(sfxUrl, this.soundDesignBus);
+      this.soundDesignBus.play();
+    }
   }
 
   /**
@@ -544,6 +654,14 @@ export class HowlerAudioEngine {
     this.soundDesignBus?.unload();
     this.musicBus = null;
     this.soundDesignBus = null;
+    
+    // Очистка кэша
+    this.musicCache.forEach(howl => howl.unload());
+    this.sfxCache.forEach(howl => howl.unload());
+    this.musicCache.clear();
+    this.sfxCache.clear();
+    this.isPreloaded = false;
+    
     this.isInitialized = false;
   }
 }

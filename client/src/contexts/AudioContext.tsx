@@ -181,6 +181,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   // запускаем audioEngine для текущей страницы
   useEffect(() => {
     if (isGlobalAudioEnabled) {
+      // 🚀 Предзагружаем критичные файлы для мгновенного старта
+      audioEngine.preloadCritical();
+      
       // Применяем bus states перед запуском
       audioEngine.setMusicEnabled(musicEnabledState);
       audioEngine.setSfxEnabled(sfxEnabledState);
@@ -196,7 +199,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('global-audio-enabled', newValue.toString());
     
     if (newValue) {
-      // 🔊 Включаем: восстанавливаем индивидуальные настройки
+      // 🔊 Включаем: предзагружаем критичные файлы и восстанавливаем настройки
+      audioEngine.preloadCritical();
       audioEngine.setMusicEnabled(musicEnabledState);
       audioEngine.setSfxEnabled(sfxEnabledState);
       audioEngine.changeRoute(currentPage); // Возобновляем воспроизведение

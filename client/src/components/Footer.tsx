@@ -27,13 +27,37 @@ export default function Footer() {
       } : {}}
     >
       <div className="container mx-auto text-center">
-        <div className="mb-6">
-          <h3 className="text-xl font-bold mb-2">Ян Кузьмичёв</h3>
-          <p className="text-muted-foreground">Композитор • Саунд‑дизайнер • Звукорежиссёр</p>
+        <div className="flex flex-col items-center gap-6">
+          {/* Иконки социальных сетей вверху */}
+          <div className="flex gap-4">
+            <a
+              href="https://t.me/dj_antifun"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Telegram"
+            >
+              <img src="/icons/tg.png" alt="Telegram" className="w-6 h-6" />
+            </a>
+            <a
+              href="https://vk.com/antifunmaster"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="VK"
+            >
+              <img src="/icons/vk.png" alt="VK" className="w-6 h-6" />
+            </a>
+          </div>
+          
+          {/* Текст ниже */}
+          <div>
+            <h3 className="text-xl font-bold mb-2">Ян Кузьмичёв</h3>
+            <p className="text-muted-foreground">Композитор • Саунд‑дизайнер • Звукорежиссёр</p>
+          </div>
         </div>
 
-
-        <p className="text-muted-foreground text-sm">
+        <p className="text-muted-foreground text-sm mt-6">
           © 2025 Ян Кузьмичёв. Все права защищены.
         </p>
       </div>
