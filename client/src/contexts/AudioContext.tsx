@@ -91,12 +91,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   // Восстанавливаем состояние звука из localStorage и настраиваем Howler Engine
   useEffect(() => {
-    // 🎛️ Главный переключатель звука - opt-in по умолчанию
-    const savedGlobal = localStorage.getItem('global-audio-enabled');
-    if (savedGlobal) {
-      setIsGlobalAudioEnabled(savedGlobal === 'true');
-    }
-    // Не устанавливаем значение по умолчанию - пользователь должен явно включить звук
+    // 🎛️ Главный переключатель звука - ВСЕГДА выключен по умолчанию при каждом заходе
+    // Не восстанавливаем из localStorage - пользователь должен явно включить звук на каждом визите
+    setIsGlobalAudioEnabled(false);
     
     // 🎵 Индивидуальные настройки шин
     const savedMusicEnabled = localStorage.getItem('music-enabled-state');
@@ -162,14 +159,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     });
 
     // 🔧 КРИТИЧНО: Начальная синхронизация с движком - opt-in по умолчанию
-    // Определяем что должно быть включено (только если явно установлено в 'true')
-    const shouldMusicBeEnabled = (localStorage.getItem('global-audio-enabled') === 'true') && 
-                                (localStorage.getItem('music-enabled-state') === 'true');
-    const shouldSfxBeEnabled = (localStorage.getItem('global-audio-enabled') === 'true') && 
-                              (localStorage.getItem('sfx-enabled-state') === 'true');
-    
-    audioEngine.setMusicEnabled(shouldMusicBeEnabled);
-    audioEngine.setSfxEnabled(shouldSfxBeEnabled);
+    // Звук ВСЕГДА выключен при загрузке страницы
+    audioEngine.setMusicEnabled(false);
+    audioEngine.setSfxEnabled(false);
 
     return () => {
       // Cleanup при размонтировании
@@ -196,7 +188,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const toggleGlobalAudio = () => {
     const newValue = !isGlobalAudioEnabled;
     setIsGlobalAudioEnabled(newValue);
-    localStorage.setItem('global-audio-enabled', newValue.toString());
+    // НЕ сохраняем в localStorage - звук всегда выключен при новом заходе
     
     if (newValue) {
       // 🔊 Включаем: предзагружаем критичные файлы и восстанавливаем настройки
