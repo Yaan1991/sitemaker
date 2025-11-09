@@ -155,29 +155,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  // 🔧 Восстановление сессии: если isGlobalAudioEnabled становится true (из localStorage),
+  // 🔧 Восстановление сессии: если isGlobalAudioEnabled становится true,
   // запускаем audioEngine для текущей страницы
   useEffect(() => {
     if (isGlobalAudioEnabled) {
       // 🚀 Предзагружаем критичные файлы для мгновенного старта
-      audioEngine.preloadCritical();
-      
-      // Применяем bus states перед запуском
-      audioEngine.setMusicEnabled(musicEnabledState);
-      audioEngine.setSfxEnabled(sfxEnabledState);
-      // Запускаем воспроизведение для текущей страницы
-      audioEngine.changeRoute(currentPage);
-    }
-  }, [isGlobalAudioEnabled]); // Срабатывает только при изменении isGlobalAudioEnabled
-
-  // 🎵 Главный переключатель всего звука (музыка + эффекты)
-  const toggleGlobalAudio = () => {
-    const newValue = !isGlobalAudioEnabled;
-    setIsGlobalAudioEnabled(newValue);
-    // НЕ сохраняем в localStorage - звук всегда выключен при новом заходе
-    
-    if (newValue) {
-      // 🔊 Включаем: предзагружаем критичные файлы и восстанавливаем настройки
       audioEngine.preloadCritical();
       
       // При первом включении автоматически активируем обе шины
@@ -195,14 +177,25 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem('sfx-enabled-state', 'true');
       }
       
+      // Применяем bus states перед запуском
       audioEngine.setMusicEnabled(musicShouldBeEnabled);
       audioEngine.setSfxEnabled(sfxShouldBeEnabled);
-      audioEngine.changeRoute(currentPage); // Возобновляем воспроизведение
+      // Запускаем воспроизведение для текущей страницы
+      console.log('🎵 Запускаем аудио для страницы:', currentPage);
+      audioEngine.changeRoute(currentPage);
     } else {
-      // 🔇 Выключаем: глушим всё, но запоминаем состояния
+      // 🔇 Выключаем: глушим всё
       audioEngine.setMusicEnabled(false);
       audioEngine.setSfxEnabled(false);
     }
+  }, [isGlobalAudioEnabled]); // Срабатывает только при изменении isGlobalAudioEnabled
+
+  // 🎵 Главный переключатель всего звука (музыка + эффекты)
+  const toggleGlobalAudio = () => {
+    const newValue = !isGlobalAudioEnabled;
+    setIsGlobalAudioEnabled(newValue);
+    // НЕ сохраняем в localStorage - звук всегда выключен при новом заходе
+    // Вся логика включения/выключения в useEffect выше
   };
 
   // 🌊 Переключатель звуковых эффектов (индивидуально)
