@@ -302,7 +302,18 @@ export const projects: Project[] = [
     category: "audio",
     role: ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"],
     venue: "Центр театрального мастерства (Нижний Новгород)",
+    photos: [
+      "/images/pogruzhenie.webp"
+    ],
+    links: [
+      {
+        label: "Rambler News — статья о проекте",
+        url: "https://news.rambler.ru/moscow_city/47024657-v-nizhnem-novgorode-startovali-audiospektakli-progulki-pogruzhenie-promenad/",
+        external: true,
+      },
+    ],
     details: {
+      genre: "Аудиоспектакль-променад",
       technical: [
         "Создание оригинальной музыки",
         "Работа с полевыми записями",
