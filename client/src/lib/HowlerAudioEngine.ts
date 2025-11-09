@@ -74,7 +74,8 @@ export class HowlerAudioEngine {
       '/project/homo-homini-short': [
         { id: 'hhmusicreel', title: 'Homo Homini Music Reel', url: '/audio/hhmusicreel.mp3' }
       ],
-      '/project/ma-short-film': [] // No music for Ma project - just sound design
+      '/project/ma-short-film': [], // No music for Ma project - just sound design
+      '/project/son-o-hlebe-zotov': [] // No music for Son o Hlebe project
     },
     soundDesign: {
       '/': '/audio/vinyl.mp3', // Default vinyl sound
