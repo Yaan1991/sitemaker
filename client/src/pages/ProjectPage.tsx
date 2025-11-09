@@ -817,6 +817,22 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
+              {/* Заголовок и информация для проекта Сон о Хлебе */}
+              {project.id === "son-o-hlebe-zotov" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-8"
+                >
+                  <h1 className="text-5xl lg:text-7xl font-bold mb-4" style={{color: '#DAA520', textShadow: '0 0 20px rgba(218, 165, 32, 0.4)'}}>
+                    СОН О ХЛЕБЕ
+                  </h1>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Центр «Зотов» • 2024</p>
+                  <p className="text-sm text-gray-400 mb-6">Режиссёр: Тимур Шарафутдинов</p>
+                </motion.div>
+              )}
+
               {/* Полупрозрачный фон на всю ширину для заголовка и фото */}
               {project.id === "petrovy-saratov-drama" && (
                 <div 
@@ -891,7 +907,7 @@ export default function ProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && project.id !== "homo-homini-short" && project.id !== "ma-short-film" && (
+                {project.id !== "idiot-saratov-drama" && project.id !== "mayakovsky-moscow-estrada" && project.id !== "petrovy-saratov-drama" && project.id !== "homo-homini-short" && project.id !== "ma-short-film" && project.id !== "son-o-hlebe-zotov" && (
                   <>
                     <div className="text-sm idiot-primary font-medium tracking-wide uppercase mb-2">
                       {categoryNames[project.category]} • {project.year}
@@ -902,7 +918,7 @@ export default function ProjectPage() {
                   </>
                 )}
                 
-                {project.id !== "homo-homini-short" && project.id !== "ma-short-film" && (
+                {project.id !== "homo-homini-short" && project.id !== "ma-short-film" && project.id !== "son-o-hlebe-zotov" && (
                   <p className={`text-xl leading-relaxed relative ${
                     project.id === "mayakovsky-moscow-estrada" ? "text-gray-800" :
                     project.id === "petrovy-saratov-drama" ? "text-gray-300" : "text-gray-300"
@@ -1518,6 +1534,75 @@ export default function ProjectPage() {
 
               </div>
             )}
+
+          {/* Case Study for Son o Hlebe - Data-driven approach */}
+          {project.id === "son-o-hlebe-zotov" && (
+            <div className="mt-8">
+              
+              {/* Описание проекта */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mb-8"
+              >
+                <div className="glass-effect rounded-xl p-6">
+                  <p className="text-gray-300 text-lg leading-relaxed">
+                    {project.fullDescription}
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Постановочная команда и роль в проекте */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+              >
+                <div className="glass-effect rounded-xl p-6">
+                  <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
+                  <div className="text-gray-300 space-y-2">
+                    {project.details?.director && <p><strong>Режиссёр:</strong> {project.details.director}</p>}
+                    {project.details?.producer && <p>{project.details.producer}</p>}
+                    {project.details?.premiere && <p><strong>Премьера:</strong> {project.details.premiere}</p>}
+                  </div>
+                  {project.details?.cast && project.details.cast.length > 0 && (
+                    <div className="mt-4">
+                      <p className="text-sm text-gray-400 font-medium mb-2">В ролях:</p>
+                      <p className="text-gray-300 text-sm">{project.details.cast.join(', ')}</p>
+                    </div>
+                  )}
+                </div>
+                <div className="glass-effect rounded-xl p-6">
+                  <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                  <p className="text-yellow-400 font-semibold text-lg">
+                    {project.role.join(', ')}
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Моя работа */}
+              {project.details?.technical && project.details.technical.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                  className="mb-8"
+                >
+                  <div className="glass-effect rounded-xl p-6">
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#DAA520'}}>Моя работа</h3>
+                    <div className="space-y-2 text-gray-300">
+                      {project.details.technical.map((item, index) => (
+                        <p key={index}>• {item}</p>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+            </div>
+          )}
 
           {/* Links and Awards - Centered at bottom */}
           <motion.div
