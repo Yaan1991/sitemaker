@@ -1,90 +1,36 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Mail, Phone, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { Phone, ChevronDown } from "lucide-react";
+import { SiTelegram, SiBandcamp } from "react-icons/si";
 import SEOHead from "@/components/SEOHead";
 import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
-const telegramIcon = "/icons/icon_telegram.png";
-const emailIcon = "/icons/icon_email.png";
-const phoneIcon = "/icons/icon_phone.png";
-const bandlinkIcon = "/icons/icon_bandlink.png";
-
-const contactFormSchema = z.object({
-  name: z.string().min(2, "Имя должно содержать минимум 2 символа"),
-  email: z.string().email("Некорректный email адрес"),
-  message: z.string().min(10, "Сообщение должно содержать минимум 10 символов"),
-});
-
-type ContactFormData = z.infer<typeof contactFormSchema>;
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 export default function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
-  
-  const form = useForm<ContactFormData>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
-  });
-
-  const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true);
-    
-    try {
-      // TODO: Implement actual form submission with Formspree or EmailJS
-      // For now, simulate success
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Сообщение отправлено!",
-        description: "Спасибо за ваше сообщение. Я свяжусь с вами в ближайшее время.",
-      });
-      
-      form.reset();
-    } catch (error) {
-      toast({
-        title: "Ошибка отправки",
-        description: "Произошла ошибка при отправке сообщения. Попробуйте ещё раз.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const [isPhoneOpen, setIsPhoneOpen] = useState(false);
 
   const contacts = [
     {
-      icon: emailIcon,
-      label: "Email",
-      value: "kuzmichevyan@gmail.com",
-      href: "mailto:kuzmichevyan@gmail.com",
-    },
-    {
-      icon: phoneIcon,
+      icon: <Phone className="w-8 h-8" />,
       label: "Телефон",
       value: "+7 (919) 764-37-45",
       href: "tel:+79197643745",
+      collapsible: true,
     },
     {
-      icon: telegramIcon,
+      icon: <SiTelegram className="w-8 h-8" />,
       label: "Telegram",
       value: "@iankzmcv",
       href: "https://t.me/iankzmcv",
       external: true,
     },
     {
-      icon: bandlinkIcon,
-      label: "Музыка",
+      icon: <SiBandcamp className="w-8 h-8" />,
+      label: "Bandlink",
       value: "Слушать работы",
       href: "https://band.link/zDZyK",
       external: true,
@@ -95,12 +41,12 @@ export default function Contact() {
     <>
       <SEOHead
         title="Контакты — Ян Кузьмичёв"
-        description="Свяжитесь с композитором, саунд-дизайнером и звукорежиссёром Яном Кузьмичёвом. Email, телефон, Telegram."
+        description="Свяжитесь с композитором, саунд-дизайнером и звукорежиссёром Яном Кузьмичёвым. Телефон, Telegram, музыкальные работы."
         url="https://yankuzmichev.ru/contact"
       />
 
       <section className="py-20 px-6 min-h-screen">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto max-w-2xl">
           <SiteBreadcrumbs pageType="contact" />
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -111,129 +57,68 @@ export default function Contact() {
             Контакты
           </motion.h1>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Information */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-8"
-            >
-              <div className="glass-effect rounded-xl p-6 border border-border">
-                <h2 className="text-xl font-semibold mb-6">Связаться со мной</h2>
-
-                <div className="space-y-4">
-                  {contacts.map((contact, index) => (
-                    <div key={index} className="flex items-center space-x-4">
-                      <img
-                        src={contact.icon}
-                        alt={contact.label}
-                        className="w-6 h-6 invert"
-                      />
-                      <div>
-                        <p className="text-muted-foreground text-sm">{contact.label}</p>
-                        <a
-                          href={contact.href}
-                          target={contact.external ? "_blank" : undefined}
-                          rel={contact.external ? "noopener noreferrer" : undefined}
-                          className="text-foreground hover:text-primary transition-colors duration-300"
-                          data-testid={`contact-${contact.label.toLowerCase()}`}
-                        >
-                          {contact.value}
-                        </a>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="glass-effect rounded-xl p-6 border border-border"
-            >
-              <h2 className="text-xl font-semibold mb-6">Написать сообщение</h2>
-
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Имя</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Ваше имя"
-                            {...field}
-                            data-testid="input-name"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="your@email.com"
-                            {...field}
-                            data-testid="input-email"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Сообщение</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Расскажите о вашем проекте..."
-                            rows={5}
-                            {...field}
-                            data-testid="textarea-message"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-primary text-primary-foreground hover:bg-white transition-all duration-300"
-                    data-testid="button-submit-contact"
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-6"
+          >
+            {contacts.map((contact, index) => (
+              <div key={index}>
+                {contact.collapsible ? (
+                  <Collapsible
+                    open={isPhoneOpen}
+                    onOpenChange={setIsPhoneOpen}
+                    className="glass-effect rounded-xl border border-border overflow-hidden"
                   >
-                    {isSubmitting ? (
-                      "Отправляется..."
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4 mr-2" />
-                        Отправить сообщение
-                      </>
-                    )}
-                  </Button>
-                </form>
-              </Form>
-            </motion.div>
-          </div>
+                    <CollapsibleTrigger className="w-full p-6 flex items-center justify-between hover:bg-white/5 transition-colors duration-300">
+                      <div className="flex items-center gap-4">
+                        <div className="text-primary">
+                          {contact.icon}
+                        </div>
+                        <div className="text-left">
+                          <p className="text-muted-foreground text-sm">{contact.label}</p>
+                          <p className="text-foreground font-medium">Нажмите, чтобы показать</p>
+                        </div>
+                      </div>
+                      <ChevronDown 
+                        className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${
+                          isPhoneOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="px-6 pb-6">
+                      <a
+                        href={contact.href}
+                        className="text-primary hover:text-white transition-colors duration-300 text-lg font-medium"
+                        data-testid={`contact-${contact.label.toLowerCase()}`}
+                      >
+                        {contact.value}
+                      </a>
+                    </CollapsibleContent>
+                  </Collapsible>
+                ) : (
+                  <a
+                    href={contact.href}
+                    target={contact.external ? "_blank" : undefined}
+                    rel={contact.external ? "noopener noreferrer" : undefined}
+                    className="glass-effect rounded-xl p-6 border border-border flex items-center gap-4 hover:bg-white/5 transition-all duration-300 group"
+                    data-testid={`contact-${contact.label.toLowerCase()}`}
+                  >
+                    <div className="text-primary group-hover:text-white transition-colors duration-300">
+                      {contact.icon}
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground text-sm">{contact.label}</p>
+                      <p className="text-foreground group-hover:text-primary transition-colors duration-300 font-medium">
+                        {contact.value}
+                      </p>
+                    </div>
+                  </a>
+                )}
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
     </>

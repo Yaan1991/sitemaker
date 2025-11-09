@@ -24,9 +24,9 @@ export default function Header() {
   ];
 
   const projectsByCategory = {
-    theatre: projects.filter(p => p.category === 'theatre'),
-    film: projects.filter(p => p.category === 'film'),
-    audio: projects.filter(p => p.category === 'audio'),
+    theatre: projects.filter(p => p.category === 'theatre' && p.id !== 'life-in-art-short'),
+    film: projects.filter(p => p.category === 'film' && p.id !== 'life-in-art-short'),
+    audio: projects.filter(p => p.category === 'audio' && p.id !== 'life-in-art-short'),
   };
 
   const categoryLabels = {
