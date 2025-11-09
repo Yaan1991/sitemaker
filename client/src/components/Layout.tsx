@@ -39,14 +39,21 @@ export default function Layout({ children }: LayoutProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="pt-16 pb-24"
+        className="pt-16 pb-32"
       >
         {children}
       </motion.main>
+      
+      {/* Sticky контейнер для floating кнопок - всегда над футером */}
+      <div className="sticky bottom-6 pb-6 pointer-events-none" style={{zIndex: 200}}>
+        <div className="pointer-events-auto">
+          <FloatingControlsGroup />
+        </div>
+      </div>
+      
       <Footer />
       {/* Профессиональная аудиосистема через HowlerAudioEngine */}
       <AudioMixer />
-      <FloatingControlsGroup />
     </div>
   );
 }
