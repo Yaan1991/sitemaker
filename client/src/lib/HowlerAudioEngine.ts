@@ -270,11 +270,13 @@ export class HowlerAudioEngine {
       // Переиспользуем закэшированный Howl
       this.musicBus = cached;
       
+      // КРИТИЧНО: очищаем старые fade перед переиспользованием
+      this.clearMusicFade();
+      
       // Сбрасываем состояние
       this.musicBus.off(); // Удаляем старые listeners
       this.musicBus.seek(0); // Сброс позиции
       this.musicBus.loop(isLooping);
-      this.musicBus.volume(0); // Начинаем с 0 для fade-in
       
       // Устанавливаем новые listeners
       this.musicBus.on('play', () => {
@@ -298,9 +300,9 @@ export class HowlerAudioEngine {
         this.onTrackEnd?.();
       });
       
-      // Мгновенный старт с fade-in
+      // Устанавливаем громкость напрямую и запускаем
+      this.musicBus.volume(effectiveVolume);
       this.musicBus.play();
-      this.fadeMusicBus(0, effectiveVolume, 500);
     } else {
       // Создаем новый Howl с html5 для быстрой загрузки
       console.log('📥 Загружаем новый трек:', currentTrack.title);
@@ -384,15 +386,17 @@ export class HowlerAudioEngine {
       // Переиспользуем закэшированный Howl
       this.soundDesignBus = cached;
       
+      // КРИТИЧНО: очищаем старые fade перед переиспользованием
+      this.clearSfxFade();
+      
       // Сбрасываем состояние
       this.soundDesignBus.off(); // Удаляем старые listeners
       this.soundDesignBus.seek(0); // Сброс позиции
       this.soundDesignBus.loop(true);
-      this.soundDesignBus.volume(0); // Начинаем с 0 для fade-in
       
-      // Мгновенный старт с fade-in
+      // Устанавливаем громкость напрямую и запускаем
+      this.soundDesignBus.volume(effectiveVolume);
       this.soundDesignBus.play();
-      this.fadeSfxBus(0, effectiveVolume, 500);
     } else {
       // Создаем новый Howl с html5 для быстрой загрузки
       console.log('📥 Загружаем новый SFX:', sfxUrl);
