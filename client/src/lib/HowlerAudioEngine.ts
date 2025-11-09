@@ -205,7 +205,7 @@ export class HowlerAudioEngine {
     if (!musicData && route.startsWith('/project/')) {
       if (this.musicBus) {
         this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
-          this.musicBus?.stop(); // НЕ unload - сохраняем кэш!
+          this.musicBus?.pause(); // pause вместо stop для сохранения состояния html5
           this.musicBus = null;
         });
       }
@@ -232,7 +232,7 @@ export class HowlerAudioEngine {
     // Stop current music with fast fade-out (300ms instead of 1000ms for game-like responsiveness)
     if (this.musicBus) {
       this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
-        this.musicBus?.stop(); // НЕ unload - сохраняем кэш!
+        this.musicBus?.pause(); // pause вместо stop для сохранения состояния html5
         this.musicBus = null;
         this.startNewMusic(musicData, trackIndex);
       });
@@ -364,7 +364,7 @@ export class HowlerAudioEngine {
     // Stop current SFX with fast fade-out (300ms for game-like responsiveness)
     if (this.soundDesignBus) {
       this.fadeSfxBus(this.soundDesignBus.volume(), 0, 300, () => {
-        this.soundDesignBus?.stop(); // НЕ unload - сохраняем кэш!
+        this.soundDesignBus?.pause(); // pause вместо stop для сохранения состояния html5
         this.soundDesignBus = null;
         this.startNewSoundDesign(sfxUrl);
       });
