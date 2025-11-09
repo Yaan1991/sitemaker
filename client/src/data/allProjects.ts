@@ -13,6 +13,17 @@ export interface AllProject {
 
 export const allProjects: AllProject[] = [
   {
+    id: "tabakov-radost-mxat",
+    year: "2025",
+    title: "Олег Табаков. В поисках радости",
+    theater: "Московский Художественный театр",
+    director: "Художественный руководитель постановки: Константин Хабенский",
+    role: "Саунд-дизайнер, Звукорежиссёр",
+    link: "https://mxat.ru/repertuar/show/oleg-tabakov-v-poiskakh-radosti/?ysclid=mhros753v3322502460#about",
+    category: "theatre",
+    type: "Спектакль"
+  },
+  {
     id: "samiy-legkiy-sposob",
     year: "2013",
     title: "(Самый) лёгкий способ бросить курить",
