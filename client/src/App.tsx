@@ -40,6 +40,9 @@ function App() {
               <title>Ян Кузьмичёв — композитор, саунд‑дизайнер, звукорежиссёр</title>
               <meta name="description" content="14+ лет опыта, 100+ проектов в театре, кино и аудио. Музыка и звук для пространства." />
               <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
+              <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+              <meta name="theme-color" content="#00ffff" />
               <link rel="preconnect" href="https://fonts.googleapis.com" />
               <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
               <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
