@@ -302,9 +302,6 @@ export const projects: Project[] = [
     category: "audio",
     role: ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"],
     venue: "Центр театрального мастерства (Нижний Новгород)",
-    photos: [
-      "/images/pogruzhenie.webp"
-    ],
     details: {
       director: "Иван Комаров",
       genre: "Сайт-специфик аудиоспектакль",
