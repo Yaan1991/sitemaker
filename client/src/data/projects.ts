@@ -1,3 +1,4 @@
+const tabakovRadostImage = "/images/tabakov_radost.webp";
 const idiotImage = "/images/idiot.webp";
 const mayakovskyImage = "/images/mayakovsky.webp";
 // Комиксные изображения для Петровых
@@ -55,6 +56,28 @@ export interface Project {
 
 export const projects: Project[] = [
   // Theatre Projects
+  {
+    id: "tabakov-radost-mxat",
+    title: "Олег Табаков. В поисках радости",
+    year: "2025",
+    description: "Документальный спектакль о жизни и творчестве народного артиста СССР Олега Табакова.",
+    fullDescription: "Документальный спектакль МХТ, посвящённый памяти народного артиста СССР Олега Табакова. Постановка исследует жизненный путь великого актёра и режиссёра через архивные материалы, воспоминания коллег и близких людей. Художественный руководитель постановки — Константин Хабенский.",
+    image: tabakovRadostImage,
+    category: "theatre",
+    role: ["Саунд-дизайнер", "Звукорежиссёр"],
+    venue: "Московский Художественный театр",
+    links: [
+      {
+        label: "Афиша МХТ",
+        url: "https://mxat.ru/repertuar/show/oleg-tabakov-v-poiskakh-radosti/?ysclid=mhros753v3322502460#about",
+        external: true,
+      },
+    ],
+    details: {
+      director: "Художественный руководитель постановки: Константин Хабенский",
+      genre: "Документальный спектакль",
+    },
+  },
   {
     id: "idiot-saratov-drama",
     title: "Идиот",
