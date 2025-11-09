@@ -160,7 +160,7 @@ export class HowlerAudioEngine {
     // Для проектных страниц (не путать с /projects) без специфичной музыки - останавливаем музыку
     if (!musicData && route.startsWith('/project/')) {
       if (this.musicBus) {
-        this.fadeMusicBus(this.musicBus.volume(), 0, 1000, () => {
+        this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
           this.musicBus?.stop();
           this.musicBus?.unload();
           this.musicBus = null;
@@ -186,9 +186,9 @@ export class HowlerAudioEngine {
       return;
     }
 
-    // Stop current music with fade-out
+    // Stop current music with fast fade-out (300ms instead of 1000ms for game-like responsiveness)
     if (this.musicBus) {
-      this.fadeMusicBus(this.musicBus.volume(), 0, 1000, () => {
+      this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
         this.musicBus?.stop();
         this.musicBus?.unload();
         this.musicBus = null;
@@ -226,8 +226,8 @@ export class HowlerAudioEngine {
       volume: 0, // Start at 0 for fade-in
       preload: true,
       onload: () => {
-        // Fade in when loaded
-        this.fadeMusicBus(0, effectiveVolume, 2000);
+        // Fast fade-in (500ms instead of 2000ms for game-like responsiveness)
+        this.fadeMusicBus(0, effectiveVolume, 500);
       },
       onplay: () => {
         this.startTimeTracking();
@@ -273,9 +273,9 @@ export class HowlerAudioEngine {
     
     if (!sfxUrl || sfxUrl === this.currentSfxTrack) return;
 
-    // Stop current SFX with fade-out
+    // Stop current SFX with fast fade-out (300ms for game-like responsiveness)
     if (this.soundDesignBus) {
-      this.fadeSfxBus(this.soundDesignBus.volume(), 0, 1500, () => {
+      this.fadeSfxBus(this.soundDesignBus.volume(), 0, 300, () => {
         this.soundDesignBus?.stop();
         this.soundDesignBus?.unload();
         this.soundDesignBus = null;
@@ -296,8 +296,8 @@ export class HowlerAudioEngine {
       volume: 0, // Start at 0 for fade-in
       preload: true,
       onload: () => {
-        // Fade in when loaded
-        this.fadeSfxBus(0, effectiveVolume, 2500);
+        // Fast fade-in (500ms for game-like responsiveness)
+        this.fadeSfxBus(0, effectiveVolume, 500);
       }
     });
 
@@ -341,7 +341,7 @@ export class HowlerAudioEngine {
     const track = this.currentMusicPlaylist[trackIndex];
     
     if (this.musicBus) {
-      this.fadeMusicBus(this.musicBus.volume(), 0, 1000, () => {
+      this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
         this.musicBus?.stop();
         this.startNewMusic(this.currentMusicPlaylist!, trackIndex);
       });
@@ -385,7 +385,7 @@ export class HowlerAudioEngine {
     this.isMusicEnabled = enabled;
     
     if (!enabled && this.musicBus) {
-      this.fadeMusicBus(this.musicBus.volume(), 0, 1000, () => {
+      this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
         this.musicBus?.stop();
       });
     }
@@ -395,7 +395,7 @@ export class HowlerAudioEngine {
     this.isSfxEnabled = enabled;
     
     if (!enabled && this.soundDesignBus) {
-      this.fadeSfxBus(this.soundDesignBus.volume(), 0, 1500, () => {
+      this.fadeSfxBus(this.soundDesignBus.volume(), 0, 300, () => {
         this.soundDesignBus?.stop();
       });
     }
@@ -409,7 +409,7 @@ export class HowlerAudioEngine {
     
     if (this.musicBus) {
       promises.push(new Promise<void>(resolve => {
-        this.fadeMusicBus(this.musicBus!.volume(), 0, 1000, () => {
+        this.fadeMusicBus(this.musicBus!.volume(), 0, 300, () => {
           this.musicBus?.stop();
           resolve();
         });
@@ -418,7 +418,7 @@ export class HowlerAudioEngine {
     
     if (this.soundDesignBus) {
       promises.push(new Promise<void>(resolve => {
-        this.fadeSfxBus(this.soundDesignBus!.volume(), 0, 1500, () => {
+        this.fadeSfxBus(this.soundDesignBus!.volume(), 0, 300, () => {
           this.soundDesignBus?.stop();
           resolve();
         });

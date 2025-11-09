@@ -61,11 +61,11 @@ interface AudioContextType {
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
-  const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(true); // Включен по умолчанию
+  const [isGlobalAudioEnabled, setIsGlobalAudioEnabled] = useState(false); // Выключен по умолчанию - opt-in
   
   // 🎛️ Индивидуальные настройки шин (запоминаем что было включено)
-  const [musicEnabledState, setMusicEnabledState] = useState(true); // Музыка включена отдельно
-  const [sfxEnabledState, setSfxEnabledState] = useState(true); // Эффекты включены отдельно
+  const [musicEnabledState, setMusicEnabledState] = useState(false); // Музыка выключена пока пользователь не включит
+  const [sfxEnabledState, setSfxEnabledState] = useState(false); // Эффекты выключены пока пользователь не включит
   
   // Фоновый плеер
   const [currentPlaylist, setCurrentPlaylist] = useState<Track[] | null>(null);
@@ -78,7 +78,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   // Sound Design плеер (теперь синхронизировано с sfxEnabledState)
-  const [isSoundDesignEnabled, setIsSoundDesignEnabled] = useState(true); // По умолчанию включен
+  const [isSoundDesignEnabled, setIsSoundDesignEnabled] = useState(false); // Выключен по умолчанию - opt-in
   const [currentSoundDesign, setCurrentSoundDesign] = useState<string | null>(null);
   // Микшер
   const [musicVolume, setMusicVolume] = useState(0.5); // 50% начальное значение
@@ -91,33 +91,26 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   // Восстанавливаем состояние звука из localStorage и настраиваем Howler Engine
   useEffect(() => {
-    // 🎛️ Главный переключатель звука
+    // 🎛️ Главный переключатель звука - opt-in по умолчанию
     const savedGlobal = localStorage.getItem('global-audio-enabled');
     if (savedGlobal) {
       setIsGlobalAudioEnabled(savedGlobal === 'true');
-    } else {
-      setIsGlobalAudioEnabled(true);
-      localStorage.setItem('global-audio-enabled', 'true');
     }
+    // Не устанавливаем значение по умолчанию - пользователь должен явно включить звук
     
     // 🎵 Индивидуальные настройки шин
     const savedMusicEnabled = localStorage.getItem('music-enabled-state');
     if (savedMusicEnabled) {
       setMusicEnabledState(savedMusicEnabled === 'true');
-    } else {
-      setMusicEnabledState(true);
-      localStorage.setItem('music-enabled-state', 'true');
     }
+    // Не устанавливаем значение по умолчанию - пользователь должен явно включить
     
     const savedSfxEnabled = localStorage.getItem('sfx-enabled-state');
     if (savedSfxEnabled) {
       setSfxEnabledState(savedSfxEnabled === 'true');
       setIsSoundDesignEnabled(savedSfxEnabled === 'true'); // Синхронизируем
-    } else {
-      setSfxEnabledState(true);
-      setIsSoundDesignEnabled(true);
-      localStorage.setItem('sfx-enabled-state', 'true');
     }
+    // Не устанавливаем значение по умолчанию - пользователь должен явно включить
 
     // Восстанавливаем настройки микшера
     const savedMusicVolume = localStorage.getItem('mixer-music-volume');
@@ -168,12 +161,12 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setIsProjectPlayerReady(true);
     });
 
-    // 🔧 КРИТИЧНО: Начальная синхронизация с движком
-    // Определяем что должно быть включено
-    const shouldMusicBeEnabled = (localStorage.getItem('global-audio-enabled') !== 'false') && 
-                                (localStorage.getItem('music-enabled-state') !== 'false');
-    const shouldSfxBeEnabled = (localStorage.getItem('global-audio-enabled') !== 'false') && 
-                              (localStorage.getItem('sfx-enabled-state') !== 'false');
+    // 🔧 КРИТИЧНО: Начальная синхронизация с движком - opt-in по умолчанию
+    // Определяем что должно быть включено (только если явно установлено в 'true')
+    const shouldMusicBeEnabled = (localStorage.getItem('global-audio-enabled') === 'true') && 
+                                (localStorage.getItem('music-enabled-state') === 'true');
+    const shouldSfxBeEnabled = (localStorage.getItem('global-audio-enabled') === 'true') && 
+                              (localStorage.getItem('sfx-enabled-state') === 'true');
     
     audioEngine.setMusicEnabled(shouldMusicBeEnabled);
     audioEngine.setSfxEnabled(shouldSfxBeEnabled);
@@ -183,6 +176,18 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       audioEngine.destroy();
     };
   }, []);
+
+  // 🔧 Восстановление сессии: если isGlobalAudioEnabled становится true (из localStorage),
+  // запускаем audioEngine для текущей страницы
+  useEffect(() => {
+    if (isGlobalAudioEnabled) {
+      // Применяем bus states перед запуском
+      audioEngine.setMusicEnabled(musicEnabledState);
+      audioEngine.setSfxEnabled(sfxEnabledState);
+      // Запускаем воспроизведение для текущей страницы
+      audioEngine.changeRoute(currentPage);
+    }
+  }, [isGlobalAudioEnabled]); // Срабатывает только при изменении isGlobalAudioEnabled
 
   // 🎵 Главный переключатель всего звука (музыка + эффекты)
   const toggleGlobalAudio = () => {
@@ -273,7 +278,10 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   // Новая функция для смены маршрута (для использования в компонентах)
   const changeRoute = (route: string) => {
     setCurrentPage(route);
-    audioEngine.changeRoute(route);
+    // Загружаем звук только если пользователь включил audio (opt-in)
+    if (isGlobalAudioEnabled) {
+      audioEngine.changeRoute(route);
+    }
   };
 
   return (

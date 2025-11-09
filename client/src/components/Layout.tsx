@@ -39,7 +39,7 @@ export default function Layout({ children }: LayoutProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="pt-16"
+        className="pt-16 pb-24"
       >
         {children}
       </motion.main>
