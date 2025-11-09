@@ -306,8 +306,10 @@ export const projects: Project[] = [
       "/images/pogruzhenie.webp"
     ],
     details: {
+      director: "Иван Комаров",
       genre: "Сайт-специфик аудиоспектакль",
       premiere: "2021",
+      producer: "Драматург: Наталья Зайцева • Продюсеры: Евгений Пыхтин, Татьяна Тенькова",
       technical: [
         "Создание оригинальной музыки",
         "Работа с полевыми записями",
