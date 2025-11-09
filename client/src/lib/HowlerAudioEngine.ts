@@ -222,10 +222,10 @@ export class HowlerAudioEngine {
     // Получаем целевой трек
     const targetTrack = Array.isArray(musicData) ? musicData[Math.min(trackIndex, musicData.length - 1)] : musicData;
     
-    // Если уже играет тот же трек, не перезапускаем
+    // Если уже играет тот же трек И он действительно воспроизводится, не перезапускаем
     const currentTrack = this.getCurrentMusicTrack();
     
-    if (this.musicBus && currentTrack?.url === targetTrack?.url) {
+    if (this.musicBus && currentTrack?.url === targetTrack?.url && this.musicBus.playing()) {
       return;
     }
 
@@ -361,7 +361,8 @@ export class HowlerAudioEngine {
       sfxUrl = this.routeMapping.soundDesign['/'];
     }
     
-    if (!sfxUrl || sfxUrl === this.currentSfxTrack) return;
+    // Проверяем что это тот же трек И он уже играет
+    if (!sfxUrl || (sfxUrl === this.currentSfxTrack && this.soundDesignBus?.playing())) return;
 
     // Stop current SFX with fast fade-out (300ms for game-like responsiveness)
     if (this.soundDesignBus) {
