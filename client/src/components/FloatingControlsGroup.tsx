@@ -12,7 +12,7 @@ export function FloatingControlsGroup() {
   return (
     <div 
       className="fixed left-1/2 transform -translate-x-1/2 flex items-center gap-3
-                 bottom-20 md:bottom-5"
+                 bottom-32 md:bottom-5"
       style={{zIndex: 200}}
     >
       {/* Кнопка Контакты */}
