@@ -72,6 +72,11 @@ export const projects: Project[] = [
         url: "https://mxat.ru/repertuar/show/oleg-tabakov-v-poiskakh-radosti/?ysclid=mhros753v3322502460#about",
         external: true,
       },
+      {
+        label: "Первый канал — репортаж",
+        url: "https://www.1tv.ru/news/2025-10-27/524448-v_mht_im_a_p_chehova_postavili_dokumentalnyy_spektakl_oleg_tabakov_v_poiskah_radosti?ysclid=mhrpad2r72635593014",
+        external: true,
+      },
     ],
     details: {
       director: "Художественный руководитель постановки: Константин Хабенский",
