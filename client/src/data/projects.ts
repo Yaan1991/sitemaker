@@ -317,6 +317,11 @@ export const projects: Project[] = [
     },
     links: [
       {
+        label: "Страница проекта на ctm-nn.ru",
+        url: "https://ctm-nn.ru/pogruzhenie-promenad/",
+        external: true,
+      },
+      {
         label: "Rambler News — статья о проекте",
         url: "https://news.rambler.ru/moscow_city/47024657-v-nizhnem-novgorode-startovali-audiospektakli-progulki-pogruzhenie-promenad/",
         external: true,
