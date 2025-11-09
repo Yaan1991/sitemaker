@@ -196,13 +196,19 @@ export class HowlerAudioEngine {
    * Music Bus Management
    */
   public async playMusic(route: string, trackIndex = 0): Promise<void> {
-    if (!this.isMusicEnabled) return;
+    console.log('🎵 playMusic вызван:', { route, trackIndex, isMusicEnabled: this.isMusicEnabled });
+    
+    if (!this.isMusicEnabled) {
+      console.log('⚠️ Музыка выключена, пропускаем');
+      return;
+    }
 
     // Проверяем есть ли специфичная музыка для маршрута
     let musicData = this.routeMapping.music[route as keyof typeof this.routeMapping.music];
     
     // Для проектных страниц (не путать с /projects) без специфичной музыки - останавливаем музыку
     if (!musicData && route.startsWith('/project/')) {
+      console.log('🎵 Проектная страница без музыки, останавливаем');
       if (this.musicBus) {
         this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
           this.musicBus?.pause(); // pause вместо stop для сохранения состояния html5
@@ -217,15 +223,20 @@ export class HowlerAudioEngine {
       musicData = this.routeMapping.music['/'];
     }
     
-    if (!musicData) return;
+    if (!musicData) {
+      console.log('⚠️ Нет данных музыки для маршрута');
+      return;
+    }
 
     // Получаем целевой трек
     const targetTrack = Array.isArray(musicData) ? musicData[Math.min(trackIndex, musicData.length - 1)] : musicData;
+    console.log('🎵 Целевой трек:', targetTrack);
     
     // Если уже играет тот же трек И он действительно воспроизводится, не перезапускаем
     const currentTrack = this.getCurrentMusicTrack();
     
     if (this.musicBus && currentTrack?.url === targetTrack?.url && this.musicBus.playing()) {
+      console.log('✅ Трек уже играет, пропускаем');
       return;
     }
 
