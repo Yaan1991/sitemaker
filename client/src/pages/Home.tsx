@@ -66,15 +66,6 @@ const projectCategories = [
         image: "/images/ma_film_main.webp",
         director: "Валентина Бесолова",
         role: "Звукорежиссёр: Ян Кузьмичёв"
-      },
-      {
-        id: "life-in-art-short",
-        title: "Жизнь в искусстве",
-        year: "2019",
-        description: "Полная переозвучка шумов и амбиентов.",
-        image: "/images/life_in_art_main.webp",
-        director: "Степан Азарян",
-        role: "Звукорежиссёр: Ян Кузьмичёв"
       }
     ]
   },
