@@ -109,27 +109,13 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }
     // Не устанавливаем значение по умолчанию - пользователь должен явно включить
 
-    // Восстанавливаем настройки микшера
-    const savedMusicVolume = localStorage.getItem('mixer-music-volume');
-    if (savedMusicVolume) {
-      const volume = parseFloat(savedMusicVolume);
-      setMusicVolume(volume);
-      audioEngine.setMusicVolume(volume);
-    }
-
-    const savedSfxVolume = localStorage.getItem('mixer-sfx-volume');
-    if (savedSfxVolume) {
-      const volume = parseFloat(savedSfxVolume);
-      setSfxVolume(volume);
-      audioEngine.setSfxVolume(volume);
-    }
-
-    const savedMasterVolume = localStorage.getItem('mixer-master-volume');
-    if (savedMasterVolume) {
-      const volume = parseFloat(savedMasterVolume);
-      setMasterVolume(volume);
-      audioEngine.setMasterVolume(volume);
-    }
+    // Сбрасываем настройки микшера на дефолтные значения при каждом заходе
+    setMusicVolume(0.5); // 50%
+    setSfxVolume(0.7); // 70%
+    setMasterVolume(0.7); // 70%
+    audioEngine.setMusicVolume(0.5);
+    audioEngine.setSfxVolume(0.7);
+    audioEngine.setMasterVolume(0.7);
 
     // Настройка колбэков для отслеживания времени
     audioEngine.setTimeUpdateCallback((time, duration) => {
@@ -252,22 +238,19 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Функции управления громкостью с сохранением в localStorage и обновлением Howler
+  // Функции управления громкостью БЕЗ сохранения в localStorage (сбрасывается при каждом заходе)
   const handleSetMusicVolume = (volume: number) => {
     setMusicVolume(volume);
-    localStorage.setItem('mixer-music-volume', volume.toString());
     audioEngine.setMusicVolume(volume);
   };
 
   const handleSetSfxVolume = (volume: number) => {
     setSfxVolume(volume);
-    localStorage.setItem('mixer-sfx-volume', volume.toString());
     audioEngine.setSfxVolume(volume);
   };
 
   const handleSetMasterVolume = (volume: number) => {
     setMasterVolume(volume);
-    localStorage.setItem('mixer-master-volume', volume.toString());
     audioEngine.setMasterVolume(volume);
   };
 
