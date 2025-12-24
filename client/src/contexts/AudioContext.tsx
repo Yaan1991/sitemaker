@@ -91,31 +91,49 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   // Восстанавливаем состояние звука из localStorage и настраиваем Howler Engine
   useEffect(() => {
-    // 🎛️ Главный переключатель звука - ВСЕГДА выключен по умолчанию при каждом заходе
-    // Не восстанавливаем из localStorage - пользователь должен явно включить звук на каждом визите
-    setIsGlobalAudioEnabled(false);
+    // 🎛️ Проверяем consent флаг - был ли пользователь когда-то включал звук
+    const hasConsent = localStorage.getItem('audio-consent') === 'true';
+    const savedGlobalAudio = localStorage.getItem('global-audio-enabled');
+    
+    // Если пользователь ранее включал звук (consent есть) И сохранено состояние "включено" - восстанавливаем
+    // Для первого визита - звук всегда выключен (opt-in)
+    if (hasConsent && savedGlobalAudio === 'true') {
+      setIsGlobalAudioEnabled(true);
+    } else {
+      setIsGlobalAudioEnabled(false);
+    }
     
     // 🎵 Индивидуальные настройки шин
     const savedMusicEnabled = localStorage.getItem('music-enabled-state');
     if (savedMusicEnabled) {
       setMusicEnabledState(savedMusicEnabled === 'true');
     }
-    // Не устанавливаем значение по умолчанию - пользователь должен явно включить
     
     const savedSfxEnabled = localStorage.getItem('sfx-enabled-state');
     if (savedSfxEnabled) {
       setSfxEnabledState(savedSfxEnabled === 'true');
       setIsSoundDesignEnabled(savedSfxEnabled === 'true'); // Синхронизируем
     }
-    // Не устанавливаем значение по умолчанию - пользователь должен явно включить
 
-    // Сбрасываем настройки микшера на дефолтные значения при каждом заходе
-    setMusicVolume(0.5); // 50%
-    setSfxVolume(0.7); // 70%
-    setMasterVolume(0.7); // 70%
-    audioEngine.setMusicVolume(0.5);
-    audioEngine.setSfxVolume(0.7);
-    audioEngine.setMasterVolume(0.7);
+    // 🎚️ Восстанавливаем настройки микшера из localStorage (или дефолтные значения)
+    // Защитный parsing с проверкой на NaN и диапазон 0-1
+    const parseVolume = (value: string | null, defaultVal: number): number => {
+      if (!value) return defaultVal;
+      const parsed = parseFloat(value);
+      if (isNaN(parsed) || parsed < 0 || parsed > 1) return defaultVal;
+      return parsed;
+    };
+    
+    const restoredMusicVolume = parseVolume(localStorage.getItem('mixer-music-volume'), 0.5);
+    const restoredSfxVolume = parseVolume(localStorage.getItem('mixer-sfx-volume'), 0.7);
+    const restoredMasterVolume = parseVolume(localStorage.getItem('mixer-master-volume'), 0.7);
+    
+    setMusicVolume(restoredMusicVolume);
+    setSfxVolume(restoredSfxVolume);
+    setMasterVolume(restoredMasterVolume);
+    audioEngine.setMusicVolume(restoredMusicVolume);
+    audioEngine.setSfxVolume(restoredSfxVolume);
+    audioEngine.setMasterVolume(restoredMasterVolume);
 
     // Настройка колбэков для отслеживания времени
     audioEngine.setTimeUpdateCallback((time, duration) => {
@@ -194,8 +212,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const toggleGlobalAudio = () => {
     const newValue = !isGlobalAudioEnabled;
     setIsGlobalAudioEnabled(newValue);
-    // НЕ сохраняем в localStorage - звук всегда выключен при новом заходе
-    // Вся логика включения/выключения в useEffect выше
+    // Сохраняем consent флаг и состояние для восстановления при следующем визите
+    localStorage.setItem('audio-consent', 'true'); // Отмечаем, что пользователь взаимодействовал со звуком
+    localStorage.setItem('global-audio-enabled', newValue.toString());
   };
 
   // 🌊 Переключатель звуковых эффектов (индивидуально)
@@ -231,20 +250,23 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Функции управления громкостью БЕЗ сохранения в localStorage (сбрасывается при каждом заходе)
+  // Функции управления громкостью С сохранением в localStorage
   const handleSetMusicVolume = (volume: number) => {
     setMusicVolume(volume);
     audioEngine.setMusicVolume(volume);
+    localStorage.setItem('mixer-music-volume', volume.toString());
   };
 
   const handleSetSfxVolume = (volume: number) => {
     setSfxVolume(volume);
     audioEngine.setSfxVolume(volume);
+    localStorage.setItem('mixer-sfx-volume', volume.toString());
   };
 
   const handleSetMasterVolume = (volume: number) => {
     setMasterVolume(volume);
     audioEngine.setMasterVolume(volume);
+    localStorage.setItem('mixer-master-volume', volume.toString());
   };
 
   // Функция плавного затухания через HowlerAudioEngine
