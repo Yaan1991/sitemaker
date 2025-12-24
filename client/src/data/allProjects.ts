@@ -25,6 +25,16 @@ export const allProjects: AllProject[] = [
     press: "https://www.1tv.ru/news/2025-10-27/524448-v_mht_im_a_p_chehova_postavili_dokumentalnyy_spektakl_oleg_tabakov_v_poiskah_radosti?ysclid=mhrpad2r72635593014"
   },
   {
+    id: "munhgauzen-dopolnenie",
+    year: "2025",
+    title: "Мюнхгаузен. Дополнение",
+    theater: "Русский драматический театр им. М. Горького (Махачкала)",
+    director: "Иван Комаров",
+    role: "Композитор, Саунд-дизайнер",
+    category: "theatre",
+    type: "Спектакль"
+  },
+  {
     id: "samiy-legkiy-sposob",
     year: "2013",
     title: "(Самый) лёгкий способ бросить курить",
