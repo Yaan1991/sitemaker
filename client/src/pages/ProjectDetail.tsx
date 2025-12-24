@@ -19,7 +19,7 @@ export default function ProjectDetail() {
       <SEOHead
         title={`${project.title} — Ян Кузьмичёв`}
         description={project.fullDescription}
-        url={`https://yankuzmichev.ru/project/${project.id}`}
+        url={`https://iansound.pro/project/${project.id}`}
         type="article"
         jsonLd={{
           "@context": "https://schema.org",

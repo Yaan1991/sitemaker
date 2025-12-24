@@ -52,7 +52,7 @@ function App() {
                   "@type": "Person",
                   "name": "Ян Кузьмичёв",
                   "jobTitle": ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"],
-                  "url": "https://yankuzmichev.ru",
+                  "url": "https://iansound.pro",
                   "email": "kuzmichevyan@gmail.com",
                   "telephone": "+7 (919) 764-37-45",
                   "sameAs": [

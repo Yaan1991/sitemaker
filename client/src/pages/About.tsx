@@ -14,7 +14,7 @@ export default function About() {
       <SEOHead
         title="Обо мне — Ян Кузьмичёв"
         description="Меня зовут Ян Кузьмичёв, я композитор, саунд-дизайнер и звукорежиссёр. С 2011 года я создаю звук для театра, кино, аудиоспектаклей и бренд-проектов."
-        url="https://yankuzmichev.ru/about"
+        url="https://iansound.pro/about"
       />
 
       {/* Background Image */}

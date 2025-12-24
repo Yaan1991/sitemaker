@@ -13,7 +13,7 @@ export default function SEOHead({
   title = "Ян Кузьмичёв — композитор, саунд‑дизайнер, звукорежиссёр",
   description = "14+ лет опыта, 100+ проектов в театре, кино и аудио. Музыка и звук для пространства.",
   image = "/hero_1755957179912.webp",
-  url = "https://yankuzmichev.ru",
+  url = "https://iansound.pro",
   type = "website",
   jsonLd
 }: SEOHeadProps) {

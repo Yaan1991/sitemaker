@@ -34,7 +34,7 @@ export default function Contact() {
       <SEOHead
         title="Контакты — Ян Кузьмичёв"
         description="Свяжитесь с композитором, саунд-дизайнером и звукорежиссёром Яном Кузьмичёвым. Телефон, Telegram, музыкальные работы."
-        url="https://yankuzmichev.ru/contact"
+        url="https://iansound.pro/contact"
       />
 
       <section className="py-20 px-6 min-h-screen">

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yankuzmichev.ru/sitemap.xml
+Sitemap: https://iansound.pro/sitemap.xml
