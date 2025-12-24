@@ -18,6 +18,8 @@ export default function Layout({ children }: LayoutProps) {
 
   // Профессиональное управление переходами через HowlerAudioEngine
   useEffect(() => {
+    console.log('🔄 Layout: location изменился', { from: previousLocation, to: location });
+    
     // Скроллим вверх ТОЛЬКО при реальной смене страниц
     if (previousLocation !== location && previousLocation !== '') {
       window.scrollTo(0, 0);
@@ -25,6 +27,7 @@ export default function Layout({ children }: LayoutProps) {
     
     // Обновляем аудио через Howler при смене маршрута
     if (location !== previousLocation) {
+      console.log('🎵 Layout: вызываем changeRoute для', location);
       changeRoute(location);
     }
     

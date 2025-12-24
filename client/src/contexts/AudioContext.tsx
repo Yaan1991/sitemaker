@@ -335,42 +335,45 @@ export function useAudio() {
     console.warn('useAudio called outside AudioProvider - this might be due to HMR');
     // Возвращаем заглушку вместо ошибки для HMR
     return {
-      // Audio Engine
-      engine: null,
       isGlobalAudioEnabled: false,
       toggleGlobalAudio: () => {},
-      changeRoute: () => {},
-      // Music плеер
-      isMusicEnabled: false,
-      toggleMusicEnabled: () => {},
-      currentMusicTrack: null,
-      isMusicPlaying: false,
-      playMusic: () => {},
-      pauseMusic: () => {},
-      nextMusicTrack: () => {},
-      previousMusicTrack: () => {},
-      // Прогресс и время
-      currentMusicTime: 0,
+      musicEnabledState: false,
+      sfxEnabledState: false,
+      toggleMusic: () => {},
+      toggleSoundDesign: () => {},
+      currentPlaylist: null,
+      currentTrackIndex: 0,
+      setCurrentPlaylist: () => {},
+      setCurrentTrackIndex: () => {},
+      nextTrack: () => {},
+      prevTrack: () => {},
+      currentProjectPlaylist: null,
+      currentProjectTrack: 0,
+      isProjectPlayerReady: false,
+      isPlaying: false,
+      currentTime: 0,
       duration: 0,
-      setCurrentMusicTime: () => {},
+      setCurrentProjectPlaylist: () => {},
+      setCurrentProjectTrack: () => {},
+      setIsProjectPlayerReady: () => {},
+      setIsPlaying: () => {},
+      setCurrentTime: () => {},
       setDuration: () => {},
-      // Sound Design плеер
       isSoundDesignEnabled: false,
       currentSoundDesign: null,
       setCurrentSoundDesign: () => {},
-      // Микшер
-      musicVolume: 0.8,
-      sfxVolume: 0.8,
-      masterVolume: 0.8,
+      musicVolume: 0.5,
+      sfxVolume: 0.7,
+      masterVolume: 0.7,
       setMusicVolume: () => {},
       setSfxVolume: () => {},
       setMasterVolume: () => {},
       isMixerOpen: false,
       setIsMixerOpen: () => {},
-      // Общие функции
-      fadeOutCurrentAudio: () => {},
+      fadeOutCurrentAudio: async () => {},
       currentPage: '/',
-      setCurrentPage: () => {}
+      setCurrentPage: () => {},
+      changeRoute: () => {}
     };
   }
   return context;
