@@ -38,6 +38,7 @@ Preferred communication style: Simple, everyday language.
 - **Responsive Design**: Mobile-first approach with glass morphism effects
 - **Contact Form**: Validated contact form with toast notifications
 - **Timeline View**: Chronological work history display
+- **Audio Persistence**: Consent-based localStorage persistence for audio settings and mixer volumes (first-time visitors: audio off, returning users: restore preferences)
 
 # External Dependencies
 
