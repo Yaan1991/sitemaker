@@ -49,20 +49,21 @@ function MayakTitle({ text }: { text: string }) {
 }
 
 // Canvas анимация параллакс-фона для Петровых
-function initParallaxBackground(canvasId: string) {
+function initParallaxBackground(canvasId: string): () => void {
   // Проверяем глобальный флаг
-  if ((window as any).isCanvasInitialized) return;
+  if ((window as any).isCanvasInitialized) return () => {};
   
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-  if (!canvas) return;
+  if (!canvas) return () => {};
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) return () => {};
 
   // Помечаем как инициализированный
   (window as any).isCanvasInitialized = true;
   
-  // Убираем тестовый прямоугольник - он больше не нужен
+  // Для очистки при размонтировании
+  let animationFrameId: number | null = null;
 
   // Настройки из рабочего скрипта
   const imageUrls = [
@@ -185,10 +186,19 @@ function initParallaxBackground(canvasId: string) {
     imageStrip.update();
     imageStrip.draw();
     
-    requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(animate);
   }
 
   animate();
+
+  // Возвращаем cleanup функцию
+  return () => {
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+    }
+    window.removeEventListener("resize", resizeCanvas);
+    (window as any).isCanvasInitialized = false;
+  };
 }
 
 
@@ -534,11 +544,13 @@ export default function ProjectPage() {
     // Сброс флага на случай если он заблокирован
     (window as any).isCanvasInitialized = false;
 
+    let cleanupFn: (() => void) | null = null;
+
     // Одноразовая инициализация Canvas
     const initCanvas = () => {
       const canvas = document.getElementById('petrovy-bg-canvas');
       if (canvas) {
-        initParallaxBackground('petrovy-bg-canvas');
+        cleanupFn = initParallaxBackground('petrovy-bg-canvas');
       }
     };
 
@@ -547,7 +559,8 @@ export default function ProjectPage() {
 
     return () => {
       clearTimeout(timer);
-      // Сбрасываем флаг при размонтировании
+      // Очищаем анимацию и event listeners
+      if (cleanupFn) cleanupFn();
       (window as any).isCanvasInitialized = false;
     };
   }, [project?.id]);
