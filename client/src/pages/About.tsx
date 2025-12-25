@@ -1,23 +1,54 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Download, ExternalLink } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
 import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import portraitImage from "@assets/me3_1757711551642.webp";
 import backgroundImage from "@assets/aboutmebg_1757711551642.webp";
 
 export default function About() {
-  // Layout.tsx уже управляет сменой аудио при переходах между страницами
+  const competencies = [
+    "Полный цикл производства: от разработки концепции и полевых записей до финальной реализации, программирования и автоматизации",
+    "Технологические инновации: первопроходец в применении OSC/MIDI протоколов и полной автоматизации театральных шоу в России",
+    "Пространственный звук: создание иммерсивных саундскейпов для театра и event-проектов",
+    "Кино/гейм-эстетика: привнесение кинематографической и игровой звуковой эстетики в театральное пространство",
+    "AI-интеграция: активное использование нейросетевых технологий в композиции и саунд-дизайне",
+    "Жанровая универсальность: от рока и джаза до классического минимализма"
+  ];
+
+  const career = [
+    {
+      period: "2011–2016",
+      place: "Школа современной пьесы (Театр на Трубной), Москва",
+      role: "С 2013 — начальник звукового департамента"
+    },
+    {
+      period: "2017–2021",
+      place: "Центр им. Вс. Мейерхольда, Москва",
+      role: "Штатный специалист, параллельно — приглашённый художник в театрах России и за рубежом"
+    },
+    {
+      period: "2021–н.в.",
+      place: "Свободный художник",
+      role: "Реализация проектов для ведущих театров, культурных институций и коммерческих брендов"
+    }
+  ];
+
+  const achievements = [
+    "Красный диплом ГИТИС (2015)",
+    "Многие спектакли отмечены премией «Золотая маска» и другими театральными наградами",
+    "Регулярные высокие оценки звука и музыки от критиков и профессионального сообщества",
+    "Более 100 реализованных проектов"
+  ];
 
   return (
     <>
       <SEOHead
         title="Обо мне — Ян Кузьмичёв"
-        description="Меня зовут Ян Кузьмичёв, я композитор, саунд-дизайнер и звукорежиссёр. С 2011 года я создаю звук для театра, кино, аудиоспектаклей и бренд-проектов."
+        description="Ян Кузьмичёв — композитор, саунд-дизайнер и звукорежиссёр. Более 100 проектов в театре, кино и аудио. Работа с ведущими театрами России и крупнейшими брендами."
         url="https://iansound.pro/about"
       />
 
-      {/* Background Image */}
       <div 
         className="fixed inset-0 z-0 opacity-20"
         style={{
@@ -30,9 +61,7 @@ export default function About() {
 
       <section className="relative z-10 py-20 px-6 min-h-screen">
         <div className="container mx-auto max-w-4xl">
-          {/* Dark overlay for better text readability */}
           <div className="absolute inset-0 bg-black/40 rounded-xl -z-10" />
-          {/* Breadcrumbs */}
           <SiteBreadcrumbs pageType="about" />
 
           <motion.div
@@ -40,36 +69,93 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Portrait Image */}
             <img
               src={portraitImage}
               alt="Ян Кузьмичёв"
               className="w-full h-64 md:h-96 object-cover rounded-xl mb-8"
             />
 
-            {/* Main Content */}
             <div className="max-w-3xl mx-auto relative z-10 bg-black/50 rounded-xl p-8">
-              <h1 className="text-4xl font-bold mb-8 text-center text-white">Обо мне</h1>
-              
-              <div className="space-y-6 text-lg text-gray-200 leading-relaxed">
-                <p>
-                  Меня зовут Ян Кузьмичёв, я композитор, саунд-дизайнер и звукорежиссёр. С 2011 года я создаю звук для театра, кино, аудиоспектаклей и бренд-проектов. Для меня работа со звуком - это не просто ремесло, а способ оживить историю и погрузить зрителя в нужную атмосферу.
-                </p>
-                <p>
-                  Мой путь начался ещё в школьные годы с увлечения звукозаписью. В 2015-м я окончил ГИТИС с красным дипломом по специальности «Звукорежиссура массовых и театрализованных представлений». С тех пор реализовал более ста проектов: от спектаклей в МХТ им. Чехова, Театре Наций и Современнике до иммерсивных постановок, кино и аудиоспектаклей. Международные работы проходили в Венгрии, Казахстане и Узбекистане.
-                </p>
-                <p>
-                  Я пишу музыку и разрабатываю звуковые концепции в самых разных жанрах - от нуар-джаза и неоклассики до эмбиента и пост-рока. Среди знаковых проектов: «Идиот», «Петровы в гриппе и вокруг него», «Маяковский. Я сам», «Танцы на праздник урожая», «Иранская конференция». Помимо театра и кино, я сотрудничал с брендами Van Cleef & Arpels, Porsche, Panasonic и создавал звук для выставок и иммерсивных форматов.
-                </p>
-                <p>
-                  В работе я соединяю творчество и технологии: разрабатываю автоматизацию в QLab, использую протоколы OSC/MIDI, внедряю нейросети и ИИ-инструменты для генерации и обработки звука. Это позволяет вести проект на всех этапах - от написания музыки и саунд-дизайна до финальной интеграции.
-                </p>
-                <p>
-                  Каждый раз я ищу собственную звуковую драматургию - ту атмосферу, в которой история становится переживанием, а звук помогает зрителю и слушателю прожить её.
-                </p>
+              <div className="text-center mb-8">
+                <h1 className="text-4xl font-bold mb-2 text-white">Ян Кузьмичёв</h1>
+                <p className="text-lg text-cyan-400">Композитор | Саунд-дизайнер | Звукорежиссёр</p>
               </div>
 
-              <div className="mt-8 text-center">
+              <a
+                href="https://disk.yandex.ru/d/zxDOVZvLJUCGdw"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 w-full md:w-auto md:mx-auto px-6 py-3 mb-10 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/50 rounded-lg text-cyan-400 hover:text-cyan-300 transition-all duration-300"
+                data-testid="link-download-photos"
+              >
+                <Download className="w-5 h-5" />
+                <span className="font-semibold">Скачать фото для прессы</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+              
+              <div className="space-y-10">
+                <section>
+                  <h2 className="text-xl font-bold mb-4 text-white border-b border-gray-700 pb-2">
+                    О художнике
+                  </h2>
+                  <div className="space-y-4 text-gray-300 leading-relaxed">
+                    <p>
+                      Ян Кузьмичёв — мультидисциплинарный специалист в области звука и музыки, работающий на стыке театра, кино и новых технологий. Родился 7 января 1991 года в Саратове. В 2015 году окончил ГИТИС с красным дипломом по специальности «Звукорежиссура живых и театрализованных представлений».
+                    </p>
+                    <p>
+                      За свою карьеру реализовал более 100 проектов в качестве композитора, саунд-дизайнера и звукорежиссёра. Работал с ведущими театрами России (Центр им. Вс. Мейерхольда, МХТ им. Чехова, Театр Наций, Современник, Театр Пушкина, Театр Практика и др.) и крупнейшими брендами (Van Cleef & Arpels, Porsche, Panasonic и др.).
+                    </p>
+                    <p>
+                      С 2021 года — свободный художник, работающий исключительно на проектной основе.
+                    </p>
+                  </div>
+                </section>
+
+                <section>
+                  <h2 className="text-xl font-bold mb-4 text-white border-b border-gray-700 pb-2">
+                    Ключевые компетенции
+                  </h2>
+                  <ul className="space-y-2">
+                    {competencies.map((item, index) => (
+                      <li key={index} className="flex items-start gap-3 text-gray-300">
+                        <span className="text-cyan-400 mt-1">•</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section>
+                  <h2 className="text-xl font-bold mb-4 text-white border-b border-gray-700 pb-2">
+                    Карьера
+                  </h2>
+                  <div className="space-y-4">
+                    {career.map((item, index) => (
+                      <div key={index} className="border-l-2 border-cyan-500/50 pl-4">
+                        <div className="text-cyan-400 font-semibold text-sm">{item.period}</div>
+                        <div className="text-white font-medium">{item.place}</div>
+                        <div className="text-gray-400 text-sm">{item.role}</div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section>
+                  <h2 className="text-xl font-bold mb-4 text-white border-b border-gray-700 pb-2">
+                    Достижения
+                  </h2>
+                  <ul className="space-y-2">
+                    {achievements.map((item, index) => (
+                      <li key={index} className="flex items-start gap-3 text-gray-300">
+                        <span className="text-cyan-400 mt-1">•</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </div>
+
+              <div className="mt-10 text-center">
                 <Link
                   href="/"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold glass-effect text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"

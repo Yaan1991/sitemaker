@@ -11,7 +11,6 @@ import About from "./pages/About";
 import Projects from "./pages/Projects";
 import ProjectPage from "./pages/ProjectPage";
 import Contact from "./pages/Contact";
-import Presskit from "./pages/Presskit";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,7 +23,6 @@ function Router() {
         <Route path="/projects/:category" component={Projects} />
         <Route path="/project/:id" component={ProjectPage} />
         <Route path="/contact" component={Contact} />
-        <Route path="/presskit" component={Presskit} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
