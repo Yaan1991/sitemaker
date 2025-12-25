@@ -4,7 +4,7 @@ import { projects } from "@/data/projects";
 
 interface BreadcrumbsProps {
   currentProject?: string;
-  pageType?: 'about' | 'projects' | 'contact';
+  pageType?: 'about' | 'projects' | 'contact' | 'presskit';
   customTitle?: string;
 }
 
