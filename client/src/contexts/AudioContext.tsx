@@ -199,7 +199,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       audioEngine.setMusicEnabled(musicShouldBeEnabled);
       audioEngine.setSfxEnabled(sfxShouldBeEnabled);
       // Запускаем воспроизведение для текущей страницы
-      console.log('🎵 Запускаем аудио для страницы:', currentPage);
       audioEngine.changeRoute(currentPage);
     } else {
       // 🔇 Выключаем: глушим всё

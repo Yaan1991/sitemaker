@@ -111,8 +111,6 @@ export class HowlerAudioEngine {
   public preloadCritical(): void {
     if (this.isPreloaded) return;
     
-    console.log('🎵 Предзагрузка критичных аудиофайлов...');
-    
     // Предзагружаем только главную страницу для мгновенного старта
     const homeMusic = this.routeMapping.music['/'];
     if (homeMusic && 'url' in homeMusic) {
@@ -140,7 +138,6 @@ export class HowlerAudioEngine {
     }
     
     this.isPreloaded = true;
-    console.log('✅ Предзагрузка критичных файлов завершена');
   }
 
   /**
@@ -196,10 +193,7 @@ export class HowlerAudioEngine {
    * Music Bus Management
    */
   public async playMusic(route: string, trackIndex = 0): Promise<void> {
-    console.log('🎵 playMusic вызван:', { route, trackIndex, isMusicEnabled: this.isMusicEnabled });
-    
     if (!this.isMusicEnabled) {
-      console.log('⚠️ Музыка выключена, пропускаем');
       return;
     }
 
@@ -208,7 +202,6 @@ export class HowlerAudioEngine {
     
     // Для проектных страниц (не путать с /projects) без специфичной музыки - останавливаем музыку
     if (!musicData && route.startsWith('/project/')) {
-      console.log('🎵 Проектная страница без музыки, останавливаем');
       if (this.musicBus) {
         this.fadeMusicBus(this.musicBus.volume(), 0, 300, () => {
           this.musicBus?.pause(); // pause вместо stop для сохранения состояния html5
@@ -224,19 +217,16 @@ export class HowlerAudioEngine {
     }
     
     if (!musicData) {
-      console.log('⚠️ Нет данных музыки для маршрута');
       return;
     }
 
     // Получаем целевой трек
     const targetTrack = Array.isArray(musicData) ? musicData[Math.min(trackIndex, musicData.length - 1)] : musicData;
-    console.log('🎵 Целевой трек:', targetTrack);
     
     // Если уже играет тот же трек И он действительно воспроизводится, не перезапускаем
     const currentTrack = this.getCurrentMusicTrack();
     
     if (this.musicBus && currentTrack?.url === targetTrack?.url && this.musicBus.playing()) {
-      console.log('✅ Трек уже играет, пропускаем');
       return;
     }
 
@@ -284,7 +274,6 @@ export class HowlerAudioEngine {
     // 🚀 Проверяем кэш для мгновенного старта
     const cached = this.musicCache.get(currentTrack.url);
     if (cached) {
-      console.log('⚡ Используем закэшированный трек:', currentTrack.title);
       // Переиспользуем закэшированный Howl
       this.musicBus = cached;
       
@@ -323,7 +312,6 @@ export class HowlerAudioEngine {
       this.musicBus.play();
     } else {
       // Создаем новый Howl с html5 для быстрой загрузки
-      console.log('📥 Загружаем новый трек:', currentTrack.title);
       this.musicBus = new Howl({
         src: [currentTrack.url],
         loop: isLooping,
@@ -331,7 +319,6 @@ export class HowlerAudioEngine {
         html5: true, // Стриминг для быстрой загрузки
         preload: true,
         onload: () => {
-          console.log('✅ Трек загружен:', currentTrack.title);
           this.fadeMusicBus(0, effectiveVolume, 500);
         },
         onplay: () => {
@@ -408,7 +395,6 @@ export class HowlerAudioEngine {
     // 🚀 Проверяем кэш для мгновенного старта
     const cached = this.sfxCache.get(sfxUrl);
     if (cached) {
-      console.log('⚡ Используем закэшированный SFX:', sfxUrl);
       // Переиспользуем закэшированный Howl
       this.soundDesignBus = cached;
       
@@ -425,7 +411,6 @@ export class HowlerAudioEngine {
       this.soundDesignBus.play();
     } else {
       // Создаем новый Howl с html5 для быстрой загрузки
-      console.log('📥 Загружаем новый SFX:', sfxUrl);
       this.soundDesignBus = new Howl({
         src: [sfxUrl],
         loop: true,
@@ -433,7 +418,6 @@ export class HowlerAudioEngine {
         html5: true, // Стриминг для быстрой загрузки
         preload: true,
         onload: () => {
-          console.log('✅ SFX загружен:', sfxUrl);
           this.fadeSfxBus(0, effectiveVolume, 500);
         }
       });

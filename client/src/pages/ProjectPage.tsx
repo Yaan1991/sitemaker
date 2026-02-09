@@ -230,8 +230,8 @@ function ComicImageCarousel({ project }: { project: any }) {
             src={image}
             alt={`Комикс кадр ${(index % images.length) + 1}`}
             data-testid="img-project"
-            onError={(e) => console.log('Ошибка загрузки комикс изображения:', image)}
-            onLoad={() => console.log('Комикс изображение загружено:', image)}
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            onLoad={() => {}}
           />
         ))}
       </div>
@@ -259,8 +259,8 @@ function PhotoCarousel({ photos }: { photos: string[] }) {
           alt={`Кадр из спектакля ${index + 1}`}
           className={index === currentIndex ? 'active' : ''}
           data-testid="img-project"
-          onError={(e) => console.log('Ошибка загрузки фото:', photo)}
-          onLoad={() => console.log('Фото загружено:', photo)}
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          onLoad={() => {}}
         />
       ))}
     </div>
