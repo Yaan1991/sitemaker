@@ -211,7 +211,7 @@ function initParallaxBackground(canvasId: string): () => void {
 // Компонент автосмены фото
 // Карусель комиксных изображений для Петровых с плавным движением
 function ComicImageCarousel({ project }: { project: any }) {
-  // Используем comicImages из проекта
+  const { lang } = useLanguage();
   const images = project.comicImages ? [
     project.comicImages.cover,
     project.comicImages.boy,
@@ -220,7 +220,6 @@ function ComicImageCarousel({ project }: { project: any }) {
     project.comicImages.phone2
   ] : [project.image];
 
-  // Дублируем изображения для бесконечной прокрутки
   const duplicatedImages = [...images, ...images];
 
   return (
@@ -230,7 +229,7 @@ function ComicImageCarousel({ project }: { project: any }) {
           <img
             key={`${image}-${index}`}
             src={image}
-            alt={`Комикс кадр ${(index % images.length) + 1}`}
+            alt={lang === 'en' ? `Comic frame ${(index % images.length) + 1}` : `Комикс кадр ${(index % images.length) + 1}`}
             data-testid="img-project"
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             onLoad={() => {}}
@@ -242,12 +241,13 @@ function ComicImageCarousel({ project }: { project: any }) {
 }
 
 function PhotoCarousel({ photos }: { photos: string[] }) {
+  const { lang } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % photos.length);
-    }, 4000); // Смена каждые 4 секунды
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [photos.length]);
@@ -258,7 +258,7 @@ function PhotoCarousel({ photos }: { photos: string[] }) {
         <img
           key={`${photo}-${index}`}
           src={photo}
-          alt={`Кадр из спектакля ${index + 1}`}
+          alt={lang === 'en' ? `Scene from the performance ${index + 1}` : `Кадр из спектакля ${index + 1}`}
           className={index === currentIndex ? 'active' : ''}
           data-testid="img-project"
           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
@@ -300,67 +300,70 @@ function Equalizer({ isPlaying }: { isPlaying: boolean }) {
 }
 
 
-// Треки для спектакля "Идиот"
-const idiotTracks = [
-  {
-    id: 'nastasya',
-    title: 'Тема Настасьи Филипповны',
-    url: '/audio/nastasya.mp3'
-  },
-  {
-    id: 'myshkin',
-    title: 'Тема Мышкина',
-    url: '/audio/myshkin.mp3'
-  },
-  {
-    id: 'nastasya_nightmare',
-    title: 'Кошмар Настасьи Филипповны',
-    url: '/audio/nastasya_nightmare.mp3'
-  },
-  {
-    id: 'city',
-    title: 'Тема города',
-    url: '/audio/city.mp3'
-  }
-];
+function getIdiotTracks(isEn: boolean) {
+  return [
+    {
+      id: 'nastasya',
+      title: isEn ? 'Nastasya Filippovna\'s Theme' : 'Тема Настасьи Филипповны',
+      url: '/audio/nastasya.mp3'
+    },
+    {
+      id: 'myshkin',
+      title: isEn ? 'Myshkin\'s Theme' : 'Тема Мышкина',
+      url: '/audio/myshkin.mp3'
+    },
+    {
+      id: 'nastasya_nightmare',
+      title: isEn ? 'Nastasya Filippovna\'s Nightmare' : 'Кошмар Настасьи Филипповны',
+      url: '/audio/nastasya_nightmare.mp3'
+    },
+    {
+      id: 'city',
+      title: isEn ? 'City Theme' : 'Тема города',
+      url: '/audio/city.mp3'
+    }
+  ];
+}
 
-// Треки для спектакля "Маяковский. Я сам"
-const mayakTracks = [
-  {
-    id: 'letters',
-    title: 'Письма',
-    url: '/audio/mayak_letters.mp3'
-  },
-  {
-    id: 'lilya_theme',
-    title: 'Тема Маяковского и Лили',
-    url: '/audio/mayak_lilya_theme.mp3'
-  },
-  {
-    id: 'gori_gori',
-    title: 'Гори-гори',
-    url: '/audio/mayak_gori_gori.mp3'
-  }
-];
+function getMayakTracks(isEn: boolean) {
+  return [
+    {
+      id: 'letters',
+      title: isEn ? 'Letters' : 'Письма',
+      url: '/audio/mayak_letters.mp3'
+    },
+    {
+      id: 'lilya_theme',
+      title: isEn ? 'Mayakovsky & Lilya\'s Theme' : 'Тема Маяковского и Лили',
+      url: '/audio/mayak_lilya_theme.mp3'
+    },
+    {
+      id: 'gori_gori',
+      title: isEn ? 'Burn, Burn' : 'Гори-гори',
+      url: '/audio/mayak_gori_gori.mp3'
+    }
+  ];
+}
 
-// Треки для спектакля "Петровы в гриппе и вокруг него"
-const petrovyTracks = [
-  {
-    id: 'petrovy_lonely_theme',
-    title: 'Тема одиночества',
-    url: '/audio/Petrovy_lonely_theme.mp3'
-  },
-  {
-    id: 'petrovy_mad_theme', 
-    title: 'Приехали в гости',
-    url: '/audio/Petrovy_mad_theme.mp3'
-  },
-  {
-    id: 'petrovy_theme_of_sick',
-    title: 'Болезнь Петрова младшего',
-    url: '/audio/Petrovy_theme_of_sick.mp3'
-  }
-];
+function getPetrovyTracks(isEn: boolean) {
+  return [
+    {
+      id: 'petrovy_lonely_theme',
+      title: isEn ? 'Loneliness Theme' : 'Тема одиночества',
+      url: '/audio/Petrovy_lonely_theme.mp3'
+    },
+    {
+      id: 'petrovy_mad_theme', 
+      title: isEn ? 'Guests Arrived' : 'Приехали в гости',
+      url: '/audio/Petrovy_mad_theme.mp3'
+    },
+    {
+      id: 'petrovy_theme_of_sick',
+      title: isEn ? 'Young Petrov\'s Illness' : 'Болезнь Петрова младшего',
+      url: '/audio/Petrovy_theme_of_sick.mp3'
+    }
+  ];
+}
 
 
 export default function ProjectPage() {
@@ -369,6 +372,7 @@ export default function ProjectPage() {
   const projectId = projectMatch?.[1];
   const [currentBackgroundImage, setCurrentBackgroundImage] = useState('');
   const { lang, t, prefix } = useLanguage();
+  const isEn = lang === 'en';
   
   const { 
     isGlobalAudioEnabled, 
@@ -441,7 +445,26 @@ export default function ProjectPage() {
     "/images/mayakgal5.webp"    // два актера на кровати в интимной сцене
   ];
   
-  const project = projects.find(p => p.id === projectId);
+  const rawProject = projects.find(p => p.id === projectId);
+
+  const project = rawProject && lang === 'en' && projectId && projectTranslationsEn[projectId]
+    ? (() => {
+        const tr = projectTranslationsEn[projectId];
+        return {
+          ...rawProject,
+          title: tr.title || rawProject.title,
+          description: tr.description,
+          fullDescription: tr.fullDescription,
+          role: tr.role,
+          venue: tr.venue || rawProject.venue,
+          links: tr.links || rawProject.links,
+          tracks: tr.tracks || rawProject.tracks,
+          details: tr.details
+            ? { ...rawProject.details, ...tr.details }
+            : rawProject.details,
+        };
+      })()
+    : rawProject;
 
   // 🎵 Установка плейлиста для проектов с музыкой
   useEffect(() => {
@@ -449,15 +472,15 @@ export default function ProjectPage() {
     
     // Устанавливаем плейлист в зависимости от проекта
     if (projectId === "idiot-saratov-drama") {
-      setCurrentProjectPlaylist(idiotTracks);
+      setCurrentProjectPlaylist(getIdiotTracks(isEn));
       setCurrentProjectTrack(0);
       setIsProjectPlayerReady(true);
     } else if (projectId === "petrovy-saratov-drama") {
-      setCurrentProjectPlaylist(petrovyTracks);
+      setCurrentProjectPlaylist(getPetrovyTracks(isEn));
       setCurrentProjectTrack(0);
       setIsProjectPlayerReady(true);
     } else if (projectId === "mayakovsky-moscow-estrada") {
-      setCurrentProjectPlaylist(mayakTracks);
+      setCurrentProjectPlaylist(getMayakTracks(isEn));
       setCurrentProjectTrack(0);
       setIsProjectPlayerReady(true);
     } else {
@@ -471,7 +494,7 @@ export default function ProjectPage() {
       setCurrentProjectPlaylist(null);
       setIsProjectPlayerReady(false);
     };
-  }, [projectId, setCurrentProjectPlaylist, setCurrentProjectTrack, setIsProjectPlayerReady]);
+  }, [projectId, isEn, setCurrentProjectPlaylist, setCurrentProjectTrack, setIsProjectPlayerReady]);
 
   // Автоматическое воспроизведение для Homo Homini ТОЛЬКО при первом заходе на страницу
   useEffect(() => {
@@ -753,11 +776,11 @@ export default function ProjectPage() {
                   transition={{ duration: 0.6 }}
                   className="text-center mb-8"
                 >
-                  <NeonTitle text="ИДИОТ" />
+                  <NeonTitle text={isEn ? 'THE IDIOT' : 'ИДИОТ'} />
                   <p className="text-xl font-medium text-gray-300 mt-4 mb-2">
-                    Театр драмы им. Слонова • 2024
+                    {isEn ? 'Slonov Drama Theatre • 2024' : 'Театр драмы им. Слонова • 2024'}
                   </p>
-                  <p className="text-sm text-gray-400 mb-6">г. Саратов</p>
+                  <p className="text-sm text-gray-400 mb-6">{isEn ? 'Saratov' : 'г. Саратов'}</p>
                 </motion.div>
               )}
 
@@ -771,9 +794,9 @@ export default function ProjectPage() {
                 >
                   <MayakTitle text="" lang={lang} />
                   <p className="text-xl font-medium mt-4 mb-2" style={{color: '#8B4513'}}>
-                    «Артлайф» • 2024
+                    {isEn ? '"Artlife" • 2024' : '«Артлайф» • 2024'}
                   </p>
-                  <p className="text-sm mb-6" style={{color: '#8B4513', opacity: 0.7}}>г. Москва</p>
+                  <p className="text-sm mb-6" style={{color: '#8B4513', opacity: 0.7}}>{isEn ? 'Moscow' : 'г. Москва'}</p>
                 </motion.div>
               )}
 
@@ -788,14 +811,14 @@ export default function ProjectPage() {
                 >
                   <h1 
                     className="petrovy-title" 
-                    data-text="ПЕТРОВЫ В ГРИППЕ"
+                    data-text={isEn ? 'THE PETROVS IN THE FLU' : 'ПЕТРОВЫ В ГРИППЕ'}
                     data-testid="text-title"
                   >
-                    ПЕТРОВЫ В ГРИППЕ
+                    {isEn ? 'THE PETROVS IN THE FLU' : 'ПЕТРОВЫ В ГРИППЕ'}
                   </h1>
-                  <div className="petrovy-subtitle">и вокруг него</div>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Театр драмы им. Слонова • 2025</p>
-                  <p className="text-sm text-gray-400 mb-6">г. Саратов</p>
+                  <div className="petrovy-subtitle">{isEn ? 'and around it' : 'и вокруг него'}</div>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">{isEn ? 'Slonov Drama Theatre • 2025' : 'Театр драмы им. Слонова • 2025'}</p>
+                  <p className="text-sm text-gray-400 mb-6">{isEn ? 'Saratov' : 'г. Саратов'}</p>
                 </motion.div>
               )}
 
@@ -811,10 +834,10 @@ export default function ProjectPage() {
                     HOMO HOMINI
                   </h1>
                   <p className="text-lg text-gray-400 mb-6" style={{letterSpacing: '0.1em'}}>
-                    человек человеку
+                    {isEn ? 'man to man' : 'человек человеку'}
                   </p>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Короткометражный фильм • 2025</p>
-                  <p className="text-sm text-gray-400 mb-6">Режиссёр: Иван Комаров</p>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">{isEn ? 'Short film • 2025' : 'Короткометражный фильм • 2025'}</p>
+                  <p className="text-sm text-gray-400 mb-6">{isEn ? 'Director: Ivan Komarov' : 'Режиссёр: Иван Комаров'}</p>
                 </motion.div>
               )}
 
@@ -827,10 +850,10 @@ export default function ProjectPage() {
                   className="text-center mb-8"
                 >
                   <h1 className="text-6xl lg:text-7xl font-bold mb-4" style={{color: '#E0E0E0', textShadow: '0 0 15px rgba(224, 224, 224, 0.3)'}}>
-                    МА
+                    {isEn ? 'MA' : 'МА'}
                   </h1>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Короткометражный фильм • 2024</p>
-                  <p className="text-sm text-gray-400 mb-6">Режиссёр: Валентина Бесолова</p>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">{isEn ? 'Short film • 2024' : 'Короткометражный фильм • 2024'}</p>
+                  <p className="text-sm text-gray-400 mb-6">{isEn ? 'Director: Valentina Besolova' : 'Режиссёр: Валентина Бесолова'}</p>
                 </motion.div>
               )}
 
@@ -843,10 +866,10 @@ export default function ProjectPage() {
                   className="text-center mb-8"
                 >
                   <h1 className="text-5xl lg:text-7xl font-bold mb-4" style={{color: '#4A90E2', textShadow: '0 0 20px rgba(74, 144, 226, 0.4)'}}>
-                    СОН О ХЛЕБЕ
+                    {isEn ? 'DREAM OF BREAD' : 'СОН О ХЛЕБЕ'}
                   </h1>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Центр «Зотов» • 2024</p>
-                  <p className="text-sm text-gray-400 mb-6">Режиссёр: Тимур Шарафутдинов</p>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">{isEn ? 'Zotov Centre • 2024' : 'Центр «Зотов» • 2024'}</p>
+                  <p className="text-sm text-gray-400 mb-6">{isEn ? 'Director: Timur Sharafutdinov' : 'Режиссёр: Тимур Шарафутдинов'}</p>
                 </motion.div>
               )}
 
@@ -859,10 +882,10 @@ export default function ProjectPage() {
                   className="text-center mb-8"
                 >
                   <h1 className="text-5xl lg:text-7xl font-bold mb-4" style={{color: '#D2691E', textShadow: '0 0 20px rgba(210, 105, 30, 0.4)'}}>
-                    ПОГРУЖЕНИЕ. ПРОМЕНАД
+                    {isEn ? 'IMMERSION. PROMENADE' : 'ПОГРУЖЕНИЕ. ПРОМЕНАД'}
                   </h1>
-                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">Центр театрального мастерства (Нижний Новгород) • 2021</p>
-                  <p className="text-sm text-gray-400 mb-6">Режиссёр: Иван Комаров</p>
+                  <p className="text-xl font-medium text-gray-300 mt-4 mb-2">{isEn ? 'Centre for Theatre Mastery (Nizhny Novgorod) • 2021' : 'Центр театрального мастерства (Нижний Новгород) • 2021'}</p>
+                  <p className="text-sm text-gray-400 mb-6">{isEn ? 'Director: Ivan Komarov' : 'Режиссёр: Иван Комаров'}</p>
                 </motion.div>
               )}
 
@@ -970,17 +993,17 @@ export default function ProjectPage() {
                   {/* Постановочная команда и роль в проекте в две колонки */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
                     <div>
-                      <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
+                      <h4 className="text-white font-medium mb-3">{isEn ? 'Production Team' : 'Постановочная команда'}</h4>
                       <div className="text-gray-300 space-y-1">
-                        <p>Режиссёр: Иван Комаров</p>
-                        <p>Художник: Ольга Кузнецова</p>
-                        <p>Художник по свету: Максим Бирюков</p>
+                        <p>{isEn ? 'Director: Ivan Komarov' : 'Режиссёр: Иван Комаров'}</p>
+                        <p>{isEn ? 'Set Designer: Olga Kuznetsova' : 'Художник: Ольга Кузнецова'}</p>
+                        <p>{isEn ? 'Lighting Designer: Maxim Biryukov' : 'Художник по свету: Максим Бирюков'}</p>
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                      <h4 className="text-white font-medium mb-3">{isEn ? 'Role in Project' : 'Роль в проекте'}</h4>
                       <p className="idiot-primary font-semibold text-lg">
-                        Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер
+                        {isEn ? 'Composer, Sound Designer, Sound Engineer, Prompt Engineer' : 'Композитор, саунд-дизайнер, звукорежиссер, промт-инжинер'}
                       </p>
                     </div>
                   </div>
@@ -989,62 +1012,56 @@ export default function ProjectPage() {
 
                     <div className="space-y-6 text-gray-300 leading-relaxed">
                       <div>
-                        <h4 className="text-xl font-semibold idiot-heading mb-3">Концепция</h4>
+                        <h4 className="text-xl font-semibold idiot-heading mb-3">{isEn ? 'Concept' : 'Концепция'}</h4>
                         <p>
-                          Постановка Достоевского, перенесенная в Саратов 1999 года. Спектакль сочетает 
-                          театр и «живое кино» — два оператора снимают действие, зритель видит параллельно 
-                          сцену и экранную версию в эстетике 90-х.
+                          {isEn ? 'A Dostoevsky production set in Saratov, 1999. The performance combines theatre and "live cinema" — two camera operators film the action, while the audience simultaneously sees the stage and the screen version in 90s aesthetics.' : 'Постановка Достоевского, перенесенная в Саратов 1999 года. Спектакль сочетает театр и «живое кино» — два оператора снимают действие, зритель видит параллельно сцену и экранную версию в эстетике 90-х.'}
                         </p>
                       </div>
 
                       <div>
-                        <h4 className="text-xl font-semibold idiot-heading mb-3">Творческая задача</h4>
+                        <h4 className="text-xl font-semibold idiot-heading mb-3">{isEn ? 'Creative Challenge' : 'Творческая задача'}</h4>
                         <p>
-                          Создать звук с кино-эстетикой для театра, чтобы зритель поверил в происходящее 
-                          на экране, как в сериалах 90-х в духе Twin Peaks и «Секретных материалов».
+                          {isEn ? 'Create cinematic-aesthetic sound for theatre, so the audience believes what\'s happening on screen, as in 90s series like Twin Peaks and The X-Files.' : 'Создать звук с кино-эстетикой для театра, чтобы зритель поверил в происходящее на экране, как в сериалах 90-х в духе Twin Peaks и «Секретных материалов».'}
                         </p>
                         
                         <div className="mt-4">
-                          <p className="font-medium text-white mb-2">Выполненные работы:</p>
+                          <p className="font-medium text-white mb-2">{isEn ? 'Completed Work:' : 'Выполненные работы:'}</p>
                           <ul className="list-none space-y-0 ml-4">
-                            <li>• Написание оригинальной музыки</li>
-                            <li>• Работа с микрофонами и звукозаписью</li>
-                            <li>• Создание полевых записей</li>
-                            <li>• Работа с ИИ-инструментами для обработки звука</li>
-                            <li>• Создание аутентичных саундскейпов и эффектов</li>
-                            <li>• Создание звуковой партитуры и карты проекта</li>
-                            <li>• Автоматизация звуковой консоли в QLab</li>
+                            <li>• {isEn ? 'Composing original music' : 'Написание оригинальной музыки'}</li>
+                            <li>• {isEn ? 'Working with microphones and sound recording' : 'Работа с микрофонами и звукозаписью'}</li>
+                            <li>• {isEn ? 'Creating field recordings' : 'Создание полевых записей'}</li>
+                            <li>• {isEn ? 'Working with AI tools for sound processing' : 'Работа с ИИ-инструментами для обработки звука'}</li>
+                            <li>• {isEn ? 'Creating authentic soundscapes and effects' : 'Создание аутентичных саундскейпов и эффектов'}</li>
+                            <li>• {isEn ? 'Creating the sound score and project map' : 'Создание звуковой партитуры и карты проекта'}</li>
+                            <li>• {isEn ? 'Sound console automation in QLab' : 'Автоматизация звуковой консоли в QLab'}</li>
                           </ul>
                         </div>
                       </div>
 
                       <div>
-                        <h4 className="text-xl font-semibold idiot-heading mb-3">Ключевые решения</h4>
+                        <h4 className="text-xl font-semibold idiot-heading mb-3">{isEn ? 'Key Solutions' : 'Ключевые решения'}</h4>
                         
                         <div className="space-y-4">
                           <p>
-                            <strong className="text-white">Полевые записи:</strong> лично записал звуки Саратова: 
-                            трамваи, шаги, двери, городской шум. Эти записи стали основой звукового мира спектакля.
+                            <strong className="text-white">{isEn ? 'Field Recordings:' : 'Полевые записи:'}</strong> {isEn ? 'personally recorded the sounds of Saratov: trams, footsteps, doors, city noise. These recordings became the foundation of the performance\'s sound world.' : 'лично записал звуки Саратова: трамваи, шаги, двери, городской шум. Эти записи стали основой звукового мира спектакля.'}
                           </p>
                           
                           <p>
-                            <strong className="text-white">Нейросети для речи:</strong> клонировал голос актёра 
-                            для немецких реплик князя Мышкина, получив чистое произношение без акцента голосом персонажа.
+                            <strong className="text-white">{isEn ? 'Neural Networks for Speech:' : 'Нейросети для речи:'}</strong> {isEn ? 'cloned the actor\'s voice for Prince Myshkin\'s German lines, achieving clean pronunciation without an accent in the character\'s voice.' : 'клонировал голос актёра для немецких реплик князя Мышкина, получив чистое произношение без акцента голосом персонажа.'}
                           </p>
                           
                           <p>
-                            <strong className="text-white">Музыкальная драматургия:</strong> 10 оригинальных композиций 
-                            двигающих повествование и создающих атмосферу.
+                            <strong className="text-white">{isEn ? 'Musical Dramaturgy:' : 'Музыкальная драматургия:'}</strong> {isEn ? '10 original compositions driving the narrative and creating atmosphere.' : '10 оригинальных композиций двигающих повествование и создающих атмосферу.'}
                           </p>
                         </div>
                       </div>
 
 
                       <div className="bg-pink-500/10 border border-pink-500/30 p-4 rounded-lg">
-                        <h4 className="text-xl font-semibold idiot-heading mb-3">Результат</h4>
+                        <h4 className="text-xl font-semibold idiot-heading mb-3">{isEn ? 'Result' : 'Результат'}</h4>
                         <p>
-                          Эффект полного погружения - зритель видит спектакль и его экранную версию одновременно.<br/>
-                          Мой вклад: создание целого аудиомира - от городских записей до музыкальной партитуры.
+                          {isEn ? 'Full immersion effect — the audience sees the performance and its screen version simultaneously.' : 'Эффект полного погружения - зритель видит спектакль и его экранную версию одновременно.'}<br/>
+                          {isEn ? 'My contribution: creating an entire audio world — from city recordings to the musical score.' : 'Мой вклад: создание целого аудиомира - от городских записей до музыкальной партитуры.'}
                         </p>
                       </div>
                     </div>
@@ -1060,19 +1077,19 @@ export default function ProjectPage() {
                   {/* Постановочная команда и роль в проекте в две колонки */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
                     <div>
-                      <h4 className="mayak-primary font-medium mb-3">Постановочная команда</h4>
+                      <h4 className="mayak-primary font-medium mb-3">{isEn ? 'Production Team' : 'Постановочная команда'}</h4>
                       <div className="text-gray-800 space-y-1">
-                        <p>Режиссёр, автор инсценировки: Семён Шомин</p>
-                        <p>Художник-постановщик: Татьяна Зарубина</p>
-                        <p>Режиссёр по пластике: Игорь Шаройко</p>
-                        <p>Художник по свету: Максим Бирюков</p>
-                        <p>Художник по видео: Дмитрий Соболев</p>
+                        <p>{isEn ? 'Director, adaptation author: Semyon Shomin' : 'Режиссёр, автор инсценировки: Семён Шомин'}</p>
+                        <p>{isEn ? 'Set Designer: Tatyana Zarubina' : 'Художник-постановщик: Татьяна Зарубина'}</p>
+                        <p>{isEn ? 'Movement Director: Igor Sharoyko' : 'Режиссёр по пластике: Игорь Шаройко'}</p>
+                        <p>{isEn ? 'Lighting Designer: Maxim Biryukov' : 'Художник по свету: Максим Бирюков'}</p>
+                        <p>{isEn ? 'Video Designer: Dmitry Sobolev' : 'Художник по видео: Дмитрий Соболев'}</p>
                       </div>
                     </div>
                     <div>
-                      <h4 className="mayak-primary font-medium mb-3">Роль в проекте</h4>
+                      <h4 className="mayak-primary font-medium mb-3">{isEn ? 'Role in Project' : 'Роль в проекте'}</h4>
                       <p className="mayak-primary font-semibold text-lg">
-                        Саунд-дизайнер, композитор, звукорежиссёр, промт-инжинер
+                        {isEn ? 'Sound Designer, Composer, Sound Engineer, Prompt Engineer' : 'Саунд-дизайнер, композитор, звукорежиссёр, промт-инжинер'}
                       </p>
                     </div>
                   </div>
@@ -1081,71 +1098,63 @@ export default function ProjectPage() {
 
                     <div className="space-y-6 text-gray-800 leading-relaxed">
                       <div>
-                        <h4 className="text-xl font-semibold mayak-heading mb-3">Концепция</h4>
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">{isEn ? 'Concept' : 'Концепция'}</h4>
 <p className="text-gray-800">
-                          Спектакль начинается «за секунду до» - перед выстрелом Маяковский вспоминает свою биографию. 
-                          Постановка раскрывает поэта как живого человека со страстями и страданиями, а не просто «продукт времени». 
-                          Минимум декораций и визуальных спецэффектов, акцент на психологизме. Создана трёхслойная звуковая драматургия: 
-                          реальность, поэтический слой и абстракция.
+                          {isEn ? 'The performance begins "a second before" — before the shot, Mayakovsky recalls his biography. The production reveals the poet as a living person with passions and suffering, not just a "product of his time". Minimal sets and visual effects, emphasis on psychology. A three-layered sound dramaturgy was created: reality, poetic layer, and abstraction.' : 'Спектакль начинается «за секунду до» - перед выстрелом Маяковский вспоминает свою биографию. Постановка раскрывает поэта как живого человека со страстями и страданиями, а не просто «продукт времени». Минимум декораций и визуальных спецэффектов, акцент на психологизме. Создана трёхслойная звуковая драматургия: реальность, поэтический слой и абстракция.'}
                         </p>
                       </div>
 
                       <div>
-                        <h4 className="text-xl font-semibold mayak-heading mb-3">Творческая задача</h4>
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">{isEn ? 'Creative Challenge' : 'Творческая задача'}</h4>
 <p className="text-gray-800">
-                          Создать звуковую партитуру, где зритель интуитивно чувствует переключение между жизнью, 
-                          поэтическим текстом и внутренним монологом героя.
+                          {isEn ? 'Create a sound score where the audience intuitively feels the switching between life, poetic text, and the hero\'s inner monologue.' : 'Создать звуковую партитуру, где зритель интуитивно чувствует переключение между жизнью, поэтическим текстом и внутренним монологом героя.'}
                         </p>
                       </div>
 
                       <div>
-                        <h4 className="text-xl font-semibold mayak-heading mb-3">Техническая задача</h4>
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">{isEn ? 'Technical Challenge' : 'Техническая задача'}</h4>
 <p className="text-gray-800">
-                          Обеспечить гибкую архитектуру для антрепризы - спектакль должен стабильно звучать на любых 
-                          площадках с разными консолями и акустическими условиями.
+                          {isEn ? 'Ensure flexible architecture for touring — the performance must sound stable at any venue with different consoles and acoustic conditions.' : 'Обеспечить гибкую архитектуру для антрепризы - спектакль должен стабильно звучать на любых площадках с разными консолями и акустическими условиями.'}
                         </p>
                         
                         <div className="mt-4">
-                          <p className="font-medium mayak-primary mb-2">Выполненные работы:</p>
+                          <p className="font-medium mayak-primary mb-2">{isEn ? 'Completed Work:' : 'Выполненные работы:'}</p>
                           <ul className="list-none space-y-0 ml-4">
-                            <li>• Создание трёхслойной звуковой концепции</li>
-                            <li>• Написание 6 оригинальных композиций</li>
-                            <li>• Переаранжировка музыкального материала</li>
-                            <li>• Полевые записи актёров и бытовых звуков</li>
-                            <li>• Работа с ИИ-инструментами для спецэффектов</li>
-                            <li>• Проектирование адаптивной технической архитектуры</li>
-                            <li>• Программирование в QLab 5 + OSC-автоматизация</li>
-                            <li>• Подготовка системы под разные площадки</li>
-                            <li>• Работа в качестве выпускающего звукорежиссёра</li>
+                            <li>• {isEn ? 'Creating a three-layered sound concept' : 'Создание трёхслойной звуковой концепции'}</li>
+                            <li>• {isEn ? 'Composing 6 original pieces' : 'Написание 6 оригинальных композиций'}</li>
+                            <li>• {isEn ? 'Rearranging musical material' : 'Переаранжировка музыкального материала'}</li>
+                            <li>• {isEn ? 'Field recordings of actors and everyday sounds' : 'Полевые записи актёров и бытовых звуков'}</li>
+                            <li>• {isEn ? 'Working with AI tools for special effects' : 'Работа с ИИ-инструментами для спецэффектов'}</li>
+                            <li>• {isEn ? 'Designing adaptive technical architecture' : 'Проектирование адаптивной технической архитектуры'}</li>
+                            <li>• {isEn ? 'Programming in QLab 5 + OSC automation' : 'Программирование в QLab 5 + OSC-автоматизация'}</li>
+                            <li>• {isEn ? 'Preparing the system for different venues' : 'Подготовка системы под разные площадки'}</li>
+                            <li>• {isEn ? 'Working as the production sound engineer' : 'Работа в качестве выпускающего звукорежиссёра'}</li>
                           </ul>
                         </div>
                       </div>
 
                       <div>
-                        <h4 className="text-xl font-semibold mayak-heading mb-3">Ключевые решения</h4>
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">{isEn ? 'Key Solutions' : 'Ключевые решения'}</h4>
                         <div className="space-y-4">
 <p className="text-gray-800">
-                            <strong className="mayak-primary">Динамическая трансформация звука:</strong> музыка и голоса в реальном времени 
-                            превращаются из естественных в совершенно иные формы, создавая эффект смены восприятия.
+                            <strong className="mayak-primary">{isEn ? 'Dynamic Sound Transformation:' : 'Динамическая трансформация звука:'}</strong> {isEn ? 'music and voices transform in real time from natural to completely different forms, creating a perception shift effect.' : 'музыка и голоса в реальном времени превращаются из естественных в совершенно иные формы, создавая эффект смены восприятия.'}
                           </p>
                           
 <p className="text-gray-800">
-                            <strong className="mayak-primary">Антрепризная архитектура:</strong> автоматическая адаптация от surround к стерео, 
-                            от Yamaha Rivage к M32/X32 с готовыми шаблонами.
+                            <strong className="mayak-primary">{isEn ? 'Touring Architecture:' : 'Антрепризная архитектура:'}</strong> {isEn ? 'automatic adaptation from surround to stereo, from Yamaha Rivage to M32/X32 with ready-made templates.' : 'автоматическая адаптация от surround к стерео, от Yamaha Rivage к M32/X32 с готовыми шаблонами.'}
                           </p>
                           
 <p className="text-gray-800">
-                            <strong className="mayak-primary">Живые записи:</strong> на Zoom-рекордер записывал актёров и бытовые звуки, 
-                            ставшие частью слоя спектакля.
+                            <strong className="mayak-primary">{isEn ? 'Live Recordings:' : 'Живые записи:'}</strong> {isEn ? 'recorded actors and everyday sounds on a Zoom recorder, which became part of the performance\'s sound layer.' : 'на Zoom-рекордер записывал актёров и бытовые звуки, ставшие частью слоя спектакля.'}
                           </p>
                         </div>
                       </div>
 
                       <div className="bg-red-500/10 border border-red-500/30 p-4 rounded-lg">
-                        <h4 className="text-xl font-semibold mayak-heading mb-3">Результат</h4>
+                        <h4 className="text-xl font-semibold mayak-heading mb-3">{isEn ? 'Result' : 'Результат'}</h4>
                         <p>
-                          Насыщенная звуковая партитура с эффектом погружения. Спектакль успешно гастролирует, стабильно звучит на разных площадках.<br/>
-                          Мой вклад: построение трёхслойной звуковой драматургии, создание музыкальных композиций, проектирование гибкой технической системы.
+                          {isEn ? 'A rich sound score with an immersion effect. The performance tours successfully, sounding stable at different venues.' : 'Насыщенная звуковая партитура с эффектом погружения. Спектакль успешно гастролирует, стабильно звучит на разных площадках.'}<br/>
+                          {isEn ? 'My contribution: building three-layered sound dramaturgy, creating musical compositions, designing a flexible technical system.' : 'Мой вклад: построение трёхслойной звуковой драматургии, создание музыкальных композиций, проектирование гибкой технической системы.'}
                         </p>
                       </div>
                     </div>
@@ -1158,7 +1167,7 @@ export default function ProjectPage() {
               {project.id === "idiot-saratov-drama" && (
                 <WinampPlayer 
                   projectId={project.id}
-                  title="Музыка из спектакля" 
+                  title={isEn ? 'Music from the Performance' : 'Музыка из спектакля'} 
                   className="idiot-themed"
                 />
               )}
@@ -1170,80 +1179,74 @@ export default function ProjectPage() {
                   {/* Постановочная команда и роль в проекте в две колонки */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm relative" style={{zIndex: 30}}>
                     <div>
-                      <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
+                      <h4 className="text-white font-medium mb-3">{isEn ? 'Production Team' : 'Постановочная команда'}</h4>
                       <div className="text-gray-300 space-y-1">
-                        <p>Режиссёр, автор инсценировки: Иван Комаров</p>
-                        <p>Художник-постановщик: Ольга Кузнецова</p>
-                        <p>Художник по свету: Максим Бирюков</p>
+                        <p>{isEn ? 'Director, adaptation author: Ivan Komarov' : 'Режиссёр, автор инсценировки: Иван Комаров'}</p>
+                        <p>{isEn ? 'Set Designer: Olga Kuznetsova' : 'Художник-постановщик: Ольга Кузнецова'}</p>
+                        <p>{isEn ? 'Lighting Designer: Maxim Biryukov' : 'Художник по свету: Максим Бирюков'}</p>
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                      <h4 className="text-white font-medium mb-3">{isEn ? 'Role in Project' : 'Роль в проекте'}</h4>
                       <p className="text-green-400 font-semibold text-lg">
-                        Композитор, саунд-дизайнер, звукорежиссёр, промт-инженер
+                        {isEn ? 'Composer, Sound Designer, Sound Engineer, Prompt Engineer' : 'Композитор, саунд-дизайнер, звукорежиссёр, промт-инженер'}
                       </p>
                     </div>
                   </div>
                   
                   <div className="space-y-8 text-gray-300 leading-relaxed relative" style={{zIndex: 30}}>
                     <div className="p-6 relative" style={{zIndex: 30}}>
-                      <h4 className="text-2xl font-bold text-green-400 mb-4">Концепция</h4>
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">{isEn ? 'Concept' : 'Концепция'}</h4>
                       <p className="text-lg">
-                        Театр как комикс, где пространство одновременно рассказывает историю Петровых и размышляет о театре как о пространстве бреда. 
-                        Постановка балансирует между бытовым реализмом и абсурдом. Создана четкая партитура в QLab с точной синхронизацией, 
-                        настроена автоматизация через MIDI и OSC-протоколы для управления всеми звуковыми элементами спектакля.
+                        {isEn ? 'Theatre as a comic book, where the space simultaneously tells the story of the Petrovs and reflects on theatre as a space of delirium. The production balances between everyday realism and absurdity. A precise score was created in QLab with exact synchronization, automation configured via MIDI and OSC protocols to control all sound elements of the performance.' : 'Театр как комикс, где пространство одновременно рассказывает историю Петровых и размышляет о театре как о пространстве бреда. Постановка балансирует между бытовым реализмом и абсурдом. Создана четкая партитура в QLab с точной синхронизацией, настроена автоматизация через MIDI и OSC-протоколы для управления всеми звуковыми элементами спектакля.'}
                       </p>
                     </div>
 
                     <div className="p-6 relative" style={{zIndex: 30}}>
-                      <h4 className="text-2xl font-bold text-green-400 mb-4">Техническая задача</h4>
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">{isEn ? 'Technical Challenge' : 'Техническая задача'}</h4>
                       <p className="text-lg">
-                        Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы 
-                        для управления всеми звуковыми элементами спектакля.
+                        {isEn ? 'Create a precise score in QLab with exact synchronization, configure automation via MIDI and OSC protocols to control all sound elements of the performance.' : 'Создать четкую партитуру в QLab с точной синхронизацией, настроить автоматизацию через MIDI и OSC-протоколы для управления всеми звуковыми элементами спектакля.'}
                       </p>
                     </div>
 
                     <div className="p-6 relative" style={{zIndex: 30}}>
-                      <h4 className="text-2xl font-bold text-green-400 mb-4">Творческая задача</h4>
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">{isEn ? 'Creative Challenge' : 'Творческая задача'}</h4>
                       <p className="text-lg mb-4">
-                        Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, 
-                        который поможет удержать зрителя в лабиринте абсурдного повествования.
+                        {isEn ? 'Compose 12 pieces in different genres, creating a sound score as an equal dramaturgical layer that helps keep the audience in the labyrinth of absurd narration.' : 'Написать 12 композиций разных жанров, создав звуковую партитуру как равноправный драматургический пласт, который поможет удержать зрителя в лабиринте абсурдного повествования.'}
                       </p>
                       
                       <div className="mt-6">
-                        <p className="text-xl font-semibold text-white mb-3">Выполненные работы:</p>
+                        <p className="text-xl font-semibold text-white mb-3">{isEn ? 'Completed Work:' : 'Выполненные работы:'}</p>
                         <ul className="list-none space-y-2 ml-6 text-lg">
-                          <li>• Создание 12 полноценных композиций разных жанров</li>
-                          <li>• Разработка лейтмотивной системы для персонажей и сцен</li>
-                          <li>• Создание атмосферных эмбиентов и дроун-текстур</li>
-                          <li>• Работа с ИИ для создания оперного кавера</li>
-                          <li>• Программирование и автоматизация в QLab</li>
-                          <li>• Работа в качестве выпускающего звукорежиссера</li>
+                          <li>• {isEn ? 'Creating 12 full compositions in various genres' : 'Создание 12 полноценных композиций разных жанров'}</li>
+                          <li>• {isEn ? 'Developing a leitmotif system for characters and scenes' : 'Разработка лейтмотивной системы для персонажей и сцен'}</li>
+                          <li>• {isEn ? 'Creating atmospheric ambients and drone textures' : 'Создание атмосферных эмбиентов и дроун-текстур'}</li>
+                          <li>• {isEn ? 'Working with AI to create an opera cover' : 'Работа с ИИ для создания оперного кавера'}</li>
+                          <li>• {isEn ? 'Programming and automation in QLab' : 'Программирование и автоматизация в QLab'}</li>
+                          <li>• {isEn ? 'Working as the production sound engineer' : 'Работа в качестве выпускающего звукорежиссера'}</li>
                         </ul>
                       </div>
                     </div>
 
                     <div className="p-6 relative" style={{zIndex: 30}}>
-                      <h4 className="text-2xl font-bold text-green-400 mb-4">Ключевые решения</h4>
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">{isEn ? 'Key Solutions' : 'Ключевые решения'}</h4>
                       
                       <div className="space-y-6 text-lg">
                         <p>
-                          <strong className="text-white text-xl">Жанровая мозаика:</strong> музыка следует логике спектакля, 
-                          переключаясь от сентиментального неоклассицизма до тревожных эмбиентов и мультяшной гротескности.
+                          <strong className="text-white text-xl">{isEn ? 'Genre Mosaic:' : 'Жанровая мозаика:'}</strong> {isEn ? 'music follows the logic of the performance, switching from sentimental neoclassicism to anxious ambients and cartoonish grotesqueness.' : 'музыка следует логике спектакля, переключаясь от сентиментального неоклассицизма до тревожных эмбиентов и мультяшной гротескности.'}
                         </p>
                         
                         <p>
-                          <strong className="text-white text-xl">Ироничные ИИ-эксперименты:</strong> оперная обработка песни «Ноль» 
-                          подчеркнула комиксную природу постановки.
+                          <strong className="text-white text-xl">{isEn ? 'Ironic AI Experiments:' : 'Ироничные ИИ-эксперименты:'}</strong> {isEn ? 'an opera arrangement of the song "Nol" emphasized the comic-book nature of the production.' : 'оперная обработка песни «Ноль» подчеркнула комиксную природу постановки.'}
                         </p>
                       </div>
                     </div>
 
                     <div className="bg-green-500/10 border border-green-500/30 p-6 rounded-lg">
-                      <h4 className="text-2xl font-bold text-green-400 mb-4">Результат</h4>
+                      <h4 className="text-2xl font-bold text-green-400 mb-4">{isEn ? 'Result' : 'Результат'}</h4>
                       <p className="text-lg">
-                        Спектакль, где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.<br/>
-                        <strong className="text-white">Мой вклад:</strong> создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, техническая реализация сложной звуковой архитектуры спектакля.
+                        {isEn ? 'A performance where every element of the sound score works to create a unified artistic statement.' : 'Спектакль, где каждый элемент звуковой партитуры работает на создание целостного художественного высказывания.'}<br/>
+                        <strong className="text-white">{isEn ? 'My contribution:' : 'Мой вклад:'}</strong> {isEn ? 'creating full musical dramaturgy, experimental AI solutions, technical implementation of the performance\'s complex sound architecture.' : 'создание полноценной музыкальной драматургии, экспериментальные ИИ-решения, техническая реализация сложной звуковой архитектуры спектакля.'}
                       </p>
                     </div>
                   </div>
@@ -1255,7 +1258,7 @@ export default function ProjectPage() {
               {project.id === "petrovy-saratov-drama" && (
                 <WinampPlayer 
                   projectId={project.id}
-                  title="Музыка из спектакля" 
+                  title={isEn ? 'Music from the Performance' : 'Музыка из спектакля'} 
                   className="petrovy-themed"
                 />
               )}
@@ -1268,7 +1271,7 @@ export default function ProjectPage() {
           {project.id === "mayakovsky-moscow-estrada" && (
             <WinampPlayer 
               projectId={project.id} 
-              title="Музыка из спектакля" 
+              title={isEn ? 'Music from the Performance' : 'Музыка из спектакля'} 
               className="mayak-themed"
             />
           )}
@@ -1287,7 +1290,7 @@ export default function ProjectPage() {
                 >
                   <div className="glass-effect rounded-xl p-6">
                     <p className="text-gray-300 text-lg leading-relaxed">
-                      Короткометражная драма с элементами чёрной комедии. Создано 13 оригинальных композиций и проведен полный пост-продакшн звука включая финальный микс в 5.1. Саунд-дизайн балансирует между реализмом и стилизацией под азиатские боевики. Премьера состоялась на кинофестивале «Короче» в Калининграде.
+                      {isEn ? 'A short drama with elements of black comedy. 13 original compositions were created and full sound post-production was completed including the final mix in 5.1. Sound design balances between realism and Asian action film stylization. The premiere took place at the "Koroche" film festival in Kaliningrad.' : 'Короткометражная драма с элементами чёрной комедии. Создано 13 оригинальных композиций и проведен полный пост-продакшн звука включая финальный микс в 5.1. Саунд-дизайн балансирует между реализмом и стилизацией под азиатские боевики. Премьера состоялась на кинофестивале «Короче» в Калининграде.'}
                     </p>
                   </div>
                 </motion.div>
@@ -1300,22 +1303,22 @@ export default function ProjectPage() {
                   className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-white font-medium mb-3">Съёмочная группа</h4>
+                    <h4 className="text-white font-medium mb-3">{isEn ? 'Film Crew' : 'Съёмочная группа'}</h4>
                     <div className="text-gray-300 space-y-2">
-                      <p><strong>Режиссёр, сценарист:</strong> Иван Комаров</p>
-                      <p><strong>Продюсеры:</strong> Элеонора Клементьева, Иван Комаров, Елена Ербакова</p>
-                      <p><strong>Оператор:</strong> Лотос Суни Парк</p>
-                      <p><strong>Художники:</strong> Галина Процанова, Анна Хрусталева</p>
+                      <p><strong>{isEn ? 'Director, screenwriter:' : 'Режиссёр, сценарист:'}</strong> {isEn ? 'Ivan Komarov' : 'Иван Комаров'}</p>
+                      <p><strong>{isEn ? 'Producers:' : 'Продюсеры:'}</strong> {isEn ? 'Eleonora Klementyeva, Ivan Komarov, Elena Erbakova' : 'Элеонора Клементьева, Иван Комаров, Елена Ербакова'}</p>
+                      <p><strong>{isEn ? 'Cinematographer:' : 'Оператор:'}</strong> {isEn ? 'Lotos Suni Park' : 'Лотос Суни Парк'}</p>
+                      <p><strong>{isEn ? 'Art Directors:' : 'Художники:'}</strong> {isEn ? 'Galina Protsanova, Anna Khrustaleva' : 'Галина Процанова, Анна Хрусталева'}</p>
                     </div>
                     <div className="mt-4">
-                      <p className="text-sm text-gray-400 font-medium mb-2">В главных ролях:</p>
-                      <p className="text-gray-300 text-sm">Семён Штейнберг, Елена Ербакова, Антон Кузнецов, Алёна Бабенко, Александр Панов, Батраз Засеев, Ефим Белосорочка</p>
+                      <p className="text-sm text-gray-400 font-medium mb-2">{isEn ? 'Starring:' : 'В главных ролях:'}</p>
+                      <p className="text-gray-300 text-sm">{isEn ? 'Semyon Shteinberg, Elena Erbakova, Anton Kuznetsov, Alyona Babenko, Alexander Panov, Batraz Zaseev, Efim Belosorochka' : 'Семён Штейнберг, Елена Ербакова, Антон Кузнецов, Алёна Бабенко, Александр Панов, Батраз Засеев, Ефим Белосорочка'}</p>
                     </div>
                   </div>
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                    <h4 className="text-white font-medium mb-3">{isEn ? 'Role in Project' : 'Роль в проекте'}</h4>
                     <p className="text-yellow-400 font-semibold text-lg">
-                      Композитор, саунд-дизайнер, звукорежиссёр пост-продакшена, сонграйтер, промт-инженер
+                      {isEn ? 'Composer, Sound Designer, Post-Production Sound Engineer, Songwriter, Prompt Engineer' : 'Композитор, саунд-дизайнер, звукорежиссёр пост-продакшена, сонграйтер, промт-инженер'}
                     </p>
                   </div>
                 </motion.div>
@@ -1328,9 +1331,9 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-xl font-semibold mb-3" style={{color: '#FFD700'}}>Концепция</h4>
+                    <h4 className="text-xl font-semibold mb-3" style={{color: '#FFD700'}}>{isEn ? 'Concept' : 'Концепция'}</h4>
                     <p className="text-gray-300 leading-relaxed">
-                      Фильм о человеке, превращающем свою жизнь в кинематографическую цитату. Герой находит в чужой культуре силу для мести, балансируя между подлинностью и условностью.
+                      {isEn ? 'A film about a man turning his life into a cinematic quote. The hero finds strength for revenge in a foreign culture, balancing between authenticity and convention.' : 'Фильм о человеке, превращающем свою жизнь в кинематографическую цитату. Герой находит в чужой культуре силу для мести, балансируя между подлинностью и условностью.'}
                     </p>
                   </div>
                 </motion.div>
@@ -1343,15 +1346,15 @@ export default function ProjectPage() {
                   className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>Творческая задача</h4>
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>{isEn ? 'Creative Challenge' : 'Творческая задача'}</h4>
                     <p className="text-gray-300">
-                      Написать 13 композиций как эмоциональную партитуру героя, создать двухуровневый саунд-дизайн (реализм + стилизация), сделать звук второй драматургией фильма.
+                      {isEn ? 'Compose 13 pieces as the hero\'s emotional score, create two-level sound design (realism + stylization), make sound the film\'s second dramaturgy.' : 'Написать 13 композиций как эмоциональную партитуру героя, создать двухуровневый саунд-дизайн (реализм + стилизация), сделать звук второй драматургией фильма.'}
                     </p>
                   </div>
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>Техническая задача</h4>
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#FFD700'}}>{isEn ? 'Technical Challenge' : 'Техническая задача'}</h4>
                     <p className="text-gray-300">
-                      Провести полный цикл пост-продакшна звука: от монтажа до финального микса в стерео и 5.1, обеспечить техническое качество для кинофестивального показа.
+                      {isEn ? 'Complete the full sound post-production cycle: from editing to the final mix in stereo and 5.1, ensuring technical quality for film festival screening.' : 'Провести полный цикл пост-продакшна звука: от монтажа до финального микса в стерео и 5.1, обеспечить техническое качество для кинофестивального показа.'}
                     </p>
                   </div>
                 </motion.div>
@@ -1364,18 +1367,18 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>Выполненные работы</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>{isEn ? 'Completed Work' : 'Выполненные работы'}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <ul className="space-y-2 text-gray-300">
-                        <li>• Написание 13 оригинальных композиций</li>
-                        <li>• Сонграйтинг</li>
-                        <li>• Создание японской песни 70-х с помощью ИИ</li>
-                        <li>• Полевые записи бытовых звуков и локаций</li>
+                        <li>• {isEn ? 'Composing 13 original pieces' : 'Написание 13 оригинальных композиций'}</li>
+                        <li>• {isEn ? 'Songwriting' : 'Сонграйтинг'}</li>
+                        <li>• {isEn ? 'Creating a 70s Japanese song using AI' : 'Создание японской песни 70-х с помощью ИИ'}</li>
+                        <li>• {isEn ? 'Field recordings of everyday sounds and locations' : 'Полевые записи бытовых звуков и локаций'}</li>
                       </ul>
                       <ul className="space-y-2 text-gray-300">
-                        <li>• Создание стилизованного саунд-дизайна для боевых сцен</li>
-                        <li>• Монтаж, сведение и мастеринг звука</li>
-                        <li>• Подготовка финальных миксов в стерео и 5.1</li>
+                        <li>• {isEn ? 'Creating stylized sound design for fight scenes' : 'Создание стилизованного саунд-дизайна для боевых сцен'}</li>
+                        <li>• {isEn ? 'Sound editing, mixing, and mastering' : 'Монтаж, сведение и мастеринг звука'}</li>
+                        <li>• {isEn ? 'Preparing final mixes in stereo and 5.1' : 'Подготовка финальных миксов в стерео и 5.1'}</li>
                       </ul>
                     </div>
                   </div>
@@ -1389,22 +1392,22 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6 space-y-6">
-                    <h3 className="text-2xl font-bold" style={{color: '#FFD700'}}>Ключевые решения</h3>
+                    <h3 className="text-2xl font-bold" style={{color: '#FFD700'}}>{isEn ? 'Key Solutions' : 'Ключевые решения'}</h3>
                     
                     <div className="space-y-4">
                       <div>
-                        <h4 className="text-white font-medium mb-2">Эмоциональная партитура</h4>
-                        <p className="text-gray-300">Музыка следует за внутренними состояниями Саввы — от комичности до драмы и экшена, становясь его «вторым голосом».</p>
+                        <h4 className="text-white font-medium mb-2">{isEn ? 'Emotional Score' : 'Эмоциональная партитура'}</h4>
+                        <p className="text-gray-300">{isEn ? 'Music follows Savva\'s inner states — from comedy to drama and action, becoming his "second voice".' : 'Музыка следует за внутренними состояниями Саввы — от комичности до драмы и экшена, становясь его «вторым голосом».'}</p>
                       </div>
                       
                       <div>
-                        <h4 className="text-white font-medium mb-2">Коллаборативная японская песня</h4>
-                        <p className="text-gray-300">Режиссёр написал текст, который был переведён на японский и с помощью ИИ превращён в аутентичную композицию в стиле японского шансона 70-х с женским вокалом.</p>
+                        <h4 className="text-white font-medium mb-2">{isEn ? 'Collaborative Japanese Song' : 'Коллаборативная японская песня'}</h4>
+                        <p className="text-gray-300">{isEn ? 'The director wrote lyrics that were translated into Japanese and transformed using AI into an authentic 70s Japanese chanson composition with female vocals.' : 'Режиссёр написал текст, который был переведён на японский и с помощью ИИ превращён в аутентичную композицию в стиле японского шансона 70-х с женским вокалом.'}</p>
                       </div>
                       
                       <div>
-                        <h4 className="text-white font-medium mb-2">Двухуровневый саунд-дизайн</h4>
-                        <p className="text-gray-300">Реалистичные бытовые сцены контрастируют со стилизованными под азиатские боевики эпизодами мести.</p>
+                        <h4 className="text-white font-medium mb-2">{isEn ? 'Two-Level Sound Design' : 'Двухуровневый саунд-дизайн'}</h4>
+                        <p className="text-gray-300">{isEn ? 'Realistic everyday scenes contrast with Asian action film-styled revenge episodes.' : 'Реалистичные бытовые сцены контрастируют со стилизованными под азиатские боевики эпизодами мести.'}</p>
                       </div>
                     </div>
                   </div>
@@ -1418,12 +1421,12 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="bg-yellow-500/10 border border-yellow-500/30 p-6 rounded-xl">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>Результат</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#FFD700'}}>{isEn ? 'Result' : 'Результат'}</h3>
                     <p className="text-lg text-gray-300 leading-relaxed">
-                      Фильм получил цельный звуковой образ с выразительной драматургией. Премьера состоялась на кинофестивале «Короче» в Калининграде. Это кинопроект, где я взял на себя весь пласт звукового производства.
+                      {isEn ? 'The film received a cohesive sound image with expressive dramaturgy. The premiere took place at the "Koroche" film festival in Kaliningrad. This is a film project where I took on the entire sound production layer.' : 'Фильм получил цельный звуковой образ с выразительной драматургией. Премьера состоялась на кинофестивале «Короче» в Калининграде. Это кинопроект, где я взял на себя весь пласт звукового производства.'}
                     </p>
                     <p className="text-yellow-400 font-semibold mt-4">
-                      <strong>Мой вклад:</strong> создание полной звуковой партитуры фильма, инновационное использование ИИ для генерации аутентичной японской песни, полный цикл пост-продакшна звука.
+                      <strong>{isEn ? 'My contribution:' : 'Мой вклад:'}</strong> {isEn ? 'creating the complete sound score of the film, innovative use of AI for generating an authentic Japanese song, full sound post-production cycle.' : 'создание полной звуковой партитуры фильма, инновационное использование ИИ для генерации аутентичной японской песни, полный цикл пост-продакшна звука.'}
                     </p>
                   </div>
                 </motion.div>
@@ -1444,7 +1447,7 @@ export default function ProjectPage() {
                 >
                   <div className="glass-effect rounded-xl p-6">
                     <p className="text-gray-300 text-lg leading-relaxed">
-                      Короткометражная драма о матери и дочери, переживающих утрату. Кино почти без диалогов, где пейзаж и быт говорят вместо слов. Действие происходит в Северной Осетии, в селе Даргавс. Проведена реставрация звукового материала, переозвучена часть сцен без предзаписанного звука.
+                      {isEn ? 'A short drama about a mother and daughter coping with loss. A film almost without dialogue, where landscape and everyday life speak instead of words. Set in North Ossetia, in the village of Dargavs. Sound material restoration was performed, and some scenes without pre-recorded sound were re-dubbed.' : 'Короткометражная драма о матери и дочери, переживающих утрату. Кино почти без диалогов, где пейзаж и быт говорят вместо слов. Действие происходит в Северной Осетии, в селе Даргавс. Проведена реставрация звукового материала, переозвучена часть сцен без предзаписанного звука.'}
                     </p>
                   </div>
                 </motion.div>
@@ -1457,22 +1460,22 @@ export default function ProjectPage() {
                   className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-white font-medium mb-3">Съёмочная группа</h4>
+                    <h4 className="text-white font-medium mb-3">{isEn ? 'Film Crew' : 'Съёмочная группа'}</h4>
                     <div className="text-gray-300 space-y-2">
-                      <p><strong>Режиссёр:</strong> Валентина Бесолова</p>
-                      <p><strong>Оператор:</strong> Владимир Дыдыкин</p>
-                      <p><strong>Художник-постановщик:</strong> Карина Дзабиева</p>
-                      <p><strong>Монтаж:</strong> Антон Переведенцев, Валентина Бесолова</p>
+                      <p><strong>{isEn ? 'Director:' : 'Режиссёр:'}</strong> {isEn ? 'Valentina Besolova' : 'Валентина Бесолова'}</p>
+                      <p><strong>{isEn ? 'Cinematographer:' : 'Оператор:'}</strong> {isEn ? 'Vladimir Dydykin' : 'Владимир Дыдыкин'}</p>
+                      <p><strong>{isEn ? 'Set Designer:' : 'Художник-постановщик:'}</strong> {isEn ? 'Karina Dzabieva' : 'Карина Дзабиева'}</p>
+                      <p><strong>{isEn ? 'Editing:' : 'Монтаж:'}</strong> {isEn ? 'Anton Perevedencev, Valentina Besolova' : 'Антон Переведенцев, Валентина Бесолова'}</p>
                     </div>
                     <div className="mt-4">
-                      <p className="text-sm text-gray-400 font-medium mb-2">В ролях:</p>
-                      <p className="text-gray-300 text-sm">Зита Лацоева (Зарема), Милана Кониева (Сабина), Алан Албегов (Алик)</p>
+                      <p className="text-sm text-gray-400 font-medium mb-2">{isEn ? 'Cast:' : 'В ролях:'}</p>
+                      <p className="text-gray-300 text-sm">{isEn ? 'Zita Latsoeva (Zarema), Milana Konieva (Sabina), Alan Albegov (Alik)' : 'Зита Лацоева (Зарема), Милана Кониева (Сабина), Алан Албегов (Алик)'}</p>
                     </div>
                   </div>
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                    <h4 className="text-white font-medium mb-3">{isEn ? 'Role in Project' : 'Роль в проекте'}</h4>
                     <p className="text-cyan-400 font-semibold text-lg">
-                      Звукорежиссёр пост-продакшна
+                      {isEn ? 'Post-Production Sound Engineer' : 'Звукорежиссёр пост-продакшна'}
                     </p>
                   </div>
                 </motion.div>
@@ -1485,9 +1488,9 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-xl font-semibold mb-3" style={{color: '#67E8F9'}}>Концепция</h4>
+                    <h4 className="text-xl font-semibold mb-3" style={{color: '#67E8F9'}}>{isEn ? 'Concept' : 'Концепция'}</h4>
                     <p className="text-gray-300 leading-relaxed">
-                      Фильм построен вокруг отношений матери и дочери, оставшихся вдвоём после смерти сына и брата. Это камерная драма о переживании утраты, где тишина и повседневные жесты заменяют слова и музыку.
+                      {isEn ? 'The film is built around the relationship of a mother and daughter left alone after the death of their son and brother. An intimate drama about experiencing loss, where silence and everyday gestures replace words and music.' : 'Фильм построен вокруг отношений матери и дочери, оставшихся вдвоём после смерти сына и брата. Это камерная драма о переживании утраты, где тишина и повседневные жесты заменяют слова и музыку.'}
                     </p>
                   </div>
                 </motion.div>
@@ -1500,15 +1503,15 @@ export default function ProjectPage() {
                   className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-xl font-bold mb-4" style={{color: '#67E8F9'}}>Творческая задача</h4>
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#67E8F9'}}>{isEn ? 'Creative Challenge' : 'Творческая задача'}</h4>
                     <p className="text-gray-300">
-                      Создать звуковой мир, где тишина и бытовые звуки работают вместо музыки. Построить драматургию через микродинамику среды и пространственные переходы.
+                      {isEn ? 'Create a sound world where silence and everyday sounds work instead of music. Build dramaturgy through micro-dynamics of the environment and spatial transitions.' : 'Создать звуковой мир, где тишина и бытовые звуки работают вместо музыки. Построить драматургию через микродинамику среды и пространственные переходы.'}
                     </p>
                   </div>
                   <div className="glass-effect rounded-xl p-6">
-                    <h4 className="text-xl font-bold mb-4" style={{color: '#67E8F9'}}>Техническая задача</h4>
+                    <h4 className="text-xl font-bold mb-4" style={{color: '#67E8F9'}}>{isEn ? 'Technical Challenge' : 'Техническая задача'}</h4>
                     <p className="text-gray-300">
-                      Провести полную реставрацию звукового материала, создать фоли для сцен без записанного на площадке звука, обеспечить точную синхронизацию звука с планами камеры.
+                      {isEn ? 'Perform full restoration of sound material, create foley for scenes without on-set recorded sound, ensure precise sound synchronization with camera shots.' : 'Провести полную реставрацию звукового материала, создать фоли для сцен без записанного на площадке звука, обеспечить точную синхронизацию звука с планами камеры.'}
                     </p>
                   </div>
                 </motion.div>
@@ -1521,13 +1524,13 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#67E8F9'}}>Выполненные работы</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#67E8F9'}}>{isEn ? 'Completed Work' : 'Выполненные работы'}</h3>
                     <div className="space-y-2 text-gray-300">
-                      <p>• Реставрация исходного материала в iZotope RX</p>
-                      <p>• Создание полного foley (шаги, одежда, предметы)</p>
-                      <p>• Создание атмосферных слоев среды</p>
-                      <p>• Пространственная обработка под планы камеры</p>
-                      <p>• Финальное сведение и мастеринг в стерео</p>
+                      <p>• {isEn ? 'Source material restoration in iZotope RX' : 'Реставрация исходного материала в iZotope RX'}</p>
+                      <p>• {isEn ? 'Creating complete foley (footsteps, clothing, objects)' : 'Создание полного foley (шаги, одежда, предметы)'}</p>
+                      <p>• {isEn ? 'Creating atmospheric environment layers' : 'Создание атмосферных слоев среды'}</p>
+                      <p>• {isEn ? 'Spatial processing for camera shots' : 'Пространственная обработка под планы камеры'}</p>
+                      <p>• {isEn ? 'Final mixing and mastering in stereo' : 'Финальное сведение и мастеринг в стерео'}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -1540,9 +1543,9 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#67E8F9'}}>Ключевые решения</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#67E8F9'}}>{isEn ? 'Key Solutions' : 'Ключевые решения'}</h3>
                     <p className="text-gray-300 leading-relaxed">
-                      <strong className="text-cyan-300">Звуковой реализм:</strong> звук меняется в зависимости от расположения камеры. Каждый план имеет свою звуковую глубину и пространственность, что создаёт эффект присутствия и помогает зрителю погрузиться в атмосферу Северного Кавказа.
+                      <strong className="text-cyan-300">{isEn ? 'Sound Realism:' : 'Звуковой реализм:'}</strong> {isEn ? 'sound changes depending on camera position. Each shot has its own sound depth and spatiality, creating a presence effect and helping the viewer immerse in the atmosphere of the North Caucasus.' : 'звук меняется в зависимости от расположения камеры. Каждый план имеет свою звуковую глубину и пространственность, что создаёт эффект присутствия и помогает зрителю погрузиться в атмосферу Северного Кавказа.'}
                     </p>
                   </div>
                 </motion.div>
@@ -1555,12 +1558,12 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="bg-gray-500/10 border border-gray-500/30 p-6 rounded-xl">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#67E8F9'}}>Результат</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#67E8F9'}}>{isEn ? 'Result' : 'Результат'}</h3>
                     <p className="text-lg text-gray-300 leading-relaxed">
-                      Создан живой, достоверный звуковой слой без перегрузки. В отсутствие музыки именно звук ведёт зрителя, помогая прочитать желания героев и ощутить пространство Северного Кавказа.
+                      {isEn ? 'A living, authentic sound layer was created without overloading. In the absence of music, sound leads the viewer, helping to read the characters\' desires and feel the space of the North Caucasus.' : 'Создан живой, достоверный звуковой слой без перегрузки. В отсутствие музыки именно звук ведёт зрителя, помогая прочитать желания героев и ощутить пространство Северного Кавказа.'}
                     </p>
                     <p className="text-gray-200 font-semibold mt-4">
-                      <strong className="text-cyan-300">Мой вклад:</strong> полный пост-продакшн звука от реставрации до стерео-мастера, создание звуковой драматургии на основе естественных звуков без музыкального сопровождения.
+                      <strong className="text-cyan-300">{isEn ? 'My contribution:' : 'Мой вклад:'}</strong> {isEn ? 'full sound post-production from restoration to stereo master, creating sound dramaturgy based on natural sounds without musical accompaniment.' : 'полный пост-продакшн звука от реставрации до стерео-мастера, создание звуковой драматургии на основе естественных звуков без музыкального сопровождения.'}
                     </p>
                   </div>
                 </motion.div>
@@ -1594,21 +1597,21 @@ export default function ProjectPage() {
                 className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
               >
                 <div className="glass-effect rounded-xl p-6">
-                  <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
+                  <h4 className="text-white font-medium mb-3">{isEn ? 'Production Team' : 'Постановочная команда'}</h4>
                   <div className="text-gray-300 space-y-2">
-                    {project.details?.director && <p><strong>Режиссёр:</strong> {project.details.director}</p>}
+                    {project.details?.director && <p><strong>{isEn ? 'Director:' : 'Режиссёр:'}</strong> {project.details.director}</p>}
                     {project.details?.producer && <p>{project.details.producer}</p>}
-                    {project.details?.premiere && <p><strong>Премьера:</strong> {project.details.premiere}</p>}
+                    {project.details?.premiere && <p><strong>{isEn ? 'Premiere:' : 'Премьера:'}</strong> {project.details.premiere}</p>}
                   </div>
                   {project.details?.cast && project.details.cast.length > 0 && (
                     <div className="mt-4">
-                      <p className="text-sm text-gray-400 font-medium mb-2">В ролях:</p>
+                      <p className="text-sm text-gray-400 font-medium mb-2">{isEn ? 'Cast:' : 'В ролях:'}</p>
                       <p className="text-gray-300 text-sm">{project.details.cast.join(', ')}</p>
                     </div>
                   )}
                 </div>
                 <div className="glass-effect rounded-xl p-6">
-                  <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                  <h4 className="text-white font-medium mb-3">{isEn ? 'Role in Project' : 'Роль в проекте'}</h4>
                   <p className="text-blue-400 font-semibold text-lg">
                     {project.role.join(', ')}
                   </p>
@@ -1624,7 +1627,7 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#4A90E2'}}>Моя работа</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#4A90E2'}}>{isEn ? 'My Work' : 'Моя работа'}</h3>
                     <div className="space-y-2 text-gray-300">
                       {project.details.technical.map((item, index) => (
                         <p key={index}>• {item}</p>
@@ -1663,21 +1666,21 @@ export default function ProjectPage() {
                 className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
               >
                 <div className="glass-effect rounded-xl p-6">
-                  <h4 className="text-white font-medium mb-3">Постановочная команда</h4>
+                  <h4 className="text-white font-medium mb-3">{isEn ? 'Production Team' : 'Постановочная команда'}</h4>
                   <div className="text-gray-300 space-y-2">
-                    {project.details?.director && <p><strong>Режиссёр:</strong> {project.details.director}</p>}
+                    {project.details?.director && <p><strong>{isEn ? 'Director:' : 'Режиссёр:'}</strong> {project.details.director}</p>}
                     {project.details?.producer && <p>{project.details.producer}</p>}
-                    {project.details?.premiere && <p><strong>Премьера:</strong> {project.details.premiere}</p>}
+                    {project.details?.premiere && <p><strong>{isEn ? 'Premiere:' : 'Премьера:'}</strong> {project.details.premiere}</p>}
                   </div>
                   {project.details?.cast && project.details.cast.length > 0 && (
                     <div className="mt-4">
-                      <p className="text-sm text-gray-400 font-medium mb-2">В ролях:</p>
+                      <p className="text-sm text-gray-400 font-medium mb-2">{isEn ? 'Cast:' : 'В ролях:'}</p>
                       <p className="text-gray-300 text-sm">{project.details.cast.join(', ')}</p>
                     </div>
                   )}
                 </div>
                 <div className="glass-effect rounded-xl p-6">
-                  <h4 className="text-white font-medium mb-3">Роль в проекте</h4>
+                  <h4 className="text-white font-medium mb-3">{isEn ? 'Role in Project' : 'Роль в проекте'}</h4>
                   <p className="font-semibold text-lg" style={{color: '#D2691E'}}>
                     {project.role.join(', ')}
                   </p>
@@ -1693,7 +1696,7 @@ export default function ProjectPage() {
                   className="mb-8"
                 >
                   <div className="glass-effect rounded-xl p-6">
-                    <h3 className="text-2xl font-bold mb-4" style={{color: '#D2691E'}}>Моя работа</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{color: '#D2691E'}}>{isEn ? 'My Work' : 'Моя работа'}</h3>
                     <div className="space-y-2 text-gray-300">
                       {project.details.technical.map((item, index) => (
                         <p key={index}>• {item}</p>
