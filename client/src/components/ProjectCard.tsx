@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
+import { useLanguage } from "@/i18n/useLanguage";
 
 interface ProjectCardProps {
   id: string;
@@ -25,6 +26,7 @@ export default function ProjectCard({
   category,
   links = [],
 }: ProjectCardProps) {
+  const { t, prefix } = useLanguage();
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -43,11 +45,11 @@ export default function ProjectCard({
         <p className="text-muted-foreground mb-6">{description}</p>
         <div className="flex flex-wrap gap-4">
           <Link
-            href={`/project/${id}`}
+            href={`${prefix}/project/${id}`}
             className="text-primary hover:text-white transition-colors duration-300 inline-flex items-center"
             data-testid={`link-project-${id}`}
           >
-            Подробнее
+            {t.homeMore}
             <ArrowRight className="w-4 h-4 ml-2" />
           </Link>
           {links.map((link, index) => (

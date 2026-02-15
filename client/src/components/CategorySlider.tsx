@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { HomeProject } from "@/data/home-projects";
+import { useLanguage } from "@/i18n/useLanguage";
 
 interface CategorySliderProps {
   category: string;
@@ -10,6 +11,7 @@ interface CategorySliderProps {
 }
 
 export default function CategorySlider({ category, title, description, projects }: CategorySliderProps) {
+  const { t, prefix } = useLanguage();
   const swiperRef = useRef<any>(null);
 
   useEffect(() => {
@@ -77,10 +79,10 @@ export default function CategorySlider({ category, title, description, projects 
                     <p className="text-xs text-gray-200 mb-3 line-clamp-2">{project.subtitle}</p>
                     <div className="flex gap-2">
                       <Link
-                        href={project.url}
+                        href={`${prefix}${project.url}`}
                         className="px-3 py-1 bg-white text-black rounded text-xs font-medium hover:bg-gray-200 transition-colors"
                       >
-                        Подробнее
+                        {t.homeMore}
                       </Link>
                       {project.press && (
                         <a
@@ -89,7 +91,7 @@ export default function CategorySlider({ category, title, description, projects 
                           rel="noopener noreferrer"
                           className="px-3 py-1 border border-white text-white rounded text-xs font-medium hover:bg-white hover:text-black transition-colors"
                         >
-                          В СМИ
+                          {t.sliderInMedia}
                         </a>
                       )}
                     </div>

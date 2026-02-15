@@ -171,12 +171,12 @@ function getPageSEO(path: string): PageSEO | null {
 
   if (cleanPath === "/" || cleanPath === "") {
     const title = isEn
-      ? "Yan Kuzmichev — Composer, Sound Designer, Sound Engineer"
+      ? "Ian Kuzmichev — Composer, Sound Designer, Sound Engineer"
       : "Ян Кузьмичёв — композитор, саунд-дизайнер, звукорежиссёр";
     const desc = isEn
-      ? "Yan Kuzmichev — composer, sound designer and sound engineer with 14+ years of experience. Over 100 projects in theatre, film, and audio."
+      ? "Ian Kuzmichev — composer, sound designer and sound engineer with 14+ years of experience. Over 100 projects in theatre, film, and audio."
       : "Ян Кузьмичёв — композитор, саунд-дизайнер и звукорежиссёр с 14-летним опытом. Более 100 проектов в театре, кино и аудио. Музыка и звук для пространства.";
-    const name = isEn ? "Yan Kuzmichev" : "Ян Кузьмичёв";
+    const name = isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв";
     const jobs = isEn ? ["Composer", "Sound Designer", "Sound Engineer"] : ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"];
     return {
       title, description: desc, lang,
@@ -192,7 +192,7 @@ function getPageSEO(path: string): PageSEO | null {
         "description": desc
       },
       content: isEn ? `
-        <h1>Yan Kuzmichev — Composer, Sound Designer, Sound Engineer</h1>
+        <h1>Ian Kuzmichev — Composer, Sound Designer, Sound Engineer</h1>
         <p>14+ years of experience, 100+ projects in theatre, film, and audio.</p>
         <h2>Theatre</h2><p>Immersive performances. Working with Russia's leading theatres: Chekhov Moscow Art Theatre, Theatre of Nations, Sovremennik, Pushkin Theatre, Meyerhold Centre.</p>
         <h2>Film</h2><p>Full post-production cycle. Composition, sound design, post-production sound engineering.</p>
@@ -212,9 +212,9 @@ function getPageSEO(path: string): PageSEO | null {
   }
 
   if (cleanPath === "/about") {
-    const title = isEn ? "About — Yan Kuzmichev" : "Обо мне — Ян Кузьмичёв";
+    const title = isEn ? "About — Ian Kuzmichev" : "Обо мне — Ян Кузьмичёв";
     const desc = isEn
-      ? "Yan Kuzmichev — composer, sound designer and sound engineer. Over 100 projects. Chekhov Moscow Art Theatre, Theatre of Nations, Sovremennik, Van Cleef & Arpels, Porsche."
+      ? "Ian Kuzmichev — composer, sound designer and sound engineer. Over 100 projects. Chekhov Moscow Art Theatre, Theatre of Nations, Sovremennik, Van Cleef & Arpels, Porsche."
       : "Ян Кузьмичёв — композитор, саунд-дизайнер и звукорежиссёр. Более 100 проектов. МХТ, Театр Наций, Современник, Van Cleef & Arpels, Porsche.";
     return {
       title, description: desc, lang,
@@ -226,15 +226,15 @@ function getPageSEO(path: string): PageSEO | null {
         "name": title,
         "mainEntity": {
           "@type": "Person",
-          "name": isEn ? "Yan Kuzmichev" : "Ян Кузьмичёв",
+          "name": isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв",
           "alumniOf": { "@type": "CollegeOrUniversity", "name": "GITIS" },
           "jobTitle": isEn ? ["Composer", "Sound Designer", "Sound Engineer"] : ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"]
         }
       },
       content: isEn ? `
-        <h1>About — Yan Kuzmichev</h1>
+        <h1>About — Ian Kuzmichev</h1>
         <p>Composer | Sound Designer | Sound Engineer</p>
-        <p>Yan Kuzmichev creates sound that becomes part of the story. GITIS graduate with honors (2015). Over 13 years — more than 100 completed projects.</p>
+        <p>Ian Kuzmichev creates sound that becomes part of the story. GITIS graduate with honors (2015). Over 13 years — more than 100 completed projects.</p>
         <p>Clients include: Chekhov Moscow Art Theatre, Meyerhold Centre, Theatre of Nations, Sovremennik, Pushkin Theatre, National Theatre of Budapest.</p>
         <p>Corporate projects for Van Cleef & Arpels, Porsche, Panasonic, VDNKh and Zotov Centre.</p>
       ` : `
@@ -251,20 +251,20 @@ function getPageSEO(path: string): PageSEO | null {
     const category = cleanPath.split("/projects/")[1];
     const catName = category ? (catNames[category] || (isEn ? "All Projects" : "Все проекты")) : (isEn ? "All Projects" : "Все проекты");
     const catDesc = isEn
-      ? (category ? `Projects by Yan Kuzmichev in the "${catName}" category. Composition, sound design and sound engineering.` : "All projects by Yan Kuzmichev: theatre, film, audio performances. Over 100 works as composer, sound designer and sound engineer.")
+      ? (category ? `Projects by Ian Kuzmichev in the "${catName}" category. Composition, sound design and sound engineering.` : "All projects by Ian Kuzmichev: theatre, film, audio performances. Over 100 works as composer, sound designer and sound engineer.")
       : (category ? `Проекты Яна Кузьмичёва в категории «${catName}». Композиция, саунд-дизайн и звукорежиссура.` : "Все проекты Яна Кузьмичёва: театр, кино, аудиоспектакли. Более 100 работ.");
 
     const filteredProjects = category ? projectsData.filter(p => p.category === category) : projectsData;
 
     return {
-      title: isEn ? `${catName} — Projects | Yan Kuzmichev` : `${catName} — Проекты | Ян Кузьмичёв`,
+      title: isEn ? `${catName} — Projects | Ian Kuzmichev` : `${catName} — Проекты | Ян Кузьмичёв`,
       description: catDesc, lang,
       url: `${SITE_URL}${prefix}${cleanPath}`,
       alternateUrl: `${SITE_URL}${altPrefix}${cleanPath}`,
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
-        "name": isEn ? `${catName} — projects by Yan Kuzmichev` : `${catName} — проекты Яна Кузьмичёва`,
+        "name": isEn ? `${catName} — projects by Ian Kuzmichev` : `${catName} — проекты Яна Кузьмичёва`,
         "description": catDesc,
         "url": `${SITE_URL}${prefix}${cleanPath}`
       },
@@ -276,9 +276,9 @@ function getPageSEO(path: string): PageSEO | null {
   }
 
   if (cleanPath === "/contact") {
-    const title = isEn ? "Contact — Yan Kuzmichev" : "Контакты — Ян Кузьмичёв";
+    const title = isEn ? "Contact — Ian Kuzmichev" : "Контакты — Ян Кузьмичёв";
     const desc = isEn
-      ? "Contact composer and sound designer Yan Kuzmichev. Email, Telegram, social media."
+      ? "Contact composer and sound designer Ian Kuzmichev. Email, Telegram, social media."
       : "Связаться с композитором и саунд-дизайнером Яном Кузьмичёвым. Email, Telegram, социальные сети.";
     return {
       title, description: desc, lang,
@@ -291,8 +291,8 @@ function getPageSEO(path: string): PageSEO | null {
         "url": `${SITE_URL}${prefix}/contact`
       },
       content: isEn ? `
-        <h1>Contact — Yan Kuzmichev</h1>
-        <p>Contact composer and sound designer Yan Kuzmichev for collaboration.</p>
+        <h1>Contact — Ian Kuzmichev</h1>
+        <p>Contact composer and sound designer Ian Kuzmichev for collaboration.</p>
         <p>Email: kuzmichevyan@gmail.com</p>
         <p>Telegram: @iankzmcv</p>
       ` : `
@@ -313,7 +313,7 @@ function getPageSEO(path: string): PageSEO | null {
       const pDesc = isEn ? project.fullDescriptionEn : project.fullDescription;
       const pRole = isEn ? project.roleEn : project.role;
       const pVenue = isEn ? project.venueEn : project.venue;
-      const name = isEn ? "Yan Kuzmichev" : "Ян Кузьмичёв";
+      const name = isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв";
       return {
         title: `${pTitle} — ${project.year} | ${name}`,
         description: pDesc.substring(0, 200) + "...",
@@ -353,7 +353,7 @@ function generateHTML(seo: PageSEO): string {
   const ogLocale = seo.lang === 'en' ? 'en_US' : 'ru_RU';
   const altLocale = seo.lang === 'en' ? 'ru_RU' : 'en_US';
   const altLang = seo.lang === 'en' ? 'ru' : 'en';
-  const siteName = seo.lang === 'en' ? 'Yan Kuzmichev' : 'Ян Кузьмичёв';
+  const siteName = seo.lang === 'en' ? 'Ian Kuzmichev' : 'Ян Кузьмичёв';
   const homeLabel = seo.lang === 'en' ? 'Home' : 'Главная';
   const aboutLabel = seo.lang === 'en' ? 'About' : 'Обо мне';
   const projectsLabel = seo.lang === 'en' ? 'Projects' : 'Проекты';

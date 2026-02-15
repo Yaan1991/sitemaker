@@ -65,6 +65,8 @@ export const translations = {
     homeAboutText1: "Я соединяю музыку, звук и технологии, чтобы создавать проекты, которые работают безупречно — от идеи до воплощения.",
     homeAboutText2: "Работаю в широком спектре жанров. Помимо театральных и кинопроектов, создаю джинглы и саунд-дизайн для брендов, разрабатываю аудиопрограммы и автоматизацию для проектов, совмещая творчество и технологии. Активно использую нейросети и ИИ-инструменты для генерации, анализа и обработки звука, расширяя границы традиционного саунд-дизайна.",
     homeContactButton: "Связаться",
+    sliderViewProjects: "Смотреть проекты",
+    sliderInMedia: "В СМИ",
     projectNotFound: "Проект не найден",
     projectBackHome: "Вернуться на главную",
 
@@ -86,7 +88,7 @@ export const translations = {
     langSwitch: "EN",
   },
   en: {
-    siteName: "Yan Kuzmichev",
+    siteName: "Ian Kuzmichev",
     siteSubtitle: "Composer • Sound Designer • Sound Engineer",
     navHome: "Home",
     navWorks: "Works",
@@ -100,12 +102,12 @@ export const translations = {
     catAudio: "AUDIO",
 
     footerSubtitle: "Composer • Sound Designer • Sound Engineer",
-    footerCopyright: "© 2025 Yan Kuzmichev. All rights reserved.",
+    footerCopyright: "© 2025 Ian Kuzmichev. All rights reserved.",
 
     aboutTitle: "About",
     aboutSubtitle: "Composer | Sound Designer | Sound Engineer",
     aboutDownloadPhotos: "Download press photos",
-    aboutBio1: "Yan Kuzmichev is a composer, sound designer, and sound engineer who creates sound that becomes part of the story.",
+    aboutBio1: "Ian Kuzmichev is a composer, sound designer, and sound engineer who creates sound that becomes part of the story.",
     aboutBio2: "Graduated from GITIS (Russian Institute of Theatre Arts) with honors (2015). Over 13 years of professional career — more than 100 completed projects, from chamber performances to large-scale multimedia shows.",
     aboutBio3: "My clients include leading theatres in Russia and abroad: Chekhov Moscow Art Theatre, Meyerhold Centre, Theatre of Nations, Sovremennik, Pushkin Theatre, RAMT, National Theatre of Budapest, as well as drama theatres in Saratov, Nizhny Novgorod, Krasnoyarsk, Omsk, Tver, Kazan, Makhachkala, Almaty, and other cities.",
     aboutBio4: "Corporate projects for Van Cleef & Arpels, Porsche, Panasonic, exhibition spaces at VDNKh and Zotov Centre.",
@@ -151,6 +153,8 @@ export const translations = {
     homeAboutText1: "I combine music, sound, and technology to create projects that work flawlessly — from concept to completion.",
     homeAboutText2: "I work across a wide range of genres. Beyond theatre and film projects, I create jingles and sound design for brands, develop audio programs and automation for projects, combining creativity and technology. I actively use neural networks and AI tools for sound generation, analysis, and processing, pushing the boundaries of traditional sound design.",
     homeContactButton: "Get in touch",
+    sliderViewProjects: "View projects",
+    sliderInMedia: "In the press",
     projectNotFound: "Project not found",
     projectBackHome: "Back to home",
 

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useRoute } from "wouter";
+import { useLocation } from "wouter";
 import { projects } from "@/data/projects";
 import SEOHead from "@/components/SEOHead";
 import { ExternalLink, ArrowLeft, VolumeX, Volume2, Play, Pause, SkipBack, SkipForward, Square } from "lucide-react";
@@ -364,8 +364,9 @@ const petrovyTracks = [
 
 
 export default function ProjectPage() {
-  const [, params] = useRoute("/project/:id");
-  const projectId = params?.id;
+  const [location] = useLocation();
+  const projectMatch = location.match(/^(?:\/en)?\/project\/(.+)$/);
+  const projectId = projectMatch?.[1];
   const [currentBackgroundImage, setCurrentBackgroundImage] = useState('');
   const { lang, t, prefix } = useLanguage();
   

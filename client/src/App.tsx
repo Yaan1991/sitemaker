@@ -42,7 +42,7 @@ function DynamicHelmet() {
   return (
     <Helmet>
       <html lang={lang} className="scroll-smooth dark" />
-      <title>{isEn ? 'Yan Kuzmichev — Composer, Sound Designer, Sound Engineer' : 'Ян Кузьмичёв — композитор, саунд‑дизайнер, звукорежиссёр'}</title>
+      <title>{isEn ? 'Ian Kuzmichev — Composer, Sound Designer, Sound Engineer' : 'Ян Кузьмичёв — композитор, саунд‑дизайнер, звукорежиссёр'}</title>
       <meta name="description" content={isEn ? '14+ years of experience, 100+ projects in theatre, film and audio.' : '14+ лет опыта, 100+ проектов в театре, кино и аудио. Музыка и звук для пространства.'} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
@@ -55,7 +55,7 @@ function DynamicHelmet() {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Person",
-          "name": isEn ? "Yan Kuzmichev" : "Ян Кузьмичёв",
+          "name": isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв",
           "jobTitle": isEn ? ["Composer", "Sound Designer", "Sound Engineer"] : ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"],
           "url": "https://iansound.pro",
           "email": "kuzmichevyan@gmail.com",

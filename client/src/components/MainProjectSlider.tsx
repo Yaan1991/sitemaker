@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/i18n/useLanguage";
 
 interface Project {
   id: string;
@@ -17,7 +18,7 @@ interface ProjectCategory {
   projects: Project[];
 }
 
-const projectCategories: ProjectCategory[] = [
+const projectCategoriesRu: ProjectCategory[] = [
   {
     title: "Театр",
     icon: "🎭",
@@ -94,18 +95,99 @@ const projectCategories: ProjectCategory[] = [
   }
 ];
 
+const projectCategoriesEn: ProjectCategory[] = [
+  {
+    title: "Theatre",
+    icon: "🎭",
+    projects: [
+      {
+        id: "idiot-saratov-drama",
+        title: "The Idiot",
+        year: "2024",
+        description: "A unique blend of theatre and cinema: noir jazz + field recordings + AI technologies.",
+        image: "/images/idiot_main.webp"
+      },
+      {
+        id: "mayakovsky-moscow-estrada", 
+        title: "Mayakovsky. Myself",
+        year: "2024",
+        description: "6 compositions, three-level sound concept.",
+        image: "/images/mayakovsky_main.webp"
+      },
+      {
+        id: "petrovy-saratov-drama",
+        title: "The Petrovs In and Around the Flu", 
+        year: "2025",
+        description: "Crossover/neo-jazz + surrealistic effects.",
+        image: "/images/petrovy_main.webp"
+      }
+    ]
+  },
+  {
+    title: "Film",
+    icon: "🎬",
+    projects: [
+      {
+        id: "homo-homini-short",
+        title: "Homo Homini",
+        year: "2025", 
+        description: "13 compositions + full post-production.",
+        image: "/images/homohomini_main.webp"
+      },
+      {
+        id: "ma-short-film",
+        title: "Ma",
+        year: "2023",
+        description: "Mixing, noises, ambiences.",
+        image: "/images/ma_film_main.webp"
+      },
+      {
+        id: "life-in-art-short",
+        title: "Life in Art",
+        year: "2019",
+        description: "Complete re-dubbing of noises and ambiences.",
+        image: "/images/life_in_art_main.webp"
+      }
+    ]
+  },
+  {
+    title: "Audio Performances",
+    icon: "🎧",
+    projects: [
+      {
+        id: "son-o-hlebe-zotov",
+        title: "Dream of Bread",
+        year: "2024",
+        description: "Original music, spatial sound.",
+        image: "/images/son_o_hlebe_main.webp"
+      },
+      {
+        id: "pogruzhenie-promenad-telegram",
+        title: "Immersion. Promenade",
+        year: "2021",
+        description: "Site-specific audio performance.",
+        image: "/images/pogruzhenie_main.webp"
+      }
+    ]
+  }
+];
+
 function ProjectCard({ 
   category, 
   currentIndex, 
   onNext, 
   onPrev, 
-  onGoTo 
+  onGoTo,
+  prefix,
+  moreLabel
 }: { 
   category: ProjectCategory, 
   currentIndex: number,
   onNext: () => void,
   onPrev: () => void,
-  onGoTo: (index: number) => void
+  onGoTo: (index: number) => void,
+  prefix: string,
+  moreLabel: string
 }) {
   const currentProject = category.projects[currentIndex];
   
@@ -131,7 +213,6 @@ function ProjectCard({
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/20 sm:bg-gradient-to-r sm:from-black sm:via-black/70 sm:to-transparent" />
       </div>
 
-      {/* Navigation arrows - positioned relative to the entire card */}
       {category.projects.length > 1 && (
         <>
           <button
@@ -152,13 +233,11 @@ function ProjectCard({
       )}
 
       <div className="relative z-10 h-full flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-12 max-w-2xl">
-        {/* Header */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-4 md:mb-6">
           <span className="text-2xl sm:text-3xl md:text-4xl">{category.icon}</span>
           <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-russo font-bold text-white">{category.title}</h3>
         </div>
 
-        {/* Content */}
         <div className="space-y-3 sm:space-y-4 md:space-y-6 flex-grow">
           <AnimatePresence mode="wait">
             <motion.div
@@ -183,17 +262,16 @@ function ProjectCard({
               </p>
               
               <Link
-                href={`/project/${currentProject.id}`}
+                href={`${prefix}/project/${currentProject.id}`}
                 className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 font-semibold text-sm sm:text-base md:text-lg group-hover:translate-x-1 transition-transform"
                 data-testid={`link-project-${currentProject.id}`}
               >
-                Подробнее →
+                {moreLabel}
               </Link>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* Clickable indicators */}
         <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-6 md:mt-8">
           {category.projects.map((_, index) => (
             <button
@@ -214,6 +292,8 @@ function ProjectCard({
 }
 
 export default function MainProjectSlider() {
+  const { lang, t, prefix } = useLanguage();
+  const projectCategories = lang === 'en' ? projectCategoriesEn : projectCategoriesRu;
   const [currentIndices, setCurrentIndices] = useState([0, 0, 0]);
   const [userInteracted, setUserInteracted] = useState([false, false, false]);
   const intervalsRef = useRef<NodeJS.Timeout[]>([]);
@@ -314,10 +394,10 @@ export default function MainProjectSlider() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-russo font-bold text-white mb-4">
-            Основные работы
+            {t.homeWorksTitle}
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Избранные проекты из разных направлений моей деятельности
+            {t.homeWorksSubtitle}
           </p>
         </motion.div>
       </div>
@@ -338,6 +418,8 @@ export default function MainProjectSlider() {
                 onNext={() => handleNext(categoryIndex)}
                 onPrev={() => handlePrev(categoryIndex)}
                 onGoTo={(projectIndex) => handleGoTo(categoryIndex, projectIndex)}
+                prefix={prefix}
+                moreLabel={t.homeMore}
               />
             </motion.div>
           ))}
@@ -352,11 +434,11 @@ export default function MainProjectSlider() {
           className="text-center mt-12"
         >
           <Link
-            href="/projects"
+            href={`${prefix}/projects`}
             className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon"
             data-testid="link-all-projects"
           >
-            Все работы
+            {t.homeAllWorks}
           </Link>
         </motion.div>
       </div>

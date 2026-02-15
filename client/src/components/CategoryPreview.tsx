@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
+import { useLanguage } from "@/i18n/useLanguage";
 
 interface CategoryPreviewProps {
   title: string;
@@ -15,6 +16,7 @@ export default function CategoryPreview({
   image,
   category,
 }: CategoryPreviewProps) {
+  const { t, prefix } = useLanguage();
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -32,11 +34,11 @@ export default function CategoryPreview({
         className="w-full h-48 object-cover rounded-lg mb-4"
       />
       <Link
-        href={`/projects/${category}`}
+        href={`${prefix}/projects/${category}`}
         className="inline-flex items-center text-primary hover:text-white transition-colors duration-300"
         data-testid={`link-category-${category}`}
       >
-        Смотреть проекты
+        {t.sliderViewProjects}
         <ArrowRight className="w-4 h-4 ml-2" />
       </Link>
     </motion.div>

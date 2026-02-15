@@ -23,7 +23,7 @@ export default function Home() {
           description: isEn ? "A production based on Dostoevsky set in Saratov 1999, combining live theatre with cinematography." : "Постановка по Достоевскому в Саратове 1999 года, объединяющая живое театральное действие с киносъёмкой.",
           image: "/images/idiot_main.webp",
           director: isEn ? "Ivan Komarov" : "Иван Комаров",
-          role: isEn ? "Composer, Sound Designer: Yan Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
+          role: isEn ? "Composer, Sound Designer: Ian Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
           theater: isEn ? "Slonov Drama Theatre" : "Театр драмы им. Слонова",
           city: isEn ? "Saratov" : "г. Саратов"
         },
@@ -34,7 +34,7 @@ export default function Home() {
           description: isEn ? "A performance exploring the poet's self-destruction through the tragic triangle of Mayakovsky, Lilya and Osip Brik." : "Спектакль-исследование внутреннего механизма саморазрушения поэта через трагический треугольник Маяковский - Лили и Осип Брик.",
           image: "/images/mayakovsky_main.webp",
           director: isEn ? "Semyon Shomin" : "Семён Шомин",
-          role: isEn ? "Composer, Sound Designer: Yan Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
+          role: isEn ? "Composer, Sound Designer: Ian Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
           theater: isEn ? "Artlife LLC" : "ООО \"Артлайф\"",
           city: isEn ? "Moscow" : "г. Москва"
         },
@@ -45,7 +45,7 @@ export default function Home() {
           description: isEn ? "Theatre as a comic book, where space simultaneously tells the story of the Petrovs and reflects on theatre as a space of delirium." : "Театр как комикс, где пространство одновременно рассказывает историю Петровых и размышляет о театре как о пространстве бреда.",
           image: "/images/petrovy_main.webp",
           director: isEn ? "Ivan Komarov" : "Иван Комаров",
-          role: isEn ? "Composer, Sound Designer: Yan Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
+          role: isEn ? "Composer, Sound Designer: Ian Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
           theater: isEn ? "Slonov Drama Theatre" : "Театр драмы им. Слонова", 
           city: isEn ? "Saratov" : "г. Саратов"
         }
@@ -61,7 +61,7 @@ export default function Home() {
           description: isEn ? "13 compositions + full post-production." : "13 композиций + полный пост.",
           image: "/images/homohomini_main.webp",
           director: isEn ? "Ivan Komarov" : "Иван Комаров",
-          role: isEn ? "Composer, Sound Designer: Yan Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв"
+          role: isEn ? "Composer, Sound Designer: Ian Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв"
         },
         {
           id: "ma-short-film",
@@ -70,7 +70,7 @@ export default function Home() {
           description: isEn ? "Mixing, foley, ambiences." : "Сведение, шумы, амбиенты.",
           image: "/images/ma_film_main.webp",
           director: isEn ? "Valentina Besolova" : "Валентина Бесолова",
-          role: isEn ? "Sound Engineer: Yan Kuzmichev" : "Звукорежиссёр: Ян Кузьмичёв"
+          role: isEn ? "Sound Engineer: Ian Kuzmichev" : "Звукорежиссёр: Ян Кузьмичёв"
         }
       ]
     },
@@ -84,7 +84,7 @@ export default function Home() {
           description: isEn ? "Original music, spatial sound." : "Оригинальная музыка, пространственный звук.",
           image: "/images/son_o_hlebe_main.webp",
           director: isEn ? "Timur Sharafutdinov" : "Тимур Шарафутдинов",
-          role: isEn ? "Composer, Sound Designer: Yan Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
+          role: isEn ? "Composer, Sound Designer: Ian Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
           theater: isEn ? "Zotov Centre" : "Центр Зотова",
           city: isEn ? "Moscow" : "г. Москва"
         },
@@ -95,7 +95,7 @@ export default function Home() {
           description: isEn ? "Site-specific audio performance" : "Сайт-специфик аудиоспектакль",
           image: "/images/pogruzhenie_main.webp",
           director: isEn ? "Ivan Komarov" : "Иван Комаров",
-          role: isEn ? "Composer, Sound Designer: Yan Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
+          role: isEn ? "Composer, Sound Designer: Ian Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
           theater: isEn ? "Centre for Theatre Mastery" : "Центр театрального мастерства",
           city: isEn ? "Nizhny Novgorod" : "г. Нижний Новгород"
         }
