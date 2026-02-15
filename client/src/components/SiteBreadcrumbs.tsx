@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { ChevronRight, Home } from "lucide-react";
 import { projects } from "@/data/projects";
+import { useLanguage } from "@/i18n/useLanguage";
 
 interface BreadcrumbsProps {
   currentProject?: string;
@@ -10,47 +11,43 @@ interface BreadcrumbsProps {
 
 export default function SiteBreadcrumbs({ currentProject, pageType, customTitle }: BreadcrumbsProps) {
   const [, setLocation] = useLocation();
+  const { t, prefix } = useLanguage();
 
-  // Определяем категорию на основе project.category
   const getCategoryInfo = (category: string) => {
     switch (category) {
       case 'theatre':
-        return { name: 'Театр' };
+        return { name: t.projectsCatTheatre };
       case 'film': 
-        return { name: 'Кино' };
+        return { name: t.projectsCatFilm };
       case 'audio':
-        return { name: 'Аудиоспектакли' };
+        return { name: t.projectsCatAudio };
       default:
-        return { name: 'Работы' };
+        return { name: t.homeWorksTitle };
     }
   };
 
-  // Определяем заголовок страницы
   const getPageTitle = () => {
     if (customTitle) return customTitle;
     
     switch (pageType) {
       case 'about':
-        return 'Обо мне';
+        return t.aboutTitle;
       case 'projects':
-        return 'Все проекты';
+        return t.projectsTitle;
       case 'contact':
-        return 'Контакты';
+        return t.contactTitle;
       default:
-        return 'Страница';
+        return '';
     }
   };
 
-  // Функция для навигации с якорем
   const navigateToAnchor = (anchor: string) => {
-    // Сначала переходим на главную страницу, затем устанавливаем хеш
-    setLocation("/");
+    setLocation(`${prefix}/`);
     setTimeout(() => {
       window.location.hash = anchor;
     }, 100);
   };
 
-  // Если есть проект, показываем полные хлебные крошки
   if (currentProject) {
     const project = projects.find(p => p.id === currentProject);
     if (!project) return null;
@@ -60,16 +57,16 @@ export default function SiteBreadcrumbs({ currentProject, pageType, customTitle 
     return (
       <nav 
         className="flex items-center space-x-2 text-sm text-muted-foreground relative z-50 mb-6"
-        aria-label="Навигация по сайту"
+        aria-label="Breadcrumbs"
         data-testid="breadcrumbs-nav"
       >
         <Link 
-          href="/" 
+          href={`${prefix}/`} 
           className="flex items-center hover:text-foreground transition-colors"
           data-testid="breadcrumb-home"
         >
           <Home className="w-4 h-4 mr-1" />
-          Главная
+          {t.navHome}
         </Link>
 
         <ChevronRight className="w-4 h-4" />
@@ -79,7 +76,7 @@ export default function SiteBreadcrumbs({ currentProject, pageType, customTitle 
           className="hover:text-foreground transition-colors cursor-pointer"
           data-testid="breadcrumb-works"
         >
-          Работы
+          {t.homeWorksTitle}
         </button>
 
         <ChevronRight className="w-4 h-4" />
@@ -104,23 +101,21 @@ export default function SiteBreadcrumbs({ currentProject, pageType, customTitle 
     );
   }
 
-  // Если нет проекта и типа страницы, не показываем
   if (!pageType) return null;
 
-  // Хлебные крошки для обычных страниц
   return (
     <nav 
       className="flex items-center space-x-2 text-sm text-muted-foreground relative z-50 mb-6"
-      aria-label="Навигация по сайту"
+      aria-label="Breadcrumbs"
       data-testid="breadcrumbs-nav"
     >
       <Link 
-        href="/" 
+        href={`${prefix}/`} 
         className="flex items-center hover:text-foreground transition-colors"
         data-testid="breadcrumb-home"
       >
         <Home className="w-4 h-4 mr-1" />
-        Главная
+        {t.navHome}
       </Link>
 
       <ChevronRight className="w-4 h-4" />

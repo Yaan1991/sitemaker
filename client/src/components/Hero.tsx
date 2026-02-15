@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import { ChevronDown, Volume2, VolumeX } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
+import { useLanguage } from "@/i18n/useLanguage";
 const heroDesktop = "/images/hero.webp";
 const heroMobile = "/images/hero_mobile.webp";
 
 export default function Hero() {
   const { isGlobalAudioEnabled, toggleGlobalAudio } = useAudio();
+  const { t } = useLanguage();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -15,7 +17,7 @@ export default function Hero() {
           <source media="(max-width: 768px)" srcSet={heroMobile} />
           <img
             src={heroDesktop}
-            alt="Ян Кузьмичёв за звуковым пультом"
+            alt={t.siteName}
             className="w-full h-full object-cover"
           />
         </picture>
@@ -28,14 +30,14 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-4xl md:text-6xl font-russo font-bold mb-6"
-        >Ян Кузьмичёв</motion.h1>
+        >{t.siteName}</motion.h1>
         
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-muted-foreground mb-8 font-light"
-        >Композитор • Саунд‑дизайнер • Звукорежиссёр</motion.p>
+        >{t.siteSubtitle}</motion.p>
         
         <motion.button
           initial={{ opacity: 0, y: 30 }}
@@ -48,12 +50,12 @@ export default function Hero() {
           {isGlobalAudioEnabled ? (
             <>
               <VolumeX className="w-5 h-5" />
-              Выкл. звук
+              {t.audioOff}
             </>
           ) : (
             <>
               <Volume2 className="w-5 h-5" />
-              Вкл. звук
+              {t.audioOn}
             </>
           )}
         </motion.button>

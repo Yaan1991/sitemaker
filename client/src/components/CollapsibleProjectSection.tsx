@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
+import { useLanguage } from "@/i18n/useLanguage";
 
 interface Project {
   id: string;
@@ -23,6 +24,7 @@ interface ProjectSectionProps {
 }
 
 export default function ProjectSection({ categories }: ProjectSectionProps) {
+  const { t, prefix } = useLanguage();
 
   return (
     <section className="pt-0 pb-32 px-6">
@@ -35,17 +37,17 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-russo font-bold text-white mb-4">
-            Основные работы
+            {t.homeWorksTitle}
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Избранные проекты из разных направлений моей деятельности
+            {t.homeWorksSubtitle}
           </p>
         </motion.div>
 
         <div className="space-y-32">
           {categories.map((category, categoryIndex) => {
-            const anchorId = category.title === "Театр" ? "theatre" : 
-                           category.title === "Кино" ? "cinema" : "audioplays";
+            const anchorId = categoryIndex === 0 ? "theatre" : 
+                           categoryIndex === 1 ? "cinema" : "audioplays";
             
             return (
               <motion.div
@@ -56,7 +58,6 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
                 transition={{ duration: 0.6, delay: categoryIndex * 0.2 }}
                 className="space-y-12 relative"
               >
-                {/* Визуальный разделитель перед секцией (кроме первой) */}
                 {categoryIndex > 0 && (
                   <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
                     <div className="flex items-center">
@@ -81,7 +82,7 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
                 {/* Projects List */}
                 <div className="space-y-12">
                   {category.projects.map((project, projectIndex) => {
-                    const isImageLeft = projectIndex % 2 === 0; // четные слева, нечетные справа
+                    const isImageLeft = projectIndex % 2 === 0;
                     
                     return (
                       <motion.div
@@ -95,7 +96,7 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
                       >
                         {/* Project Image */}
                         <Link
-                          href={`/project/${project.id}`}
+                          href={`${prefix}/project/${project.id}`}
                           className="w-full md:w-96 h-56 md:h-64 rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
                           data-testid={`image-project-${project.id}`}
                         >
@@ -120,7 +121,7 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
                             
                             {project.director && (
                               <p className="text-gray-400 text-base">
-                                <span className="text-gray-500">Режиссёр:</span> {project.director}
+                                <span className="text-gray-500">{t.projectsDirector}</span> {project.director}
                               </p>
                             )}
                             
@@ -140,11 +141,11 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
                             
                             <div className="pt-2">
                               <Link
-                                href={`/project/${project.id}`}
+                                href={`${prefix}/project/${project.id}`}
                                 className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 font-semibold text-lg group-hover:translate-x-1 transition-transform"
                                 data-testid={`link-project-${project.id}`}
                               >
-                                Подробнее →
+                                {t.homeMore}
                               </Link>
                             </div>
                           </div>
@@ -166,11 +167,11 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
           className="text-center mt-16"
         >
           <Link
-            href="/projects"
+            href={`${prefix}/projects`}
             className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white transition-all duration-300 animate-pulse-neon"
             data-testid="link-all-projects"
           >
-            Все работы
+            {t.homeAllWorks}
           </Link>
         </motion.div>
       </div>

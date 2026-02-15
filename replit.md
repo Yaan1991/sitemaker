@@ -34,11 +34,21 @@ Preferred communication style: Simple, everyday language.
 ## Key Features
 - **Portfolio Showcase**: Project galleries organized by category (theatre, film, audio)
 - **Auto-slider**: Custom carousel component for project presentations
-- **SEO Optimization**: React Helmet for meta tags and structured data
+- **SEO Optimization**: React Helmet for meta tags and structured data; server-side SEO middleware for bots
 - **Responsive Design**: Mobile-first approach with glass morphism effects
 - **Contact Form**: Validated contact form with toast notifications
 - **Timeline View**: Chronological work history display
 - **Audio Persistence**: Consent-based localStorage persistence for audio settings and mixer volumes (first-time visitors: audio off, returning users: restore preferences)
+- **Bilingual (RU/EN)**: URL-based i18n system — Russian at `/`, English at `/en/`. Language switcher in header. All UI text, project data, SEO metadata, and sitemap support both languages with proper hreflang tags.
+
+## i18n Architecture
+- **Language detection**: `client/src/i18n/useLanguage.ts` hook reads URL path (`/en/*` = English, else Russian). Returns `{ lang, t, prefix }`.
+- **Translations**: `client/src/i18n/translations.ts` — all UI strings in RU and EN.
+- **Project translations**: `client/src/i18n/projectsEn.ts` (featured projects), `client/src/i18n/allProjectsEn.ts` (full project list).
+- **Routes**: Duplicate routes in App.tsx — Russian at `/`, `/about`, etc.; English at `/en/`, `/en/about`, etc.
+- **SEO middleware**: `server/seo.ts` detects language from URL, serves translated bot HTML with hreflang tags.
+- **Sitemap**: `client/public/sitemap.xml` includes all pages in both languages with xhtml:link hreflang annotations.
+- **Data sync**: When adding new projects, update: `client/src/data/projects.ts`, `server/seo.ts` projectsData, `client/src/i18n/projectsEn.ts`, `client/src/i18n/allProjectsEn.ts`.
 
 # External Dependencies
 

@@ -1,93 +1,252 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iansound.pro/</loc>
-    <lastmod>2025-02-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://iansound.pro/about</loc>
-    <lastmod>2025-02-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://iansound.pro/projects</loc>
-    <lastmod>2025-02-09</lastmod>
+    <loc>https://iansound.pro/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://iansound.pro/projects/theatre</loc>
-    <lastmod>2025-02-09</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://iansound.pro/about</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/about" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://iansound.pro/projects/film</loc>
-    <lastmod>2025-02-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://iansound.pro/projects/audio</loc>
-    <lastmod>2025-02-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://iansound.pro/contact</loc>
-    <lastmod>2025-02-09</lastmod>
+    <loc>https://iansound.pro/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/about" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://iansound.pro/projects</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/projects" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/projects" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/projects" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/projects</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/projects" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/projects" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/projects" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/projects/theatre</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/projects/theatre" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/projects/theatre" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/projects/theatre</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/projects/theatre" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/projects/theatre" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/projects/film</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/projects/film" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/projects/film" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/projects/film</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/projects/film" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/projects/film" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/projects/audio</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/projects/audio" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/projects/audio" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/projects/audio</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/projects/audio" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/projects/audio" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/contact</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/contact" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/contact</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/contact" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://iansound.pro/project/idiot-saratov-drama</loc>
-    <lastmod>2025-02-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/idiot-saratov-drama" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/idiot-saratov-drama" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/project/idiot-saratov-drama</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/idiot-saratov-drama" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/idiot-saratov-drama" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://iansound.pro/project/mayakovsky-moscow-estrada</loc>
-    <lastmod>2025-02-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/mayakovsky-moscow-estrada" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/mayakovsky-moscow-estrada" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/project/mayakovsky-moscow-estrada</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/mayakovsky-moscow-estrada" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/mayakovsky-moscow-estrada" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://iansound.pro/project/petrovy-saratov-drama</loc>
-    <lastmod>2025-02-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/petrovy-saratov-drama" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/petrovy-saratov-drama" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/project/petrovy-saratov-drama</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/petrovy-saratov-drama" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/petrovy-saratov-drama" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://iansound.pro/project/homo-homini-short</loc>
-    <lastmod>2025-02-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/homo-homini-short" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/homo-homini-short" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/project/homo-homini-short</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/homo-homini-short" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/homo-homini-short" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://iansound.pro/project/ma-short-film</loc>
-    <lastmod>2025-02-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/ma-short-film" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/ma-short-film" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/project/ma-short-film</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/ma-short-film" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/ma-short-film" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://iansound.pro/project/life-in-art-short</loc>
-    <lastmod>2025-02-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/life-in-art-short" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/life-in-art-short" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/project/life-in-art-short</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/life-in-art-short" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/life-in-art-short" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://iansound.pro/project/son-o-hlebe-zotov</loc>
-    <lastmod>2025-02-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/son-o-hlebe-zotov" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/son-o-hlebe-zotov" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iansound.pro/en/project/son-o-hlebe-zotov</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/son-o-hlebe-zotov" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/son-o-hlebe-zotov" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://iansound.pro/project/pogruzhenie-promenad-telegram</loc>
-    <lastmod>2025-02-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/pogruzhenie-promenad-telegram" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/pogruzhenie-promenad-telegram" />
+    <lastmod>2025-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/project/pogruzhenie-promenad-telegram</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/project/pogruzhenie-promenad-telegram" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/project/pogruzhenie-promenad-telegram" />
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

@@ -1,16 +1,19 @@
 import { motion } from "framer-motion";
-
-const navigationItems = [
-  { label: "Театр", href: "#theatre" },
-  { label: "Кино", href: "#cinema" },
-  { label: "Аудио", href: "#audioplays" }
-];
+import { useLanguage } from "@/i18n/useLanguage";
 
 export default function SectionNavigation() {
+  const { t } = useLanguage();
+
+  const navigationItems = [
+    { label: t.homeTheatreTitle, href: "#theatre" },
+    { label: t.homeFilmTitle, href: "#cinema" },
+    { label: t.homeAudioTitle, href: "#audioplays" }
+  ];
+
   const handleClick = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
-      const offset = 100; // отступ от верха
+      const offset = 100;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -36,7 +39,7 @@ export default function SectionNavigation() {
                 <button
                   onClick={() => handleClick(item.href)}
                   className="text-lg md:text-xl text-yellow-400 hover:text-yellow-300 hover:scale-110 transition-all duration-300 font-medium tracking-wide uppercase"
-                  data-testid={`nav-${item.label.toLowerCase()}`}
+                  data-testid={`nav-${item.href.replace('#', '')}`}
                 >
                   {item.label}
                 </button>
@@ -49,7 +52,6 @@ export default function SectionNavigation() {
         </nav>
       </div>
 
-      {/* Нижний разделитель */}
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
         <div className="flex items-center">
           <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>

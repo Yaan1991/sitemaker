@@ -11,6 +11,8 @@ import { WinampPlayer } from "@/components/WinampPlayer";
 import { useState, useEffect, useRef } from "react";
 import hhBackgroundVideo from "@assets/hhbgrndvideo.mp4";
 import maBackgroundVideo from "@assets/mabgrndvideo.mp4";
+import { useLanguage } from "@/i18n/useLanguage";
+import { projectTranslationsEn } from "@/i18n/projectsEn";
 
 // Компонент неонового текста с мигающей "О"
 function NeonTitle({ text }: { text: string }) {
@@ -30,19 +32,19 @@ function NeonTitle({ text }: { text: string }) {
   );
 }
 
-// Компонент заголовка для Маяковского с переливающимся красным цветом
-function MayakTitle({ text }: { text: string }) {
+function MayakTitle({ text, lang }: { text: string; lang: 'ru' | 'en' }) {
+  const isEn = lang === 'en';
   return (
     <div className="inline-block text-center">
       <h1 className="mayak-heading font-bold mb-2 adaptive-title" style={{fontFamily: 'Jost, sans-serif'}}>
-        МАЯКОВСКИЙ
+        {isEn ? 'MAYAKOVSKY' : 'МАЯКОВСКИЙ'}
       </h1>
       <h2 className="text-4xl lg:text-6xl font-bold" style={{
         fontFamily: 'Bad Script, cursive',
         color: '#8B4513',
         textShadow: '2px 2px 4px rgba(139, 69, 19, 0.3)'
       }}>
-        Я сам
+        {isEn ? 'Myself' : 'Я сам'}
       </h2>
     </div>
   );
@@ -365,6 +367,7 @@ export default function ProjectPage() {
   const [, params] = useRoute("/project/:id");
   const projectId = params?.id;
   const [currentBackgroundImage, setCurrentBackgroundImage] = useState('');
+  const { lang, t, prefix } = useLanguage();
   
   const { 
     isGlobalAudioEnabled, 
@@ -493,12 +496,12 @@ export default function ProjectPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">Проект не найден</h1>
+          <h1 className="text-4xl font-bold text-white mb-4">{t.projectNotFound}</h1>
           <Link 
-            href="/" 
+            href={`${prefix}/`} 
             className="text-primary hover:text-primary/80 transition-colors duration-200"
           >
-            Вернуться на главную
+            {t.projectBackHome}
           </Link>
         </div>
       </div>
@@ -506,9 +509,9 @@ export default function ProjectPage() {
   }
 
   const categoryNames = {
-    theatre: "Театр",
-    film: "Кино", 
-    audio: "Аудиоспектакли"
+    theatre: t.projectsCatTheatre,
+    film: t.projectsCatFilm, 
+    audio: t.projectsCatAudio
   };
 
 
@@ -601,7 +604,7 @@ export default function ProjectPage() {
   return (
     <>
       <SEOHead 
-        title={`${project.title} — ${project.year} | Ян Кузьмичёв`}
+        title={`${project.title} — ${project.year} | ${t.siteName}`}
         description={project.fullDescription}
       />
       
@@ -727,12 +730,12 @@ export default function ProjectPage() {
             style={{zIndex: 50}}
           >
             <Link 
-              href="/"
+              href={`${prefix}/`}
               className="inline-flex items-center gap-2 text-gray-300 hover:text-primary transition-colors duration-200"
               data-testid="link-back"
             >
               <ArrowLeft className="w-5 h-5" />
-              Назад
+              {t.projectBackToProjects}
             </Link>
           </motion.div>
 
@@ -765,7 +768,7 @@ export default function ProjectPage() {
                   transition={{ duration: 0.6 }}
                   className="text-center mb-8"
                 >
-                  <MayakTitle text="" />
+                  <MayakTitle text="" lang={lang} />
                   <p className="text-xl font-medium mt-4 mb-2" style={{color: '#8B4513'}}>
                     «Артлайф» • 2024
                   </p>
@@ -1713,7 +1716,7 @@ export default function ProjectPage() {
             {/* Links */}
             {project.links && project.links.length > 0 && (
               <div className="glass-effect rounded-xl p-6 text-center">
-                <h3 className="text-lg font-semibold text-white mb-4">Ссылки</h3>
+                <h3 className="text-lg font-semibold text-white mb-4">{t.projectLinks}</h3>
                 <div className="flex flex-wrap justify-center gap-4">
                   {project.links.map((link, index) => (
                     <a
@@ -1749,7 +1752,7 @@ export default function ProjectPage() {
             {/* Awards */}
             {project.awards && project.awards.length > 0 && (
               <div className="glass-effect rounded-xl p-6 text-center">
-                <h3 className="text-lg font-semibold text-white mb-4">Награды</h3>
+                <h3 className="text-lg font-semibold text-white mb-4">{t.projectAwards}</h3>
                 <ul className="space-y-2">
                   {project.awards.map((award, index) => (
                     <li key={index} className="text-gray-300">

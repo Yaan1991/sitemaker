@@ -4,6 +4,7 @@ import { Menu, X, Volume2, VolumeX, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
 import { useAudio } from "@/contexts/AudioContext";
+import { useLanguage } from "@/i18n/useLanguage";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,12 +16,16 @@ export default function Header() {
     isGlobalAudioEnabled, 
     toggleGlobalAudio
   } = useAudio();
+  const { lang, t, prefix } = useLanguage();
 
+  const langSwitchHref = lang === 'ru'
+    ? `/en${location === '/' ? '' : location}`
+    : location.replace(/^\/en/, '') || '/';
 
   const mainNavigation = [
-    { name: "Все проекты", href: "/projects" },
-    { name: "Обо мне", href: "/about" },
-    { name: "Контакты", href: "/contact" },
+    { name: t.navAllProjects, href: `${prefix}/projects` },
+    { name: t.navAbout, href: `${prefix}/about` },
+    { name: t.navContact, href: `${prefix}/contact` },
   ];
 
   const projectsByCategory = {
@@ -30,9 +35,9 @@ export default function Header() {
   };
 
   const categoryLabels = {
-    theatre: "ТЕАТР",
-    film: "КИНО", 
-    audio: "АУДИО"
+    theatre: t.catTheatre,
+    film: t.catFilm, 
+    audio: t.catAudio
   };
 
   const socialLinks = [
@@ -43,8 +48,9 @@ export default function Header() {
   ];
 
   const isActive = (href: string) => {
+    if (href === `${prefix}/` && location === `${prefix}/`) return true;
     if (href === "/" && location === "/") return true;
-    if (href !== "/" && location.startsWith(href)) return true;
+    if (href !== `${prefix}/` && href !== "/" && location.startsWith(href)) return true;
     return false;
   };
 
@@ -53,17 +59,25 @@ export default function Header() {
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="block" data-testid="link-home">
+          <Link href={`${prefix}/`} className="block" data-testid="link-home">
             <div className="text-xl md:text-xl font-russo font-bold">
-              <div className="text-white">Ян Кузьмичёв</div>
+              <div className="text-white">{t.siteName}</div>
               <div className="text-xs md:text-sm text-muted-foreground font-normal hidden sm:block">
-                Композитор • Саунд‑дизайнер • Звукорежиссёр
+                {t.siteSubtitle}
               </div>
             </div>
           </Link>
 
           {/* Audio Toggle & Desktop Menu */}
           <div className="hidden md:flex items-center gap-4">
+            {/* Language Switch */}
+            <Link
+              href={langSwitchHref}
+              className="px-2 py-1 rounded text-xs font-bold border border-primary/50 text-primary hover:bg-primary/20 transition-colors"
+            >
+              {t.langSwitch}
+            </Link>
+
             {/* Audio Toggle */}
             <button
               type="button"
@@ -78,7 +92,7 @@ export default function Header() {
                   : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
               data-testid="button-audio-toggle"
-              title={isGlobalAudioEnabled ? 'Выключить звук' : 'Включить звук'}
+              title={isGlobalAudioEnabled ? t.audioOn : t.audioOff}
             >
               {isGlobalAudioEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
             </button>
@@ -109,16 +123,16 @@ export default function Header() {
                 >
                   <div className="py-2">
                     <Link
-                      href="/"
+                      href={`${prefix}/`}
                       className={`block px-4 py-3 transition-colors duration-200 ${
-                        isActive('/')
+                        isActive(`${prefix}/`)
                           ? "text-primary bg-primary/10"
                           : "text-gray-300 hover:text-primary hover:bg-white/5"
                       }`}
                       onClick={() => setIsMenuOpen(false)}
                       data-testid="link-home"
                     >
-                      На главную
+                      {t.navHome}
                     </Link>
                     
                     {/* Works submenu item */}
@@ -131,7 +145,7 @@ export default function Header() {
                         className="block px-4 py-3 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200 cursor-pointer"
                         data-testid="menu-works"
                       >
-                        Работы
+                        {t.navWorks}
                       </div>
                       
                       {/* Side submenu for Works */}
@@ -153,7 +167,7 @@ export default function Header() {
                                   {categoryProjects.map((project) => (
                                     <Link
                                       key={project.id}
-                                      href={`/project/${project.id}`}
+                                      href={`${prefix}/project/${project.id}`}
                                       className="block px-4 py-2 text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200"
                                       onClick={() => {
                                         setIsMenuOpen(false);
@@ -197,6 +211,14 @@ export default function Header() {
 
           {/* Mobile Audio Toggle & Menu */}
           <div className="md:hidden flex items-center gap-2">
+            {/* Mobile Language Switch */}
+            <Link
+              href={langSwitchHref}
+              className="px-2 py-1 rounded text-xs font-bold border border-primary/50 text-primary hover:bg-primary/20 transition-colors"
+            >
+              {t.langSwitch}
+            </Link>
+
             {/* Mobile Audio Toggle */}
             <button
               type="button"
@@ -243,16 +265,16 @@ export default function Header() {
             >
               <div className="py-2">
                 <Link
-                  href="/"
+                  href={`${prefix}/`}
                   className={`block px-4 py-3 transition-colors duration-200 ${
-                    isActive('/')
+                    isActive(`${prefix}/`)
                       ? "text-primary bg-primary/10"
                       : "text-gray-300 hover:text-primary hover:bg-white/5"
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                   data-testid="mobile-link-home"
                 >
-                  На главную
+                  {t.navHome}
                 </Link>
                 
                 {/* Mobile Works submenu */}
@@ -262,7 +284,7 @@ export default function Header() {
                     onClick={() => setIsMobileWorksOpen(!isMobileWorksOpen)}
                     data-testid="mobile-menu-works"
                   >
-                    Работы
+                    {t.navWorks}
                   </div>
                   {isMobileWorksOpen && (
                     <div className="pl-4 pb-2">
@@ -274,7 +296,7 @@ export default function Header() {
                           {categoryProjects.map((project) => (
                             <Link
                               key={project.id}
-                              href={`/project/${project.id}`}
+                              href={`${prefix}/project/${project.id}`}
                               className="block px-4 py-1 text-gray-400 hover:text-primary transition-colors duration-200"
                               onClick={() => {
                                 setIsMobileMenuOpen(false);

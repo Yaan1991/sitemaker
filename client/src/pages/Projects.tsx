@@ -6,20 +6,23 @@ import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import { ExternalLink, Newspaper } from "lucide-react";
 import { Link } from "wouter";
 import backgroundImage from "@assets/allprojetsbg_1757713205646.webp";
-
-const categories = {
-  all: "Все",
-  theatre: "Театр", 
-  film: "Кино",
-  audio: "Аудиоспектакли",
-  immersive: "Иммерсивные проекты",
-  exhibition: "Выставки"
-} as const;
+import { useLanguage } from "@/i18n/useLanguage";
+import { allProjectTranslationsEn } from "@/i18n/allProjectsEn";
 
 export default function Projects() {
-  const [selectedCategory, setSelectedCategory] = useState<keyof typeof categories>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedYear, setSelectedYear] = useState<string>("all");
   const [showEarlyYears, setShowEarlyYears] = useState(false);
+  const { lang, t, prefix } = useLanguage();
+
+  const categories = {
+    all: t.projectsAll,
+    theatre: t.projectsCatTheatre, 
+    film: t.projectsCatFilm,
+    audio: t.projectsCatAudio,
+    immersive: t.projectsCatImmersive,
+    exhibition: t.projectsCatExhibition
+  } as const;
 
   const filteredProjects = allProjects.filter(project => {
     const categoryMatch = selectedCategory === "all" || project.category === selectedCategory;
@@ -29,11 +32,9 @@ export default function Projects() {
 
   const years = Array.from(new Set(allProjects.map(p => p.year))).sort((a, b) => parseInt(b) - parseInt(a));
   
-  // Разделяем года на ранние и поздние
   const earlyYears = years.filter(year => parseInt(year) <= 2019);
   const lateYears = years.filter(year => parseInt(year) >= 2020);
   
-  // Для ранних годов показываем все или максимум 8, для поздних - первые 6
   const displayedYears = showEarlyYears 
     ? earlyYears.slice(0, Math.min(8, earlyYears.length)) 
     : lateYears.slice(0, 6);
@@ -49,11 +50,46 @@ export default function Projects() {
 
   const sortedYears = Object.keys(groupedProjects).sort((a, b) => parseInt(b) - parseInt(a));
 
+  const getProjectTitle = (project: typeof allProjects[0]) => {
+    if (lang === 'en') {
+      const en = allProjectTranslationsEn[project.id];
+      return en?.title || project.title;
+    }
+    return project.title;
+  };
+
+  const getProjectRole = (project: typeof allProjects[0]) => {
+    if (lang === 'en') {
+      const en = allProjectTranslationsEn[project.id];
+      return en?.role || project.role;
+    }
+    return project.role;
+  };
+
+  const getProjectType = (project: typeof allProjects[0]) => {
+    if (lang === 'en') {
+      const en = allProjectTranslationsEn[project.id];
+      return en?.type || project.type;
+    }
+    return project.type;
+  };
+
+  const getCategoryLabel = (category: string) => {
+    const catMap: Record<string, string> = {
+      theatre: t.projectsCatTheatre,
+      film: t.projectsCatFilm,
+      audio: t.projectsCatAudio,
+      immersive: t.projectsCatImmersive,
+      exhibition: t.projectsCatExhibition,
+    };
+    return catMap[category] || category;
+  };
+
   return (
     <>
       <SEOHead 
-        title="Все проекты - Ян Кузьмичёв"
-        description="Полный список театральных работ, кинопроектов и аудиоспектаклей Яна Кузьмичёва с 2012 года. Композитор, саунд-дизайнер, звукорежиссёр."
+        title={`${t.projectsTitle} - ${t.siteName}`}
+        description={t.projectsSubtitle}
       />
       
       <div 
@@ -77,10 +113,10 @@ export default function Projects() {
             className="text-center mb-12"
           >
             <h1 className="text-4xl md:text-5xl font-russo font-bold text-white mb-4">
-              Все проекты
+              {t.projectsTitle}
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Полная хронология работ с 2013 года — проекты в театре, кино и аудиоискусстве
+              {t.projectsSubtitle}
             </p>
           </motion.div>
 
@@ -93,11 +129,11 @@ export default function Projects() {
           >
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
-              <span className="text-gray-400 font-medium mr-2 self-center">Категория:</span>
+              <span className="text-gray-400 font-medium mr-2 self-center">{t.projectsCategoryLabel}</span>
               {Object.entries(categories).map(([key, label]) => (
                 <button
                   key={key}
-                  onClick={() => setSelectedCategory(key as keyof typeof categories)}
+                  onClick={() => setSelectedCategory(key)}
                   className={`px-4 py-2 rounded-full transition-colors duration-200 font-medium ${
                     selectedCategory === key
                       ? "bg-primary text-black"
@@ -112,7 +148,7 @@ export default function Projects() {
 
             {/* Year Filter */}
             <div className="flex flex-wrap gap-2">
-              <span className="text-gray-400 font-medium mr-2 self-center">Год:</span>
+              <span className="text-gray-400 font-medium mr-2 self-center">{t.projectsYearLabel}</span>
               <button
                 onClick={() => setSelectedYear("all")}
                 className={`px-4 py-2 rounded-full transition-colors duration-200 font-medium ${
@@ -122,7 +158,7 @@ export default function Projects() {
                 }`}
                 data-testid="button-year-all"
               >
-                Все
+                {t.projectsAll}
               </button>
               {displayedYears.map((year) => (
                 <button
@@ -139,14 +175,13 @@ export default function Projects() {
                 </button>
               ))}
               
-              {/* Кнопка переключения периодов */}
               {(earlyYears.length > 0 && lateYears.length > 0) && (
                 <button
                   onClick={() => setShowEarlyYears(!showEarlyYears)}
                   className="px-4 py-2 rounded-full transition-colors duration-200 font-medium glass-effect text-gray-300 hover:text-white hover:bg-white/10"
                   data-testid="button-toggle-years"
                 >
-                  {showEarlyYears ? "Позже" : "Раньше"}
+                  {showEarlyYears ? t.projectsLater : t.projectsEarlier}
                 </button>
               )}
             </div>
@@ -187,11 +222,11 @@ export default function Projects() {
                             {project.link ? (
                               project.link.startsWith('/project/') ? (
                                 <Link
-                                  href={project.link}
+                                  href={`${prefix}${project.link}`}
                                   className="text-xl md:text-2xl font-bold text-primary hover:text-primary/80 transition-colors duration-200 flex items-center gap-2 group"
                                   data-testid={`link-project-${project.id}`}
                                 >
-                                  {project.title}
+                                  {getProjectTitle(project)}
                                 </Link>
                               ) : (
                                 <a
@@ -201,13 +236,13 @@ export default function Projects() {
                                   className="text-xl md:text-2xl font-bold text-primary hover:text-primary/80 transition-colors duration-200 flex items-center gap-2 group"
                                   data-testid={`link-project-${project.id}`}
                                 >
-                                  {project.title}
+                                  {getProjectTitle(project)}
                                   <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200" />
                                 </a>
                               )
                             ) : (
                               <h3 className="text-xl md:text-2xl font-bold text-white" data-testid={`text-project-title-${project.id}`}>
-                                {project.title}
+                                {getProjectTitle(project)}
                               </h3>
                             )}
                             <span className={`inline-block px-3 py-1 text-sm font-medium rounded-full whitespace-nowrap ${
@@ -217,7 +252,7 @@ export default function Projects() {
                               project.category === 'immersive' ? 'bg-purple-500/20 text-purple-400' :
                               'bg-blue-500/20 text-blue-400'
                             }`}>
-                              {categories[project.category]}
+                              {getCategoryLabel(project.category)}
                             </span>
                           </div>
                           
@@ -227,16 +262,16 @@ export default function Projects() {
                               <p className="text-sm text-gray-400">
                                 <span className="font-medium">
                                   {project.id === 'tabakov-radost-mxat' 
-                                    ? 'Художественный руководитель постановки:' 
-                                    : 'Режиссёр:'}
+                                    ? t.projectsArtDirector 
+                                    : t.projectsDirector}
                                 </span> {project.director}
                               </p>
                             )}
                             <p className="text-sm text-gray-400">
-                              <span className="font-medium">Роль:</span> {project.role}
+                              <span className="font-medium">{t.projectsRole}</span> {getProjectRole(project)}
                             </p>
                             <p className="text-sm text-gray-500">
-                              <span className="font-medium">Тип:</span> {project.type}
+                              <span className="font-medium">{t.projectsType}</span> {getProjectType(project)}
                             </p>
                             {project.press && (
                               <p className="text-sm">
@@ -248,7 +283,7 @@ export default function Projects() {
                                   data-testid={`press-link-${project.id}`}
                                 >
                                   <Newspaper className="w-4 h-4" />
-                                  <span className="font-medium">Пресса о проекте</span>
+                                  <span className="font-medium">{t.projectsPress}</span>
                                   <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
                                 </a>
                               </p>
@@ -277,7 +312,7 @@ export default function Projects() {
               className="text-center py-16"
             >
               <p className="text-xl text-gray-400">
-                Проекты по выбранным критериям не найдены
+                {t.projectsNoResults}
               </p>
             </motion.div>
           )}

@@ -3,27 +3,29 @@ import { Phone } from "lucide-react";
 import { SiTelegram, SiBandcamp } from "react-icons/si";
 import SEOHead from "@/components/SEOHead";
 import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
+import { useLanguage } from "@/i18n/useLanguage";
 
 export default function Contact() {
+  const { t, prefix } = useLanguage();
 
   const contacts = [
     {
       icon: <Phone className="w-8 h-8" />,
-      label: "Телефон",
-      value: "Позвонить",
+      label: t.contactPhone,
+      value: t.contactPhoneAction,
       href: "tel:+79197643745",
     },
     {
       icon: <SiTelegram className="w-8 h-8" />,
-      label: "Telegram",
-      value: "Написать в Telegram",
+      label: t.contactTelegram,
+      value: t.contactTelegramAction,
       href: "https://t.me/iankzmcv",
       external: true,
     },
     {
       icon: <SiBandcamp className="w-8 h-8" />,
-      label: "Bandlink",
-      value: "Слушать работы",
+      label: t.contactBandlink,
+      value: t.contactBandlinkAction,
       href: "https://band.link/zDZyK",
       external: true,
     },
@@ -32,9 +34,9 @@ export default function Contact() {
   return (
     <>
       <SEOHead
-        title="Контакты — Ян Кузьмичёв"
-        description="Свяжитесь с композитором, саунд-дизайнером и звукорежиссёром Яном Кузьмичёвым. Телефон, Telegram, музыкальные работы."
-        url="https://iansound.pro/contact"
+        title={`${t.contactTitle} — ${t.siteName}`}
+        description={t.contactTitle}
+        url={`https://iansound.pro${prefix}/contact`}
       />
 
       <section className="py-20 px-6 min-h-screen">
@@ -46,7 +48,7 @@ export default function Contact() {
             transition={{ duration: 0.8 }}
             className="text-4xl font-bold text-center mb-12"
           >
-            Контакты
+            {t.contactTitle}
           </motion.h1>
 
           <motion.div
