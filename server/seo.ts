@@ -345,9 +345,36 @@ function getPageSEO(path: string): PageSEO | null {
   return null;
 }
 
+/**
+ * Экранирование HTML-сущностей для безопасной вставки plain-text данных
+ * в HTML-шаблон (текст и значения атрибутов).
+ */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/**
+ * Безопасная сериализация JSON-LD: помимо стандартного JSON.stringify
+ * экранируем последовательности, которые могут закрыть тег <script>
+ * или начать HTML-комментарий внутри inline-script.
+ */
+function safeJsonLd(data: unknown): string {
+  return JSON.stringify(data)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
 function generateHTML(seo: PageSEO): string {
   const jsonLdScript = seo.jsonLd
-    ? `<script type="application/ld+json">${JSON.stringify(seo.jsonLd)}</script>`
+    ? `<script type="application/ld+json">${safeJsonLd(seo.jsonLd)}</script>`
     : "";
 
   const ogLocale = seo.lang === 'en' ? 'en_US' : 'ru_RU';
@@ -360,32 +387,41 @@ function generateHTML(seo: PageSEO): string {
   const contactLabel = seo.lang === 'en' ? 'Contact' : 'Контакты';
   const prefix = seo.lang === 'en' ? '/en' : '';
 
+  // Экранируем все динамические plain-text поля.
+  // ВАЖНО: seo.content — это уже подготовленный HTML-фрагмент, его НЕ экранируем.
+  const safeTitle = escapeHtml(seo.title);
+  const safeDescription = escapeHtml(seo.description);
+  const safeUrl = escapeHtml(seo.url);
+  const safeAltUrl = escapeHtml(seo.alternateUrl);
+  const safeXDefaultUrl = escapeHtml(seo.lang === 'ru' ? seo.url : seo.alternateUrl);
+  const safeSiteName = escapeHtml(siteName);
+
   return `<!DOCTYPE html>
 <html lang="${seo.lang}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${seo.title}</title>
-  <meta name="description" content="${seo.description}">
-  <link rel="canonical" href="${seo.url}">
-  <link rel="alternate" hreflang="${seo.lang}" href="${seo.url}">
-  <link rel="alternate" hreflang="${altLang}" href="${seo.alternateUrl}">
-  <link rel="alternate" hreflang="x-default" href="${seo.lang === 'ru' ? seo.url : seo.alternateUrl}">
+  <title>${safeTitle}</title>
+  <meta name="description" content="${safeDescription}">
+  <link rel="canonical" href="${safeUrl}">
+  <link rel="alternate" hreflang="${seo.lang}" href="${safeUrl}">
+  <link rel="alternate" hreflang="${altLang}" href="${safeAltUrl}">
+  <link rel="alternate" hreflang="x-default" href="${safeXDefaultUrl}">
   
   <meta property="og:type" content="website">
-  <meta property="og:title" content="${seo.title}">
-  <meta property="og:description" content="${seo.description}">
-  <meta property="og:url" content="${seo.url}">
-  <meta property="og:site_name" content="${siteName}">
+  <meta property="og:title" content="${safeTitle}">
+  <meta property="og:description" content="${safeDescription}">
+  <meta property="og:url" content="${safeUrl}">
+  <meta property="og:site_name" content="${safeSiteName}">
   <meta property="og:locale" content="${ogLocale}">
   <meta property="og:locale:alternate" content="${altLocale}">
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="${seo.title}">
-  <meta name="twitter:description" content="${seo.description}">
+  <meta name="twitter:title" content="${safeTitle}">
+  <meta name="twitter:description" content="${safeDescription}">
   
   <meta name="robots" content="index, follow">
-  <meta name="author" content="${siteName}">
+  <meta name="author" content="${safeSiteName}">
   <meta name="theme-color" content="#00ffff">
   
   ${jsonLdScript}
@@ -408,7 +444,7 @@ function generateHTML(seo: PageSEO): string {
   </nav>
   ${seo.content}
   <footer>
-    <p>&copy; ${new Date().getFullYear()} ${siteName}.</p>
+    <p>&copy; ${new Date().getFullYear()} ${safeSiteName}.</p>
     <p><a href="${SITE_URL}/sitemap.xml">Sitemap</a></p>
   </footer>
 </body>
