@@ -13,6 +13,29 @@ export interface AllProject {
 
 export const allProjects: AllProject[] = [
   {
+    id: "sobache-serdce",
+    year: "2026",
+    title: "Собачье сердце",
+    theater: "Няганьский театр юного зрителя (Нягань)",
+    director: "Иван Комаров",
+    role: "Композитор, саунд-дизайнер",
+    link: "https://ntyz.ru/spektakl/собачье-сердце/",
+    category: "theatre",
+    type: "Спектакль",
+    press: "https://www.coolconnections.ru/ru/blog/posts/Na-vetrah-peremen"
+  },
+  {
+    id: "ottepel",
+    year: "2026",
+    title: "Оттепель",
+    theater: "Саратовский театр драмы им. Слонова",
+    director: "Иван Комаров",
+    role: "Композитор, саунд-дизайнер, сонграйтер",
+    link: "https://www.saratovdrama.com/repertoire/ottepel/",
+    category: "theatre",
+    type: "Спектакль"
+  },
+  {
     id: "tabakov-radost-mxat",
     year: "2025",
     title: "Олег Табаков. В поисках радости",

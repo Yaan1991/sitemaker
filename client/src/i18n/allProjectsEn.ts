@@ -5,6 +5,20 @@ export const allProjectTranslationsEn: Record<string, {
   role: string;
   type: string;
 }> = {
+  "sobache-serdce": {
+    title: "Heart of a Dog",
+    theater: "Nyagan Youth Theatre (Nyagan)",
+    director: "Ivan Komarov",
+    role: "Composer, Sound Designer",
+    type: "Theatre Production",
+  },
+  "ottepel": {
+    title: "The Thaw",
+    theater: "Saratov Drama Theatre named after Slonov",
+    director: "Ivan Komarov",
+    role: "Composer, Sound Designer, Songwriter",
+    type: "Theatre Production",
+  },
   "tabakov-radost-mxat": {
     title: "Oleg Tabakov. In Search of Joy",
     theater: "Chekhov Moscow Art Theatre (MHAT)",
