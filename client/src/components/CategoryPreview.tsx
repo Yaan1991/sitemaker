@@ -32,6 +32,8 @@ export default function CategoryPreview({
         src={image}
         alt={title}
         className="w-full h-48 object-cover rounded-lg mb-4"
+        loading="lazy"
+        decoding="async"
       />
       <Link
         href={`${prefix}/projects/${category}`}

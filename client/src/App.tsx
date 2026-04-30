@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { MotionConfig } from "framer-motion";
 import { AudioProvider } from "./contexts/AudioContext";
 import { useLanguage } from "./i18n/useLanguage";
 import Layout from "./components/Layout";
@@ -78,13 +79,15 @@ function App() {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <AudioProvider>
-          <TooltipProvider>
-            <DynamicHelmet />
-            <Router />
-            <Toaster />
-          </TooltipProvider>
-        </AudioProvider>
+        <MotionConfig reducedMotion="user">
+          <AudioProvider>
+            <TooltipProvider>
+              <DynamicHelmet />
+              <Router />
+              <Toaster />
+            </TooltipProvider>
+          </AudioProvider>
+        </MotionConfig>
       </QueryClientProvider>
     </HelmetProvider>
   );

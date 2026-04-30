@@ -42,6 +42,8 @@ export default function About() {
               src={portraitImage}
               alt={t.siteName}
               className="w-full h-64 md:h-96 object-cover rounded-xl mb-8"
+              loading="lazy"
+              decoding="async"
             />
 
             <div className="max-w-3xl mx-auto relative z-10 bg-black/50 rounded-xl p-8">

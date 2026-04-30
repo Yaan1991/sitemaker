@@ -72,6 +72,8 @@ export default function CategorySlider({ category, title, description, projects 
                   src={project.thumb}
                   alt={project.alt}
                   className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-20 hover:bg-opacity-40 transition-all duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-4 text-white">

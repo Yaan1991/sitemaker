@@ -51,6 +51,8 @@ export default function ProjectDetail() {
               src={project.image}
               alt={project.title}
               className="w-full h-64 md:h-96 object-cover rounded-xl mb-8"
+              loading="lazy"
+              decoding="async"
             />
 
             {/* Project Info */}

@@ -601,6 +601,8 @@ export default function ProjectPage() {
                       alt={project.title}
                       className="w-full h-auto rounded-lg shadow-2xl"
                       data-testid="img-project"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
                   </>)

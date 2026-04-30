@@ -19,6 +19,8 @@ export default function Hero() {
             src={heroDesktop}
             alt={t.siteName}
             className="w-full h-full object-cover"
+            {...{ fetchpriority: "high" } as any}
+            decoding="async"
           />
         </picture>
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>

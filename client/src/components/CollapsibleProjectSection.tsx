@@ -104,6 +104,8 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
                             src={project.image}
                             alt={project.title}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            loading="lazy"
+                            decoding="async"
                           />
                         </Link>
 

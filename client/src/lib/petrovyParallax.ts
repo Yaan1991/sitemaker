@@ -7,6 +7,13 @@
  * чтобы остановить анимацию и снять обработчик resize.
  */
 export function initParallaxBackground(canvasId: string): () => void {
+  // Уважаем системную настройку: пользователи с prefers-reduced-motion
+  // получают статичный фон вместо движущейся ленты.
+  if (typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+    return () => {};
+  }
+
   // Защита от повторной инициализации (один canvas на страницу)
   if ((window as any).isCanvasInitialized) return () => {};
 

@@ -43,6 +43,8 @@ Preferred communication style: Simple, everyday language.
 - **Contact Form**: Validated contact form with toast notifications
 - **Timeline View**: Chronological work history display
 - **Audio Persistence**: Consent-based localStorage persistence for audio settings and mixer volumes (first-time visitors: audio off, returning users: restore preferences)
+- **Accessibility — Reduced motion**: Global `MotionConfig reducedMotion="user"` in `App.tsx` tells framer-motion to respect the OS setting. A `@media (prefers-reduced-motion: reduce)` block at the end of `index.css` shortens CSS animations/transitions to ~0ms. The Petrovy parallax canvas (`lib/petrovyParallax.ts`) checks `matchMedia('(prefers-reduced-motion: reduce)')` on init and skips animation entirely.
+- **Image loading**: All non-LCP `<img>` tags use `loading="lazy"` + `decoding="async"`. Hero image uses `fetchpriority="high"` for fast LCP.
 - **Bilingual (RU/EN)**: URL-based i18n system — Russian at `/`, English at `/en/`. Language switcher in header. All UI text, project data, SEO metadata, and sitemap support both languages with proper hreflang tags.
 
 ## i18n Architecture

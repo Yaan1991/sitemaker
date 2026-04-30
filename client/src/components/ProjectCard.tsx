@@ -38,6 +38,8 @@ export default function ProjectCard({
         src={image}
         alt={title}
         className="w-full h-64 md:h-96 object-cover"
+        loading="lazy"
+        decoding="async"
       />
       <div className="p-6">
         <h3 className="text-2xl font-bold mb-2">{title}</h3>
