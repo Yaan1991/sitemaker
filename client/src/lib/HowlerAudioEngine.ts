@@ -227,12 +227,27 @@ export class HowlerAudioEngine {
   }
 
   /**
+   * Нормализация маршрута: убираем префикс /en у английской версии,
+   * чтобы маппинг работал одинаково для обеих локалей.
+   * Примеры: /en/project/idiot-saratov-drama -> /project/idiot-saratov-drama
+   *          /en -> /
+   *          /en/ -> /
+   */
+  private normalizeRoute(route: string): string {
+    if (route === '/en' || route === '/en/') return '/';
+    if (route.startsWith('/en/')) return route.slice(3);
+    return route;
+  }
+
+  /**
    * Music Bus Management
    */
   public async playMusic(route: string, trackIndex = 0): Promise<void> {
     if (!this.isMusicEnabled) {
       return;
     }
+
+    route = this.normalizeRoute(route);
 
     // Проверяем есть ли специфичная музыка для маршрута
     let musicData = this.routeMapping.music[route as keyof typeof this.routeMapping.music];
@@ -394,6 +409,8 @@ export class HowlerAudioEngine {
    */
   public async playSoundDesign(route: string): Promise<void> {
     if (!this.isSfxEnabled) return;
+
+    route = this.normalizeRoute(route);
 
     // Проверяем есть ли специфичный звуковой дизайн для маршрута
     let sfxUrl = this.routeMapping.soundDesign[route as keyof typeof this.routeMapping.soundDesign];
