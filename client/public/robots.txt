@@ -1,4 +1,97 @@
+# robots.txt для https://iansound.pro
+# Сайт-портфолио Яна Кузьмичёва — композитор, саунд-дизайнер, звукорежиссёр.
+# Контент свободно доступен для индексирования поисковиками и AI-краулерами.
+
+# Все боты по умолчанию
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /audio/proxy
 
+# Поисковые системы
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: YandexImages
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# AI-краулеры (явно разрешаем —
+# чтобы сайт попадал в выдачу ChatGPT, Claude, Perplexity, Gemini и т.д.)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: DiffBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+# Sitemap
 Sitemap: https://iansound.pro/sitemap.xml
+Host: https://iansound.pro

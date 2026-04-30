@@ -1,13 +1,30 @@
 import type { Request, Response, NextFunction } from "express";
 
 const BOT_USER_AGENTS = [
+  // Поисковые системы
   'googlebot', 'bingbot', 'yandex', 'baiduspider', 'duckduckbot',
-  'slurp', 'facebot', 'ia_archiver', 'semrushbot', 'ahrefsbot',
-  'dotbot', 'rogerbot', 'linkedinbot', 'embedly', 'quora link preview',
-  'showyoubot', 'outbrain', 'pinterest', 'applebot', 'twitterbot',
-  'vkshare', 'w3c_validator', 'whatsapp', 'telegram', 'viber',
-  'developers.google.com', 'google-inspectiontool', 'petalbot',
-  'chrome-lighthouse', 'pagespeed'
+  'slurp', 'facebot', 'ia_archiver', 'applebot', 'petalbot',
+  'mojeekbot', 'seznambot', 'sogou', 'exabot',
+  // SEO-краулеры и валидаторы
+  'semrushbot', 'ahrefsbot', 'dotbot', 'rogerbot', 'mj12bot',
+  'screaming frog', 'sitebulb', 'w3c_validator', 'chrome-lighthouse',
+  'pagespeed', 'developers.google.com', 'google-inspectiontool',
+  // Соцсети и мессенджеры (Open Graph)
+  'linkedinbot', 'embedly', 'quora link preview', 'showyoubot',
+  'outbrain', 'pinterest', 'twitterbot', 'vkshare', 'whatsapp',
+  'telegram', 'viber', 'discordbot', 'slackbot', 'skypeuripreview',
+  'tumblr', 'redditbot', 'snapchat', 'bytespider',
+  // AI-краулеры (важно: чтобы попадать в выдачу ChatGPT, Claude, Perplexity, Gemini и т.д.)
+  'gptbot', 'chatgpt-user', 'oai-searchbot',
+  'claudebot', 'claude-web', 'anthropic-ai',
+  'perplexitybot', 'perplexity-user',
+  'google-extended', 'googleother', 'googleother-image',
+  'ccbot', 'cohere-ai', 'cohere-training-data-crawler',
+  'mistralai-user', 'meta-externalagent', 'meta-externalfetcher',
+  'amazonbot', 'youbot', 'diffbot', 'duckassistbot',
+  'phindbot', 'kagibot', 'omgilibot', 'omgili',
+  'iaskspider', 'firecrawl', 'webzio-extended', 'tinypingbot',
+  'qwantbot', 'startpagebot'
 ];
 
 function isBot(userAgent: string): boolean {
@@ -16,6 +33,32 @@ function isBot(userAgent: string): boolean {
 }
 
 const SITE_URL = "https://iansound.pro";
+const DEFAULT_OG_IMAGE = `${SITE_URL}/images/hero.webp`;
+const PERSON_IMAGE = `${SITE_URL}/images/hero.webp`;
+
+const KEYWORDS_RU = [
+  "Ян Кузьмичёв", "Ян Кузьмичев", "композитор", "саунд-дизайнер",
+  "звукорежиссёр", "звукорежиссер", "музыка для театра",
+  "музыка для кино", "саунд-дизайн", "звуковое оформление спектакля",
+  "композитор театра", "композитор кино", "композитор Москва",
+  "пост-продакшн звука", "иммерсивный звук", "аудиоспектакль",
+  "оригинальная музыка", "звук для спектакля",
+  "iansound", "iansound.pro"
+].join(", ");
+
+const KEYWORDS_EN = [
+  "Ian Kuzmichev", "composer", "sound designer", "sound engineer",
+  "theatre composer", "film composer", "sound design",
+  "post-production sound", "immersive sound", "audio performance",
+  "original music for theatre", "original music for film",
+  "Russian composer", "Moscow composer", "GITIS",
+  "iansound", "iansound.pro"
+].join(", ");
+
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
 
 interface PageSEO {
   title: string;
@@ -23,8 +66,77 @@ interface PageSEO {
   url: string;
   lang: 'ru' | 'en';
   alternateUrl: string;
-  jsonLd?: object;
+  jsonLd?: object | object[];
   content: string;
+  image?: string;
+  keywords?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  ogType?: 'website' | 'article' | 'profile';
+}
+
+function buildPersonJsonLd(isEn: boolean): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${SITE_URL}/#person`,
+    "name": isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв",
+    "alternateName": isEn ? ["Ян Кузьмичёв", "Ян Кузьмичев"] : ["Ian Kuzmichev", "Yan Kuzmichev"],
+    "jobTitle": isEn
+      ? ["Composer", "Sound Designer", "Sound Engineer"]
+      : ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"],
+    "url": SITE_URL,
+    "image": PERSON_IMAGE,
+    "email": "mailto:kuzmichevyan@gmail.com",
+    "nationality": isEn ? "Russian" : "Россия",
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": isEn
+        ? "Russian Institute of Theatre Arts (GITIS)"
+        : "Российский институт театрального искусства (ГИТИС)"
+    },
+    "knowsAbout": isEn
+      ? ["Music composition", "Sound design", "Sound engineering",
+         "Theatre sound", "Film sound", "Post-production",
+         "Immersive audio", "Spatial sound", "Field recording"]
+      : ["Композиция", "Саунд-дизайн", "Звукорежиссура",
+         "Театральный звук", "Звук для кино", "Пост-продакшн",
+         "Иммерсивный звук", "Пространственный звук", "Полевая запись"],
+    "description": isEn
+      ? "Composer, sound designer and sound engineer with 14+ years of experience. Over 100 projects in theatre, film and audio."
+      : "Композитор, саунд-дизайнер и звукорежиссёр с 14-летним опытом. Более 100 проектов в театре, кино и аудио.",
+    "sameAs": [
+      "https://t.me/iankzmcv",
+      "https://band.link/zDZyK"
+    ]
+  };
+}
+
+function buildWebSiteJsonLd(isEn: boolean): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    "url": SITE_URL,
+    "name": isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв",
+    "description": isEn
+      ? "Personal portfolio of composer and sound designer Ian Kuzmichev."
+      : "Персональный сайт композитора и саунд-дизайнера Яна Кузьмичёва.",
+    "inLanguage": isEn ? "en" : "ru",
+    "publisher": { "@id": `${SITE_URL}/#person` }
+  };
+}
+
+function buildBreadcrumbJsonLd(items: BreadcrumbItem[]): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": items.map((item, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "name": item.name,
+      "item": item.url
+    }))
+  };
 }
 
 const projectsData: Array<{
@@ -176,21 +288,14 @@ function getPageSEO(path: string): PageSEO | null {
     const desc = isEn
       ? "Ian Kuzmichev — composer, sound designer and sound engineer with 14+ years of experience. Over 100 projects in theatre, film, and audio."
       : "Ян Кузьмичёв — композитор, саунд-дизайнер и звукорежиссёр с 14-летним опытом. Более 100 проектов в театре, кино и аудио. Музыка и звук для пространства.";
-    const name = isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв";
-    const jobs = isEn ? ["Composer", "Sound Designer", "Sound Engineer"] : ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"];
     return {
       title, description: desc, lang,
       url: `${SITE_URL}${prefix}/`,
       alternateUrl: `${SITE_URL}${altPrefix}/`,
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": name,
-        "jobTitle": jobs,
-        "url": SITE_URL,
-        "sameAs": ["https://t.me/iankzmcv", "https://band.link/zDZyK"],
-        "description": desc
-      },
+      image: DEFAULT_OG_IMAGE,
+      keywords: isEn ? KEYWORDS_EN : KEYWORDS_RU,
+      ogType: 'profile',
+      jsonLd: [buildPersonJsonLd(isEn), buildWebSiteJsonLd(isEn)],
       content: isEn ? `
         <h1>Ian Kuzmichev — Composer, Sound Designer, Sound Engineer</h1>
         <p>14+ years of experience, 100+ projects in theatre, film, and audio.</p>
@@ -216,21 +321,31 @@ function getPageSEO(path: string): PageSEO | null {
     const desc = isEn
       ? "Ian Kuzmichev — composer, sound designer and sound engineer. Over 100 projects. Chekhov Moscow Art Theatre, Theatre of Nations, Sovremennik, Van Cleef & Arpels, Porsche."
       : "Ян Кузьмичёв — композитор, саунд-дизайнер и звукорежиссёр. Более 100 проектов. МХТ, Театр Наций, Современник, Van Cleef & Arpels, Porsche.";
+    const breadcrumbs: BreadcrumbItem[] = [
+      { name: isEn ? "Home" : "Главная", url: `${SITE_URL}${prefix}/` },
+      { name: isEn ? "About" : "Обо мне", url: `${SITE_URL}${prefix}/about` }
+    ];
     return {
       title, description: desc, lang,
       url: `${SITE_URL}${prefix}/about`,
       alternateUrl: `${SITE_URL}${altPrefix}/about`,
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "AboutPage",
-        "name": title,
-        "mainEntity": {
-          "@type": "Person",
-          "name": isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв",
-          "alumniOf": { "@type": "CollegeOrUniversity", "name": "GITIS" },
-          "jobTitle": isEn ? ["Composer", "Sound Designer", "Sound Engineer"] : ["Композитор", "Саунд-дизайнер", "Звукорежиссёр"]
-        }
-      },
+      image: DEFAULT_OG_IMAGE,
+      keywords: isEn ? KEYWORDS_EN : KEYWORDS_RU,
+      breadcrumbs,
+      ogType: 'profile',
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "name": title,
+          "description": desc,
+          "url": `${SITE_URL}${prefix}/about`,
+          "inLanguage": isEn ? "en" : "ru",
+          "mainEntity": { "@id": `${SITE_URL}/#person` }
+        },
+        buildPersonJsonLd(isEn),
+        buildBreadcrumbJsonLd(breadcrumbs)
+      ],
       content: isEn ? `
         <h1>About — Ian Kuzmichev</h1>
         <p>Composer | Sound Designer | Sound Engineer</p>
@@ -255,19 +370,46 @@ function getPageSEO(path: string): PageSEO | null {
       : (category ? `Проекты Яна Кузьмичёва в категории «${catName}». Композиция, саунд-дизайн и звукорежиссура.` : "Все проекты Яна Кузьмичёва: театр, кино, аудиоспектакли. Более 100 работ.");
 
     const filteredProjects = category ? projectsData.filter(p => p.category === category) : projectsData;
+    const breadcrumbs: BreadcrumbItem[] = [
+      { name: isEn ? "Home" : "Главная", url: `${SITE_URL}${prefix}/` },
+      { name: isEn ? "Projects" : "Проекты", url: `${SITE_URL}${prefix}/projects` }
+    ];
+    if (category) {
+      breadcrumbs.push({ name: catName, url: `${SITE_URL}${prefix}${cleanPath}` });
+    }
 
     return {
       title: isEn ? `${catName} — Projects | Ian Kuzmichev` : `${catName} — Проекты | Ян Кузьмичёв`,
       description: catDesc, lang,
       url: `${SITE_URL}${prefix}${cleanPath}`,
       alternateUrl: `${SITE_URL}${altPrefix}${cleanPath}`,
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": isEn ? `${catName} — projects by Ian Kuzmichev` : `${catName} — проекты Яна Кузьмичёва`,
-        "description": catDesc,
-        "url": `${SITE_URL}${prefix}${cleanPath}`
-      },
+      image: DEFAULT_OG_IMAGE,
+      keywords: isEn ? KEYWORDS_EN : KEYWORDS_RU,
+      breadcrumbs,
+      ogType: 'website',
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": isEn ? `${catName} — projects by Ian Kuzmichev` : `${catName} — проекты Яна Кузьмичёва`,
+          "description": catDesc,
+          "url": `${SITE_URL}${prefix}${cleanPath}`,
+          "inLanguage": isEn ? "en" : "ru",
+          "isPartOf": { "@id": `${SITE_URL}/#website` },
+          "about": { "@id": `${SITE_URL}/#person` },
+          "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": filteredProjects.length,
+            "itemListElement": filteredProjects.map((p, idx) => ({
+              "@type": "ListItem",
+              "position": idx + 1,
+              "url": `${SITE_URL}${prefix}/project/${p.id}`,
+              "name": isEn ? p.titleEn : p.title
+            }))
+          }
+        },
+        buildBreadcrumbJsonLd(breadcrumbs)
+      ],
       content: `
         <h1>${catName}</h1><p>${catDesc}</p>
         <ul>${filteredProjects.map(p => `<li><a href="${SITE_URL}${prefix}/project/${p.id}">${isEn ? p.titleEn : p.title} (${p.year}) — ${(isEn ? p.roleEn : p.role).join(", ")}${(isEn ? p.venueEn : p.venue) ? ` | ${isEn ? p.venueEn : p.venue}` : ""}</a><br/>${isEn ? p.descriptionEn : p.description}</li>`).join("\n")}</ul>
@@ -280,16 +422,30 @@ function getPageSEO(path: string): PageSEO | null {
     const desc = isEn
       ? "Contact composer and sound designer Ian Kuzmichev. Email, Telegram, social media."
       : "Связаться с композитором и саунд-дизайнером Яном Кузьмичёвым. Email, Telegram, социальные сети.";
+    const breadcrumbs: BreadcrumbItem[] = [
+      { name: isEn ? "Home" : "Главная", url: `${SITE_URL}${prefix}/` },
+      { name: isEn ? "Contact" : "Контакты", url: `${SITE_URL}${prefix}/contact` }
+    ];
     return {
       title, description: desc, lang,
       url: `${SITE_URL}${prefix}/contact`,
       alternateUrl: `${SITE_URL}${altPrefix}/contact`,
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "ContactPage",
-        "name": title,
-        "url": `${SITE_URL}${prefix}/contact`
-      },
+      image: DEFAULT_OG_IMAGE,
+      keywords: isEn ? KEYWORDS_EN : KEYWORDS_RU,
+      breadcrumbs,
+      ogType: 'website',
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": title,
+          "description": desc,
+          "url": `${SITE_URL}${prefix}/contact`,
+          "inLanguage": isEn ? "en" : "ru",
+          "mainEntity": { "@id": `${SITE_URL}/#person` }
+        },
+        buildBreadcrumbJsonLd(breadcrumbs)
+      ],
       content: isEn ? `
         <h1>Contact — Ian Kuzmichev</h1>
         <p>Contact composer and sound designer Ian Kuzmichev for collaboration.</p>
@@ -311,28 +467,53 @@ function getPageSEO(path: string): PageSEO | null {
     if (project) {
       const pTitle = isEn ? project.titleEn : project.title;
       const pDesc = isEn ? project.fullDescriptionEn : project.fullDescription;
+      const pShortDesc = isEn ? project.descriptionEn : project.description;
       const pRole = isEn ? project.roleEn : project.role;
       const pVenue = isEn ? project.venueEn : project.venue;
       const name = isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв";
+      const catName = catNames[project.category] || project.category;
+      const breadcrumbs: BreadcrumbItem[] = [
+        { name: isEn ? "Home" : "Главная", url: `${SITE_URL}${prefix}/` },
+        { name: isEn ? "Projects" : "Проекты", url: `${SITE_URL}${prefix}/projects` },
+        { name: catName, url: `${SITE_URL}${prefix}/projects/${project.category}` },
+        { name: pTitle, url: `${SITE_URL}${prefix}/project/${project.id}` }
+      ];
+      const projectKeywords = [
+        ...(isEn ? KEYWORDS_EN.split(", ") : KEYWORDS_RU.split(", ")),
+        pTitle, ...pRole, ...(pVenue ? [pVenue] : []), project.year, catName
+      ].join(", ");
       return {
         title: `${pTitle} — ${project.year} | ${name}`,
-        description: pDesc.substring(0, 200) + "...",
+        description: (pShortDesc || pDesc).substring(0, 200),
         lang,
         url: `${SITE_URL}${prefix}/project/${project.id}`,
         alternateUrl: `${SITE_URL}${altPrefix}/project/${project.id}`,
-        jsonLd: {
-          "@context": "https://schema.org",
-          "@type": "CreativeWork",
-          "name": pTitle,
-          "description": pDesc,
-          "dateCreated": project.year,
-          "genre": catNames[project.category] || project.category,
-          "creator": { "@type": "Person", "name": name, "jobTitle": pRole },
-          ...(pVenue ? { "locationCreated": { "@type": "Place", "name": pVenue } } : {})
-        },
+        image: DEFAULT_OG_IMAGE,
+        keywords: projectKeywords,
+        breadcrumbs,
+        ogType: 'article',
+        jsonLd: [
+          {
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "name": pTitle,
+            "description": pDesc,
+            "dateCreated": project.year,
+            "datePublished": project.year,
+            "genre": catName,
+            "url": `${SITE_URL}${prefix}/project/${project.id}`,
+            "inLanguage": isEn ? "en" : "ru",
+            "image": DEFAULT_OG_IMAGE,
+            "keywords": [pTitle, ...pRole, catName, ...(pVenue ? [pVenue] : [])].join(", "),
+            "creator": { "@id": `${SITE_URL}/#person` },
+            "author": { "@id": `${SITE_URL}/#person` },
+            ...(pVenue ? { "locationCreated": { "@type": "Place", "name": pVenue } } : {})
+          },
+          buildBreadcrumbJsonLd(breadcrumbs)
+        ],
         content: `
           <h1>${pTitle} (${project.year})</h1>
-          <p><strong>${isEn ? 'Category' : 'Категория'}:</strong> ${catNames[project.category] || project.category}</p>
+          <p><strong>${isEn ? 'Category' : 'Категория'}:</strong> ${catName}</p>
           <p><strong>${isEn ? 'Role' : 'Роль'}:</strong> ${pRole.join(", ")}</p>
           ${pVenue ? `<p><strong>${isEn ? 'Venue' : 'Площадка'}:</strong> ${pVenue}</p>` : ""}
           <p>${pDesc}</p>
@@ -373,9 +554,10 @@ function safeJsonLd(data: unknown): string {
 }
 
 function generateHTML(seo: PageSEO): string {
-  const jsonLdScript = seo.jsonLd
-    ? `<script type="application/ld+json">${safeJsonLd(seo.jsonLd)}</script>`
-    : "";
+  const jsonLdItems = Array.isArray(seo.jsonLd) ? seo.jsonLd : (seo.jsonLd ? [seo.jsonLd] : []);
+  const jsonLdScripts = jsonLdItems
+    .map(item => `<script type="application/ld+json">${safeJsonLd(item)}</script>`)
+    .join("\n  ");
 
   const ogLocale = seo.lang === 'en' ? 'en_US' : 'ru_RU';
   const altLocale = seo.lang === 'en' ? 'ru_RU' : 'en_US';
@@ -386,6 +568,9 @@ function generateHTML(seo: PageSEO): string {
   const projectsLabel = seo.lang === 'en' ? 'Projects' : 'Проекты';
   const contactLabel = seo.lang === 'en' ? 'Contact' : 'Контакты';
   const prefix = seo.lang === 'en' ? '/en' : '';
+  const ogType = seo.ogType || 'website';
+  const ogImage = seo.image || DEFAULT_OG_IMAGE;
+  const twitterCard = seo.image ? 'summary_large_image' : 'summary';
 
   // Экранируем все динамические plain-text поля.
   // ВАЖНО: seo.content — это уже подготовленный HTML-фрагмент, его НЕ экранируем.
@@ -395,6 +580,17 @@ function generateHTML(seo: PageSEO): string {
   const safeAltUrl = escapeHtml(seo.alternateUrl);
   const safeXDefaultUrl = escapeHtml(seo.lang === 'ru' ? seo.url : seo.alternateUrl);
   const safeSiteName = escapeHtml(siteName);
+  const safeOgImage = escapeHtml(ogImage);
+  const safeKeywords = seo.keywords ? escapeHtml(seo.keywords) : '';
+  const breadcrumbHtml = seo.breadcrumbs && seo.breadcrumbs.length > 0
+    ? `<nav aria-label="${seo.lang === 'en' ? 'Breadcrumb' : 'Хлебные крошки'}">
+    ${seo.breadcrumbs.map((b, i, arr) =>
+      i < arr.length - 1
+        ? `<a href="${escapeHtml(b.url)}">${escapeHtml(b.name)}</a> &rsaquo;`
+        : `<span aria-current="page">${escapeHtml(b.name)}</span>`
+    ).join(" ")}
+  </nav>`
+    : "";
 
   return `<!DOCTYPE html>
 <html lang="${seo.lang}">
@@ -402,29 +598,42 @@ function generateHTML(seo: PageSEO): string {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${safeTitle}</title>
-  <meta name="description" content="${safeDescription}">
+  <meta name="description" content="${safeDescription}">${safeKeywords ? `
+  <meta name="keywords" content="${safeKeywords}">` : ''}
   <link rel="canonical" href="${safeUrl}">
   <link rel="alternate" hreflang="${seo.lang}" href="${safeUrl}">
   <link rel="alternate" hreflang="${altLang}" href="${safeAltUrl}">
   <link rel="alternate" hreflang="x-default" href="${safeXDefaultUrl}">
-  
-  <meta property="og:type" content="website">
+
+  <meta property="og:type" content="${ogType}">
   <meta property="og:title" content="${safeTitle}">
   <meta property="og:description" content="${safeDescription}">
   <meta property="og:url" content="${safeUrl}">
   <meta property="og:site_name" content="${safeSiteName}">
   <meta property="og:locale" content="${ogLocale}">
   <meta property="og:locale:alternate" content="${altLocale}">
-  
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="${safeOgImage}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="${safeTitle}">
+
+  <meta name="twitter:card" content="${twitterCard}">
   <meta name="twitter:title" content="${safeTitle}">
   <meta name="twitter:description" content="${safeDescription}">
-  
-  <meta name="robots" content="index, follow">
+  <meta name="twitter:image" content="${safeOgImage}">
+
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="yandex" content="index, follow">
   <meta name="author" content="${safeSiteName}">
   <meta name="theme-color" content="#00ffff">
-  
-  ${jsonLdScript}
+  <meta name="format-detection" content="telephone=no">
+
+  <link rel="icon" type="image/svg+xml" href="${SITE_URL}/favicon.svg">
+  <link rel="icon" type="image/png" href="${SITE_URL}/favicon.png">
+  <link rel="apple-touch-icon" href="${SITE_URL}/apple-touch-icon.png">
+
+  ${jsonLdScripts}
 
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #0a0a0a; color: #e5e7eb; }
@@ -432,6 +641,7 @@ function generateHTML(seo: PageSEO): string {
     a { color: #06b6d4; }
     ul { padding-left: 20px; }
     li { margin-bottom: 8px; }
+    nav[aria-label] { font-size: 0.9em; margin-bottom: 1em; opacity: 0.8; }
   </style>
 </head>
 <body>
@@ -442,6 +652,7 @@ function generateHTML(seo: PageSEO): string {
     <a href="${SITE_URL}${prefix}/contact">${contactLabel}</a> |
     <a href="${SITE_URL}${seo.lang === 'en' ? '/' : '/en/'}">${seo.lang === 'en' ? 'RU' : 'EN'}</a>
   </nav>
+  ${breadcrumbHtml}
   ${seo.content}
   <footer>
     <p>&copy; ${new Date().getFullYear()} ${safeSiteName}.</p>

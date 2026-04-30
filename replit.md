@@ -38,7 +38,7 @@ Preferred communication style: Simple, everyday language.
 ## Key Features
 - **Portfolio Showcase**: Project galleries organized by category (theatre, film, audio)
 - **Auto-slider**: Custom carousel component for project presentations
-- **SEO Optimization**: React Helmet for meta tags and structured data; server-side SEO middleware for bots
+- **SEO Optimization**: см. раздел «SEO Architecture» ниже — полный bot SSR + богатый JSON-LD + AI-bot whitelist.
 - **Responsive Design**: Mobile-first approach with glass morphism effects
 - **Contact Form**: Validated contact form with toast notifications
 - **Timeline View**: Chronological work history display
@@ -55,8 +55,19 @@ Preferred communication style: Simple, everyday language.
 - **Routes**: Duplicate routes in App.tsx — Russian at `/`, `/about`, etc.; English at `/en/`, `/en/about`, etc.
 - **Audio routing**: `HowlerAudioEngine.normalizeRoute()` strips `/en` prefix so the route→track map works for both languages.
 - **SEO middleware**: `server/seo.ts` detects language from URL, serves translated bot HTML with hreflang tags. All dynamic plain-text fields go through `escapeHtml()`; JSON-LD goes through `safeJsonLd()`.
-- **Sitemap**: `client/public/sitemap.xml` includes all pages in both languages with xhtml:link hreflang annotations.
+- **Sitemap**: `client/public/sitemap.xml` includes all pages in both languages with xhtml:link hreflang annotations + `<image:image>` для главной и проектов.
 - **Data sync**: When adding a new project, update: `client/src/data/allProjects.ts` (always — bilingual entry). For featured projects with a `/project/*` detail page also update: `client/src/data/projects.ts`, `client/src/i18n/projectsEn.ts`, `server/seo.ts` projectsData.
+
+## SEO Architecture
+- **`client/index.html`** — RU-первый базовый HTML: `lang="ru"`, title, description, keywords, canonical, hreflang (ru/en/x-default), favicon (svg + png + apple-touch), theme-color, OG-теги (image, locale, locale:alternate, image:width/height/alt) и Twitter summary_large_image. Google Fonts urлен только до **7 реально используемых семейств**: Train One, Handjet, Jost, Inter, Amatic SC, Oswald, Russo One (раньше было ~30, что душило LCP).
+- **Server-side SEO middleware** (`server/seo.ts`) отдаёт ботам полностью отрендеренный HTML вместо пустого SPA-каркаса:
+  - `BOT_USER_AGENTS` включает: поисковики (Googlebot, Bingbot, YandexBot, DuckDuckBot, Applebot, Petalbot, Mojeek, Seznam, Sogou), SEO-краулеры (SEMrush, Ahrefs, MJ12, Screaming Frog, Lighthouse, PageSpeed), соцсети (FB, LinkedIn, Twitter, Telegram, WhatsApp, Discord, Slack, VK, Reddit), и **AI-краулеры**: GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended, GoogleOther, CCBot, cohere-ai, MistralAI-User, Meta-ExternalAgent/Fetcher, Amazonbot, YouBot, Diffbot, Bytespider, DuckAssistBot, Phindbot, Kagibot, Omgilibot, Firecrawl и др.
+  - `PageSEO.jsonLd` — массив объектов schema.org. На главной отдаём `Person` + `WebSite` (с `@id` для cross-reference). На остальных страницах — основной тип (`AboutPage`/`CollectionPage`/`ContactPage`/`CreativeWork`) + `BreadcrumbList`. `Person` обогащён: `image`, `email`, `nationality`, `alumniOf`, `knowsAbout`, `sameAs`, `alternateName`.
+  - `PageSEO.image`, `keywords`, `breadcrumbs`, `ogType` — попадают в meta-теги (keywords, og:image, og:type, twitter:image) и в визуальные хлебные крошки в боди.
+  - **Безопасность**: все plain-text поля проходят через `escapeHtml()`, JSON-LD — через `safeJsonLd()` (экранирует `<`, `>`, `&`, U+2028/U+2029).
+- **`client/public/robots.txt`** — Allow: / для всех, явный Allow для каждого AI-бота (чтобы не попасть под их consent-defaults), Disallow для `/api/` и `/audio/proxy`. Sitemap + Host директивы.
+- **`client/public/sitemap.xml`** — все 14 url'ов сайта (ru + en версии) с xhtml:link hreflang, `<image:image>` для главной и 4 ключевых проектов, `lastmod` 2026-04-30, `changefreq`/`priority` по типу страницы.
+- **Расширение списка проектов в SEO**: featured (8 шт.) сейчас захардкожены в `server/seo.ts` (projectsData) — это намеренный single source для bot HTML, потому что allProjects.ts (69 шт.) не имеет полнотекстового описания на каждый. Если будете добавлять новый featured проект с детальной страницей `/project/*` — добавьте его в `projectsData` server/seo.ts И в sitemap.xml.
 
 # External Dependencies
 
