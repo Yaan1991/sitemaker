@@ -44,11 +44,13 @@ Preferred communication style: Simple, everyday language.
 ## i18n Architecture
 - **Language detection**: `client/src/i18n/useLanguage.ts` hook reads URL path (`/en/*` = English, else Russian). Returns `{ lang, t, prefix }`.
 - **Translations**: `client/src/i18n/translations.ts` — all UI strings in RU and EN.
-- **Project translations**: `client/src/i18n/projectsEn.ts` (featured projects), `client/src/i18n/allProjectsEn.ts` (full project list).
+- **All projects (full list)**: `client/src/data/allProjects.ts` — single bilingual source. Each field that varies by language uses `BiLangText` shape `{ ru: string; en: string }`. Helper `tr(field)` in `Projects.tsx` picks the right language.
+- **Featured projects (homepage + detail pages)**: `client/src/data/projects.ts` (RU) + `client/src/i18n/projectsEn.ts` (EN translations by id) — still split, kept for the hand-curated case studies on `/project/*` pages.
 - **Routes**: Duplicate routes in App.tsx — Russian at `/`, `/about`, etc.; English at `/en/`, `/en/about`, etc.
-- **SEO middleware**: `server/seo.ts` detects language from URL, serves translated bot HTML with hreflang tags.
+- **Audio routing**: `HowlerAudioEngine.normalizeRoute()` strips `/en` prefix so the route→track map works for both languages.
+- **SEO middleware**: `server/seo.ts` detects language from URL, serves translated bot HTML with hreflang tags. All dynamic plain-text fields go through `escapeHtml()`; JSON-LD goes through `safeJsonLd()`.
 - **Sitemap**: `client/public/sitemap.xml` includes all pages in both languages with xhtml:link hreflang annotations.
-- **Data sync**: When adding new projects, update: `client/src/data/projects.ts`, `server/seo.ts` projectsData, `client/src/i18n/projectsEn.ts`, `client/src/i18n/allProjectsEn.ts`.
+- **Data sync**: When adding a new project, update: `client/src/data/allProjects.ts` (always — bilingual entry). For featured projects with a `/project/*` detail page also update: `client/src/data/projects.ts`, `client/src/i18n/projectsEn.ts`, `server/seo.ts` projectsData.
 
 # External Dependencies
 

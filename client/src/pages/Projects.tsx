@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { allProjects } from "@/data/allProjects";
+import { allProjects, type AllProject, type BiLangText } from "@/data/allProjects";
 import SEOHead from "@/components/SEOHead";
 import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import { ExternalLink, Newspaper } from "lucide-react";
 import { Link } from "wouter";
 import backgroundImage from "@assets/allprojetsbg_1757713205646.webp";
 import { useLanguage } from "@/i18n/useLanguage";
-import { allProjectTranslationsEn } from "@/i18n/allProjectsEn";
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedYear, setSelectedYear] = useState<string>("all");
   const [showEarlyYears, setShowEarlyYears] = useState(false);
   const { lang, t, prefix } = useLanguage();
+
+  // Хелпер: достаём поле в нужном языке из двуязычной структуры
+  const tr = (field: BiLangText | undefined): string =>
+    field ? (lang === 'en' ? field.en : field.ru) : '';
 
   const categories = {
     all: t.projectsAll,
@@ -46,49 +49,9 @@ export default function Projects() {
     }
     acc[year].push(project);
     return acc;
-  }, {} as Record<string, typeof allProjects>);
+  }, {} as Record<string, AllProject[]>);
 
   const sortedYears = Object.keys(groupedProjects).sort((a, b) => parseInt(b) - parseInt(a));
-
-  const getProjectTitle = (project: typeof allProjects[0]) => {
-    if (lang === 'en') {
-      const en = allProjectTranslationsEn[project.id];
-      return en?.title || project.title;
-    }
-    return project.title;
-  };
-
-  const getProjectRole = (project: typeof allProjects[0]) => {
-    if (lang === 'en') {
-      const en = allProjectTranslationsEn[project.id];
-      return en?.role || project.role;
-    }
-    return project.role;
-  };
-
-  const getProjectType = (project: typeof allProjects[0]) => {
-    if (lang === 'en') {
-      const en = allProjectTranslationsEn[project.id];
-      return en?.type || project.type;
-    }
-    return project.type;
-  };
-
-  const getProjectTheater = (project: typeof allProjects[0]) => {
-    if (lang === 'en') {
-      const en = allProjectTranslationsEn[project.id];
-      if (en?.theater !== undefined) return en.theater;
-    }
-    return project.theater;
-  };
-
-  const getProjectDirector = (project: typeof allProjects[0]) => {
-    if (lang === 'en') {
-      const en = allProjectTranslationsEn[project.id];
-      if (en?.director !== undefined) return en.director;
-    }
-    return project.director;
-  };
 
   const getCategoryLabel = (category: string) => {
     const catMap: Record<string, string> = {
@@ -242,7 +205,7 @@ export default function Projects() {
                                   className="text-xl md:text-2xl font-bold text-primary hover:text-primary/80 transition-colors duration-200 flex items-center gap-2 group"
                                   data-testid={`link-project-${project.id}`}
                                 >
-                                  {getProjectTitle(project)}
+                                  {tr(project.title)}
                                 </Link>
                               ) : (
                                 <a
@@ -252,13 +215,13 @@ export default function Projects() {
                                   className="text-xl md:text-2xl font-bold text-primary hover:text-primary/80 transition-colors duration-200 flex items-center gap-2 group"
                                   data-testid={`link-project-${project.id}`}
                                 >
-                                  {getProjectTitle(project)}
+                                  {tr(project.title)}
                                   <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200" />
                                 </a>
                               )
                             ) : (
                               <h3 className="text-xl md:text-2xl font-bold text-white" data-testid={`text-project-title-${project.id}`}>
-                                {getProjectTitle(project)}
+                                {tr(project.title)}
                               </h3>
                             )}
                             <span className={`inline-block px-3 py-1 text-sm font-medium rounded-full whitespace-nowrap ${
@@ -273,21 +236,21 @@ export default function Projects() {
                           </div>
                           
                           <div className="text-gray-300 space-y-1">
-                            <p className="font-medium">{getProjectTheater(project)}</p>
+                            {project.theater && <p className="font-medium">{tr(project.theater)}</p>}
                             {project.director && (
                               <p className="text-sm text-gray-400">
                                 <span className="font-medium">
                                   {project.id === 'tabakov-radost-mxat' 
                                     ? t.projectsArtDirector 
                                     : t.projectsDirector}
-                                </span> {getProjectDirector(project)}
+                                </span> {tr(project.director)}
                               </p>
                             )}
                             <p className="text-sm text-gray-400">
-                              <span className="font-medium">{t.projectsRole}</span> {getProjectRole(project)}
+                              <span className="font-medium">{t.projectsRole}</span> {tr(project.role)}
                             </p>
                             <p className="text-sm text-gray-500">
-                              <span className="font-medium">{t.projectsType}</span> {getProjectType(project)}
+                              <span className="font-medium">{t.projectsType}</span> {tr(project.type)}
                             </p>
                             {project.press && (
                               <p className="text-sm">
