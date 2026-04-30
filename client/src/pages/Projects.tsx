@@ -74,6 +74,14 @@ export default function Projects() {
     return project.type;
   };
 
+  const getProjectTheater = (project: typeof allProjects[0]) => {
+    if (lang === 'en') {
+      const en = allProjectTranslationsEn[project.id];
+      if (en?.theater !== undefined) return en.theater;
+    }
+    return project.theater;
+  };
+
   const getCategoryLabel = (category: string) => {
     const catMap: Record<string, string> = {
       theatre: t.projectsCatTheatre,
@@ -257,7 +265,7 @@ export default function Projects() {
                           </div>
                           
                           <div className="text-gray-300 space-y-1">
-                            <p className="font-medium">{project.theater}</p>
+                            <p className="font-medium">{getProjectTheater(project)}</p>
                             {project.director && (
                               <p className="text-sm text-gray-400">
                                 <span className="font-medium">
