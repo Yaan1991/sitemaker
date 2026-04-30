@@ -3,6 +3,14 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { ObjectStorageService } from "./objectStorage";
 
+const ALLOWED_PROXY_HOSTS = new Set([
+  'disk.yandex.ru',
+  'disk.yandex.com',
+  'yadi.sk',
+]);
+const PROXY_TIMEOUT_MS = 30_000;
+const PROXY_MAX_BYTES = 50 * 1024 * 1024; // 50 MB
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // put application routes here
   // prefix all routes with /api
@@ -10,66 +18,114 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // use storage to perform CRUD operations on the storage interface
   // e.g. storage.insertUser(user) or storage.getUserByUsername(username)
 
-  // Proxy route for Yandex.Disk audio files
+  // Proxy route for Yandex.Disk audio files (allowlist + abort + size limit)
   app.get('/api/proxy-audio', async (req, res) => {
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => abortController.abort(), PROXY_TIMEOUT_MS);
+
+    // Прерываем upstream-запрос если клиент отключился
+    req.on('close', () => {
+      if (!res.writableEnded) abortController.abort();
+    });
+
     try {
       const { url } = req.query;
-      
+
       if (!url || typeof url !== 'string') {
         return res.status(400).json({ error: 'URL parameter is required' });
+      }
+
+      // Валидация: разрешаем только https:// + хосты Yandex.Disk
+      let parsedUrl: URL;
+      try {
+        parsedUrl = new URL(url);
+      } catch {
+        return res.status(400).json({ error: 'Invalid URL format' });
+      }
+
+      if (parsedUrl.protocol !== 'https:' || !ALLOWED_PROXY_HOSTS.has(parsedUrl.hostname)) {
+        return res.status(403).json({ error: 'URL host not allowed' });
       }
 
       // Get the direct download URL from Yandex.Disk API
       const publicKey = encodeURIComponent(url);
       const apiUrl = `https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=${publicKey}`;
-      
-      const apiResponse = await fetch(apiUrl);
+
+      const apiResponse = await fetch(apiUrl, { signal: abortController.signal });
       if (!apiResponse.ok) {
         throw new Error(`Yandex API error: ${apiResponse.statusText}`);
       }
-      
+
       const data = await apiResponse.json();
       const downloadUrl = data.href;
-      
+
       if (!downloadUrl) {
         throw new Error('No download URL received from Yandex.Disk');
       }
 
       // Fetch the actual audio file
-      const audioResponse = await fetch(downloadUrl);
+      const audioResponse = await fetch(downloadUrl, { signal: abortController.signal });
       if (!audioResponse.ok) {
         throw new Error(`Failed to fetch audio: ${audioResponse.statusText}`);
+      }
+
+      // Защита от слишком больших файлов
+      const contentLength = audioResponse.headers.get('content-length');
+      if (contentLength && parseInt(contentLength, 10) > PROXY_MAX_BYTES) {
+        return res.status(413).json({ error: 'Audio file too large' });
       }
 
       // Set appropriate headers for audio streaming
       res.set({
         'Content-Type': audioResponse.headers.get('content-type') || 'audio/mpeg',
-        'Content-Length': audioResponse.headers.get('content-length') || '',
+        'Content-Length': contentLength || '',
         'Accept-Ranges': 'bytes',
         'Cache-Control': 'public, max-age=3600'
       });
 
-      // Stream the audio data
+      // Stream the audio data with backpressure + size limit + abort handling
       if (audioResponse.body) {
         const reader = audioResponse.body.getReader();
-        
-        const pump = async () => {
+        let bytesStreamed = 0;
+
+        try {
           while (true) {
+            if (res.writableEnded || abortController.signal.aborted) break;
+
             const { done, value } = await reader.read();
             if (done) break;
-            res.write(value);
+
+            bytesStreamed += value.length;
+            if (bytesStreamed > PROXY_MAX_BYTES) break;
+
+            const canContinue = res.write(value);
+            if (!canContinue) {
+              await new Promise<void>(resolve => res.once('drain', () => resolve()));
+            }
           }
-          res.end();
-        };
-        
-        await pump();
+        } finally {
+          reader.cancel().catch(() => {});
+        }
+
+        if (!res.writableEnded) res.end();
       } else {
         res.end();
       }
 
-    } catch (error) {
+    } catch (error: any) {
+      if (abortController.signal.aborted || error?.name === 'AbortError') {
+        // Клиент отключился или таймаут — тихо завершаем
+        if (!res.writableEnded) res.end();
+        return;
+      }
       console.error('Proxy audio error:', error);
-      res.status(500).json({ error: 'Failed to proxy audio file' });
+      if (!res.headersSent) {
+        res.status(500).json({ error: 'Failed to proxy audio file' });
+      } else if (!res.writableEnded) {
+        res.end();
+      }
+    } finally {
+      clearTimeout(timeoutId);
     }
   });
 

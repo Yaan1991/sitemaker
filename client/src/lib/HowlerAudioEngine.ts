@@ -22,9 +22,46 @@ export class HowlerAudioEngine {
   private soundDesignBus: Howl | null = null;
   
   // 🚀 Кэш предзагруженных Howl-ов для мгновенного переключения
+  // LRU-стратегия: при превышении MAX_CACHE_SIZE самый старый howl выгружается через unload()
+  private static readonly MAX_CACHE_SIZE = 6;
   private musicCache: Map<string, Howl> = new Map();
   private sfxCache: Map<string, Howl> = new Map();
   private isPreloaded = false;
+
+  /**
+   * Добавление в LRU-кэш с ограничением размера и выгрузкой старых Howl
+   */
+  private setCacheEntry(cache: Map<string, Howl>, key: string, howl: Howl): void {
+    // Если ключ уже есть — обновляем порядок (вставляем в конец)
+    if (cache.has(key)) {
+      cache.delete(key);
+    } else if (cache.size >= HowlerAudioEngine.MAX_CACHE_SIZE) {
+      // Превышен лимит — выгружаем самый старый
+      const oldestKey = cache.keys().next().value;
+      if (oldestKey !== undefined) {
+        const oldHowl = cache.get(oldestKey);
+        // Не выгружаем активные шины
+        if (oldHowl && oldHowl !== this.musicBus && oldHowl !== this.soundDesignBus) {
+          oldHowl.unload();
+        }
+        cache.delete(oldestKey);
+      }
+    }
+    cache.set(key, howl);
+  }
+
+  /**
+   * Чтение из LRU-кэша с обновлением порядка использования
+   */
+  private getCacheEntry(cache: Map<string, Howl>, key: string): Howl | undefined {
+    const howl = cache.get(key);
+    if (howl) {
+      // Обновляем порядок: пересоздаём ключ в конце
+      cache.delete(key);
+      cache.set(key, howl);
+    }
+    return howl;
+  }
   
   // Playback State
   private isInitialized = false;
@@ -121,7 +158,7 @@ export class HowlerAudioEngine {
         volume: 0
       });
       howl.load();
-      this.musicCache.set(homeMusic.url, howl);
+      this.setCacheEntry(this.musicCache, homeMusic.url, howl);
     }
     
     const homeSfx = this.routeMapping.soundDesign['/'];
@@ -134,7 +171,7 @@ export class HowlerAudioEngine {
         volume: 0
       });
       howl.load();
-      this.sfxCache.set(homeSfx, howl);
+      this.setCacheEntry(this.sfxCache, homeSfx, howl);
     }
     
     this.isPreloaded = true;
@@ -272,7 +309,7 @@ export class HowlerAudioEngine {
     const isLooping = !this.currentMusicPlaylist || this.currentMusicPlaylist.length === 1;
     
     // 🚀 Проверяем кэш для мгновенного старта
-    const cached = this.musicCache.get(currentTrack.url);
+    const cached = this.getCacheEntry(this.musicCache, currentTrack.url);
     if (cached) {
       // Переиспользуем закэшированный Howl
       this.musicBus = cached;
@@ -344,7 +381,7 @@ export class HowlerAudioEngine {
       });
       
       // Кэшируем для следующего использования
-      this.musicCache.set(currentTrack.url, this.musicBus);
+      this.setCacheEntry(this.musicCache, currentTrack.url, this.musicBus);
       this.musicBus.play();
     }
     
@@ -393,7 +430,7 @@ export class HowlerAudioEngine {
     const effectiveVolume = this.calculateEffectiveVolume(this.sfxVolume) * 0.15; // Lower base volume for ambients
 
     // 🚀 Проверяем кэш для мгновенного старта
-    const cached = this.sfxCache.get(sfxUrl);
+    const cached = this.getCacheEntry(this.sfxCache, sfxUrl);
     if (cached) {
       // Переиспользуем закэшированный Howl
       this.soundDesignBus = cached;
@@ -423,7 +460,7 @@ export class HowlerAudioEngine {
       });
       
       // Кэшируем для следующего использования
-      this.sfxCache.set(sfxUrl, this.soundDesignBus);
+      this.setCacheEntry(this.sfxCache, sfxUrl, this.soundDesignBus);
       this.soundDesignBus.play();
     }
   }
