@@ -30,6 +30,10 @@ Preferred communication style: Simple, everyday language.
 - **Server**: Express backend in `/server` directory  
 - **Shared**: Common types and schemas in `/shared` directory
 - **Component Organization**: Atomic design with reusable UI components
+- **Project page modules** (extracted from the formerly 1775-line `ProjectPage.tsx`):
+  - `client/src/lib/petrovyParallax.ts` — Canvas-анимация бесконечной ленты для «Петровых».
+  - `client/src/components/project/ProjectMedia.tsx` — `NeonTitle` («Идиот»), `MayakTitle`, `PhotoCarousel`, `ComicImageCarousel`, `Equalizer`.
+  - `client/src/data/projectTracks.ts` — функции `getIdiotTracks/getMayakTracks/getPetrovyTracks` для плейлистов отдельных проектов (RU/EN).
 
 ## Key Features
 - **Portfolio Showcase**: Project galleries organized by category (theatre, film, audio)
