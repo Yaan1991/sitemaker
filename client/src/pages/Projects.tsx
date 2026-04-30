@@ -82,6 +82,14 @@ export default function Projects() {
     return project.theater;
   };
 
+  const getProjectDirector = (project: typeof allProjects[0]) => {
+    if (lang === 'en') {
+      const en = allProjectTranslationsEn[project.id];
+      if (en?.director !== undefined) return en.director;
+    }
+    return project.director;
+  };
+
   const getCategoryLabel = (category: string) => {
     const catMap: Record<string, string> = {
       theatre: t.projectsCatTheatre,
@@ -272,7 +280,7 @@ export default function Projects() {
                                   {project.id === 'tabakov-radost-mxat' 
                                     ? t.projectsArtDirector 
                                     : t.projectsDirector}
-                                </span> {project.director}
+                                </span> {getProjectDirector(project)}
                               </p>
                             )}
                             <p className="text-sm text-gray-400">
