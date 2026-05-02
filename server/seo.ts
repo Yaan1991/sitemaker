@@ -349,15 +349,21 @@ function getPageSEO(path: string): PageSEO | null {
       content: isEn ? `
         <h1>About — Ian Kuzmichev</h1>
         <p>Composer | Sound Designer | Sound Engineer</p>
-        <p>Ian Kuzmichev creates sound that becomes part of the story. GITIS graduate with honors (2015). Over 15 years — more than 100 completed projects.</p>
-        <p>Clients include: Chekhov Moscow Art Theatre, Meyerhold Centre, Theatre of Nations, Sovremennik, Pushkin Theatre, National Theatre of Budapest.</p>
-        <p>Corporate projects for Van Cleef & Arpels, Porsche, Panasonic, VDNKh and Zotov Centre.</p>
+        <p>Ian Kuzmichev is a composer, sound designer, and sound engineer who creates sound that becomes part of the story.</p>
+        <p>Graduated from GITIS with honors, 2015. Over more than 15 years of professional career, he has delivered upwards of 100 projects — from chamber performances to large-scale multimedia shows.</p>
+        <p>Has collaborated with leading theatres in Russia and abroad: Chekhov Moscow Art Theatre, Meyerhold Centre, Theatre of Nations, Sovremennik, Pushkin Theatre, RAMT, National Theatre of Budapest, as well as drama theatres in Saratov, Nizhny Novgorod, Krasnoyarsk, Omsk, Tver, Kazan, Makhachkala, Almaty, and other cities.</p>
+        <p>Has worked on corporate and exhibition projects for Van Cleef & Arpels, Porsche, Panasonic, VDNKh, and Zotov Centre.</p>
+        <p>Creates original music and immersive soundscapes that enhance dramaturgy and immerse the audience in the atmosphere of a performance. Works at the intersection of tradition and innovation: from live orchestras to AI composition, from analog synthesizers to full sound automation via OSC/MIDI protocols.</p>
+        <p>One of the pioneers of theatrical automation in Russia: develops and implements fully automated sound control systems for performances, synchronized with lighting, video, and stage machinery.</p>
       ` : `
         <h1>О себе — Ян Кузьмичёв</h1>
         <p>Композитор | Саунд-дизайнер | Звукорежиссёр</p>
-        <p>Ян Кузьмичёв создаёт звук, становящийся частью истории. Выпускник ГИТИСа с красным дипломом (2015). Более 100 проектов.</p>
-        <p>Клиенты: МХТ им. Чехова, Центр им. Мейерхольда, Театр Наций, Современник, Театр Пушкина, Национальный театр Будапешта.</p>
-        <p>Корпоративные проекты для Van Cleef & Arpels, Porsche, Panasonic, ВДНХ и Центра Зотов.</p>
+        <p>Ян Кузьмичёв — композитор, саунд-дизайнер и звукорежиссёр, создающий звук, который становится частью истории.</p>
+        <p>Выпускник ГИТИСа с красным дипломом, 2015. За более чем 15 лет профессиональной карьеры реализовал свыше 100 проектов — от камерных спектаклей до масштабных мультимедийных шоу.</p>
+        <p>Сотрудничал с ведущими театрами России и зарубежья: МХТ им. Чехова, Центром им. Вс. Мейерхольда, Театром Наций, «Современником», Театром Пушкина, РАМТ, Национальным театром Будапешта, а также драматическими театрами Саратова, Нижнего Новгорода, Красноярска, Омска, Твери, Казани, Махачкалы, Алматы и других городов.</p>
+        <p>Работал над корпоративными и выставочными проектами для Van Cleef & Arpels, Porsche, Panasonic, ВДНХ и Центра Зотов.</p>
+        <p>Создаёт оригинальную музыку и иммерсивные звуковые ландшафты, которые усиливают драматургию и погружают зрителя в атмосферу спектакля. Работает на стыке традиции и инноваций: от живых оркестров до AI-композиции, от аналоговых синтезаторов до полной автоматизации звука через OSC/MIDI-протоколы.</p>
+        <p>Один из первопроходцев театральной автоматизации в России: разрабатывает и внедряет системы полностью автоматизированного управления звуком для спектаклей, синхронизированные со светом, видео и сценическими механизмами.</p>
       `
     };
   }
