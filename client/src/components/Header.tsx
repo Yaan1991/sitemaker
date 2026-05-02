@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X, Volume2, VolumeX, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
+import { projectTranslationsEn } from "@/i18n/projectsEn";
 import { useAudio } from "@/contexts/AudioContext";
 import { useLanguage } from "@/i18n/useLanguage";
 
@@ -39,6 +40,9 @@ export default function Header() {
     film: t.catFilm, 
     audio: t.catAudio
   };
+
+  const getProjectTitle = (id: string, fallback: string) =>
+    lang === 'en' ? (projectTranslationsEn[id]?.title ?? fallback) : fallback;
 
   const socialLinks = [
     { name: "Bandlink", href: "https://band.link/zDZyK", icon: "/icons/icon_bandlink.png" },
@@ -175,7 +179,7 @@ export default function Header() {
                                       }}
                                       data-testid={`submenu-project-${project.id}`}
                                     >
-                                      <div className="font-medium">{project.title}</div>
+                                      <div className="font-medium">{getProjectTitle(project.id, project.title)}</div>
                                       <div className="text-xs text-muted-foreground mt-1">{project.year}</div>
                                     </Link>
                                   ))}
@@ -304,7 +308,7 @@ export default function Header() {
                               }}
                               data-testid={`mobile-submenu-project-${project.id}`}
                             >
-                              <div className="text-sm">{project.title}</div>
+                              <div className="text-sm">{getProjectTitle(project.id, project.title)}</div>
                             </Link>
                           ))}
                         </div>
