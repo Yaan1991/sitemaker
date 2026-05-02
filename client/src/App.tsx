@@ -44,7 +44,7 @@ function DynamicHelmet() {
     <Helmet>
       <html lang={lang} className="scroll-smooth dark" />
       <title>{isEn ? 'Ian Kuzmichev — Composer, Sound Designer, Sound Engineer' : 'Ян Кузьмичёв — композитор, саунд‑дизайнер, звукорежиссёр'}</title>
-      <meta name="description" content={isEn ? '14+ years of experience, 100+ projects in theatre, film and audio.' : '14+ лет опыта, 100+ проектов в театре, кино и аудио. Музыка и звук для пространства.'} />
+      <meta name="description" content={isEn ? '15+ years of experience, 100+ projects in theatre, film and audio.' : '15+ лет опыта, 100+ проектов в театре, кино и аудио. Музыка и звук для пространства.'} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />

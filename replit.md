@@ -1,6 +1,6 @@
 # Overview
 
-This is a personal portfolio website for Ian Kuzmichev (Ян Кузьмичёв), a composer, sound designer, and sound engineer with 14+ years of experience. The site showcases his work across theatre, film, and audio productions, featuring project galleries, detailed work descriptions, and contact information. Built as a modern full-stack web application with a focus on visual presentation and user experience.
+This is a personal portfolio website for Ian Kuzmichev (Ян Кузьмичёв), a composer, sound designer, and sound engineer with 15+ years of experience. The site showcases his work across theatre, film, and audio productions, featuring project galleries, detailed work descriptions, and contact information. Built as a modern full-stack web application with a focus on visual presentation and user experience.
 
 # User Preferences
 

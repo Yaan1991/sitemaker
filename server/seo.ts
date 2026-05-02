@@ -102,8 +102,8 @@ function buildPersonJsonLd(isEn: boolean): object {
          "Театральный звук", "Звук для кино", "Пост-продакшн",
          "Иммерсивный звук", "Пространственный звук", "Полевая запись"],
     "description": isEn
-      ? "Composer, sound designer and sound engineer with 14+ years of experience. Over 100 projects in theatre, film and audio."
-      : "Композитор, саунд-дизайнер и звукорежиссёр с 14-летним опытом. Более 100 проектов в театре, кино и аудио.",
+      ? "Composer, sound designer and sound engineer with 15+ years of experience. Over 100 projects in theatre, film and audio."
+      : "Композитор, саунд-дизайнер и звукорежиссёр с более чем 15-летним опытом. Более 100 проектов в театре, кино и аудио.",
     "sameAs": [
       "https://t.me/iankzmcv",
       "https://band.link/zDZyK"
@@ -286,8 +286,8 @@ function getPageSEO(path: string): PageSEO | null {
       ? "Ian Kuzmichev — Composer, Sound Designer, Sound Engineer"
       : "Ян Кузьмичёв — композитор, саунд-дизайнер, звукорежиссёр";
     const desc = isEn
-      ? "Ian Kuzmichev — composer, sound designer and sound engineer with 14+ years of experience. Over 100 projects in theatre, film, and audio."
-      : "Ян Кузьмичёв — композитор, саунд-дизайнер и звукорежиссёр с 14-летним опытом. Более 100 проектов в театре, кино и аудио. Музыка и звук для пространства.";
+      ? "Ian Kuzmichev — composer, sound designer and sound engineer with 15+ years of experience. Over 100 projects in theatre, film, and audio."
+      : "Ян Кузьмичёв — композитор, саунд-дизайнер и звукорежиссёр с более чем 15-летним опытом. Более 100 проектов в театре, кино и аудио. Музыка и звук для пространства.";
     return {
       title, description: desc, lang,
       url: `${SITE_URL}${prefix}/`,
@@ -298,7 +298,7 @@ function getPageSEO(path: string): PageSEO | null {
       jsonLd: [buildPersonJsonLd(isEn), buildWebSiteJsonLd(isEn)],
       content: isEn ? `
         <h1>Ian Kuzmichev — Composer, Sound Designer, Sound Engineer</h1>
-        <p>14+ years of experience, 100+ projects in theatre, film, and audio.</p>
+        <p>15+ years of experience, 100+ projects in theatre, film, and audio.</p>
         <h2>Theatre</h2><p>Immersive performances. Working with Russia's leading theatres: Chekhov Moscow Art Theatre, Theatre of Nations, Sovremennik, Pushkin Theatre, Meyerhold Centre.</p>
         <h2>Film</h2><p>Full post-production cycle. Composition, sound design, post-production sound engineering.</p>
         <h2>Audio Performances</h2><p>Spatial sound and immersion. Immersive audio walks and headphone performances.</p>
@@ -306,7 +306,7 @@ function getPageSEO(path: string): PageSEO | null {
         <ul>${projectsData.map(p => `<li><a href="${SITE_URL}/en/project/${p.id}">${p.titleEn} (${p.year}) — ${p.roleEn.join(", ")}</a></li>`).join("\n")}</ul>
       ` : `
         <h1>Ян Кузьмичёв — композитор, саунд-дизайнер, звукорежиссёр</h1>
-        <p>14+ лет опыта, 100+ проектов в театре, кино и аудио. Музыка и звук для пространства.</p>
+        <p>15+ лет опыта, 100+ проектов в театре, кино и аудио. Музыка и звук для пространства.</p>
         <h2>Театр</h2><p>Спектакли с погружением в атмосферу. Работа с ведущими театрами России.</p>
         <h2>Кино</h2><p>Полный цикл пост-продакшна.</p>
         <h2>Аудиоспектакли</h2><p>Пространственный звук и иммерсия.</p>
@@ -349,7 +349,7 @@ function getPageSEO(path: string): PageSEO | null {
       content: isEn ? `
         <h1>About — Ian Kuzmichev</h1>
         <p>Composer | Sound Designer | Sound Engineer</p>
-        <p>Ian Kuzmichev creates sound that becomes part of the story. GITIS graduate with honors (2015). Over 13 years — more than 100 completed projects.</p>
+        <p>Ian Kuzmichev creates sound that becomes part of the story. GITIS graduate with honors (2015). Over 15 years — more than 100 completed projects.</p>
         <p>Clients include: Chekhov Moscow Art Theatre, Meyerhold Centre, Theatre of Nations, Sovremennik, Pushkin Theatre, National Theatre of Budapest.</p>
         <p>Corporate projects for Van Cleef & Arpels, Porsche, Panasonic, VDNKh and Zotov Centre.</p>
       ` : `

@@ -14,13 +14,13 @@ export const translations = {
     catAudio: "АУДИО",
 
     footerSubtitle: "Композитор • Саунд‑дизайнер • Звукорежиссёр",
-    footerCopyright: "© 2025 Ян Кузьмичёв. Все права защищены.",
+    footerCopyright: "© 2026 Ян Кузьмичёв. Все права защищены.",
 
     aboutTitle: "О себе",
     aboutSubtitle: "Композитор | Саунд-дизайнер | Звукорежиссёр",
     aboutDownloadPhotos: "Скачать фото для прессы",
     aboutBio1: "Ян Кузьмичёв — композитор, саунд-дизайнер и звукорежиссёр, который создаёт звук, становящийся частью истории.",
-    aboutBio2: "Выпускник ГИТИСа с красным дипломом (2015). За 13 лет профессиональной карьеры — более 100 реализованных проектов, от камерных спектаклей до масштабных мультимедийных шоу.",
+    aboutBio2: "Выпускник ГИТИСа с красным дипломом (2015). Более чем за 15 лет профессиональной карьеры — более 100 реализованных проектов, от камерных спектаклей до масштабных мультимедийных шоу.",
     aboutBio3: "Мои клиенты — ведущие театры России и зарубежья: МХТ им. Чехова, Центр им. Вс. Мейерхольда, Театр Наций, Современник, Театр Пушкина, РАМТ, Национальный театр Будапешта, а также драматические театры Саратова, Нижнего Новгорода, Красноярска, Омска, Твери, Казани, Махачкалы, Алматы и других городов.",
     aboutBio4: "Корпоративные проекты для Van Cleef & Arpels, Porsche, Panasonic, выставочные пространства ВДНХ и Центра Зотов.",
     aboutBio5: "Я создаю оригинальную музыку и иммерсивные звуковые ландшафты, которые усиливают драматургию и погружают зрителя в атмосферу спектакля. Работаю на стыке традиций и инноваций: от живых оркестров до AI-композиции, от аналоговых синтезаторов до полной автоматизации звука через OSC/MIDI протоколы.",
@@ -102,13 +102,13 @@ export const translations = {
     catAudio: "AUDIO",
 
     footerSubtitle: "Composer • Sound Designer • Sound Engineer",
-    footerCopyright: "© 2025 Ian Kuzmichev. All rights reserved.",
+    footerCopyright: "© 2026 Ian Kuzmichev. All rights reserved.",
 
     aboutTitle: "About",
     aboutSubtitle: "Composer | Sound Designer | Sound Engineer",
     aboutDownloadPhotos: "Download press photos",
     aboutBio1: "Ian Kuzmichev is a composer, sound designer, and sound engineer who creates sound that becomes part of the story.",
-    aboutBio2: "Graduated from GITIS (Russian Institute of Theatre Arts) with honors (2015). Over 13 years of professional career — more than 100 completed projects, from chamber performances to large-scale multimedia shows.",
+    aboutBio2: "Graduated from GITIS (Russian Institute of Theatre Arts) with honors (2015). Over 15 years of professional career — more than 100 completed projects, from chamber performances to large-scale multimedia shows.",
     aboutBio3: "My clients include leading theatres in Russia and abroad: Chekhov Moscow Art Theatre, Meyerhold Centre, Theatre of Nations, Sovremennik, Pushkin Theatre, RAMT, National Theatre of Budapest, as well as drama theatres in Saratov, Nizhny Novgorod, Krasnoyarsk, Omsk, Tver, Kazan, Makhachkala, Almaty, and other cities.",
     aboutBio4: "Corporate projects for Van Cleef & Arpels, Porsche, Panasonic, exhibition spaces at VDNKh and Zotov Centre.",
     aboutBio5: "I create original music and immersive soundscapes that enhance dramaturgy and immerse the audience in the atmosphere of a performance. I work at the intersection of tradition and innovation: from live orchestras to AI composition, from analog synthesizers to full sound automation via OSC/MIDI protocols.",
