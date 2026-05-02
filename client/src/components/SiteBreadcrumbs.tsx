@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { ChevronRight, Home } from "lucide-react";
 import { projects } from "@/data/projects";
+import { projectTranslationsEn } from "@/i18n/projectsEn";
 import { useLanguage } from "@/i18n/useLanguage";
 
 interface BreadcrumbsProps {
@@ -11,7 +12,7 @@ interface BreadcrumbsProps {
 
 export default function SiteBreadcrumbs({ currentProject, pageType, customTitle }: BreadcrumbsProps) {
   const [, setLocation] = useLocation();
-  const { t, prefix } = useLanguage();
+  const { t, prefix, lang } = useLanguage();
 
   const getCategoryInfo = (category: string) => {
     switch (category) {
@@ -53,6 +54,9 @@ export default function SiteBreadcrumbs({ currentProject, pageType, customTitle 
     if (!project) return null;
     
     const categoryInfo = getCategoryInfo(project.category);
+    const projectTitle = lang === 'en'
+      ? (projectTranslationsEn[project.id]?.title ?? project.title)
+      : project.title;
 
     return (
       <nav 
@@ -95,7 +99,7 @@ export default function SiteBreadcrumbs({ currentProject, pageType, customTitle 
           className="text-foreground font-medium" 
           data-testid="breadcrumb-current-project"
         >
-          {project.title}
+          {projectTitle}
         </span>
       </nav>
     );
