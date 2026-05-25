@@ -30,6 +30,17 @@ export const allProjects: AllProject[] = [
     press: "https://www.coolconnections.ru/ru/blog/posts/Na-vetrah-peremen",
   },
   {
+    id: "akhmatova-gumilev-gumilev",
+    year: "2026",
+    category: "theatre",
+    title: { ru: "Ахматова. Гумилёв. Гумилёв", en: "Akhmatova. Gumilyov. Gumilyov" },
+    theater: { ru: "Театр Эстрады (продюсерский центр «Артлайф»)", en: "Variety Theatre (Artlife Production Center)" },
+    director: { ru: "Семён Шомин", en: "Semyon Shomin" },
+    role: { ru: "Композитор, саунд-дизайнер, промт-инженер", en: "Composer, Sound Designer, Prompt Engineer" },
+    type: { ru: "Спектакль", en: "Theatre Production" },
+    link: "https://teatr-estrada.ru/afisha/akhmatova_gumilev",
+  },
+  {
     id: "ottepel",
     year: "2026",
     category: "theatre",
