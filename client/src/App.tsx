@@ -13,6 +13,7 @@ import About from "./pages/About";
 import Projects from "./pages/Projects";
 import ProjectPage from "./pages/ProjectPage";
 import Contact from "./pages/Contact";
+import PrivacyKuzmichevTuner from "./pages/PrivacyKuzmichevTuner";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -31,6 +32,8 @@ function Router() {
         <Route path="/en/projects/:category" component={Projects} />
         <Route path="/en/project/:id" component={ProjectPage} />
         <Route path="/en/contact" component={Contact} />
+        <Route path="/legal/kuzmichev-tuner-privacy" component={PrivacyKuzmichevTuner} />
+        <Route path="/en/legal/kuzmichev-tuner-privacy" component={PrivacyKuzmichevTuner} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

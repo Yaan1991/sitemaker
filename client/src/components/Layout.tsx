@@ -24,6 +24,12 @@ export default function Layout({ children }: LayoutProps) {
     }
   }, [location, changeRoute]);
 
+  // Юридические страницы (privacy для магазинов приложений и т.п.) — без сайтового хедера/футера.
+  const isStandalone = location.startsWith("/legal/") || location.startsWith("/en/legal/");
+  if (isStandalone) {
+    return <>{children}</>;
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />

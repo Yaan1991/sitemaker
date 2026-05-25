@@ -72,6 +72,8 @@ interface PageSEO {
   keywords?: string;
   breadcrumbs?: BreadcrumbItem[];
   ogType?: 'website' | 'article' | 'profile';
+  noIndex?: boolean;
+  hideSiteNav?: boolean;
 }
 
 function buildPersonJsonLd(isEn: boolean): object {
@@ -312,6 +314,30 @@ function getPageSEO(path: string): PageSEO | null {
         <h2>Аудиоспектакли</h2><p>Пространственный звук и иммерсия.</p>
         <h2>Избранные проекты</h2>
         <ul>${projectsData.map(p => `<li><a href="${SITE_URL}/project/${p.id}">${p.title} (${p.year}) — ${p.role.join(", ")}</a></li>`).join("\n")}</ul>
+      `
+    };
+  }
+
+  if (cleanPath === "/legal/kuzmichev-tuner-privacy") {
+    const title = isEn ? "Privacy Policy — Kuzmichev Tuner" : "Политика конфиденциальности — Kuzmichev Tuner";
+    const desc = isEn
+      ? "Privacy Policy for the Kuzmichev Tuner mobile app. The app does not collect or transmit any personal data."
+      : "Политика конфиденциальности приложения Kuzmichev Tuner. Приложение не собирает и не передаёт персональные данные.";
+    return {
+      title, description: desc, lang,
+      url: `${SITE_URL}${prefix}/legal/kuzmichev-tuner-privacy`,
+      alternateUrl: `${SITE_URL}${altPrefix}/legal/kuzmichev-tuner-privacy`,
+      ogType: 'article',
+      noIndex: true,
+      hideSiteNav: true,
+      content: isEn ? `
+        <h1>Privacy Policy — Kuzmichev Tuner</h1>
+        <p>The Kuzmichev Tuner mobile app does not collect, transmit, or store any personal data on external servers. The app works entirely on your device. Microphone access is used solely for real-time pitch detection; audio is never recorded or transmitted.</p>
+        <p>Contact: <a href="mailto:ianiankay@gmail.com">ianiankay@gmail.com</a>.</p>
+      ` : `
+        <h1>Политика конфиденциальности — Kuzmichev Tuner</h1>
+        <p>Приложение Kuzmichev Tuner не собирает, не передаёт и не хранит персональные данные на сторонних серверах. Приложение работает полностью локально на вашем устройстве. Доступ к микрофону используется только для определения частоты в режиме тюнера; аудио не записывается и не передаётся.</p>
+        <p>Связаться: <a href="mailto:ianiankay@gmail.com">ianiankay@gmail.com</a>.</p>
       `
     };
   }
@@ -628,9 +654,9 @@ function generateHTML(seo: PageSEO): string {
   <meta name="twitter:description" content="${safeDescription}">
   <meta name="twitter:image" content="${safeOgImage}">
 
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1">
-  <meta name="yandex" content="index, follow">
+  <meta name="robots" content="${seo.noIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}">
+  <meta name="googlebot" content="${seo.noIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1'}">
+  <meta name="yandex" content="${seo.noIndex ? 'noindex, nofollow' : 'index, follow'}">
   <meta name="author" content="${safeSiteName}">
   <meta name="theme-color" content="#00ffff">
   <meta name="format-detection" content="telephone=no">
@@ -651,19 +677,19 @@ function generateHTML(seo: PageSEO): string {
   </style>
 </head>
 <body>
-  <nav>
+  ${seo.hideSiteNav ? '' : `<nav>
     <a href="${SITE_URL}${prefix}/">${homeLabel}</a> |
     <a href="${SITE_URL}${prefix}/about">${aboutLabel}</a> |
     <a href="${SITE_URL}${prefix}/projects">${projectsLabel}</a> |
     <a href="${SITE_URL}${prefix}/contact">${contactLabel}</a> |
     <a href="${SITE_URL}${seo.lang === 'en' ? '/' : '/en/'}">${seo.lang === 'en' ? 'RU' : 'EN'}</a>
-  </nav>
+  </nav>`}
   ${breadcrumbHtml}
   ${seo.content}
-  <footer>
+  ${seo.hideSiteNav ? '' : `<footer>
     <p>&copy; ${new Date().getFullYear()} ${safeSiteName}.</p>
     <p><a href="${SITE_URL}/sitemap.xml">Sitemap</a></p>
-  </footer>
+  </footer>`}
 </body>
 </html>`;
 }
