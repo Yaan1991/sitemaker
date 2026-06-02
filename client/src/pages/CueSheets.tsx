@@ -5,7 +5,9 @@ import { useLanguage } from "@/i18n/useLanguage";
 
 const APP_KEY = "cue-sheets";
 const SITE_URL = "https://iansound.pro";
-const ICON_URL = "/cue-sheets-icon.png";
+const ICON_WEBP = "/cue-sheets-icon-256.webp";
+const ICON_PNG = "/cue-sheets-icon-256.png";
+const ICON_SHARE = "/cue-sheets-icon-512.png";
 
 const CUE_CSS = `
   html.cue-page, html.cue-page body {
@@ -234,7 +236,7 @@ export default function CueSheets() {
     url: canonical,
     downloadUrl: `${SITE_URL}/api/download/${APP_KEY}`,
     softwareVersion: "1.0",
-    image: `${SITE_URL}${ICON_URL}`,
+    image: `${SITE_URL}${ICON_SHARE}`,
     inLanguage: ["ru", "en"],
     featureList: c.features.map((f) => f.h),
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -271,12 +273,12 @@ export default function CueSheets() {
         <meta property="og:title" content={c.metaTitle} />
         <meta property="og:description" content={c.metaDesc} />
         <meta property="og:url" content={canonical} />
-        <meta property="og:image" content={`${SITE_URL}${ICON_URL}`} />
+        <meta property="og:image" content={`${SITE_URL}${ICON_SHARE}`} />
         <meta property="og:locale" content={isEn ? "en_US" : "ru_RU"} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={c.metaTitle} />
         <meta name="twitter:description" content={c.metaDesc} />
-        <meta name="twitter:image" content={`${SITE_URL}${ICON_URL}`} />
+        <meta name="twitter:image" content={`${SITE_URL}${ICON_SHARE}`} />
         <script type="application/ld+json">{JSON.stringify(softwareJsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
       </Helmet>
@@ -300,7 +302,10 @@ export default function CueSheets() {
           </div>
 
           <div className="hero">
-            <img className="appicon" src={ICON_URL} alt="Cue Sheets" width={128} height={128} />
+            <picture>
+              <source srcSet={ICON_WEBP} type="image/webp" />
+              <img className="appicon" src={ICON_PNG} alt="Cue Sheets" width={128} height={128} decoding="async" {...{ fetchpriority: "high" } as any} />
+            </picture>
             <h1>Cue Sheets</h1>
             <p className="platform">{c.platform}</p>
             <p className="tagline">{c.tagline}</p>

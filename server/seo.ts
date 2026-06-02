@@ -352,7 +352,7 @@ function getPageSEO(path: string): PageSEO | null {
       ? "Cue Sheets — a free macOS app for theatre and event technicians: import cue lists from QLab, auto-generate descriptions in EN/RU, export to PDF and Excel, write data back to QLab."
       : "Cue Sheets — бесплатное macOS-приложение для театральных и event-техников: импорт cue-листов из QLab, автогенерация описаний на RU/EN, экспорт в PDF и Excel, запись данных обратно в QLab.";
     const url = `${SITE_URL}${prefix}/tools/cue-sheets`;
-    const iconUrl = `${SITE_URL}/cue-sheets-icon.png`;
+    const iconUrl = `${SITE_URL}/cue-sheets-icon-512.png`;
     const breadcrumbs: BreadcrumbItem[] = [
       { name: isEn ? "Home" : "Главная", url: `${SITE_URL}${prefix}/` },
       { name: "Cue Sheets", url },
