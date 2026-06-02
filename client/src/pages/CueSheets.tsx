@@ -59,10 +59,17 @@ const CUE_CSS = `
   .cue-page a.download-btn {
     display: inline-block; background: #E6D36A; color: #080808; font-size: 15px; font-weight: 600;
     padding: 14px 34px; border-radius: 8px; text-decoration: none; letter-spacing: 0.3px;
-    transition: opacity .2s; cursor: pointer;
+    transition: opacity .2s, transform .2s, box-shadow .2s; cursor: pointer;
+    animation: cueGlow 2.2s ease-in-out infinite; will-change: box-shadow;
   }
-  .cue-page a.download-btn:hover { opacity: 0.88; }
-  .cue-page .dl-note { color: #9A9A9A; font-size: 11px; letter-spacing: 0.5px; }
+  .cue-page a.download-btn:hover {
+    opacity: 1; transform: translateY(-1px);
+    box-shadow: 0 0 34px 8px rgba(230,211,106,0.85), 0 0 12px 2px rgba(230,211,106,0.95);
+  }
+  @keyframes cueGlow {
+    0%, 100% { box-shadow: 0 0 12px 0 rgba(230,211,106,0.45), 0 0 4px 0 rgba(230,211,106,0.6); }
+    50% { box-shadow: 0 0 30px 6px rgba(230,211,106,0.8), 0 0 10px 2px rgba(230,211,106,0.9); }
+  }
   .cue-page .dl-count { color: #9A9A9A; font-size: 11px; letter-spacing: 0.5px; opacity: 0.8; }
 
   .cue-page section { padding: 44px 0; border-top: 0.5px solid #2A2A2A; }
@@ -115,7 +122,6 @@ const content = {
     tagline:
       "Бесплатный профессиональный инструмент для автоматического создания партитур и документации из QLab. Импортируйте данные, генерируйте описания, экспортируйте в PDF и Excel, записывайте данные обратно в QLab.",
     download: "Скачать приложение",
-    dlNote: "Бесплатно · macOS · .dmg",
     aboutLabel: "О приложении",
     about: [
       "Cue Sheets — macOS-приложение для театральных и event-техников, которое автоматизирует создание технической документации из QLab.",
@@ -158,7 +164,6 @@ const content = {
     tagline:
       "A free professional tool for automatically creating cue sheets and documentation from QLab. Import data, generate descriptions, export to PDF and Excel, and write data back to QLab.",
     download: "Download the app",
-    dlNote: "Free · macOS · .dmg",
     aboutLabel: "About the app",
     about: [
       "Cue Sheets is a macOS app for theatre and event technicians that automates the creation of technical documentation from QLab.",
@@ -303,7 +308,6 @@ export default function CueSheets() {
               <a className="download-btn" href={`/api/download/${APP_KEY}`} data-testid="link-download">
                 {c.download}
               </a>
-              <span className="dl-note">{c.dlNote}</span>
               {downloadCount !== null && (
                 <span className="dl-count" data-testid="text-download-count">
                   {c.countLabel(downloadCount)}
