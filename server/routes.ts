@@ -13,11 +13,15 @@ const PROXY_MAX_BYTES = 50 * 1024 * 1024; // 50 MB
 
 // Приложения Kuzmichev Tools, доступные для скачивания.
 // Публичные ссылки Яндекс.Диска хранятся серверно, на клиент не попадают.
-const DOWNLOADABLE_APPS: Record<string, { yandexPublicUrl: string }> = {
+const DOWNLOADABLE_APPS: Record<string, { yandexPublicUrl: string; fileName: string }> = {
   "cue-sheets": {
     yandexPublicUrl: "https://disk.yandex.ru/d/CZR2cgCWbmT_6Q",
+    fileName: "CueSheets-1.0.0.dmg",
   },
 };
+
+// DMG невелик (~3.8 МБ), но оставляем щедрый лимит на будущие версии.
+const DOWNLOAD_MAX_BYTES = 200 * 1024 * 1024; // 200 MB
 
 async function resolveYandexDirectUrl(
   publicUrl: string,
@@ -161,12 +165,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Скачивание приложений Kuzmichev Tools: увеличиваем счётчик и
-  // редиректим на прямую ссылку Яндекс.Диска, чтобы загрузка началась сразу
-  // (без открытия страницы Яндекс.Диска и без стриминга большого DMG через сервер).
+  // Скачивание приложений Kuzmichev Tools: отдаём файл потоком через свой сервер
+  // с принудительным корректным именем. Прямой 302 на Яндекс.Диск ненадёжен —
+  // цепочка кросс-доменных редиректов (downloader → storage) теряет имя файла,
+  // и браузер сохраняет крошечную заглушку с именем-токеном вместо DMG.
+  // Файл НЕ хранится на сервере — лишь транзитом передаётся с Яндекс.Диска.
   app.get('/api/download/:appKey', async (req, res) => {
     const abortController = new AbortController();
     const timeoutId = setTimeout(() => abortController.abort(), PROXY_TIMEOUT_MS);
+
+    // Прерываем upstream-запрос если клиент отключился.
+    req.on('close', () => {
+      if (!res.writableEnded) abortController.abort();
+    });
+
     try {
       const { appKey } = req.params;
       const appConfig = DOWNLOADABLE_APPS[appKey];
@@ -176,14 +188,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const directUrl = await resolveYandexDirectUrl(appConfig.yandexPublicUrl, abortController.signal);
 
-      // Считаем скачивание (инициированное). Не блокируем редирект, если счётчик упал.
+      // Скачиваем сам файл с Яндекс.Диска (fetch сам проходит цепочку редиректов).
+      const fileResponse = await fetch(directUrl, { signal: abortController.signal });
+      if (!fileResponse.ok || !fileResponse.body) {
+        throw new Error(`Failed to fetch file: ${fileResponse.status} ${fileResponse.statusText}`);
+      }
+
+      const contentLength = fileResponse.headers.get('content-length');
+      if (contentLength && parseInt(contentLength, 10) > DOWNLOAD_MAX_BYTES) {
+        return res.status(413).json({ error: 'File too large' });
+      }
+
+      // Принудительно задаём имя файла и тип — браузер сохранит DMG корректно.
+      const safeFileName = appConfig.fileName.replace(/[^A-Za-z0-9._-]/g, '_');
+      res.set({
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': `attachment; filename="${safeFileName}"`,
+        ...(contentLength ? { 'Content-Length': contentLength } : {}),
+        'Cache-Control': 'no-store',
+      });
+
+      // Считаем скачивание (инициированное). Не блокируем загрузку, если счётчик упал.
       try {
         await storage.incrementDownloadCount(appKey);
       } catch (counterError) {
         console.error('Download counter error:', counterError);
       }
 
-      res.redirect(302, directUrl);
+      // Стримим тело с backpressure + контролем размера + обработкой abort.
+      const reader = fileResponse.body.getReader();
+      let bytesStreamed = 0;
+      try {
+        while (true) {
+          if (res.writableEnded || abortController.signal.aborted) break;
+
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          bytesStreamed += value.length;
+          if (bytesStreamed > DOWNLOAD_MAX_BYTES) break;
+
+          const canContinue = res.write(value);
+          if (!canContinue) {
+            await new Promise<void>(resolve => res.once('drain', () => resolve()));
+          }
+        }
+      } finally {
+        reader.cancel().catch(() => {});
+      }
+
+      if (!res.writableEnded) res.end();
     } catch (error: any) {
       if (abortController.signal.aborted || error?.name === 'AbortError') {
         if (!res.writableEnded) res.end();
@@ -191,7 +245,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       console.error('Download error:', error);
       if (!res.headersSent) {
-        res.status(502).json({ error: 'Failed to resolve download link' });
+        res.status(502).json({ error: 'Failed to download file' });
+      } else if (!res.writableEnded) {
+        res.end();
       }
     } finally {
       clearTimeout(timeoutId);
