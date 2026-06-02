@@ -11,6 +11,38 @@ const ALLOWED_PROXY_HOSTS = new Set([
 const PROXY_TIMEOUT_MS = 30_000;
 const PROXY_MAX_BYTES = 50 * 1024 * 1024; // 50 MB
 
+// Приложения Kuzmichev Tools, доступные для скачивания.
+// Публичные ссылки Яндекс.Диска хранятся серверно, на клиент не попадают.
+const DOWNLOADABLE_APPS: Record<string, { yandexPublicUrl: string }> = {
+  "cue-sheets": {
+    yandexPublicUrl: "https://disk.yandex.ru/d/CZR2cgCWbmT_6Q",
+  },
+};
+
+async function resolveYandexDirectUrl(
+  publicUrl: string,
+  signal: AbortSignal,
+): Promise<string> {
+  const apiUrl = `https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=${encodeURIComponent(publicUrl)}`;
+  const apiResponse = await fetch(apiUrl, { signal });
+  if (!apiResponse.ok) {
+    throw new Error(`Yandex API error: ${apiResponse.statusText}`);
+  }
+  const data = await apiResponse.json();
+  if (!data.href) {
+    throw new Error("No download URL received from Yandex.Disk");
+  }
+  // Defense-in-depth: убеждаемся, что прямая ссылка ведёт на хост Яндекса по https.
+  const parsed = new URL(data.href as string);
+  const host = parsed.hostname.toLowerCase();
+  const isYandexHost = host === 'yandex.ru' || host === 'yandex.net' ||
+    host.endsWith('.yandex.ru') || host.endsWith('.yandex.net');
+  if (parsed.protocol !== 'https:' || !isYandexHost) {
+    throw new Error(`Unexpected download host: ${host}`);
+  }
+  return data.href as string;
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // put application routes here
   // prefix all routes with /api
@@ -126,6 +158,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     } finally {
       clearTimeout(timeoutId);
+    }
+  });
+
+  // Скачивание приложений Kuzmichev Tools: увеличиваем счётчик и
+  // редиректим на прямую ссылку Яндекс.Диска, чтобы загрузка началась сразу
+  // (без открытия страницы Яндекс.Диска и без стриминга большого DMG через сервер).
+  app.get('/api/download/:appKey', async (req, res) => {
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => abortController.abort(), PROXY_TIMEOUT_MS);
+    try {
+      const { appKey } = req.params;
+      const appConfig = DOWNLOADABLE_APPS[appKey];
+      if (!appConfig) {
+        return res.status(404).json({ error: 'Unknown app' });
+      }
+
+      const directUrl = await resolveYandexDirectUrl(appConfig.yandexPublicUrl, abortController.signal);
+
+      // Считаем скачивание (инициированное). Не блокируем редирект, если счётчик упал.
+      try {
+        await storage.incrementDownloadCount(appKey);
+      } catch (counterError) {
+        console.error('Download counter error:', counterError);
+      }
+
+      res.redirect(302, directUrl);
+    } catch (error: any) {
+      if (abortController.signal.aborted || error?.name === 'AbortError') {
+        if (!res.writableEnded) res.end();
+        return;
+      }
+      console.error('Download error:', error);
+      if (!res.headersSent) {
+        res.status(502).json({ error: 'Failed to resolve download link' });
+      }
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  });
+
+  // Текущее число скачиваний приложения (для скрытой статистики на странице).
+  app.get('/api/downloads/:appKey', async (req, res) => {
+    try {
+      const { appKey } = req.params;
+      if (!DOWNLOADABLE_APPS[appKey]) {
+        return res.status(404).json({ error: 'Unknown app' });
+      }
+      const count = await storage.getDownloadCount(appKey);
+      res.json({ count });
+    } catch (error) {
+      console.error('Download count error:', error);
+      res.status(500).json({ error: 'Failed to read download count' });
     }
   });
 

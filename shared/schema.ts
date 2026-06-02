@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -16,3 +16,11 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+// Счётчики скачиваний приложений Kuzmichev Tools (по ключу приложения).
+export const downloadCounters = pgTable("download_counters", {
+  key: varchar("key").primaryKey(),
+  count: integer("count").notNull().default(0),
+});
+
+export type DownloadCounter = typeof downloadCounters.$inferSelect;

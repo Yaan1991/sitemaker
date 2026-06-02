@@ -1,0 +1,1 @@
+- [Kuzmichev Tools app pages](kuzmichev-tools.md) — how /tools/* app landing pages, downloads, and persistent counters are wired on this portfolio site.

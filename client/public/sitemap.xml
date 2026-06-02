@@ -294,4 +294,32 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- Kuzmichev Tools — Cue Sheets -->
+  <url>
+    <loc>https://iansound.pro/tools/cue-sheets</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/tools/cue-sheets" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/tools/cue-sheets" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/tools/cue-sheets" />
+    <image:image>
+      <image:loc>https://iansound.pro/cue-sheets-icon.png</image:loc>
+      <image:title>Cue Sheets — Kuzmichev Tools</image:title>
+    </image:image>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/tools/cue-sheets</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/tools/cue-sheets" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/tools/cue-sheets" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/tools/cue-sheets" />
+    <image:image>
+      <image:loc>https://iansound.pro/cue-sheets-icon.png</image:loc>
+      <image:title>Cue Sheets — Kuzmichev Tools</image:title>
+    </image:image>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

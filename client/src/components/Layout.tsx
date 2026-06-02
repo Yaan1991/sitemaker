@@ -24,8 +24,13 @@ export default function Layout({ children }: LayoutProps) {
     }
   }, [location, changeRoute]);
 
-  // Юридические страницы (privacy для магазинов приложений и т.п.) — без сайтового хедера/футера.
-  const isStandalone = location.startsWith("/legal/") || location.startsWith("/en/legal/");
+  // Юридические страницы (privacy для магазинов приложений и т.п.) и лендинги
+  // приложений Kuzmichev Tools (/tools/*) — со своим оформлением, без сайтового хедера/футера.
+  const isStandalone =
+    location.startsWith("/legal/") ||
+    location.startsWith("/en/legal/") ||
+    location.startsWith("/tools/") ||
+    location.startsWith("/en/tools/");
   if (isStandalone) {
     return <>{children}</>;
   }

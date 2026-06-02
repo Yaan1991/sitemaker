@@ -342,6 +342,82 @@ function getPageSEO(path: string): PageSEO | null {
     };
   }
 
+  if (cleanPath === "/tools/cue-sheets") {
+    const title = isEn
+      ? "Cue Sheets — cue sheets & documentation from QLab | Kuzmichev Tools"
+      : "Cue Sheets — партитуры и документация из QLab | Kuzmichev Tools";
+    const desc = isEn
+      ? "Cue Sheets — a free macOS app for theatre and event technicians: import cue lists from QLab, auto-generate descriptions in EN/RU, export to PDF and Excel, write data back to QLab."
+      : "Cue Sheets — бесплатное macOS-приложение для театральных и event-техников: импорт cue-листов из QLab, автогенерация описаний на RU/EN, экспорт в PDF и Excel, запись данных обратно в QLab.";
+    const url = `${SITE_URL}${prefix}/tools/cue-sheets`;
+    const iconUrl = `${SITE_URL}/cue-sheets-icon.png`;
+    const breadcrumbs: BreadcrumbItem[] = [
+      { name: isEn ? "Home" : "Главная", url: `${SITE_URL}${prefix}/` },
+      { name: "Cue Sheets", url },
+    ];
+    return {
+      title, description: desc, lang,
+      url,
+      alternateUrl: `${SITE_URL}${altPrefix}/tools/cue-sheets`,
+      image: iconUrl,
+      keywords: isEn
+        ? "Cue Sheets, QLab, cue sheet, QLab documentation, QLab to PDF, QLab to Excel, theatre sound, theatre sound engineer, cue list, Kuzmichev Tools, Ian Kuzmichev, macOS app for theatre"
+        : "Cue Sheets, QLab, cue sheet, партитура QLab, документация QLab, театральный звук, звукорежиссёр театра, экспорт QLab в PDF, экспорт QLab в Excel, cue лист, Kuzmichev Tools, Ян Кузьмичёв, macOS приложение для театра",
+      ogType: 'website',
+      hideSiteNav: true,
+      breadcrumbs,
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Cue Sheets",
+          operatingSystem: "macOS",
+          applicationCategory: "MultimediaApplication",
+          description: desc,
+          url,
+          downloadUrl: `${SITE_URL}/api/download/cue-sheets`,
+          softwareVersion: "1.0",
+          image: iconUrl,
+          inLanguage: ["ru", "en"],
+          featureList: isEn
+            ? ["Import from QLab", "Auto-generated descriptions", "Write back to QLab", "Export PDF / Excel"]
+            : ["Импорт из QLab", "Автогенерация описаний", "Запись в QLab", "Экспорт PDF / Excel"],
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+          author: { "@type": "Person", name: isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв", url: SITE_URL },
+          publisher: { "@type": "Organization", name: "Kuzmichev Tools", url: SITE_URL },
+        },
+        buildBreadcrumbJsonLd(breadcrumbs)
+      ],
+      content: isEn ? `
+        <h1>Cue Sheets — for macOS</h1>
+        <p>A free professional tool for automatically creating cue sheets and documentation from QLab. Import data, generate descriptions, export to PDF and Excel, and write data back to QLab.</p>
+        <h2>About the app</h2>
+        <p>Cue Sheets is a macOS app for theatre and event technicians that automates the creation of technical documentation from QLab. It connects to QLab over the network and imports all cue lists with full information about each cue: type, number, name, action, trigger, pre/post-wait timings.</p>
+        <h2>Key features</h2>
+        <ul>
+          <li>Import from QLab — automatic workspace discovery and cue list selection.</li>
+          <li>Auto-generated descriptions in English or Russian.</li>
+          <li>Write descriptions back into the Notes of each cue in QLab.</li>
+          <li>Export to a professionally formatted PDF or Excel file.</li>
+        </ul>
+        <p><a href="${SITE_URL}/api/download/cue-sheets">Download the app</a> — free, macOS, .dmg.</p>
+      ` : `
+        <h1>Cue Sheets — для macOS</h1>
+        <p>Бесплатный профессиональный инструмент для автоматического создания партитур и документации из QLab. Импортируйте данные, генерируйте описания, экспортируйте в PDF и Excel, записывайте данные обратно в QLab.</p>
+        <h2>О приложении</h2>
+        <p>Cue Sheets — macOS-приложение для театральных и event-техников, которое автоматизирует создание технической документации из QLab. Приложение подключается к QLab по сети и импортирует все cue-листы с полной информацией о каждом cue: тип, номер, имя, действие, триггер, тайминги pre/post-wait.</p>
+        <h2>Ключевые возможности</h2>
+        <ul>
+          <li>Импорт из QLab — автоматическое обнаружение воркспейсов и выбор cue-листов.</li>
+          <li>Автогенерация описаний на русском или английском языке.</li>
+          <li>Запись описаний обратно в Notes каждого cue в QLab.</li>
+          <li>Экспорт в профессионально оформленный PDF или Excel.</li>
+        </ul>
+        <p><a href="${SITE_URL}/api/download/cue-sheets">Скачать приложение</a> — бесплатно, macOS, .dmg.</p>
+      `
+    };
+  }
+
   if (cleanPath === "/about") {
     const title = isEn ? "About — Ian Kuzmichev" : "Обо мне — Ян Кузьмичёв";
     const desc = isEn
