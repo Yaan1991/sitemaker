@@ -99,13 +99,15 @@ function buildPersonJsonLd(isEn: boolean): object {
     "knowsAbout": isEn
       ? ["Music composition", "Sound design", "Sound engineering",
          "Theatre sound", "Film sound", "Post-production",
-         "Immersive audio", "Spatial sound", "Field recording"]
+         "Immersive audio", "Spatial sound", "Field recording",
+         "Theatre automation", "Software tools for theatre"]
       : ["Композиция", "Саунд-дизайн", "Звукорежиссура",
          "Театральный звук", "Звук для кино", "Пост-продакшн",
-         "Иммерсивный звук", "Пространственный звук", "Полевая запись"],
+         "Иммерсивный звук", "Пространственный звук", "Полевая запись",
+         "Театральная автоматизация", "Разработка приложений для театра"],
     "description": isEn
-      ? "Composer, sound designer and sound engineer with 15+ years of experience. Over 100 projects in theatre, film and audio."
-      : "Композитор, саунд-дизайнер и звукорежиссёр с более чем 15-летним опытом. Более 100 проектов в театре, кино и аудио.",
+      ? "Composer, sound designer and sound engineer with 15+ years of experience. Over 100 projects in theatre, film and audio. Also develops his own software tools for theatre production, such as Cue Sheets."
+      : "Композитор, саунд-дизайнер и звукорежиссёр с более чем 15-летним опытом. Более 100 проектов в театре, кино и аудио. Также разрабатывает собственные приложения для театрального производства, например Cue Sheets.",
     "sameAs": [
       "https://t.me/iankzmcv",
       "https://band.link/zDZyK"

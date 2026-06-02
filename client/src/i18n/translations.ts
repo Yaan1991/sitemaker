@@ -7,6 +7,7 @@ export const translations = {
     navAllProjects: "Все проекты",
     navAbout: "Обо мне",
     navContact: "Контакты",
+    navTools: "Инструменты",
     audioOn: "Выключить звук",
     audioOff: "Включить звук",
     catTheatre: "ТЕАТР",
@@ -24,7 +25,7 @@ export const translations = {
     aboutBio3: "Сотрудничал с ведущими театрами России и зарубежья: МХТ им. Чехова, Центром им. Вс. Мейерхольда, Театром Наций, «Современником», Театром Пушкина, РАМТ, Национальным театром Будапешта, а также драматическими театрами Саратова, Нижнего Новгорода, Красноярска, Омска, Твери, Казани, Махачкалы, Алматы и других городов.",
     aboutBio4: "Работал над корпоративными и выставочными проектами для Van Cleef & Arpels, Porsche, Panasonic, ВДНХ и Центра Зотов.",
     aboutBio5: "Создаёт оригинальную музыку и иммерсивные звуковые ландшафты, которые усиливают драматургию и погружают зрителя в атмосферу спектакля. Работает на стыке традиции и инноваций: от живых оркестров до AI-композиции, от аналоговых синтезаторов до полной автоматизации звука через OSC/MIDI-протоколы.",
-    aboutBio6: "Один из первопроходцев театральной автоматизации в России: разрабатывает и внедряет системы полностью автоматизированного управления звуком для спектаклей, синхронизированные со светом, видео и сценическими механизмами.",
+    aboutBio6: "Один из первопроходцев театральной автоматизации в России: разрабатывает и внедряет системы полностью автоматизированного управления звуком для спектаклей, синхронизированные со светом, видео и сценическими механизмами. Параллельно создаёт собственные инструменты для театрального производства — в частности, Cue Sheets: веб-приложение для составления и экспорта звуковых партитур спектакля.",
     aboutBio7: "Если вашему проекту нужен звук, который работает как полноценный драматургический инструмент, — давайте обсудим сотрудничество.",
     aboutBackHome: "Вернуться на главную",
 
@@ -95,6 +96,7 @@ export const translations = {
     navAllProjects: "All Projects",
     navAbout: "About",
     navContact: "Contact",
+    navTools: "Tools",
     audioOn: "Mute",
     audioOff: "Unmute",
     catTheatre: "THEATRE",
@@ -112,7 +114,7 @@ export const translations = {
     aboutBio3: "Has collaborated with leading theatres in Russia and abroad: Chekhov Moscow Art Theatre, Meyerhold Centre, Theatre of Nations, Sovremennik, Pushkin Theatre, RAMT, National Theatre of Budapest, as well as drama theatres in Saratov, Nizhny Novgorod, Krasnoyarsk, Omsk, Tver, Kazan, Makhachkala, Almaty, and other cities.",
     aboutBio4: "Has worked on corporate and exhibition projects for Van Cleef & Arpels, Porsche, Panasonic, VDNKh, and Zotov Centre.",
     aboutBio5: "Creates original music and immersive soundscapes that enhance dramaturgy and immerse the audience in the atmosphere of a performance. Works at the intersection of tradition and innovation: from live orchestras to AI composition, from analog synthesizers to full sound automation via OSC/MIDI protocols.",
-    aboutBio6: "One of the pioneers of theatrical automation in Russia: develops and implements fully automated sound control systems for performances, synchronized with lighting, video, and stage machinery.",
+    aboutBio6: "One of the pioneers of theatrical automation in Russia: develops and implements fully automated sound control systems for performances, synchronized with lighting, video, and stage machinery. In parallel, he builds his own tools for theatre production — in particular Cue Sheets, a web app for creating and exporting a show's sound cue sheets.",
     aboutBio7: "If your project needs sound that works as a full-fledged dramaturgical instrument — let's discuss a collaboration.",
     aboutBackHome: "Back to home",
 

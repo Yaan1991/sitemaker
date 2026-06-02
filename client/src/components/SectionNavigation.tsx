@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 import { useLanguage } from "@/i18n/useLanguage";
 
 export default function SectionNavigation() {
-  const { t } = useLanguage();
+  const { t, prefix } = useLanguage();
 
   const navigationItems = [
     { label: t.homeTheatreTitle, href: "#theatre" },
@@ -50,6 +51,16 @@ export default function SectionNavigation() {
             ))}
           </div>
         </nav>
+
+        <div className="mt-8 flex justify-center">
+          <Link
+            href={`${prefix}/tools/cue-sheets`}
+            className="text-lg md:text-xl text-yellow-400 hover:text-yellow-300 hover:scale-110 transition-all duration-300 font-medium tracking-wide uppercase"
+            data-testid="nav-tools"
+          >
+            {t.navTools}
+          </Link>
+        </div>
       </div>
 
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">

@@ -190,7 +190,21 @@ export default function Header() {
                         )}
                       </AnimatePresence>
                     </div>
-                    
+
+                    {/* Tools link */}
+                    <Link
+                      href={`${prefix}/tools/cue-sheets`}
+                      className={`block px-4 py-3 transition-colors duration-200 ${
+                        isActive(`${prefix}/tools/cue-sheets`)
+                          ? "text-primary bg-primary/10"
+                          : "text-gray-300 hover:text-primary hover:bg-white/5"
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                      data-testid="link-tools"
+                    >
+                      {t.navTools}
+                    </Link>
+
                     {/* Other navigation items */}
                     {mainNavigation.map((item) => (
                       <Link
@@ -316,6 +330,20 @@ export default function Header() {
                     </div>
                   )}
                 </div>
+
+                {/* Mobile Tools link */}
+                <Link
+                  href={`${prefix}/tools/cue-sheets`}
+                  className={`block px-4 py-3 transition-colors duration-200 ${
+                    isActive(`${prefix}/tools/cue-sheets`)
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-300 hover:text-primary hover:bg-white/5"
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  data-testid="mobile-link-tools"
+                >
+                  {t.navTools}
+                </Link>
 
                 {/* Other mobile navigation items */}
                 {mainNavigation.map((item) => (
