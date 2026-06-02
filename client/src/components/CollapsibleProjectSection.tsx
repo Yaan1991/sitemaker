@@ -46,8 +46,7 @@ export default function ProjectSection({ categories }: ProjectSectionProps) {
 
         <div className="space-y-32">
           {categories.map((category, categoryIndex) => {
-            const anchorId = categoryIndex === 0 ? "theatre" : 
-                           categoryIndex === 1 ? "cinema" : "audioplays";
+            const anchorId = categoryIndex === 0 ? "theatre" : "cinema";
             
             return (
               <motion.div

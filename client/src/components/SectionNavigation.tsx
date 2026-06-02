@@ -6,9 +6,9 @@ export default function SectionNavigation() {
   const { t, prefix } = useLanguage();
 
   const navigationItems = [
-    { label: t.homeTheatreTitle, href: "#theatre" },
-    { label: t.homeFilmTitle, href: "#cinema" },
-    { label: t.homeAudioTitle, href: "#audioplays" }
+    { label: t.homeTheatreTitle, href: "#theatre", type: "scroll" as const },
+    { label: t.homeFilmTitle, href: "#cinema", type: "scroll" as const },
+    { label: t.navTools, href: `${prefix}/tools/cue-sheets`, type: "link" as const }
   ];
 
   const handleClick = (href: string) => {
@@ -37,13 +37,23 @@ export default function SectionNavigation() {
           <div className="flex items-center gap-8 md:gap-12">
             {navigationItems.map((item, index) => (
               <div key={item.href} className="flex items-center">
-                <button
-                  onClick={() => handleClick(item.href)}
-                  className="text-lg md:text-xl text-yellow-400 hover:text-yellow-300 hover:scale-110 transition-all duration-300 font-medium tracking-wide uppercase"
-                  data-testid={`nav-${item.href.replace('#', '')}`}
-                >
-                  {item.label}
-                </button>
+                {item.type === "link" ? (
+                  <Link
+                    href={item.href}
+                    className="text-lg md:text-xl text-yellow-400 hover:text-yellow-300 hover:scale-110 transition-all duration-300 font-medium tracking-wide uppercase"
+                    data-testid="nav-tools"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => handleClick(item.href)}
+                    className="text-lg md:text-xl text-yellow-400 hover:text-yellow-300 hover:scale-110 transition-all duration-300 font-medium tracking-wide uppercase"
+                    data-testid={`nav-${item.href.replace('#', '')}`}
+                  >
+                    {item.label}
+                  </button>
+                )}
                 {index < navigationItems.length - 1 && (
                   <span className="ml-8 md:ml-12 text-gray-600">•</span>
                 )}
@@ -51,16 +61,6 @@ export default function SectionNavigation() {
             ))}
           </div>
         </nav>
-
-        <div className="mt-8 flex justify-center">
-          <Link
-            href={`${prefix}/tools/cue-sheets`}
-            className="text-lg md:text-xl text-yellow-400 hover:text-yellow-300 hover:scale-110 transition-all duration-300 font-medium tracking-wide uppercase"
-            data-testid="nav-tools"
-          >
-            {t.navTools}
-          </Link>
-        </div>
       </div>
 
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">

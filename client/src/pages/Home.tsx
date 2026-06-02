@@ -73,33 +73,6 @@ export default function Home() {
           role: isEn ? "Sound Engineer: Ian Kuzmichev" : "Звукорежиссёр: Ян Кузьмичёв"
         }
       ]
-    },
-    {
-      title: t.homeAudioTitle,
-      projects: [
-        {
-          id: "son-o-hlebe-zotov",
-          title: isEn ? "Dream of Bread" : "Сон о Хлебе",
-          year: "2024",
-          description: isEn ? "Original music, spatial sound." : "Оригинальная музыка, пространственный звук.",
-          image: "/images/son_o_hlebe_main.webp",
-          director: isEn ? "Timur Sharafutdinov" : "Тимур Шарафутдинов",
-          role: isEn ? "Composer, Sound Designer: Ian Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
-          theater: isEn ? "Zotov Centre" : "Центр Зотова",
-          city: isEn ? "Moscow" : "г. Москва"
-        },
-        {
-          id: "pogruzhenie-promenad-telegram",
-          title: isEn ? "Immersion. Promenade" : "Погружение. Променад",
-          year: "2021",
-          description: isEn ? "Site-specific audio performance" : "Сайт-специфик аудиоспектакль",
-          image: "/images/pogruzhenie_main.webp",
-          director: isEn ? "Ivan Komarov" : "Иван Комаров",
-          role: isEn ? "Composer, Sound Designer: Ian Kuzmichev" : "Композитор, саунд-дизайнер: Ян Кузьмичёв",
-          theater: isEn ? "Centre for Theatre Mastery" : "Центр театрального мастерства",
-          city: isEn ? "Nizhny Novgorod" : "г. Нижний Новгород"
-        }
-      ]
     }
   ];
 

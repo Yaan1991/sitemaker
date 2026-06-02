@@ -32,13 +32,11 @@ export default function Header() {
   const projectsByCategory = {
     theatre: projects.filter(p => p.category === 'theatre' && p.id !== 'life-in-art-short'),
     film: projects.filter(p => p.category === 'film' && p.id !== 'life-in-art-short'),
-    audio: projects.filter(p => p.category === 'audio' && p.id !== 'life-in-art-short'),
   };
 
   const categoryLabels = {
     theatre: t.catTheatre,
-    film: t.catFilm, 
-    audio: t.catAudio
+    film: t.catFilm,
   };
 
   const getProjectTitle = (id: string, fallback: string) =>
