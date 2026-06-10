@@ -104,9 +104,26 @@ const CUE_CSS = `
   .cue-page footer .fback a:hover { text-decoration: underline; }
 
   @media (max-width: 640px) {
-    .cue-page .hero h1 { font-size: 34px; }
+    .cue-page .wrap { padding: 0 18px; }
+    .cue-page .topbar { padding: 16px 0; }
+    .cue-page .brand .pipe, .cue-page .brand .name { display: none; }
+    .cue-page .topnav { gap: 14px; }
+    .cue-page .topnav a { font-size: 10px; letter-spacing: 1px; }
+    .cue-page .topnav .lang { padding: 5px 9px; }
+    .cue-page .hero { padding: 44px 0 40px; }
+    .cue-page .hero img.appicon { width: 96px; height: 96px; margin-bottom: 20px; }
+    .cue-page .hero h1 { font-size: 32px; letter-spacing: -0.3px; }
+    .cue-page .hero .tagline { font-size: 15px; margin-bottom: 28px; }
+    .cue-page a.download-btn { padding: 14px 30px; }
+    .cue-page section { padding: 36px 0; }
     .cue-page .features { grid-template-columns: 1fr; }
-    .cue-page .topnav { gap: 12px; }
+    .cue-page .feature { padding: 18px; }
+    .cue-page .about p { font-size: 13.5px; }
+  }
+  @media (max-width: 380px) {
+    .cue-page .hero h1 { font-size: 28px; }
+    .cue-page .topnav a { font-size: 9.5px; letter-spacing: 0.5px; }
+    .cue-page .topnav { gap: 11px; }
   }
 `;
 
