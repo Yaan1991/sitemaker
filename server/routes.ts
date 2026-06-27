@@ -15,7 +15,7 @@ const PROXY_MAX_BYTES = 50 * 1024 * 1024; // 50 MB
 // Публичные ссылки Яндекс.Диска хранятся серверно, на клиент не попадают.
 const DOWNLOADABLE_APPS: Record<string, { yandexPublicUrl: string; fileName: string }> = {
   "cue-sheets": {
-    yandexPublicUrl: "https://disk.yandex.ru/d/CZR2cgCWbmT_6Q",
+    yandexPublicUrl: "https://disk.yandex.ru/d/XZrXGQw8ywdgmQ",
     fileName: "CueSheets-1.0.0.dmg",
   },
 };
