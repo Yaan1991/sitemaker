@@ -13,38 +13,101 @@ const PROXY_MAX_BYTES = 50 * 1024 * 1024; // 50 MB
 
 // Приложения Kuzmichev Tools, доступные для скачивания.
 // Публичные ссылки Яндекс.Диска хранятся серверно, на клиент не попадают.
-const DOWNLOADABLE_APPS: Record<string, { yandexPublicUrl: string; fileName: string }> = {
+// yandexPublicUrl — ссылка на ПАПКУ: владелец кладёт туда новую версию .dmg,
+// сервер сам находит самый свежий файл и отдаёт его под настоящим именем.
+// fallbackFileName используется только если у файла почему-то нет имени.
+const DOWNLOADABLE_APPS: Record<string, { yandexPublicUrl: string; fallbackFileName: string }> = {
   "cue-sheets": {
     yandexPublicUrl: "https://disk.yandex.ru/d/XZrXGQw8ywdgmQ",
-    fileName: "CueSheets-1.0.0.dmg",
+    fallbackFileName: "CueSheets.dmg",
   },
 };
 
 // DMG невелик (~3.8 МБ), но оставляем щедрый лимит на будущие версии.
 const DOWNLOAD_MAX_BYTES = 200 * 1024 * 1024; // 200 MB
 
-async function resolveYandexDirectUrl(
-  publicUrl: string,
-  signal: AbortSignal,
-): Promise<string> {
-  const apiUrl = `https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=${encodeURIComponent(publicUrl)}`;
-  const apiResponse = await fetch(apiUrl, { signal });
-  if (!apiResponse.ok) {
-    throw new Error(`Yandex API error: ${apiResponse.statusText}`);
-  }
-  const data = await apiResponse.json();
-  if (!data.href) {
-    throw new Error("No download URL received from Yandex.Disk");
-  }
-  // Defense-in-depth: убеждаемся, что прямая ссылка ведёт на хост Яндекса по https.
-  const parsed = new URL(data.href as string);
+// Defense-in-depth: прямая ссылка должна вести на хост Яндекса по https.
+function assertYandexHttpsUrl(rawUrl: string): string {
+  const parsed = new URL(rawUrl);
   const host = parsed.hostname.toLowerCase();
   const isYandexHost = host === 'yandex.ru' || host === 'yandex.net' ||
     host.endsWith('.yandex.ru') || host.endsWith('.yandex.net');
   if (parsed.protocol !== 'https:' || !isYandexHost) {
     throw new Error(`Unexpected download host: ${host}`);
   }
-  return data.href as string;
+  return rawUrl;
+}
+
+// Достаёт версию вида 1.0.1 из имени файла; нет версии — null.
+function parseVersion(name: string): number[] | null {
+  const m = name.match(/(\d+)\.(\d+)(?:\.(\d+))?/);
+  if (!m) return null;
+  return [Number(m[1]), Number(m[2]), Number(m[3] ?? 0)];
+}
+
+// Сравнение версий по убыванию (свежее — раньше).
+function compareVersionDesc(a: number[], b: number[]): number {
+  for (let i = 0; i < 3; i++) {
+    const diff = (b[i] ?? 0) - (a[i] ?? 0);
+    if (diff !== 0) return diff;
+  }
+  return 0;
+}
+
+interface YandexItem {
+  type: string;
+  name: string;
+  modified?: string;
+  file?: string;
+}
+
+// Ссылка ведёт на ПАПКУ: читаем её содержимое, выбираем самый свежий .dmg
+// (по номеру версии в имени, при равенстве — по дате изменения) и возвращаем
+// прямой URL + настоящее имя файла. Если ссылка ведёт прямо на файл — отдаём его.
+async function resolveLatestDmg(
+  publicUrl: string,
+  signal: AbortSignal,
+): Promise<{ href: string; fileName: string }> {
+  const listUrl = `https://cloud-api.yandex.net/v1/disk/public/resources?public_key=${encodeURIComponent(publicUrl)}&limit=200`;
+  const apiResponse = await fetch(listUrl, { signal });
+  if (!apiResponse.ok) {
+    throw new Error(`Yandex API error: ${apiResponse.statusText}`);
+  }
+  const data = await apiResponse.json();
+
+  // Случай, когда ссылка указывает прямо на один файл, а не на папку.
+  if (data.type === 'file') {
+    if (!data.file) {
+      throw new Error('No download URL received from Yandex.Disk');
+    }
+    return { href: assertYandexHttpsUrl(data.file as string), fileName: data.name };
+  }
+
+  const items: YandexItem[] = data?._embedded?.items ?? [];
+  const dmgs = items.filter(
+    (it) => it.type === 'file' && it.name.toLowerCase().endsWith('.dmg') && !!it.file,
+  );
+  if (dmgs.length === 0) {
+    throw new Error('No .dmg file found in Yandex.Disk folder');
+  }
+
+  dmgs.sort((a, b) => {
+    const va = parseVersion(a.name);
+    const vb = parseVersion(b.name);
+    if (va && vb) {
+      const byVer = compareVersionDesc(va, vb);
+      if (byVer !== 0) return byVer;
+    } else if (va) {
+      return -1;
+    } else if (vb) {
+      return 1;
+    }
+    // Запасной критерий — дата изменения (свежее раньше).
+    return new Date(b.modified ?? 0).getTime() - new Date(a.modified ?? 0).getTime();
+  });
+
+  const latest = dmgs[0];
+  return { href: assertYandexHttpsUrl(latest.file as string), fileName: latest.name };
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -186,7 +249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: 'Unknown app' });
       }
 
-      const directUrl = await resolveYandexDirectUrl(appConfig.yandexPublicUrl, abortController.signal);
+      const { href: directUrl, fileName } = await resolveLatestDmg(appConfig.yandexPublicUrl, abortController.signal);
 
       // Скачиваем сам файл с Яндекс.Диска (fetch сам проходит цепочку редиректов).
       const fileResponse = await fetch(directUrl, { signal: abortController.signal });
@@ -200,7 +263,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Принудительно задаём имя файла и тип — браузер сохранит DMG корректно.
-      const safeFileName = appConfig.fileName.replace(/[^A-Za-z0-9._-]/g, '_');
+      // Имя берём настоящее (из папки), запасное — только если оно пустое.
+      const safeFileName = (fileName || appConfig.fallbackFileName).replace(/[^A-Za-z0-9._-]/g, '_');
       res.set({
         'Content-Type': 'application/octet-stream',
         'Content-Disposition': `attachment; filename="${safeFileName}"`,
