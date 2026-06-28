@@ -194,6 +194,7 @@ export default function CueSheets() {
               <span className="name">Kuzmichev Tools</span>
             </div>
             <nav className="topnav">
+              <Link href={`${prefix}/tools`}>{isEn ? "All tools" : "Все инструменты"}</Link>
               <a href="#about">{c.nav_about}</a>
               <a href="#features">{c.nav_features}</a>
               <Link href={isEn ? "/tools/cue-sheets" : "/en/tools/cue-sheets"} className="lang">
