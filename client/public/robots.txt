@@ -92,6 +92,18 @@ Allow: /
 User-agent: DuckAssistBot
 Allow: /
 
+User-agent: Firecrawl
+Allow: /
+
+User-agent: KagiBot
+Allow: /
+
+User-agent: PhindBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
 # Sitemap
 Sitemap: https://iansound.pro/sitemap.xml
 Host: https://iansound.pro
