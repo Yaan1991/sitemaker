@@ -12,8 +12,9 @@ description: Conventions for /tools/* app landing pages (downloads, persistent c
 
 ## Downloads (immediate DMG, not Yandex page)
 - DMGs live on Yandex.Disk. The download button must start the file download immediately, NOT open the Yandex Disk web page.
-- Pattern: client links to `GET /api/download/<appKey>`; the server resolves the Yandex direct href via `cloud-api.yandex.net/v1/disk/public/resources/download?public_key=` and returns a 302 to it. The Yandex public URL/key stays server-side in a `DOWNLOADABLE_APPS` allowlist in `server/routes.ts`. Do NOT stream the DMG through the server (the audio proxy has a 50MB cap and is unsuitable).
-- **Why:** keeps the public key off the client and avoids large-file streaming; 302 to the signed `downloader.disk.yandex.ru` URL triggers a native browser download.
+- Pattern: client links to `GET /api/download/<appKey>`; the server resolves the Yandex direct href via `cloud-api.yandex.net/v1/disk/public/resources/download?public_key=` and then **streams the file body through our server** with a forced `Content-Disposition: attachment; filename="<fileName>"`. The Yandex public URL/key stays server-side in a `DOWNLOADABLE_APPS` allowlist in `server/routes.ts` (with its own 200MB cap, separate from the 50MB audio-proxy cap).
+- **Why streaming, not a 302:** a bare 302 to the signed `downloader.disk.yandex.ru` URL is unreliable — the cross-domain redirect chain (downloader → storage) loses the filename and the browser saves a ~15KB token-named stub instead of the DMG. Streaming forces the correct name and content.
+- **Regression guard:** `server/__tests__/download.test.ts` (Node built-in test runner, run via `npx tsx --test`, also wired as the `test` validation command) hits `/api/download/cue-sheets` and asserts 200 + filename header + body >1MB. It skips (does not fail) on Yandex network flaps (502 / fetch network error / timeout).
 
 ## Persistent download counter
 - Counts are stored in PostgreSQL (`download_counters` table: `key` PK, `count`), NOT MemStorage — `server/storage.ts` defaults to MemStorage which does NOT survive restart/deploy, so any "must persist" requirement needs the DB + `npm run db:push`.
