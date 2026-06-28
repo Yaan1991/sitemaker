@@ -21,6 +21,10 @@ const DOWNLOADABLE_APPS: Record<string, { yandexPublicUrl: string; fallbackFileN
     yandexPublicUrl: "https://disk.yandex.ru/d/XZrXGQw8ywdgmQ",
     fallbackFileName: "CueSheets.dmg",
   },
+  "kt-leveler": {
+    yandexPublicUrl: "https://disk.yandex.ru/d/ma8AjHl2OrnQtw",
+    fallbackFileName: "KTLeveler.dmg",
+  },
 };
 
 // DMG невелик (~3.8 МБ), но оставляем щедрый лимит на будущие версии.

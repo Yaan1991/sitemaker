@@ -420,6 +420,152 @@ function getPageSEO(path: string): PageSEO | null {
     };
   }
 
+  if (cleanPath === "/tools") {
+    const title = isEn
+      ? "Kuzmichev Tools — free apps for theatre sound"
+      : "Kuzmichev Tools — бесплатные приложения для театрального звука";
+    const desc = isEn
+      ? "Kuzmichev Tools — free native macOS apps for sound engineers and theatre technicians: Cue Sheets (documentation from QLab) and KT Leveler (batch LUFS normalization and audio conversion)."
+      : "Kuzmichev Tools — бесплатные нативные macOS-приложения для звукорежиссёров и театральных техников: Cue Sheets (документация из QLab) и KT Leveler (пакетная нормализация LUFS и конвертация аудио).";
+    const url = `${SITE_URL}${prefix}/tools`;
+    const breadcrumbs: BreadcrumbItem[] = [
+      { name: isEn ? "Home" : "Главная", url: `${SITE_URL}${prefix}/` },
+      { name: isEn ? "Tools" : "Инструменты", url },
+    ];
+    const tools = [
+      { slug: "cue-sheets", name: "Cue Sheets" },
+      { slug: "kt-leveler", name: "KT Leveler" },
+    ];
+    return {
+      title, description: desc, lang,
+      url,
+      alternateUrl: `${SITE_URL}${altPrefix}/tools`,
+      image: `${SITE_URL}/leveler-icon-512.png`,
+      keywords: isEn
+        ? "Kuzmichev Tools, apps for theatre sound, QLab, LUFS, Cue Sheets, KT Leveler, macOS apps for sound engineers, Ian Kuzmichev"
+        : "Kuzmichev Tools, приложения для театрального звука, QLab, LUFS, Cue Sheets, KT Leveler, macOS приложения для звукорежиссёра, Ян Кузьмичёв",
+      ogType: 'website',
+      hideSiteNav: true,
+      breadcrumbs,
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: title,
+          description: desc,
+          url,
+          inLanguage: isEn ? "en" : "ru",
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: tools.map((tool, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: tool.name,
+              url: `${SITE_URL}${prefix}/tools/${tool.slug}`,
+            })),
+          },
+        },
+        buildBreadcrumbJsonLd(breadcrumbs)
+      ],
+      content: isEn ? `
+        <h1>Kuzmichev Tools</h1>
+        <p>Free native macOS apps that make working with sound in theatre, film and audio easier.</p>
+        <h2>Apps</h2>
+        <ul>
+          <li><a href="${SITE_URL}${prefix}/tools/cue-sheets">Cue Sheets</a> — cue sheets and technical documentation from QLab.</li>
+          <li><a href="${SITE_URL}${prefix}/tools/kt-leveler">KT Leveler</a> — batch LUFS loudness leveling and audio conversion.</li>
+        </ul>
+      ` : `
+        <h1>Kuzmichev Tools</h1>
+        <p>Бесплатные нативные приложения для macOS, которые упрощают работу со звуком в театре, кино и аудио.</p>
+        <h2>Приложения</h2>
+        <ul>
+          <li><a href="${SITE_URL}/tools/cue-sheets">Cue Sheets</a> — партитуры и техническая документация из QLab.</li>
+          <li><a href="${SITE_URL}/tools/kt-leveler">KT Leveler</a> — пакетное выравнивание громкости по LUFS и конвертация аудио.</li>
+        </ul>
+      `
+    };
+  }
+
+  if (cleanPath === "/tools/kt-leveler") {
+    const title = isEn
+      ? "KT Leveler — batch LUFS normalization & audio conversion | Kuzmichev Tools"
+      : "KT Leveler — пакетная нормализация LUFS и конвертация аудио | Kuzmichev Tools";
+    const desc = isEn
+      ? "KT Leveler — a free native macOS utility for batch loudness leveling to LUFS and format conversion. Theatre sound, QLab playback, podcasts. Fully local, no cloud."
+      : "KT Leveler — бесплатная нативная macOS-утилита для пакетного выравнивания громкости аудио по LUFS и конвертации форматов. Театральный звук, плейбек QLab, подкасты. Полностью локально, без облака.";
+    const url = `${SITE_URL}${prefix}/tools/kt-leveler`;
+    const iconUrl = `${SITE_URL}/leveler-icon-512.png`;
+    const breadcrumbs: BreadcrumbItem[] = [
+      { name: isEn ? "Home" : "Главная", url: `${SITE_URL}${prefix}/` },
+      { name: isEn ? "Tools" : "Инструменты", url: `${SITE_URL}${prefix}/tools` },
+      { name: "KT Leveler", url },
+    ];
+    return {
+      title, description: desc, lang,
+      url,
+      alternateUrl: `${SITE_URL}${altPrefix}/tools/kt-leveler`,
+      image: iconUrl,
+      keywords: isEn
+        ? "KT Leveler, LUFS, loudness normalization, batch normalization, loudness leveling, audio conversion, theatre sound, QLab playback, True Peak, podcast audio, Kuzmichev Tools, Ian Kuzmichev, macOS audio app"
+        : "KT Leveler, LUFS, нормализация громкости, пакетная нормализация, выравнивание громкости, конвертация аудио, театральный звук, плейбек QLab, True Peak, аудио для подкастов, Kuzmichev Tools, Ян Кузьмичёв, macOS приложение для звука",
+      ogType: 'website',
+      hideSiteNav: true,
+      breadcrumbs,
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "KT Leveler",
+          operatingSystem: "macOS 14",
+          applicationCategory: "MultimediaApplication",
+          description: desc,
+          url,
+          downloadUrl: `${SITE_URL}/api/download/kt-leveler`,
+          softwareVersion: "1.0",
+          image: iconUrl,
+          inLanguage: ["ru", "en"],
+          featureList: isEn
+            ? ["LUFS normalization", "Format conversion", "Built for big folders", "CSV report"]
+            : ["Нормализация по LUFS", "Конвертация форматов", "Для больших папок", "CSV-отчёт"],
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+          author: { "@type": "Person", name: isEn ? "Ian Kuzmichev" : "Ян Кузьмичёв", url: SITE_URL },
+          publisher: { "@type": "Organization", name: "Kuzmichev Tools", url: SITE_URL },
+        },
+        buildBreadcrumbJsonLd(breadcrumbs)
+      ],
+      content: isEn ? `
+        <h1>KT Leveler — for macOS</h1>
+        <p>Prepare an entire audio folder for a show in minutes. Drag in files or a whole folder, pick a loudness profile and hit Process — the app does everything else locally on your Mac. No Terminal. No Homebrew. No account. No cloud.</p>
+        <h2>About the app</h2>
+        <p>KT Leveler is a free native macOS utility by Kuzmichev Tools. It batch-analyzes and levels the loudness of audio files to the LUFS standard, converts formats, and preserves your folder structure. Built primarily for theatre sound and QLab playback, but also great for sound design, music production, post-production, podcasts and large audio libraries.</p>
+        <h2>Key features</h2>
+        <ul>
+          <li>LUFS normalization — presets Theatre −32, Active −29, Music −26, Voice −23, Podcast −16, Streaming −14, or Custom from −40 to −8 LUFS, with a −1 dBTP True Peak ceiling.</li>
+          <li>Format conversion — input WAV, AIFF, AIF, MP3, M4A, CAF; output WAV / AIFF / CAF (16/24-bit) or MP3 at 44.1 or 48 kHz.</li>
+          <li>Built for big folders — recursive import, preserved nested structure, source files never overwritten.</li>
+          <li>CSV report — original and final LUFS, applied gain, True Peak and status per file.</li>
+        </ul>
+        <p>Requires macOS 14 Sonoma or newer and an Apple Silicon Mac. Bundled FFmpeg, fully local and private.</p>
+        <p><a href="${SITE_URL}/api/download/kt-leveler">Download the app</a> — free, macOS, .dmg.</p>
+      ` : `
+        <h1>KT Leveler — для macOS</h1>
+        <p>Подготовьте всю аудиопапку к спектаклю за несколько минут. Перетащите файлы или целую папку, выберите профиль громкости и нажмите Process — всё остальное приложение сделает локально на вашем Mac. Без Terminal. Без Homebrew. Без аккаунта. Без облака.</p>
+        <h2>О приложении</h2>
+        <p>KT Leveler — бесплатная нативная утилита для macOS от Kuzmichev Tools. Она пакетно анализирует и выравнивает громкость аудиофайлов по стандарту LUFS, конвертирует форматы и сохраняет структуру ваших папок. Создана прежде всего для театрального звука и плейбека в QLab, но подойдёт и для саунд-дизайна, музыкального продакшна, пост-продакшна, подкастов и больших аудиобиблиотек.</p>
+        <h2>Ключевые возможности</h2>
+        <ul>
+          <li>Нормализация по LUFS — профили Theatre −32, Active −29, Music −26, Voice −23, Podcast −16, Streaming −14 или Custom от −40 до −8 LUFS, с потолком −1 dBTP True Peak.</li>
+          <li>Конвертация форматов — вход WAV, AIFF, AIF, MP3, M4A, CAF; выход WAV / AIFF / CAF (16/24-bit) или MP3 на 44.1 или 48 кГц.</li>
+          <li>Для больших папок — рекурсивный импорт, сохранение структуры вложений, исходники не перезаписываются.</li>
+          <li>CSV-отчёт — исходный и финальный LUFS, применённое усиление, True Peak и статус по каждому файлу.</li>
+        </ul>
+        <p>Требуется macOS 14 Sonoma или новее и Mac на Apple Silicon. Встроенный FFmpeg, полностью локально и приватно.</p>
+        <p><a href="${SITE_URL}/api/download/kt-leveler">Скачать приложение</a> — бесплатно, macOS, .dmg.</p>
+      `
+    };
+  }
+
   if (cleanPath === "/about") {
     const title = isEn ? "About — Ian Kuzmichev" : "Обо мне — Ян Кузьмичёв";
     const desc = isEn

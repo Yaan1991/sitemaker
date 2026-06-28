@@ -46,6 +46,7 @@ Preferred communication style: Simple, everyday language.
 - **Accessibility — Reduced motion**: Global `MotionConfig reducedMotion="user"` in `App.tsx` tells framer-motion to respect the OS setting. A `@media (prefers-reduced-motion: reduce)` block at the end of `index.css` shortens CSS animations/transitions to ~0ms. The Petrovy parallax canvas (`lib/petrovyParallax.ts`) checks `matchMedia('(prefers-reduced-motion: reduce)')` on init and skips animation entirely.
 - **Image loading**: All non-LCP `<img>` tags use `loading="lazy"` + `decoding="async"`. Hero image uses `fetchpriority="high"` for fast LCP.
 - **Bilingual (RU/EN)**: URL-based i18n system — Russian at `/`, English at `/en/`. Language switcher in header. All UI text, project data, SEO metadata, and sitemap support both languages with proper hreflang tags.
+- **Kuzmichev Tools**: отдельный раздел бесплатных macOS-приложений в своём «KTheme» оформлении (без сайтового хедера/футера). Страницы: список `/tools` (`/en/tools`, `client/src/pages/Tools.tsx`) и лендинги приложений `/tools/cue-sheets` (`CueSheets.tsx`) + `/tools/kt-leveler` (`KtLeveler.tsx`). Общий CSS — `client/src/lib/toolPageCss.ts`. Layout (`components/Layout.tsx`) рендерит эти пути standalone (см. `isStandalone`). Скачивание — `GET /api/download/:appKey`, сервер берёт самый свежий `.dmg` из Яндекс-папки (`DOWNLOADABLE_APPS` в `server/routes.ts`).
 
 ## i18n Architecture
 - **Language detection**: `client/src/i18n/useLanguage.ts` hook reads URL path (`/en/*` = English, else Russian). Returns `{ lang, t, prefix }`.

@@ -4,106 +4,105 @@ import { Link } from "wouter";
 import { useLanguage } from "@/i18n/useLanguage";
 import { toolPageCss } from "@/lib/toolPageCss";
 
-const APP_KEY = "cue-sheets";
+const APP_KEY = "kt-leveler";
 const SITE_URL = "https://iansound.pro";
-const ICON_WEBP = "/cue-sheets-icon-256.webp";
-const ICON_PNG = "/cue-sheets-icon-256.png";
-const ICON_SHARE = "/cue-sheets-icon-512.png";
-
+const ICON_WEBP = "/leveler-icon-256.webp";
+const ICON_PNG = "/leveler-icon-256.png";
+const ICON_SHARE = "/leveler-icon-512.png";
 
 const content = {
   ru: {
-    metaTitle: "Cue Sheets — партитуры и документация из QLab | Kuzmichev Tools",
+    metaTitle: "KT Leveler — пакетная нормализация LUFS и конвертация аудио | Kuzmichev Tools",
     metaDesc:
-      "Cue Sheets — бесплатное macOS-приложение для театральных и event-техников: импорт cue-листов из QLab, автогенерация описаний на RU/EN, экспорт в PDF и Excel, запись данных обратно в QLab.",
+      "KT Leveler — бесплатная нативная macOS-утилита для пакетного выравнивания громкости аудио по LUFS и конвертации форматов. Театральный звук, плейбек QLab, подкасты. Полностью локально, без облака.",
     keywords:
-      "Cue Sheets, QLab, cue sheet, партитура QLab, документация QLab, театральный звук, звукорежиссёр театра, экспорт QLab в PDF, экспорт QLab в Excel, cue лист, Kuzmichev Tools, Ян Кузьмичёв, macOS приложение для театра",
+      "KT Leveler, LUFS, нормализация громкости, пакетная нормализация, выравнивание громкости, конвертация аудио, театральный звук, плейбек QLab, True Peak, аудио для подкастов, Kuzmichev Tools, Ян Кузьмичёв, macOS приложение для звука",
     nav_about: "О приложении",
     nav_features: "Возможности",
     back: "Ян Кузьмичёв",
     platform: "для macOS",
     tagline:
-      "Бесплатный профессиональный инструмент для автоматического создания партитур и документации из QLab. Импортируйте данные, генерируйте описания, экспортируйте в PDF и Excel, записывайте данные обратно в QLab.",
+      "Подготовьте всю аудиопапку к спектаклю за несколько минут. Перетащите файлы или целую папку, выберите профиль громкости и нажмите Process — всё остальное приложение сделает локально на вашем Mac.",
     download: "Скачать приложение",
     aboutLabel: "О приложении",
     about: [
-      "Cue Sheets — macOS-приложение для театральных и event-техников, которое автоматизирует создание технической документации из QLab.",
-      "Приложение подключается к QLab по сети, импортирует все cue-листы с полной информацией о каждом cue: тип, номер, имя, действие, триггер, тайминги pre/post-wait. Данные отображаются в удобной таблице с цветовой маркировкой типов, фильтрацией и поиском.",
-      "Встроенный генератор описаний анализирует техническое действие каждого cue и создаёт понятное человеку описание на русском или английском языке. Описания можно редактировать вручную и записать обратно в QLab.",
-      "Готовые cue sheets экспортируются в PDF с профессиональным оформлением или в Excel с форматированием.",
+      "KT Leveler — бесплатная нативная утилита для macOS от Kuzmichev Tools. Она пакетно анализирует и выравнивает громкость аудиофайлов по стандарту LUFS, конвертирует форматы и сохраняет структуру ваших папок.",
+      "Без Terminal. Без Homebrew. Без аккаунта. Без облака.",
+      "Приложение создано прежде всего для театрального звука и подготовки плейбека в QLab, но подойдёт также для саунд-дизайна, музыкального продакшна, пост-продакшна, подкастов и больших аудиобиблиотек. Оно помогает привести к единому уровню десятки или сотни файлов, не ломая динамику.",
+      "KT Leveler использует двухпроходный анализ loudness: сначала измеряет материал, затем точно применяет нужную коррекцию. По умолчанию соблюдается потолок −1 dBTP True Peak, агрессивный лимитер не используется.",
     ],
     featuresLabel: "Ключевые возможности",
     features: [
       {
-        h: "Импорт из QLab",
-        p: "Автоматическое обнаружение воркспейсов, выбор cue-листов, прогресс с оценкой времени.",
+        h: "Нормализация по LUFS",
+        p: "Готовые профили: Theatre −32, Active −29, Music −26, Voice −23, Podcast −16, Streaming −14, либо Custom от −40 до −8 LUFS.",
       },
       {
-        h: "Автогенерация описаний",
-        p: "Анализ действий каждого cue и генерация текста на русском или английском языке.",
+        h: "Конвертация форматов",
+        p: "Вход: WAV, AIFF, AIF, MP3, M4A, CAF. Выход: WAV / AIFF / CAF (16/24-bit), MP3, частота 44.1 или 48 кГц.",
       },
       {
-        h: "Запись в QLab",
-        p: "Сгенерированные описания записываются обратно в Notes каждого cue.",
+        h: "Для больших папок",
+        p: "Рекурсивный импорт папок, сохранение структуры вложений. Исходники никогда не перезаписываются.",
       },
       {
-        h: "Экспорт PDF / Excel",
-        p: "Профессионально оформленный документ с цветовой маркировкой типов.",
+        h: "CSV-отчёт",
+        p: "Исходный и финальный LUFS, применённое усиление, True Peak и статус по каждому файлу. Понятные ошибки.",
       },
     ],
-    specs: ["macOS", "Работа с QLab по сети", "RU / EN", "Экспорт PDF + Excel", "Бесплатно"],
+    specs: ["macOS 14 Sonoma+", "Apple Silicon", "RU / EN", "Встроенный FFmpeg", "Локально и приватно", "Бесплатно"],
     countLabel: (n: number) => `Скачано ${n} раз`,
   },
   en: {
-    metaTitle: "Cue Sheets — cue sheets & documentation from QLab | Kuzmichev Tools",
+    metaTitle: "KT Leveler — batch LUFS normalization & audio conversion | Kuzmichev Tools",
     metaDesc:
-      "Cue Sheets — a free macOS app for theatre and event technicians: import cue lists from QLab, auto-generate descriptions in EN/RU, export to PDF and Excel, write data back to QLab.",
+      "KT Leveler — a free native macOS utility for batch loudness leveling to LUFS and format conversion. Theatre sound, QLab playback, podcasts. Fully local, no cloud.",
     keywords:
-      "Cue Sheets, QLab, cue sheet, QLab documentation, QLab to PDF, QLab to Excel, theatre sound, theatre sound engineer, cue list, Kuzmichev Tools, Ian Kuzmichev, macOS app for theatre",
+      "KT Leveler, LUFS, loudness normalization, batch normalization, loudness leveling, audio conversion, theatre sound, QLab playback, True Peak, podcast audio, Kuzmichev Tools, Ian Kuzmichev, macOS audio app",
     nav_about: "About",
     nav_features: "Features",
     back: "Ian Kuzmichev",
     platform: "for macOS",
     tagline:
-      "A free professional tool for automatically creating cue sheets and documentation from QLab. Import data, generate descriptions, export to PDF and Excel, and write data back to QLab.",
+      "Prepare an entire audio folder for a show in minutes. Drag in files or a whole folder, pick a loudness profile and hit Process — the app does everything else locally on your Mac.",
     download: "Download the app",
     aboutLabel: "About the app",
     about: [
-      "Cue Sheets is a macOS app for theatre and event technicians that automates the creation of technical documentation from QLab.",
-      "The app connects to QLab over the network and imports all cue lists with full information about each cue: type, number, name, action, trigger, pre/post-wait timings. The data is shown in a convenient table with color-coded types, filtering and search.",
-      "A built-in description generator analyzes the technical action of each cue and creates a human-readable description in English or Russian. Descriptions can be edited manually and written back to QLab.",
-      "Finished cue sheets are exported to a professionally formatted PDF or to a formatted Excel file.",
+      "KT Leveler is a free native macOS utility by Kuzmichev Tools. It batch-analyzes and levels the loudness of audio files to the LUFS standard, converts formats, and preserves your folder structure.",
+      "No Terminal. No Homebrew. No account. No cloud.",
+      "The app is built primarily for theatre sound and QLab playback preparation, but also works for sound design, music production, post-production, podcasts and large audio libraries. It brings dozens or hundreds of files to a consistent level without breaking their dynamics.",
+      "KT Leveler uses two-pass loudness analysis: it first measures the material, then applies the precise correction. By default it respects a −1 dBTP True Peak ceiling, and no aggressive limiter is used.",
     ],
     featuresLabel: "Key features",
     features: [
       {
-        h: "Import from QLab",
-        p: "Automatic workspace discovery, cue list selection, progress with time estimates.",
+        h: "LUFS normalization",
+        p: "Presets: Theatre −32, Active −29, Music −26, Voice −23, Podcast −16, Streaming −14, or Custom from −40 to −8 LUFS.",
       },
       {
-        h: "Auto-generated descriptions",
-        p: "Analyzes each cue's action and generates text in English or Russian.",
+        h: "Format conversion",
+        p: "Input: WAV, AIFF, AIF, MP3, M4A, CAF. Output: WAV / AIFF / CAF (16/24-bit), MP3, at 44.1 or 48 kHz.",
       },
       {
-        h: "Write back to QLab",
-        p: "Generated descriptions are written back into the Notes of each cue.",
+        h: "Built for big folders",
+        p: "Recursive folder import, preserves nested structure. Source files are never overwritten.",
       },
       {
-        h: "Export PDF / Excel",
-        p: "A professionally formatted document with color-coded cue types.",
+        h: "CSV report",
+        p: "Original and final LUFS, applied gain, True Peak and status per file. Human-readable errors.",
       },
     ],
-    specs: ["macOS", "Networked QLab access", "EN / RU", "PDF + Excel export", "Free"],
+    specs: ["macOS 14 Sonoma+", "Apple Silicon", "EN / RU", "Bundled FFmpeg", "Local & private", "Free"],
     countLabel: (n: number) => `Downloaded ${n} times`,
   },
 };
 
-export default function CueSheets() {
+export default function KtLeveler() {
   const { lang, prefix } = useLanguage();
   const c = content[lang];
   const isEn = lang === "en";
-  const canonical = `${SITE_URL}${prefix}/tools/cue-sheets`;
-  const altUrl = `${SITE_URL}${isEn ? "" : "/en"}/tools/cue-sheets`;
+  const canonical = `${SITE_URL}${prefix}/tools/kt-leveler`;
+  const altUrl = `${SITE_URL}${isEn ? "" : "/en"}/tools/kt-leveler`;
 
   const [downloadCount, setDownloadCount] = useState<number | null>(null);
   const keyPressesRef = useRef<number[]>([]);
@@ -130,8 +129,8 @@ export default function CueSheets() {
   const softwareJsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Cue Sheets",
-    operatingSystem: "macOS",
+    name: "KT Leveler",
+    operatingSystem: "macOS 14",
     applicationCategory: "MultimediaApplication",
     description: c.metaDesc,
     url: canonical,
@@ -154,7 +153,8 @@ export default function CueSheets() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: isEn ? "Home" : "Главная", item: `${SITE_URL}${prefix}/` },
-      { "@type": "ListItem", position: 2, name: "Cue Sheets", item: canonical },
+      { "@type": "ListItem", position: 2, name: isEn ? "Tools" : "Инструменты", item: `${SITE_URL}${prefix}/tools` },
+      { "@type": "ListItem", position: 3, name: "KT Leveler", item: canonical },
     ],
   };
 
@@ -169,7 +169,7 @@ export default function CueSheets() {
         <link rel="canonical" href={canonical} />
         <link rel="alternate" hrefLang={isEn ? "ru" : "en"} href={altUrl} />
         <link rel="alternate" hrefLang={isEn ? "en" : "ru"} href={canonical} />
-        <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}/tools/cue-sheets`} />
+        <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}/tools/kt-leveler`} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={c.metaTitle} />
         <meta property="og:description" content={c.metaDesc} />
@@ -194,9 +194,10 @@ export default function CueSheets() {
               <span className="name">Kuzmichev Tools</span>
             </div>
             <nav className="topnav">
+              <Link href={`${prefix}/tools`}>{isEn ? "All tools" : "Все инструменты"}</Link>
               <a href="#about">{c.nav_about}</a>
               <a href="#features">{c.nav_features}</a>
-              <Link href={isEn ? "/tools/cue-sheets" : "/en/tools/cue-sheets"} className="lang">
+              <Link href={isEn ? "/tools/kt-leveler" : "/en/tools/kt-leveler"} className="lang">
                 {isEn ? "RU" : "EN"}
               </Link>
             </nav>
@@ -205,9 +206,9 @@ export default function CueSheets() {
           <div className="hero">
             <picture>
               <source srcSet={ICON_WEBP} type="image/webp" />
-              <img className="appicon" src={ICON_PNG} alt="Cue Sheets" width={128} height={128} decoding="async" {...{ fetchpriority: "high" } as any} />
+              <img className="appicon" src={ICON_PNG} alt="KT Leveler" width={128} height={128} decoding="async" {...{ fetchpriority: "high" } as any} />
             </picture>
-            <h1>Cue Sheets</h1>
+            <h1>KT Leveler</h1>
             <p className="platform">{c.platform}</p>
             <p className="tagline">{c.tagline}</p>
             <div className="cta">

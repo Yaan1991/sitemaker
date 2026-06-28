@@ -322,4 +322,52 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- Kuzmichev Tools — список инструментов -->
+  <url>
+    <loc>https://iansound.pro/tools</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/tools" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/tools" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/tools" />
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/tools</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/tools" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/tools" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/tools" />
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Kuzmichev Tools — KT Leveler -->
+  <url>
+    <loc>https://iansound.pro/tools/kt-leveler</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/tools/kt-leveler" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/tools/kt-leveler" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/tools/kt-leveler" />
+    <image:image>
+      <image:loc>https://iansound.pro/leveler-icon-512.png</image:loc>
+      <image:title>KT Leveler — Kuzmichev Tools</image:title>
+    </image:image>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iansound.pro/en/tools/kt-leveler</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://iansound.pro/tools/kt-leveler" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://iansound.pro/en/tools/kt-leveler" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iansound.pro/tools/kt-leveler" />
+    <image:image>
+      <image:loc>https://iansound.pro/leveler-icon-512.png</image:loc>
+      <image:title>KT Leveler — Kuzmichev Tools</image:title>
+    </image:image>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

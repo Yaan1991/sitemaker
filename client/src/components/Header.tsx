@@ -191,9 +191,9 @@ export default function Header() {
 
                     {/* Tools link */}
                     <Link
-                      href={`${prefix}/tools/cue-sheets`}
+                      href={`${prefix}/tools`}
                       className={`block px-4 py-3 transition-colors duration-200 ${
-                        isActive(`${prefix}/tools/cue-sheets`)
+                        isActive(`${prefix}/tools`)
                           ? "text-primary bg-primary/10"
                           : "text-gray-300 hover:text-primary hover:bg-white/5"
                       }`}
@@ -331,9 +331,9 @@ export default function Header() {
 
                 {/* Mobile Tools link */}
                 <Link
-                  href={`${prefix}/tools/cue-sheets`}
+                  href={`${prefix}/tools`}
                   className={`block px-4 py-3 transition-colors duration-200 ${
-                    isActive(`${prefix}/tools/cue-sheets`)
+                    isActive(`${prefix}/tools`)
                       ? "text-primary bg-primary/10"
                       : "text-gray-300 hover:text-primary hover:bg-white/5"
                   }`}

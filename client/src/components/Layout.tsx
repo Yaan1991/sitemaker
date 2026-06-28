@@ -29,6 +29,8 @@ export default function Layout({ children }: LayoutProps) {
   const isStandalone =
     location.startsWith("/legal/") ||
     location.startsWith("/en/legal/") ||
+    location === "/tools" ||
+    location === "/en/tools" ||
     location.startsWith("/tools/") ||
     location.startsWith("/en/tools/");
   if (isStandalone) {

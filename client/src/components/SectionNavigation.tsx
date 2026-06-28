@@ -8,7 +8,7 @@ export default function SectionNavigation() {
   const navigationItems = [
     { label: t.homeTheatreTitle, href: "#theatre", type: "scroll" as const },
     { label: t.homeFilmTitle, href: "#cinema", type: "scroll" as const },
-    { label: t.navTools, href: `${prefix}/tools/cue-sheets`, type: "link" as const }
+    { label: t.navTools, href: `${prefix}/tools`, type: "link" as const }
   ];
 
   const handleClick = (href: string) => {

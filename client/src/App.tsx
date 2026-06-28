@@ -15,6 +15,8 @@ import ProjectPage from "./pages/ProjectPage";
 import Contact from "./pages/Contact";
 import PrivacyKuzmichevTuner from "./pages/PrivacyKuzmichevTuner";
 import CueSheets from "./pages/CueSheets";
+import Tools from "./pages/Tools";
+import KtLeveler from "./pages/KtLeveler";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -35,8 +37,12 @@ function Router() {
         <Route path="/en/contact" component={Contact} />
         <Route path="/legal/kuzmichev-tuner-privacy" component={PrivacyKuzmichevTuner} />
         <Route path="/en/legal/kuzmichev-tuner-privacy" component={PrivacyKuzmichevTuner} />
+        <Route path="/tools" component={Tools} />
+        <Route path="/en/tools" component={Tools} />
         <Route path="/tools/cue-sheets" component={CueSheets} />
         <Route path="/en/tools/cue-sheets" component={CueSheets} />
+        <Route path="/tools/kt-leveler" component={KtLeveler} />
+        <Route path="/en/tools/kt-leveler" component={KtLeveler} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

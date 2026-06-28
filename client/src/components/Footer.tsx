@@ -36,11 +36,11 @@ export default function Footer() {
         </p>
         <p className="text-muted-foreground text-sm mt-3">
           <Link
-            href={`${prefix}/tools/cue-sheets`}
+            href={`${prefix}/tools`}
             className="hover:text-foreground transition-colors"
-            data-testid="link-cue-sheets"
+            data-testid="link-tools"
           >
-            {lang === "en" ? "Cue Sheets — app for QLab" : "Cue Sheets — приложение для QLab"}
+            {lang === "en" ? "Kuzmichev Tools — apps for sound" : "Kuzmichev Tools — приложения для звука"}
           </Link>
         </p>
       </div>
